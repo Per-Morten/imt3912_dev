@@ -16,24 +16,24 @@
 #include <glm/gtx/string_cast.hpp>
 #include <cassert>
 
-pt::ConsoleApplication::ConsoleApplication():
+ConsoleApplication::ConsoleApplication():
     Application("console_template", "PTPERF")
 {
 }
 
 bool 
-pt::ConsoleApplication::initializeResourceCache()
+ConsoleApplication::initializeResourceCache()
 {
     const auto cacheSizeMb = 512u;
     auto resourceCache = std::make_unique<nox::app::resource::LruCache>(cacheSizeMb);
 
-    resourceCache->setLogger(this->createLogger());
+    resourceCache->setLogger(createLogger());
 
     // We need to get resources from the project specific assets.
-    const auto projectAssetDirectory = "tests/" + this->getName() + "/assets";
+    const auto projectAssetDirectory = "tests/" + getName() + "/assets";
     if (resourceCache->addProvider(std::make_unique<nox::app::resource::BoostFilesystemProvider>(projectAssetDirectory)) == false)
     {
-        this->log.error().format("Could not initialized resource cache to \"%s\".", projectAssetDirectory.c_str());
+        log.error().format("Could not initialized resource cache to \"%s\".", projectAssetDirectory.c_str());
         return false;
     }
 
@@ -41,7 +41,7 @@ pt::ConsoleApplication::initializeResourceCache()
     const auto commonAssetsDirectory = std::string{"assets"};
     if (resourceCache->addProvider(std::make_unique<nox::app::resource::BoostFilesystemProvider>(commonAssetsDirectory)) == false)
     {
-        this->log.error().format("Could not initialized resource cache to \"%s\".", commonAssetsDirectory.c_str());
+        log.error().format("Could not initialized resource cache to \"%s\".", commonAssetsDirectory.c_str());
         return false;
     }
 
@@ -49,33 +49,33 @@ pt::ConsoleApplication::initializeResourceCache()
     const auto noxAssetsDirectory = std::string{"nox-engine/assets"};
     if (resourceCache->addProvider(std::make_unique<nox::app::resource::BoostFilesystemProvider>(noxAssetsDirectory)) == false)
     {
-        this->log.error().format("Could not initialized resource cache to \"%s\".", noxAssetsDirectory.c_str());
+        log.error().format("Could not initialized resource cache to \"%s\".", noxAssetsDirectory.c_str());
         return false;
     }
 
-    resourceCache->addLoader(std::make_unique<nox::app::resource::JsonLoader>(this->createLogger()));
+    resourceCache->addLoader(std::make_unique<nox::app::resource::JsonLoader>(createLogger()));
 
-    this->setResourceCache(std::move(resourceCache));
+    setResourceCache(std::move(resourceCache));
 
     return true;
 }
 
 nox::logic::Logic* 
-pt::ConsoleApplication::initializeLogic()
+ConsoleApplication::initializeLogic()
 {
     auto logic = std::make_unique<nox::logic::Logic>();
     auto logicPtr = logic.get();
 
-    this->addProcess(std::move(logic));
+    addProcess(std::move(logic));
 
     return logicPtr;
 }
 
 nox::logic::physics::Simulation* 
-pt::ConsoleApplication::initializePhysics(nox::logic::Logic* logic)
+ConsoleApplication::initializePhysics(nox::logic::Logic* logic)
 {
     auto physics = std::make_unique<nox::logic::physics::Box2DSimulation>(logic);
-    physics->setLogger(this->createLogger());
+    physics->setLogger(createLogger());
 
     auto physicsPtr = physics.get();
 
@@ -85,7 +85,7 @@ pt::ConsoleApplication::initializePhysics(nox::logic::Logic* logic)
 }
 
 nox::logic::world::Manager* 
-pt::ConsoleApplication::initializeWorldManager(nox::logic::Logic* logic)
+ConsoleApplication::initializeWorldManager(nox::logic::Logic* logic)
 {
     auto world = std::make_unique<nox::logic::world::Manager>(logic);
 
@@ -93,7 +93,7 @@ pt::ConsoleApplication::initializeWorldManager(nox::logic::Logic* logic)
     world->registerActorComponent<nox::logic::actor::Transform>();
 
     const auto actorDirectory = std::string{"actor"};
-    world->loadActorDefinitions(this->getResourceAccess(), actorDirectory);
+    world->loadActorDefinitions(getResourceAccess(), actorDirectory);
 
     auto worldPtr = world.get();
 
@@ -103,14 +103,14 @@ pt::ConsoleApplication::initializeWorldManager(nox::logic::Logic* logic)
 }
 
 bool 
-pt::ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic::world::Manager* worldManager)
+ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic::world::Manager* worldManager)
 {
     const auto worldFileDescriptor = nox::app::resource::Descriptor{"world/exampleWorld.json"};
-    const auto worldFileHandle = this->getResourceAccess()->getHandle(worldFileDescriptor);
+    const auto worldFileHandle = getResourceAccess()->getHandle(worldFileDescriptor);
 
     if (worldFileHandle == nullptr)
     {
-        this->log.error().format("Could not load world: %s", worldFileDescriptor.getPath().c_str());
+        log.error().format("Could not load world: %s", worldFileDescriptor.getPath().c_str());
         return false;
     }
     else
@@ -119,7 +119,7 @@ pt::ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::l
 
         if (jsonData == nullptr)
         {
-            this->log.error().format("Could not get JSON data for world: %s", worldFileDescriptor.getPath().c_str());
+            log.error().format("Could not get JSON data for world: %s", worldFileDescriptor.getPath().c_str());
             return false;
         }
         else
@@ -128,36 +128,36 @@ pt::ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::l
 
             if (loader.loadWorld(jsonData->getRootValue(), worldManager) == false)
             {
-                this->log.error().format("Failed loading world \"%s\".", worldFileDescriptor.getPath().c_str());
+                log.error().format("Failed loading world \"%s\".", worldFileDescriptor.getPath().c_str());
                 return false;
             }
         }
     }
 
-    this->log.verbose().format("Loaded world \"%s\"", worldFileDescriptor.getPath().c_str());
+    log.verbose().format("Loaded world \"%s\"", worldFileDescriptor.getPath().c_str());
 
     return true;
 }
 
 bool 
-pt::ConsoleApplication::onInit()
+ConsoleApplication::onInit()
 {
-    this->log = this->createLogger();
-    this->log.setName("ConsoleApplication");
+    log = createLogger();
+    log.setName("ConsoleApplication");
 
-    if (this->initializeResourceCache() == false)
+    if (initializeResourceCache() == false)
     {
-        this->log.error().raw("Failed initializing resource cache.");
+        log.error().raw("Failed initializing resource cache.");
         return false;
     }
 
-    auto logic = this->initializeLogic();
+    auto logic = initializeLogic();
     auto eventBroadcaster = logic->getEventBroadcaster();
 
-    this->initializePhysics(logic);
-    auto worldManager = this->initializeWorldManager(logic);
+    initializePhysics(logic);
+    auto worldManager = initializeWorldManager(logic);
 
-    if (this->loadWorldFile(logic, worldManager) == false)
+    if (loadWorldFile(logic, worldManager) == false)
     {
         return false;
     }
@@ -168,7 +168,7 @@ pt::ConsoleApplication::onInit()
 }
 
 void 
-pt::ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
+ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
 {
-    this->log.info().raw("Printing out text in update loop");
+    log.info().raw("Printing out text in update loop");
 }

@@ -16,25 +16,25 @@
 #include <glm/gtx/string_cast.hpp>
 #include <cassert>
 
-pt::WindowApplication::WindowApplication():
+WindowApplication::WindowApplication():
     SdlApplication("window_template", "PTPERF"),
     window(nullptr)
 {
 }
 
 bool 
-pt::WindowApplication::initializeResourceCache()
+WindowApplication::initializeResourceCache()
 {
     const auto cacheSizeMb = 512u;
     auto resourceCache = std::make_unique<nox::app::resource::LruCache>(cacheSizeMb);
 
-    resourceCache->setLogger(this->createLogger());
+    resourceCache->setLogger(createLogger());
 
     // We need to get resources from the project specific assets.
-    const auto projectAssetDirectory = "tests/" + this->getName() + "/assets";
+    const auto projectAssetDirectory = "tests/" + getName() + "/assets";
     if (resourceCache->addProvider(std::make_unique<nox::app::resource::BoostFilesystemProvider>(projectAssetDirectory)) == false)
     {
-        this->log.error().format("Could not initialized resource cache to \"%s\".", projectAssetDirectory.c_str());
+        log.error().format("Could not initialized resource cache to \"%s\".", projectAssetDirectory.c_str());
         return false;
     }
 
@@ -42,7 +42,7 @@ pt::WindowApplication::initializeResourceCache()
     const auto commonAssetsDirectory = std::string{"assets"};
     if (resourceCache->addProvider(std::make_unique<nox::app::resource::BoostFilesystemProvider>(commonAssetsDirectory)) == false)
     {
-        this->log.error().format("Could not initialized resource cache to \"%s\".", commonAssetsDirectory.c_str());
+        log.error().format("Could not initialized resource cache to \"%s\".", commonAssetsDirectory.c_str());
         return false;
     }
 
@@ -50,33 +50,33 @@ pt::WindowApplication::initializeResourceCache()
     const auto noxAssetsDirectory = std::string{"nox-engine/assets"};
     if (resourceCache->addProvider(std::make_unique<nox::app::resource::BoostFilesystemProvider>(noxAssetsDirectory)) == false)
     {
-        this->log.error().format("Could not initialized resource cache to \"%s\".", noxAssetsDirectory.c_str());
+        log.error().format("Could not initialized resource cache to \"%s\".", noxAssetsDirectory.c_str());
         return false;
     }
 
-    resourceCache->addLoader(std::make_unique<nox::app::resource::JsonLoader>(this->createLogger()));
+    resourceCache->addLoader(std::make_unique<nox::app::resource::JsonLoader>(createLogger()));
 
-    this->setResourceCache(std::move(resourceCache));
+    setResourceCache(std::move(resourceCache));
 
     return true;
 }
 
 nox::logic::Logic* 
-pt::WindowApplication::initializeLogic()
+WindowApplication::initializeLogic()
 {
     auto logic = std::make_unique<nox::logic::Logic>();
     auto logicPtr = logic.get();
 
-    this->addProcess(std::move(logic));
+    addProcess(std::move(logic));
 
     return logicPtr;
 }
 
 nox::logic::physics::Simulation* 
-pt::WindowApplication::initializePhysics(nox::logic::Logic* logic)
+WindowApplication::initializePhysics(nox::logic::Logic* logic)
 {
     auto physics = std::make_unique<nox::logic::physics::Box2DSimulation>(logic);
-    physics->setLogger(this->createLogger());
+    physics->setLogger(createLogger());
 
     auto physicsPtr = physics.get();
 
@@ -86,7 +86,7 @@ pt::WindowApplication::initializePhysics(nox::logic::Logic* logic)
 }
 
 nox::logic::world::Manager* 
-pt::WindowApplication::initializeWorldManager(nox::logic::Logic* logic)
+WindowApplication::initializeWorldManager(nox::logic::Logic* logic)
 {
     auto world = std::make_unique<nox::logic::world::Manager>(logic);
 
@@ -97,7 +97,7 @@ pt::WindowApplication::initializeWorldManager(nox::logic::Logic* logic)
     world->registerActorComponent<nox::logic::graphics::ActorSprite>();
 
     const auto actorDirectory = std::string{"actor"};
-    world->loadActorDefinitions(this->getResourceAccess(), actorDirectory);
+    world->loadActorDefinitions(getResourceAccess(), actorDirectory);
 
     auto worldPtr = world.get();
 
@@ -107,14 +107,14 @@ pt::WindowApplication::initializeWorldManager(nox::logic::Logic* logic)
 }
 
 bool 
-pt::WindowApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic::world::Manager* worldManager)
+WindowApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic::world::Manager* worldManager)
 {
     const auto worldFileDescriptor = nox::app::resource::Descriptor{"world/exampleWorld.json"};
-    const auto worldFileHandle = this->getResourceAccess()->getHandle(worldFileDescriptor);
+    const auto worldFileHandle = getResourceAccess()->getHandle(worldFileDescriptor);
 
     if (worldFileHandle == nullptr)
     {
-        this->log.error().format("Could not load world: %s", worldFileDescriptor.getPath().c_str());
+        log.error().format("Could not load world: %s", worldFileDescriptor.getPath().c_str());
         return false;
     }
     else
@@ -123,7 +123,7 @@ pt::WindowApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::lo
 
         if (jsonData == nullptr)
         {
-            this->log.error().format("Could not get JSON data for world: %s", worldFileDescriptor.getPath().c_str());
+            log.error().format("Could not get JSON data for world: %s", worldFileDescriptor.getPath().c_str());
             return false;
         }
         else
@@ -132,24 +132,24 @@ pt::WindowApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::lo
 
             if (loader.loadWorld(jsonData->getRootValue(), worldManager) == false)
             {
-                this->log.error().format("Failed loading world \"%s\".", worldFileDescriptor.getPath().c_str());
+                log.error().format("Failed loading world \"%s\".", worldFileDescriptor.getPath().c_str());
                 return false;
             }
         }
     }
 
-    this->log.verbose().format("Loaded world \"%s\"", worldFileDescriptor.getPath().c_str());
+    log.verbose().format("Loaded world \"%s\"", worldFileDescriptor.getPath().c_str());
 
     return true;
 }
 
 void 
-pt::WindowApplication::initializeWindow(nox::logic::Logic* logic)
+WindowApplication::initializeWindow(nox::logic::Logic* logic)
 {
     // Create the window with this as the context and the applciation name as the window title.
-    auto window = std::make_unique<WindowView>(this, this->getName());
+    auto window = std::make_unique<WindowView>(this, getName());
 
-    this->window = window.get();
+    window = window.get();
 
     /*
      * The window is actually not just a window, its also a logic::View. It is basically a logic::View that renders
@@ -164,32 +164,32 @@ pt::WindowApplication::initializeWindow(nox::logic::Logic* logic)
 }
 
 bool 
-pt::WindowApplication::onInit()
+WindowApplication::onInit()
 {
-    if (this->SdlApplication::onInit() == false)
+    if (SdlApplication::onInit() == false)
     {
         return false;
     }
 
-    this->log = this->createLogger();
-    this->log.setName("WindowApplication");
+    log = createLogger();
+    log.setName("WindowApplication");
 
-    if (this->initializeResourceCache() == false)
+    if (initializeResourceCache() == false)
     {
-        this->log.error().raw("Failed initializing resource cache.");
+        log.error().raw("Failed initializing resource cache.");
         return false;
     }
 
-    auto logic = this->initializeLogic();
+    auto logic = initializeLogic();
     auto eventBroadcaster = logic->getEventBroadcaster();
 
-    this->initializePhysics(logic);
-    auto worldManager = this->initializeWorldManager(logic);
+    initializePhysics(logic);
+    auto worldManager = initializeWorldManager(logic);
 
     // We initialize the window. This will make the window appear.
-    this->initializeWindow(logic);
+    initializeWindow(logic);
 
-    if (this->loadWorldFile(logic, worldManager) == false)
+    if (loadWorldFile(logic, worldManager) == false)
     {
         return false;
     }
@@ -200,23 +200,23 @@ pt::WindowApplication::onInit()
 }
 
 void 
-pt::WindowApplication::onUpdate(const nox::Duration& deltaTime)
+WindowApplication::onUpdate(const nox::Duration& deltaTime)
 {
-    this->SdlApplication::onUpdate(deltaTime);
+    SdlApplication::onUpdate(deltaTime);
 
-    assert(this->window != nullptr);
+    assert(window != nullptr);
 
     // We need to manually render the window (the Logic doesn't know that it is a window and can render).
-    this->window->render();
+    window->render();
 }
 
 void 
-pt::WindowApplication::onSdlEvent(const SDL_Event& event)
+WindowApplication::onSdlEvent(const SDL_Event& event)
 {
-    this->SdlApplication::onSdlEvent(event);
+    SdlApplication::onSdlEvent(event);
 
-    assert(this->window != nullptr);
+    assert(window != nullptr);
 
     // Pass the event to the window so that it can handle it.
-    this->window->onSdlEvent(event);
+    window->onSdlEvent(event);
 }
