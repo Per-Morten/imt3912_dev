@@ -2,7 +2,7 @@
 
 int main(int argc, char* argv[])
 {
-    auto application = ConsoleApplication();
+    auto application = pt::ConsoleApplication();
 
     if (application.init(argc, argv) == false)
     {
@@ -12,6 +12,7 @@ int main(int argc, char* argv[])
     auto result = application.execute();
 
     application.shutdown();
+
 
     return result;
 }

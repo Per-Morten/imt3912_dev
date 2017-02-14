@@ -16,13 +16,14 @@
 #include <glm/gtx/string_cast.hpp>
 #include <cassert>
 
-WindowApplication::WindowApplication():
+pt::WindowApplication::WindowApplication():
     SdlApplication("window_template", "PTPERF"),
     window(nullptr)
 {
 }
 
-bool WindowApplication::initializeResourceCache()
+bool 
+pt::WindowApplication::initializeResourceCache()
 {
     const auto cacheSizeMb = 512u;
     auto resourceCache = std::make_unique<nox::app::resource::LruCache>(cacheSizeMb);
@@ -60,7 +61,8 @@ bool WindowApplication::initializeResourceCache()
     return true;
 }
 
-nox::logic::Logic* WindowApplication::initializeLogic()
+nox::logic::Logic* 
+pt::WindowApplication::initializeLogic()
 {
     auto logic = std::make_unique<nox::logic::Logic>();
     auto logicPtr = logic.get();
@@ -70,7 +72,8 @@ nox::logic::Logic* WindowApplication::initializeLogic()
     return logicPtr;
 }
 
-nox::logic::physics::Simulation* WindowApplication::initializePhysics(nox::logic::Logic* logic)
+nox::logic::physics::Simulation* 
+pt::WindowApplication::initializePhysics(nox::logic::Logic* logic)
 {
     auto physics = std::make_unique<nox::logic::physics::Box2DSimulation>(logic);
     physics->setLogger(this->createLogger());
@@ -82,7 +85,8 @@ nox::logic::physics::Simulation* WindowApplication::initializePhysics(nox::logic
     return physicsPtr;
 }
 
-nox::logic::world::Manager* WindowApplication::initializeWorldManager(nox::logic::Logic* logic)
+nox::logic::world::Manager* 
+pt::WindowApplication::initializeWorldManager(nox::logic::Logic* logic)
 {
     auto world = std::make_unique<nox::logic::world::Manager>(logic);
 
@@ -102,7 +106,8 @@ nox::logic::world::Manager* WindowApplication::initializeWorldManager(nox::logic
     return worldPtr;
 }
 
-bool WindowApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic::world::Manager* worldManager)
+bool 
+pt::WindowApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic::world::Manager* worldManager)
 {
     const auto worldFileDescriptor = nox::app::resource::Descriptor{"world/exampleWorld.json"};
     const auto worldFileHandle = this->getResourceAccess()->getHandle(worldFileDescriptor);
@@ -138,7 +143,8 @@ bool WindowApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::l
     return true;
 }
 
-void WindowApplication::initializeWindow(nox::logic::Logic* logic)
+void 
+pt::WindowApplication::initializeWindow(nox::logic::Logic* logic)
 {
     // Create the window with this as the context and the applciation name as the window title.
     auto window = std::make_unique<WindowView>(this, this->getName());
@@ -157,7 +163,8 @@ void WindowApplication::initializeWindow(nox::logic::Logic* logic)
     logic->addView(std::move(window));
 }
 
-bool WindowApplication::onInit()
+bool 
+pt::WindowApplication::onInit()
 {
     if (this->SdlApplication::onInit() == false)
     {
@@ -192,7 +199,8 @@ bool WindowApplication::onInit()
     return true;
 }
 
-void WindowApplication::onUpdate(const nox::Duration& deltaTime)
+void 
+pt::WindowApplication::onUpdate(const nox::Duration& deltaTime)
 {
     this->SdlApplication::onUpdate(deltaTime);
 
@@ -202,7 +210,8 @@ void WindowApplication::onUpdate(const nox::Duration& deltaTime)
     this->window->render();
 }
 
-void WindowApplication::onSdlEvent(const SDL_Event& event)
+void 
+pt::WindowApplication::onSdlEvent(const SDL_Event& event)
 {
     this->SdlApplication::onSdlEvent(event);
 

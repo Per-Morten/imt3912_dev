@@ -16,12 +16,13 @@
 #include <glm/gtx/string_cast.hpp>
 #include <cassert>
 
-ConsoleApplication::ConsoleApplication():
+pt::ConsoleApplication::ConsoleApplication():
     Application("console_template", "PTPERF")
 {
 }
 
-bool ConsoleApplication::initializeResourceCache()
+bool 
+pt::ConsoleApplication::initializeResourceCache()
 {
     const auto cacheSizeMb = 512u;
     auto resourceCache = std::make_unique<nox::app::resource::LruCache>(cacheSizeMb);
@@ -59,7 +60,8 @@ bool ConsoleApplication::initializeResourceCache()
     return true;
 }
 
-nox::logic::Logic* ConsoleApplication::initializeLogic()
+nox::logic::Logic* 
+pt::ConsoleApplication::initializeLogic()
 {
     auto logic = std::make_unique<nox::logic::Logic>();
     auto logicPtr = logic.get();
@@ -69,7 +71,8 @@ nox::logic::Logic* ConsoleApplication::initializeLogic()
     return logicPtr;
 }
 
-nox::logic::physics::Simulation* ConsoleApplication::initializePhysics(nox::logic::Logic* logic)
+nox::logic::physics::Simulation* 
+pt::ConsoleApplication::initializePhysics(nox::logic::Logic* logic)
 {
     auto physics = std::make_unique<nox::logic::physics::Box2DSimulation>(logic);
     physics->setLogger(this->createLogger());
@@ -81,7 +84,8 @@ nox::logic::physics::Simulation* ConsoleApplication::initializePhysics(nox::logi
     return physicsPtr;
 }
 
-nox::logic::world::Manager* ConsoleApplication::initializeWorldManager(nox::logic::Logic* logic)
+nox::logic::world::Manager* 
+pt::ConsoleApplication::initializeWorldManager(nox::logic::Logic* logic)
 {
     auto world = std::make_unique<nox::logic::world::Manager>(logic);
 
@@ -98,7 +102,8 @@ nox::logic::world::Manager* ConsoleApplication::initializeWorldManager(nox::logi
     return worldPtr;
 }
 
-bool ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic::world::Manager* worldManager)
+bool 
+pt::ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic::world::Manager* worldManager)
 {
     const auto worldFileDescriptor = nox::app::resource::Descriptor{"world/exampleWorld.json"};
     const auto worldFileHandle = this->getResourceAccess()->getHandle(worldFileDescriptor);
@@ -134,7 +139,8 @@ bool ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::
     return true;
 }
 
-bool ConsoleApplication::onInit()
+bool 
+pt::ConsoleApplication::onInit()
 {
     this->log = this->createLogger();
     this->log.setName("ConsoleApplication");
@@ -161,7 +167,8 @@ bool ConsoleApplication::onInit()
     return true;
 }
 
-void ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
+void 
+pt::ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
 {
     this->log.info().raw("Printing out text in update loop");
 }

@@ -12,7 +12,8 @@
 #include <nox/logic/event/IBroadcaster.h>
 #include <nox/logic/physics/Simulation.h>
 
-WindowView::WindowView(nox::app::IContext* applicationContext, const std::string& windowTitle):
+
+pt::WindowView::WindowView(nox::app::IContext* applicationContext, const std::string& windowTitle):
     nox::window::RenderSdlWindowView(applicationContext, windowTitle),
     renderer(nullptr),
     camera(std::make_shared<nox::app::graphics::Camera>(this->getWindowSize())),
@@ -31,9 +32,11 @@ WindowView::WindowView(nox::app::IContext* applicationContext, const std::string
     this->rootSceneNode = std::make_shared<nox::app::graphics::TransformationNode>();
 }
 
-bool WindowView::initialize(nox::logic::IContext* context)
+bool 
+pt::WindowView::initialize(nox::logic::IContext* context)
 {
-    if (this->RenderSdlWindowView::initialize(context) == false)
+    if (this->
+        pt::RenderSdlWindowView::initialize(context) == false)
     {
         return false;
     }
@@ -46,7 +49,8 @@ bool WindowView::initialize(nox::logic::IContext* context)
 /*
  * This is called when the renderer is created and lets us set up the renderer to our preferences.
  */
-void WindowView::onRendererCreated(nox::app::graphics::IRenderer* renderer)
+void 
+pt::WindowView::onRendererCreated(nox::app::graphics::IRenderer* renderer)
 {
     /*
      * Here we set up the renderer to our preferences.
@@ -98,9 +102,11 @@ void WindowView::onRendererCreated(nox::app::graphics::IRenderer* renderer)
     this->renderer = renderer;
 }
 
-void WindowView::onWindowSizeChanged(const glm::uvec2& size)
+void 
+pt::WindowView::onWindowSizeChanged(const glm::uvec2& size)
 {
-    this->RenderSdlWindowView::onWindowSizeChanged(size);
+    this->
+    pt::RenderSdlWindowView::onWindowSizeChanged(size);
 
     /*
      * The camera needs to be updated for the new window size.
@@ -108,9 +114,11 @@ void WindowView::onWindowSizeChanged(const glm::uvec2& size)
     this->camera->setSize(size);
 }
 
-void WindowView::onEvent(const std::shared_ptr<nox::logic::event::Event>& event)
+void 
+pt::WindowView::onEvent(const std::shared_ptr<nox::logic::event::Event>& event)
 {
-    this->RenderSdlWindowView::onEvent(event);
+    this->
+    pt::RenderSdlWindowView::onEvent(event);
 
     using SceneNodeEdit = nox::logic::graphics::SceneNodeEdited;
 
@@ -139,7 +147,8 @@ void WindowView::onEvent(const std::shared_ptr<nox::logic::event::Event>& event)
     }
 }
 
-void WindowView::onKeyPress(const SDL_KeyboardEvent& event)
+void 
+pt::WindowView::onKeyPress(const SDL_KeyboardEvent& event)
 {
     /*
      * This enables more debug data to be renderer, e.g. the physics shapes.

@@ -2,7 +2,7 @@
 
 int main(int argc, char* argv[])
 {
-    auto application = WindowApplication();
+    auto application = pt::WindowApplication();
 
     if (application.init(argc, argv) == false)
     {
