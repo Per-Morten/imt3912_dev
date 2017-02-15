@@ -156,9 +156,8 @@ ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic
 bool 
 ConsoleApplication::onInit()
 {
-    int runTimeMs = cmd::g_cmdParser.getIntArgument(cmd::constants::run_time_ms_cmd,
-                                                  cmd::constants::run_time_ms_default);
-
+    int runTimeMs = cmd::g_cmdParser.getIntArgument(cmd::constants::run_duration_ms_cmd,
+                                                    cmd::constants::run_duration_ms_default);
     outputTimer.setTimerLength(std::chrono::milliseconds(runTimeMs));
 
     log = createLogger();
