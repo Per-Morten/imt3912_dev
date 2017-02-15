@@ -1,0 +1,1 @@
+add_subdirectory(memory_usage-empty_actors)
