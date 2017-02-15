@@ -97,7 +97,7 @@ namespace cmd
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/// \class ftcp::cmd::Parser
+/// \class cmd::Parser
 /// \ingroup cmd
 ///
 /// Used for access to cmd arguments passed to the program during startup
