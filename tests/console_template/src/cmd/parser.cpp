@@ -43,46 +43,6 @@ namespace
             return args;
         }
 
-        std::vector<std::string> readArgumentsFromFile(const std::string& filepath)
-        {
-            std::ifstream file(filepath);
-            if (!file.is_open())
-            {
-                //log.warning().format("Could not open file \"%s\", arguments from this file won't be loaded\n", filepath.c_str());
-                return{};
-            }
-
-            std::vector<std::string> args;
-            for (std::string line; std::getline(file, line);)
-            {
-                const std::string arg = trimWhitespaces(line);
-                if (!arg.empty())
-                {
-                    args.push_back(arg);
-                }
-            }
-            return args;
-        }
-
-        void mergeArguments(std::unordered_map<std::string, std::vector<std::string>>& currentArgs,
-                            const std::unordered_map<std::string, std::vector<std::string>>& source)
-        {
-            for (const auto& item : source)
-            {
-                const auto& result = std::find_if(std::begin(currentArgs),
-                                                  std::end(currentArgs),
-                                                  [&item](const auto& str)
-                                                  { return str.first == item.first; });
-
-                // Since the custom arguments are read first and take presedence, 
-                // we only check for arguments not in the currentArgs.
-                if (result == std::end(currentArgs))
-                {
-                    currentArgs[item.first] = item.second;
-                }
-            }
-        }
-
         std::unordered_map<std::string, std::vector<std::string>> mapArguments(const std::vector<std::string>& args)
         {
             std::unordered_map<std::string, std::vector<std::string>> arguments;
@@ -109,16 +69,6 @@ cmd::Parser::init(int argc, char** argv)
     const auto args = local::stringifyArguments(argc, argv);
 
     m_arguments = local::mapArguments(args);
-
-    auto fileArg = m_arguments.find(constants::args_from_file_cmd);
-    if (fileArg != m_arguments.end())
-    {
-        const auto fileArguments = local::readArgumentsFromFile(fileArg->second.front());
-        const auto fileArgumentsMap = local::mapArguments(fileArguments);
-
-        local::mergeArguments(m_arguments, fileArgumentsMap);
-    }
-    printf("1\n");
 }
 
 void
@@ -142,8 +92,7 @@ cmd::Parser::getStringArgument(const std::string& commandName,
         return arg->second.front();
     }
 
-    auto output = log.warning();
-    output.format("Could not find argument: %s\n", commandName.c_str());
+    log.warning().output.format("Could not find argument: %s\n", commandName.c_str());
     return defaultValue;
 }
 
@@ -178,7 +127,7 @@ cmd::Parser::getFloatArgument(const std::string& commandName, float defaultValue
     const auto& arg = std::find_if(std::cbegin(m_arguments),
                                    std::cend(m_arguments),
                                    [&commandName](const auto& item)
-    { return item.first == commandName; });
+                                   { return item.first == commandName; });
 
     if (arg != std::cend(m_arguments))
     {
