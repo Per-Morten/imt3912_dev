@@ -147,9 +147,9 @@ void
 WindowApplication::initializeWindow(nox::logic::Logic* logic)
 {
     // Create the window with this as the context and the applciation name as the window title.
-    auto window = std::make_unique<WindowView>(this, getName());
+    auto tempWindow = std::make_unique<WindowView>(this, getName());
 
-    window = window.get();
+    window = tempWindow.get();
 
     /*
      * The window is actually not just a window, its also a logic::View. It is basically a logic::View that renders
@@ -160,7 +160,7 @@ WindowApplication::initializeWindow(nox::logic::Logic* logic)
      * the application through events and queries, a remote client viewing the application through a network connection,
      * or more.
      */
-    logic->addView(std::move(window));
+    logic->addView(std::move(tempWindow));
 }
 
 bool 

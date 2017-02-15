@@ -12,36 +12,44 @@
 #include <nox/logic/event/IBroadcaster.h>
 #include <nox/logic/physics/Simulation.h>
 
+#include "cmd/parser.h"
 
-pt::WindowView::WindowView(nox::app::IContext* applicationContext, const std::string& windowTitle):
+
+WindowView::WindowView(nox::app::IContext* applicationContext, const std::string& windowTitle):
     nox::window::RenderSdlWindowView(applicationContext, windowTitle),
     renderer(nullptr),
-    camera(std::make_shared<nox::app::graphics::Camera>(this->getWindowSize())),
+    camera(std::make_shared<nox::app::graphics::Camera>(getWindowSize())),
     listener("WindowView")
 {
-    this->log = applicationContext->createLogger();
-    this->log.setName("WindowView");
+    log = applicationContext->createLogger();
+    log.setName("WindowView");
+
+    int width = cmd::g_cmdParser.getIntArgument(cmd::constants::window_width_cmd,
+                                                cmd::constants::window_width_default);
+    int height = cmd::g_cmdParser.getIntArgument(cmd::constants::window_height_cmd,
+                                                 cmd::constants::window_height_default);
+    
+    setWindowSize({ width, height });
 
     // We need to listen to SceneNodeEdited events so that we can add graphics to the screen.
-    this->listener.addEventTypeToListenFor(nox::logic::graphics::SceneNodeEdited::ID);
+    listener.addEventTypeToListenFor(nox::logic::graphics::SceneNodeEdited::ID);
 
     // One meter should cover 60 pixels.
-    this->camera->setScale({60.0f, 60.0f});
+    camera->setScale({60.0f, 60.0f});
 
     // This is the root for our scene graph used for rendering.
-    this->rootSceneNode = std::make_shared<nox::app::graphics::TransformationNode>();
+    rootSceneNode = std::make_shared<nox::app::graphics::TransformationNode>();
 }
 
 bool 
-pt::WindowView::initialize(nox::logic::IContext* context)
+WindowView::initialize(nox::logic::IContext* context)
 {
-    if (this->
-        pt::RenderSdlWindowView::initialize(context) == false)
+    if (RenderSdlWindowView::initialize(context) == false)
     {
         return false;
     }
 
-    this->listener.setup(this, context->getEventBroadcaster(), nox::logic::event::ListenerManager::StartListening_t());
+    listener.setup(this, context->getEventBroadcaster(), nox::logic::event::ListenerManager::StartListening_t());
 
     return true;
 }
@@ -50,7 +58,7 @@ pt::WindowView::initialize(nox::logic::IContext* context)
  * This is called when the renderer is created and lets us set up the renderer to our preferences.
  */
 void 
-pt::WindowView::onRendererCreated(nox::app::graphics::IRenderer* renderer)
+WindowView::onRendererCreated(nox::app::graphics::IRenderer* renderer)
 {
     /*
      * Here we set up the renderer to our preferences.
@@ -63,7 +71,7 @@ pt::WindowView::onRendererCreated(nox::app::graphics::IRenderer* renderer)
      * so that it can load all of the atlases into graphics memory.
      */
     const auto graphicsResourceDescriptor = nox::app::resource::Descriptor{"graphics/graphics.json"};
-    renderer->loadTextureAtlases(graphicsResourceDescriptor, this->getApplicationContext()->getResourceAccess());
+    renderer->loadTextureAtlases(graphicsResourceDescriptor, getApplicationContext()->getResourceAccess());
 
     /*
      * The renderer has to have one atlas that is used to render the world objects. We set this to
@@ -84,13 +92,13 @@ pt::WindowView::onRendererCreated(nox::app::graphics::IRenderer* renderer)
     renderer->setAmbientLightLevel(1.0f);
 
     // The camera we created in the constructor should be used for projecting the world on screen.
-    renderer->setCamera(this->camera);
+    renderer->setCamera(camera);
 
     /*
      * We also set the root scene graph node that we created in the constructor. This will be the first node to
      * be visited when the renderer parses the scene graph. Other nodes should be attached as children to this node.
      */
-    renderer->setRootSceneNode(this->rootSceneNode);
+    renderer->setRootSceneNode(rootSceneNode);
 
     /*
      * This has to be called so that the renderer properly can organize its render steps for the rendering.
@@ -99,26 +107,26 @@ pt::WindowView::onRendererCreated(nox::app::graphics::IRenderer* renderer)
     renderer->organizeRenderSteps();
 
     // We need to use the renderer later.
-    this->renderer = renderer;
+    renderer = renderer;
 }
 
 void 
-pt::WindowView::onWindowSizeChanged(const glm::uvec2& size)
+WindowView::onWindowSizeChanged(const glm::uvec2& size)
 {
-    this->
-    pt::RenderSdlWindowView::onWindowSizeChanged(size);
+    
+    RenderSdlWindowView::onWindowSizeChanged(size);
 
     /*
      * The camera needs to be updated for the new window size.
      */
-    this->camera->setSize(size);
+    camera->setSize(size);
 }
 
 void 
-pt::WindowView::onEvent(const std::shared_ptr<nox::logic::event::Event>& event)
+WindowView::onEvent(const std::shared_ptr<nox::logic::event::Event>& event)
 {
-    this->
-    pt::RenderSdlWindowView::onEvent(event);
+    
+    RenderSdlWindowView::onEvent(event);
 
     using SceneNodeEdit = nox::logic::graphics::SceneNodeEdited;
 
@@ -138,28 +146,28 @@ pt::WindowView::onEvent(const std::shared_ptr<nox::logic::event::Event>& event)
 
         if (nodeEvent->getEditAction() == SceneNodeEdit::Action::CREATE)
         {
-            this->rootSceneNode->addChild(nodeEvent->getSceneNode());
+            rootSceneNode->addChild(nodeEvent->getSceneNode());
         }
         else if (nodeEvent->getEditAction() == SceneNodeEdit::Action::REMOVE)
         {
-            this->rootSceneNode->removeChild(nodeEvent->getSceneNode());
+            rootSceneNode->removeChild(nodeEvent->getSceneNode());
         }
     }
 }
 
 void 
-pt::WindowView::onKeyPress(const SDL_KeyboardEvent& event)
+WindowView::onKeyPress(const SDL_KeyboardEvent& event)
 {
     /*
      * This enables more debug data to be renderer, e.g. the physics shapes.
      */
-    if (event.keysym.sym == SDLK_q && this->renderer != nullptr)
+    if (event.keysym.sym == SDLK_q && renderer != nullptr)
     {
-        this->renderer->toggleDebugRendering();
+        renderer->toggleDebugRendering();
 
         // The logic should know that we enable/disable the debug rendering so that it doesn't need to use time to update the
         // rendering.
         const auto debugRenderEvent = std::make_shared<nox::logic::graphics::DebugRenderingEnabled>(renderer->isDebugRenderingEnabled());
-        this->getLogicContext()->getEventBroadcaster()->queueEvent(debugRenderEvent);
+        getLogicContext()->getEventBroadcaster()->queueEvent(debugRenderEvent);
     }
 }
