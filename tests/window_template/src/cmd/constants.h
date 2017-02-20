@@ -2,8 +2,8 @@
 
 namespace cmd
 {
-     namespace constants
-     {
+    namespace constants
+    {
         constexpr auto args_from_file_cmd = "-args_from_file";
 
         constexpr auto thread_amount_cmd = "-thread_amount";
@@ -14,6 +14,6 @@ namespace cmd
 
         constexpr auto window_height_cmd = "-window_height";
         constexpr auto window_height_default = 500;
-   }
+    }
 }
 
