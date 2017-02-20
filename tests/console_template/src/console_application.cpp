@@ -1,23 +1,25 @@
 #include "console_application.h"
 
 #include <nox/app/resource/cache/LruCache.h>
-#include <nox/app/resource/provider/BoostFilesystemProvider.h>
-#include <nox/app/resource/loader/JsonLoader.h>
 #include <nox/app/resource/data/JsonExtraData.h>
-#include <nox/logic/world/Manager.h>
-#include <nox/logic/world/Loader.h>
+#include <nox/app/resource/loader/JsonLoader.h>
+#include <nox/app/resource/provider/BoostFilesystemProvider.h>
 #include <nox/logic/actor/component/Transform.h>
 #include <nox/logic/actor/event/TransformChange.h>
-#include <nox/logic/physics/box2d/Box2DSimulation.h>
-#include <nox/logic/physics/actor/ActorPhysics.h>
 #include <nox/logic/graphics/actor/ActorSprite.h>
+#include <nox/logic/physics/actor/ActorPhysics.h>
+#include <nox/logic/physics/box2d/Box2DSimulation.h>
+#include <nox/logic/world/Loader.h>
+#include <nox/logic/world/Manager.h>
 
 #include <json/value.h>
 #include <glm/gtx/string_cast.hpp>
 #include <cassert>
 
-ConsoleApplication::ConsoleApplication():
-    Application("console_template", "PTPERF")
+#include "cmd/parser.h"
+
+ConsoleApplication::ConsoleApplication()
+    : Application("console_template", "PTPERF")
 {
 }
 
@@ -91,6 +93,8 @@ ConsoleApplication::initializeWorldManager(nox::logic::Logic* logic)
 
     // Register actors components here
     world->registerActorComponent<nox::logic::actor::Transform>();
+    world->registerActorComponent<nox::logic::physics::ActorPhysics>();
+    world->registerActorComponent<nox::logic::graphics::ActorSprite>();
 
     const auto actorDirectory = std::string{"actor"};
     world->loadActorDefinitions(getResourceAccess(), actorDirectory);
@@ -157,6 +161,8 @@ ConsoleApplication::onInit()
     initializePhysics(logic);
     auto worldManager = initializeWorldManager(logic);
 
+    outputTimer.setTimerLength(std::chrono::milliseconds(500));
+
     if (loadWorldFile(logic, worldManager) == false)
     {
         return false;
@@ -170,5 +176,12 @@ ConsoleApplication::onInit()
 void 
 ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
 {
-    log.info().raw("Printing out text in update loop");
+    outputTimer.spendTime(deltaTime);
+
+    if (outputTimer.timerReached() == true)
+    {
+        log.info().raw("Printing out text in update loop");
+        
+        outputTimer.subtractCycle();
+    }
 }

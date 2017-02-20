@@ -1,8 +1,12 @@
 #include "console_application.h"
+#include "cmd/parser.h"
 
 int main(int argc, char* argv[])
 {
-    auto application = pt::ConsoleApplication();
+    auto application = ConsoleApplication();
+
+    cmd::g_cmdParser.init(argc, argv);
+    cmd::g_cmdParser.setLogger(application.createLogger());
 
     if (application.init(argc, argv) == false)
     {
@@ -12,7 +16,6 @@ int main(int argc, char* argv[])
     auto result = application.execute();
 
     application.shutdown();
-
 
     return result;
 }
