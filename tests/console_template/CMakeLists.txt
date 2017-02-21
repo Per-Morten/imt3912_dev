@@ -7,13 +7,16 @@ file(GLOB_RECURSE TEMPLATES "src/*.tpp")
 file(GLOB_RECURSE INLINES "src/*.ipp")
 file(GLOB_RECURSE HEADERS "src/*.h")
 
-set (INCLUDE_DIRS "")
-foreach (_headerFile ${HEADERS})
-    get_filename_component(_dir ${_headerFile} PATH)
-    list (APPEND INCLUDE_DIRS ${_dir})
-endforeach()
-list(REMOVE_DUPLICATES INCLUDE_DIRS)
+
+set(ALL_SOURCES
+    ${SOURCES}
+    ${TEMPLATES}
+    ${INLINES}
+    ${HEADERS})
+
+set(INCLUDE_DIRS src/)
+
 
 include_directories(${INCLUDE_DIRS})
-add_executable (${TEST_NAME} ${SOURCES} ${TEMPLATES} ${INLINES}) 
-target_link_libraries(${TEST_NAME} ${NOXSAMPLE_NOX_LIBRARY})
+add_executable (${TEST_NAME} ${ALL_SOURCES}) 
+target_link_libraries(${TEST_NAME} ${NOXSAMPLE_NOX_LIBRARY} ${CMD_LIBRARY})
