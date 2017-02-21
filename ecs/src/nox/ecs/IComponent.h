@@ -1,6 +1,6 @@
 #ifndef NOX_ECS_ICOMPONENT_H_
 #define NOX_ECS_ICOMPONENT_H_
-#include <nox/ecs/types.h>
+#include <nox/ecs/EntityId.h>
 
 namespace nox
 {
