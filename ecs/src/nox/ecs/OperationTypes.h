@@ -4,7 +4,7 @@
 #include <json/value.h>
 
 #include <nox/ecs/Event.h>
-#include <nox/ecs/IComponent.h>
+#include <nox/ecs/Component.h>
 #include <nox/event/Event.h>
 
 namespace nox
@@ -23,8 +23,8 @@ namespace nox
              * @warning Casting to the correct component type is the
              *          users responsibility. 
              */
-            using RangedOp = void(*)(IComponent* first,
-                                     IComponent* last);
+            using RangedOp = void(*)(Component* first,
+                                     Component* last);
            
             /** 
              * @brief Function to be applied to a single element.
@@ -34,7 +34,7 @@ namespace nox
              * @warning Casting to the correct component type is the
              *          users responsibility.
              */ 
-            using UnaryOp = void(*)(IComponent* component);
+            using UnaryOp = void(*)(Component* component);
 
             /**
              * @brief Function used for initialization a component
@@ -47,7 +47,7 @@ namespace nox
              * @warning Casting to the correct component type is the
              *          users responsibility.
              */
-            using InitializeOp = void(*)(IComponent component,
+            using InitializeOp = void(*)(Component component,
                                          const Json::Value& value);
 
             /**
@@ -61,8 +61,8 @@ namespace nox
              * @warning Casting to the correct component type is the
              *          users responsibility.
              */
-            using LogicEventOp = void(*)(IComponent* first,
-                                         IComponent* last,
+            using LogicEventOp = void(*)(Component* first,
+                                         Component* last,
                                          const std::shared_ptr<nox::event::Event>& event);
 
             /**
@@ -74,7 +74,7 @@ namespace nox
              * @warning Casting to the correct component type is the
              *          users responsibility.
              */
-            using ComponentEventOp = void(*)(IComponent* component,
+            using ComponentEventOp = void(*)(Component* component,
                                              const ecs::Event& event);
         }
     }
