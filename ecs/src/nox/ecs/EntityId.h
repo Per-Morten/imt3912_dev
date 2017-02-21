@@ -7,8 +7,8 @@ namespace nox
     namespace ecs
     {
         /**
-         *  Used to identify entities across the ECS.
-         *  Unique per entity.
+         * @brief Used to identify entities across the ECS.
+         *        Unique per entity.
          */
         using EntityId = std::size_t;
     }
