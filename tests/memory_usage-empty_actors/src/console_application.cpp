@@ -16,7 +16,7 @@
 #include <glm/gtx/string_cast.hpp>
 #include <cassert>
 
-#include "cmd/parser.h"
+#include <cmd/parser.h>
 
 ConsoleApplication::ConsoleApplication():
     Application("memory_usage-empty_actors", "PTPERF")

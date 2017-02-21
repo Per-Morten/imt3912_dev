@@ -1,9 +1,8 @@
 #pragma once
 
 #include "window_view.h"
-
 #include <nox/app/SdlApplication.h>
-#include <nox/app/log/Logger.h>
+#include <nox/log/Logger.h>
 #include <nox/logic/Logic.h>
 
 

@@ -12,7 +12,7 @@
 #include <nox/logic/event/IBroadcaster.h>
 #include <nox/logic/physics/Simulation.h>
 
-#include "cmd/parser.h"
+#include <cmd/parser.h>
 
 
 WindowView::WindowView(nox::app::IContext* applicationContext, const std::string& windowTitle):

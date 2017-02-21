@@ -1,7 +1,7 @@
 #pragma once
 
 #include <nox/app/Application.h>
-#include <nox/app/log/Logger.h>
+#include <nox/log/Logger.h>
 #include <nox/logic/Logic.h>
 #include <nox/util/Timer.h>
 
@@ -21,7 +21,7 @@ private:
 
     bool loadWorldFile(nox::logic::IContext* logicContext, nox::logic::world::Manager* worldManager);
 
-    nox::app::log::Logger log;
+    nox::log::Logger log;
     nox::util::Timer<nox::Duration> outputTimer;
 
 };
