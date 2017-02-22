@@ -6,6 +6,7 @@
 #include <nox/ecs/Event.h>
 #include <nox/ecs/Component.h>
 #include <nox/event/Event.h>
+#include <nox/common/types.h>
 
 namespace nox
 {
@@ -35,6 +36,20 @@ namespace nox
              *          users responsibility.
              */ 
             using UnaryOp = void(*)(Component* component);
+
+            /**
+             * @brief Function used for updating a range of elements.
+             * 
+             * @param first pointer to the first element in the range.
+             * @param last past-the-end pointer of the range.
+             * @param deltaTime time since last update call.
+             * 
+             * @warning Casting to the correct component type is the
+             *          users responsibility.
+             */
+            using UpdateOp = void(*)(Component* first,
+                                     Component* last,
+                                     const nox::Duration& deltaTime);
 
             /**
              * @brief Function used for initialization a component
