@@ -16,7 +16,7 @@ do
     j=0
     while [ $j -lt $actorCount ];
     do
-        actorNames="$actorName\n$actorNames"
+        actorNames="$actorName $actorNames"
         
         let j=j+1
     done
@@ -27,7 +27,7 @@ done
 #If shuffle is enabled, randomize the order of the actor names
 if [ $mode = "shuffle" ];
 then
-    actorNames="$(printf "$actorNames" | shuf)"
+    actorNames="$(printf "$actorNames" | tr ' ' '\n' | shuf)"
 fi
 
 #Prints out the world
@@ -35,13 +35,21 @@ printf "{\n"
 printf "\t\"actors\":\n"
 printf "\t[\n"
 
+first=true
 for actorName in $actorNames; 
 do
+    if [ $first = false ];
+    then
+        printf ",\n"
+    fi
+    first=false
+
     printf "\t\t{\n"
     printf "\t\t\t\"extend\": \"$actorName\"\n"
-    printf "\t\t}\n"
+    printf "\t\t}"
 done
 
+printf "\n"
 printf "\t]\n"
 printf "}\n"
 
