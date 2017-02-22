@@ -22,6 +22,11 @@ namespace nox
         class TypeIdentifier
         {
         public:
+            /**
+             * @brief Default constructor is deleted to avoid
+             *        setting up the identifier in an invalid state.
+             */  
+
             TypeIdentifier() = delete;
 
             /**
@@ -33,7 +38,7 @@ namespace nox
              * @note The identifier argument is not hashed,
              *       allowing for pre_hashing if wanted.
              */
-            TypeIdentifier(std::size_t identifier);
+            inline TypeIdentifier(std::size_t identifier);
 
             /**
              * @brief Creates the TypeIdentifier with the numerical
@@ -41,7 +46,7 @@ namespace nox
              *
              * @param identifier the identifier to hash for a numerical value.
              */
-            TypeIdentifier(const std::string& identifier);
+            inline TypeIdentifier(const std::string& identifier);
 
             /**
              * @brief Returns the underlying value of the TypeIdentifier
