@@ -3,10 +3,11 @@
 #include <memory>
 #include <json/value.h>
 
-#include <nox/ecs/Event.h>
-#include <nox/ecs/Component.h>
-#include <nox/event/Event.h>
 #include <nox/common/types.h>
+#include <nox/ecs/Component.h>
+#include <nox/ecs/EntityId.h>
+#include <nox/ecs/Event.h>
+#include <nox/event/Event.h>
 
 namespace nox
 {
@@ -38,6 +39,18 @@ namespace nox
             using UnaryOp = void(*)(Component* component);
 
             /**
+             * @brief Function to be applied to construct a single element.
+             * 
+             * @param component the component to construct.
+             * @param id the id to give the component.
+             * 
+             * @warning Casting to the correct component type is the
+             *          users responsibility.
+             */
+            using ConstructOp = void(*)(Component* component,
+                                        const EntityId& id);
+
+            /**
              * @brief Function used for updating a range of elements.
              * 
              * @param first pointer to the first element in the range.
@@ -62,7 +75,7 @@ namespace nox
              * @warning Casting to the correct component type is the
              *          users responsibility.
              */
-            using InitializeOp = void(*)(Component component,
+            using InitializeOp = void(*)(Component* component,
                                          const Json::Value& value);
 
             /**
@@ -89,7 +102,8 @@ namespace nox
              * @warning Casting to the correct component type is the
              *          users responsibility.
              */
-            using ComponentEventOp = void(*)(Component* component,
+            using ComponentEventOp = void(*)(Component* first,
+                                             Component* last,
                                              const ecs::Event& event);
         }
     }
