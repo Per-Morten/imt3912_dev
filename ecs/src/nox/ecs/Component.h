@@ -28,7 +28,7 @@ namespace nox
              *
              * @param entityId the id of the entity this component is tied to.
              */
-            Component(const EntityId& entityId);
+            inline Component(const EntityId& entityId);
 
             /**
              * @brief Copying components is illegal, they are only movable.
