@@ -1,5 +1,6 @@
 #include "spawning_component.h"
 
+#include <nox/logic/Logic.h>
 #include <nox/logic/IContext.h>
 #include <nox/logic/event/IBroadcaster.h>
 #include <nox/logic/actor/Actor.h>
@@ -13,6 +14,8 @@
 #include <nox/app/resource/loader/JsonLoader.h>
 #include <nox/app/resource/provider/BoostFilesystemProvider.h>
 #include <nox/logic/world/Loader.h>
+
+#include "../console_application.h"
 
 const components::SpawningComponent::IdType components::SpawningComponent::NAME = "SpawningComponent";
 
@@ -80,6 +83,8 @@ void components::SpawningComponent::deleteWorld()
 
     if (deletionCounter >= deletionAmount)
     {
-        printf("rip\n");
+        auto logic = static_cast<nox::logic::Logic*>(getLogicContext());
+        auto consoleApplication = static_cast<ConsoleApplication*>(logic->getApplicationContext());
+        consoleApplication->quitApplication();
     }
 }
