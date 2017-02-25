@@ -1,7 +1,7 @@
 #ifndef NOX_ECS_OPERATIONTYPES_H_
 #define NOX_ECS_OPERATIONTYPES_H_
-#include <memory>
 #include <json/value.h>
+#include <memory>
 
 #include <nox/common/types.h>
 #include <nox/ecs/Component.h>
@@ -37,6 +37,19 @@ namespace nox
              *          users responsibility.
              */ 
             using UnaryOp = void(*)(Component* component);
+
+            /**
+             * @brief Function to be applied to move an object in memory
+             *        usually through a move construction or move assignment.
+             *        
+             * @param destination The memory/component to move source into.
+             * @param source The object to move from.
+             * 
+             * @warning Casting to the correct component type is the
+             *          users responsibility.
+             */ 
+            using MoveOp = void(*)(Component* destination,
+                                   Component* source);
 
             /**
              * @brief Function to be applied to construct a single element.

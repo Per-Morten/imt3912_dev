@@ -27,16 +27,29 @@ namespace nox
              */
             MetaInformation(const TypeIdentifier& typeIdentifier,
                             std::size_t sizeOfType);
+
             /**
              * @brief Used to identify the type this MetaInformation is related to.
              */
-            const TypeIdentifier typeIdentifier;
+            TypeIdentifier typeIdentifier;
 
             /**
              * @brief Holds the size of the type this MetaInformation is related to.
              *        used for knowing how much to allocate.
              */
-            const std::size_t sizeOfType{};
+            std::size_t size;
+
+            /**
+             * @brief Operation indicating how the components are constructed with
+             *        move constructors. 
+             */
+            operation::MoveOp moveConstruct{};
+
+            /**
+             * @brief Operation indicating how the components are assigned with 
+             *        move assignments.
+             */
+            operation::MoveOp moveAssign{};
 
             /**
              * @brief Operation indicating how the components shall be constructed.
