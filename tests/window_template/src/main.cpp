@@ -1,5 +1,5 @@
 #include "window_application.h"
-#include "cmd/parser.h"
+#include <cmd/parser.h>
 
 int main(int argc, char* argv[])
 {

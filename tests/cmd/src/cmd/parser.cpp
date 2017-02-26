@@ -72,7 +72,7 @@ cmd::Parser::init(int argc, char** argv)
 }
 
 void
-cmd::Parser::setLogger(nox::app::log::Logger log)
+cmd::Parser::setLogger(nox::log::Logger log)
 {
     log = std::move(log);
     log.setName("cmdParser");
@@ -92,7 +92,8 @@ cmd::Parser::getStringArgument(const std::string& commandName,
         return arg->second.front();
     }
 
-    log.warning().output.format("Could not find argument: %s\n", commandName.c_str());
+    auto output = log.warning();
+    output.format("Could not find argument: %s\n", commandName.c_str());
     return defaultValue;
 }
 
@@ -154,6 +155,7 @@ cmd::Parser::getStringArguments(const std::string& commandName,
                                    std::cend(m_arguments),
                                    [&commandName](const auto& item)
                                    { return item.first == commandName; });
+    
     const auto sizeBeforeCopy = buffer.size();
     if (arg != std::cend(m_arguments))
     {

@@ -19,8 +19,8 @@
 
 #include <cmd/parser.h>
 
-ConsoleApplication::ConsoleApplication()
-    : Application("console_template", "PTPERF")
+ConsoleApplication::ConsoleApplication():
+    Application("empty_actors", "PTPERF")
 {
 }
 
@@ -33,7 +33,7 @@ ConsoleApplication::initializeResourceCache()
     resourceCache->setLogger(createLogger());
 
     // We need to get resources from the project specific assets.
-    const auto projectAssetDirectory = "tests/" + getName() + "/assets";
+    const auto projectAssetDirectory = "tests/memory_usage" + getName() + "/assets";
     if (resourceCache->addProvider(std::make_unique<nox::app::resource::BoostFilesystemProvider>(projectAssetDirectory)) == false)
     {
         log.error().format("Could not initialized resource cache to \"%s\".", projectAssetDirectory.c_str());
@@ -94,7 +94,6 @@ ConsoleApplication::initializeWorldManager(nox::logic::Logic* logic)
 
     // Register actors components here
     world->registerActorComponent<nox::logic::actor::Transform>();
-    world->registerActorComponent<nox::logic::physics::ActorPhysics>();
     world->registerActorComponent<nox::logic::graphics::ActorSprite>();
 
     const auto actorDirectory = std::string{"actor"};
@@ -110,7 +109,7 @@ ConsoleApplication::initializeWorldManager(nox::logic::Logic* logic)
 bool 
 ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic::world::Manager* worldManager)
 {
-    const auto worldFileDescriptor = nox::app::resource::Descriptor{"world/exampleWorld.json"};
+    const auto worldFileDescriptor = nox::app::resource::Descriptor{"world/world.json"};
     const auto worldFileHandle = getResourceAccess()->getHandle(worldFileDescriptor);
 
     if (worldFileHandle == nullptr)
@@ -129,12 +128,22 @@ ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic
         }
         else
         {
-            auto loader = nox::logic::world::Loader{logicContext};
-
-            if (loader.loadWorld(jsonData->getRootValue(), worldManager) == false)
+            int numberOfActors = cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
+                                                                 cmd::constants::actor_amount_default);
+            
+            if (numberOfActors > 0)
             {
-                log.error().format("Failed loading world \"%s\".", worldFileDescriptor.getPath().c_str());
-                return false;
+                auto loader = nox::logic::world::Loader{logicContext};
+                if (loader.loadWorld(jsonData->getRootValue(), worldManager) == false)
+                {
+                    log.error().format("Failed loading world \"%s\".", worldFileDescriptor.getPath().c_str());
+                    return false;
+                }
+    
+                for (int i = 0; i < numberOfActors - 1; ++i)
+                {
+                    loader.loadWorld(jsonData->getRootValue(), worldManager);
+                }
             }
         }
     }
@@ -147,8 +156,12 @@ ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic
 bool 
 ConsoleApplication::onInit()
 {
+    int runTimeMs = cmd::g_cmdParser.getIntArgument(cmd::constants::run_duration_ms_cmd,
+                                                    cmd::constants::run_duration_ms_default);
+    outputTimer.setTimerLength(std::chrono::milliseconds(runTimeMs));
+
     log = createLogger();
-    log.setName("ConsoleApplication");
+    log.setName("MemoryUsageTest");
 
     if (initializeResourceCache() == false)
     {
@@ -161,8 +174,6 @@ ConsoleApplication::onInit()
 
     initializePhysics(logic);
     auto worldManager = initializeWorldManager(logic);
-
-    outputTimer.setTimerLength(std::chrono::milliseconds(500));
 
     if (loadWorldFile(logic, worldManager) == false)
     {
@@ -181,8 +192,6 @@ ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
 
     if (outputTimer.timerReached() == true)
     {
-        log.info().raw("Printing out text in update loop");
-        
-        outputTimer.subtractCycle();
+        quitApplication();
     }
 }

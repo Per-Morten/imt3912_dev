@@ -2,9 +2,9 @@
 #include <string>
 #include <unordered_map>
 
-#include "constants.h"
+#include <nox/log/Logger.h>
 
-#include <nox/app/log/Logger.h>
+#include "constants.h"
 
 namespace cmd
 {
@@ -29,7 +29,7 @@ namespace cmd
         /// \param log 
         ///     new logger that is properly set up
         ///////////////////////////////////////////////////////////////////////////////////////
-        void setLogger(nox::app::log::Logger log);
+        void setLogger(nox::log::Logger log);
 
         ///////////////////////////////////////////////////////////////////////////////////////
         /// \brief returns the argument respective to the command name or defaultValue
@@ -88,7 +88,7 @@ namespace cmd
 
     private:
         std::unordered_map<std::string, std::vector<std::string>> m_arguments;
-        nox::app::log::Logger log;
+        nox::log::Logger log;
 
     };
 

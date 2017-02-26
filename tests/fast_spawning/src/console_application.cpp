@@ -14,13 +14,15 @@
 #include <nox/logic/world/Loader.h>
 #include <nox/logic/world/Manager.h>
 
-#include <json/value.h>
 #include <glm/gtx/string_cast.hpp>
+#include <json/value.h>
 
 #include <cmd/parser.h>
+#include <components/spawning_component.h>
+
 
 ConsoleApplication::ConsoleApplication()
-    : Application("console_template", "PTPERF")
+    : Application("fast_spawning", "PTPERF")
 {
 }
 
@@ -96,6 +98,7 @@ ConsoleApplication::initializeWorldManager(nox::logic::Logic* logic)
     world->registerActorComponent<nox::logic::actor::Transform>();
     world->registerActorComponent<nox::logic::physics::ActorPhysics>();
     world->registerActorComponent<nox::logic::graphics::ActorSprite>();
+    world->registerActorComponent<components::SpawningComponent>();
 
     const auto actorDirectory = std::string{"actor"};
     world->loadActorDefinitions(getResourceAccess(), actorDirectory);
@@ -110,7 +113,9 @@ ConsoleApplication::initializeWorldManager(nox::logic::Logic* logic)
 bool 
 ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic::world::Manager* worldManager)
 {
-    const auto worldFileDescriptor = nox::app::resource::Descriptor{"world/exampleWorld.json"};
+    const auto worldFilePath = cmd::g_cmdParser.getStringArgument(cmd::constants::world_path_cmd,
+                                                                  cmd::constants::world_path_default);
+    const auto worldFileDescriptor = nox::app::resource::Descriptor{worldFilePath};
     const auto worldFileHandle = getResourceAccess()->getHandle(worldFileDescriptor);
 
     if (worldFileHandle == nullptr)
@@ -162,8 +167,6 @@ ConsoleApplication::onInit()
     initializePhysics(logic);
     auto worldManager = initializeWorldManager(logic);
 
-    outputTimer.setTimerLength(std::chrono::milliseconds(500));
-
     if (loadWorldFile(logic, worldManager) == false)
     {
         return false;
@@ -174,15 +177,3 @@ ConsoleApplication::onInit()
     return true;
 }
 
-void 
-ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
-{
-    outputTimer.spendTime(deltaTime);
-
-    if (outputTimer.timerReached() == true)
-    {
-        log.info().raw("Printing out text in update loop");
-        
-        outputTimer.subtractCycle();
-    }
-}

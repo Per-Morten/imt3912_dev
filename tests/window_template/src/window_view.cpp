@@ -1,18 +1,18 @@
 #include "window_view.h"
 
-#include <nox/app/graphics/2d/IRenderer.h>
 #include <nox/app/graphics/2d/BackgroundGradient.h>
+#include <nox/app/graphics/2d/IRenderer.h>
 #include <nox/app/IContext.h>
 #include <nox/app/resource/Descriptor.h>
-#include <nox/logic/IContext.h>
-#include <nox/logic/graphics/event/DebugRenderingEnabled.h>
-#include <nox/logic/graphics/event/SceneNodeEdited.h>
-#include <nox/logic/physics/actor/ActorPhysics.h>
 #include <nox/logic/actor/Actor.h>
 #include <nox/logic/event/IBroadcaster.h>
+#include <nox/logic/graphics/event/DebugRenderingEnabled.h>
+#include <nox/logic/graphics/event/SceneNodeEdited.h>
+#include <nox/logic/IContext.h>
+#include <nox/logic/physics/actor/ActorPhysics.h>
 #include <nox/logic/physics/Simulation.h>
 
-#include "cmd/parser.h"
+#include <cmd/parser.h>
 
 
 WindowView::WindowView(nox::app::IContext* applicationContext, const std::string& windowTitle)
