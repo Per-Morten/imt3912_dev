@@ -5,7 +5,8 @@
 #include <nox/logic/Logic.h>
 #include <nox/util/Timer.h>
 
-class ConsoleApplication: public nox::app::Application
+class ConsoleApplication
+    : public nox::app::Application
 {
 public:
     ConsoleApplication();
