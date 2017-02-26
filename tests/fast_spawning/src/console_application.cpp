@@ -1,5 +1,7 @@
 #include "console_application.h"
 
+#include <cassert>
+
 #include <nox/app/resource/cache/LruCache.h>
 #include <nox/app/resource/data/JsonExtraData.h>
 #include <nox/app/resource/loader/JsonLoader.h>
@@ -12,12 +14,12 @@
 #include <nox/logic/world/Loader.h>
 #include <nox/logic/world/Manager.h>
 
-#include <json/value.h>
 #include <glm/gtx/string_cast.hpp>
-#include <cassert>
-#include <cmd/parser.h>
+#include <json/value.h>
 
-#include "components/spawning_component.h"
+#include <cmd/parser.h>
+#include <components/spawning_component.h>
+
 
 ConsoleApplication::ConsoleApplication()
     : Application("fast_spawning", "PTPERF")
@@ -175,8 +177,3 @@ ConsoleApplication::onInit()
     return true;
 }
 
-void 
-ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
-{
-
-}

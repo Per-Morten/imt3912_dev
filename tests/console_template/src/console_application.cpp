@@ -1,5 +1,7 @@
 #include "console_application.h"
 
+#include <cassert>
+
 #include <nox/app/resource/cache/LruCache.h>
 #include <nox/app/resource/data/JsonExtraData.h>
 #include <nox/app/resource/loader/JsonLoader.h>
@@ -14,7 +16,6 @@
 
 #include <json/value.h>
 #include <glm/gtx/string_cast.hpp>
-#include <cassert>
 
 #include <cmd/parser.h>
 

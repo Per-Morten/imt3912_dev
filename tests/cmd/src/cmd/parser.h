@@ -2,9 +2,9 @@
 #include <string>
 #include <unordered_map>
 
-#include "constants.h"
-
 #include <nox/log/Logger.h>
+
+#include "constants.h"
 
 namespace cmd
 {
@@ -97,7 +97,7 @@ namespace cmd
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-/// \class ftcp::cmd::Parser
+/// \class cmd::Parser
 /// \ingroup cmd
 ///
 /// Used for access to cmd arguments passed to the program during startup

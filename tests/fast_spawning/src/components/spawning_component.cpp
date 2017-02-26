@@ -1,21 +1,22 @@
 #include "spawning_component.h"
 
-#include <nox/logic/Logic.h>
-#include <nox/logic/IContext.h>
-#include <nox/logic/event/IBroadcaster.h>
-#include <nox/logic/actor/Actor.h>
-#include <nox/logic/world/Manager.h>
-#include <nox/logic/world/Loader.h>
-#include <nox/logic/physics/Simulation.h>
-#include <nox/logic/physics/actor/ActorPhysics.h>
 #include <cmd/parser.h>
 #include <nox/app/resource/cache/LruCache.h>
 #include <nox/app/resource/data/JsonExtraData.h>
 #include <nox/app/resource/loader/JsonLoader.h>
 #include <nox/app/resource/provider/BoostFilesystemProvider.h>
+#include <nox/logic/actor/Actor.h>
+#include <nox/logic/event/IBroadcaster.h>
+#include <nox/logic/IContext.h>
+#include <nox/logic/Logic.h>
+#include <nox/logic/physics/actor/ActorPhysics.h>
+#include <nox/logic/physics/Simulation.h>
 #include <nox/logic/world/Loader.h>
+#include <nox/logic/world/Loader.h>
+#include <nox/logic/world/Manager.h>
 
-#include "../console_application.h"
+#include <console_application.h>
+
 
 const components::SpawningComponent::IdType components::SpawningComponent::NAME = "SpawningComponent";
 
