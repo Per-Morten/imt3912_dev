@@ -1,20 +1,21 @@
 #include "console_application.h"
 
+#include <cassert>
+
 #include <nox/app/resource/cache/LruCache.h>
-#include <nox/app/resource/provider/BoostFilesystemProvider.h>
-#include <nox/app/resource/loader/JsonLoader.h>
 #include <nox/app/resource/data/JsonExtraData.h>
-#include <nox/logic/world/Manager.h>
-#include <nox/logic/world/Loader.h>
+#include <nox/app/resource/loader/JsonLoader.h>
+#include <nox/app/resource/provider/BoostFilesystemProvider.h>
 #include <nox/logic/actor/component/Transform.h>
 #include <nox/logic/actor/event/TransformChange.h>
-#include <nox/logic/physics/box2d/Box2DSimulation.h>
-#include <nox/logic/physics/actor/ActorPhysics.h>
 #include <nox/logic/graphics/actor/ActorSprite.h>
+#include <nox/logic/physics/actor/ActorPhysics.h>
+#include <nox/logic/physics/box2d/Box2DSimulation.h>
+#include <nox/logic/world/Loader.h>
+#include <nox/logic/world/Manager.h>
 
 #include <json/value.h>
 #include <glm/gtx/string_cast.hpp>
-#include <cassert>
 
 #include <cmd/parser.h>
 

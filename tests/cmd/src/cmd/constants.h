@@ -16,7 +16,6 @@ namespace cmd
         constexpr auto deletion_amount_cmd = "-deletion_amount";
         constexpr auto deletion_amount_default = 1;
 
-
         constexpr auto run_duration_ms_cmd = "-run_time_ms";
         constexpr auto run_duration_ms_default = 1000;
 
