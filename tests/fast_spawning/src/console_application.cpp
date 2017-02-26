@@ -175,8 +175,3 @@ ConsoleApplication::onInit()
     return true;
 }
 
-void 
-ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
-{
-
-}
