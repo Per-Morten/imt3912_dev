@@ -1,4 +1,4 @@
-#./bin/bash
+!./bin/bash
 
 printf "Create normal_sprite\n"
 ./create_world_with_n_actors.sh normal 10 SpriteActor > normal_sprite_10.json
