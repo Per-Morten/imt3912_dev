@@ -14,13 +14,15 @@
 #include <nox/logic/world/Loader.h>
 #include <nox/logic/world/Manager.h>
 
-#include <json/value.h>
 #include <glm/gtx/string_cast.hpp>
+#include <json/value.h>
 
 #include <cmd/parser.h>
+#include <components/spawning_component.h>
 
-ConsoleApplication::ConsoleApplication():
-    Application("memory_usage-empty_actors", "PTPERF")
+
+ConsoleApplication::ConsoleApplication()
+    : Application("fast_spawning", "PTPERF")
 {
 }
 
@@ -96,6 +98,7 @@ ConsoleApplication::initializeWorldManager(nox::logic::Logic* logic)
     world->registerActorComponent<nox::logic::actor::Transform>();
     world->registerActorComponent<nox::logic::physics::ActorPhysics>();
     world->registerActorComponent<nox::logic::graphics::ActorSprite>();
+    world->registerActorComponent<components::SpawningComponent>();
 
     const auto actorDirectory = std::string{"actor"};
     world->loadActorDefinitions(getResourceAccess(), actorDirectory);
@@ -110,7 +113,9 @@ ConsoleApplication::initializeWorldManager(nox::logic::Logic* logic)
 bool 
 ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic::world::Manager* worldManager)
 {
-    const auto worldFileDescriptor = nox::app::resource::Descriptor{"world/world.json"};
+    const auto worldFilePath = cmd::g_cmdParser.getStringArgument(cmd::constants::world_path_cmd,
+                                                                  cmd::constants::world_path_default);
+    const auto worldFileDescriptor = nox::app::resource::Descriptor{worldFilePath};
     const auto worldFileHandle = getResourceAccess()->getHandle(worldFileDescriptor);
 
     if (worldFileHandle == nullptr)
@@ -129,22 +134,12 @@ ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic
         }
         else
         {
-            int numberOfActors = cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
-                                                                 cmd::constants::actor_amount_default);
-            
-            if (numberOfActors > 0)
+            auto loader = nox::logic::world::Loader{logicContext};
+
+            if (loader.loadWorld(jsonData->getRootValue(), worldManager) == false)
             {
-                auto loader = nox::logic::world::Loader{logicContext};
-                if (loader.loadWorld(jsonData->getRootValue(), worldManager) == false)
-                {
-                    log.error().format("Failed loading world \"%s\".", worldFileDescriptor.getPath().c_str());
-                    return false;
-                }
-    
-                for (int i = 0; i < numberOfActors - 1; ++i)
-                {
-                    loader.loadWorld(jsonData->getRootValue(), worldManager);
-                }
+                log.error().format("Failed loading world \"%s\".", worldFileDescriptor.getPath().c_str());
+                return false;
             }
         }
     }
@@ -157,12 +152,8 @@ ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic
 bool 
 ConsoleApplication::onInit()
 {
-    int runTimeMs = cmd::g_cmdParser.getIntArgument(cmd::constants::run_duration_ms_cmd,
-                                                    cmd::constants::run_duration_ms_default);
-    outputTimer.setTimerLength(std::chrono::milliseconds(runTimeMs));
-
     log = createLogger();
-    log.setName("MemoryUsageTest");
+    log.setName("ConsoleApplication");
 
     if (initializeResourceCache() == false)
     {
@@ -186,13 +177,3 @@ ConsoleApplication::onInit()
     return true;
 }
 
-void 
-ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
-{
-    outputTimer.spendTime(deltaTime);
-
-    if (outputTimer.timerReached() == true)
-    {
-        quitApplication();
-    }
-}

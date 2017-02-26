@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pushd .. > /dev/null 2>&1
+pushd ../.. > /dev/null 2>&1
 
 
 printf "Running all tests\n\n"
@@ -50,5 +50,8 @@ printf "Running with 10000 actors\n"
 printf "\n\n"
 
 
+printf "Fast Spawning - Empty Actors:\n"
+./build/bin/fast_spawning -actor_amount 100 -world_path world/creator_world.json -deletion_amount 1 -actor_name EmptyActor --logrm warning
+printf "\n"
 
 popd > /dev/null 2>&1

@@ -8,6 +8,7 @@ endif()
 project(nox-examples)
 
 option(NOXSAMPLE_ENGINE_SUBPROJECT "Use the NOX Engine subproject rather than the system library" ON)
+option(EXAMPLES_BUILD "If the examples should be built or not" ON)
 
 # Get the compile commands so that we can use youcompleteme.
 set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
@@ -122,4 +123,10 @@ else ()
 	set(NOXSAMPLE_NOX_LIBRARY nox)
 endif ()
 
+enable_testing()
+
 add_subdirectory(tests)
+
+if (EXAMPLES_BUILD)
+    add_subdirectory(examples)
+endif ()
