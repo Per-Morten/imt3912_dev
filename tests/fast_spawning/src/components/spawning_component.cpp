@@ -15,7 +15,7 @@
 #include <nox/app/resource/provider/BoostFilesystemProvider.h>
 #include <nox/logic/world/Loader.h>
 
-#include "../console_application.h"
+#include <console_application.h>
 
 const components::SpawningComponent::IdType components::SpawningComponent::NAME = "SpawningComponent";
 
