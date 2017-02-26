@@ -20,7 +20,7 @@
 #include <cmd/parser.h>
 
 ConsoleApplication::ConsoleApplication():
-    Application("memory_usage-empty_actors", "PTPERF")
+    Application("empty_actors", "PTPERF")
 {
 }
 
@@ -33,7 +33,7 @@ ConsoleApplication::initializeResourceCache()
     resourceCache->setLogger(createLogger());
 
     // We need to get resources from the project specific assets.
-    const auto projectAssetDirectory = "tests/" + getName() + "/assets";
+    const auto projectAssetDirectory = "tests/memory_usage" + getName() + "/assets";
     if (resourceCache->addProvider(std::make_unique<nox::app::resource::BoostFilesystemProvider>(projectAssetDirectory)) == false)
     {
         log.error().format("Could not initialized resource cache to \"%s\".", projectAssetDirectory.c_str());

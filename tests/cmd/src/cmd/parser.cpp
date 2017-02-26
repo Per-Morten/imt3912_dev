@@ -42,7 +42,7 @@ namespace
 
             return args;
         }
-        
+
         std::unordered_map<std::string, std::vector<std::string>> mapArguments(const std::vector<std::string>& args)
         {
             std::unordered_map<std::string, std::vector<std::string>> arguments;
@@ -129,7 +129,7 @@ cmd::Parser::getFloatArgument(const std::string& commandName,
     const auto& arg = std::find_if(std::cbegin(m_arguments),
                                    std::cend(m_arguments),
                                    [&commandName](const auto& item)
-    { return item.first == commandName; });
+                                   { return item.first == commandName; });
 
     if (arg != std::cend(m_arguments))
     {
@@ -155,6 +155,7 @@ cmd::Parser::getStringArguments(const std::string& commandName,
                                    std::cend(m_arguments),
                                    [&commandName](const auto& item)
                                    { return item.first == commandName; });
+    
     const auto sizeBeforeCopy = buffer.size();
     if (arg != std::cend(m_arguments))
     {
