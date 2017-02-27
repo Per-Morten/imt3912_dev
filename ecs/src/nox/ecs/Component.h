@@ -12,12 +12,12 @@ namespace nox
          */
         class Component
         {
-        public:
+        public:           
             /**
              * @brief Used to identify which entity this component belongs to.
              */
-            const EntityId entityId;
-
+            EntityId id;
+            
             /**
              * @brief Deleted as creating components without id's are illegal.
              */

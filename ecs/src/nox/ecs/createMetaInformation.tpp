@@ -8,7 +8,7 @@ nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier)
 template<class T>
 nox::ecs::MetaInformation
 nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier, 
-                                   const std::vector<nox::event::Event::IdType>& interestingLogicEvents)
+                                const std::vector<nox::event::Event::IdType>& interestingLogicEvents)
 {
     MetaInformation metaInformation(typeIdentifier, sizeof(T));
     
@@ -60,7 +60,6 @@ nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier,
         }
     };
 
-
     const auto receiveLogicEvent = [](Component* first, Component* last,
                                       const std::shared_ptr<nox::event::Event>& event)
     {
@@ -87,6 +86,22 @@ nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier,
         }
     };
 
+    const auto moveConstruct = [](Component* dest, Component* src)
+    {
+        auto destComp = static_cast<T*>(dest);
+        auto srcComp = static_cast<T*>(src);
+
+        new(dest)T(std::move(*srcComp));
+    };
+
+    const auto moveAssign = [](Component* dest, Component* src)
+    {
+        auto destComp = static_cast<T*>(dest);
+        auto srcComp = static_cast<T*>(src);
+
+        *destComp = std::move(*srcComp); 
+    };
+
     metaInformation.construct = construct;
     metaInformation.destruct = destruct;
     metaInformation.initialize = initialize;
@@ -95,7 +110,11 @@ nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier,
     metaInformation.deactivate = deactivate;
     metaInformation.hibernate = hibernate;
     metaInformation.update = update;
+    metaInformation.moveConstruct = moveConstruct;
+    metaInformation.moveAssign = moveAssign;
     metaInformation.receiveLogicEvent = receiveLogicEvent;
     metaInformation.receiveComponentEvent = receiveComponentEvent;
     metaInformation.interestingLogicEvents = interestingLogicEvents;
+
+    return metaInformation;
 }

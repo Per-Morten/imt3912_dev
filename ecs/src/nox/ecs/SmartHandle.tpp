@@ -1,41 +1,52 @@
-template<class T>
-nox::ecs::SmartHandle<T>::SmartHandle(T* object,
+#include <nox/ecs/ComponentCollection.h>
+
+
+template<class T, class Collection>
+nox::ecs::SmartHandle<T, Collection>::SmartHandle(const EntityId& id,
+                                      T* object,
                                       const std::size_t generation,
-                                      const MetaInformation* metaInformation)
-    : ptr(object)
-    , generation(generation)
-    , metaInformation(metaInformation)
+                                      Collection* collection)
+    : generation(generation)
+    , id(id)
+    , collection(collection)
+    , ptr(object)
 {
 
 }
 
-template<class T>
+template<class T, class Collection>
 T*
-nox::ecs::SmartHandle<T>::get() const
+nox::ecs::SmartHandle<T, Collection>::get()
 {
+    if (this->generation != collection->getGeneration())
+    {
+        *this = collection->getComponent(this->id);
+    }
     return this->ptr;
 }
 
-template<class T>
+template<class T, class Collection>
 T*
-nox::ecs::SmartHandle<T>::operator*() const
+nox::ecs::SmartHandle<T, Collection>::operator*()
 {
     return this->get();
 }
 
-template<class T>
+template<class T, class Collection>
 T*
-nox::ecs::SmartHandle<T>::operator->() const
+nox::ecs::SmartHandle<T, Collection>::operator->()
 {
     return this->get();
 }
 
-template<class T>
-template<class U>
-nox::ecs::SmartHandle<T>::operator SmartHandle<U>() const
+template<class T, class Collection>
+template<class U, class Coll2>
+nox::ecs::SmartHandle<T, Collection>::operator SmartHandle<U, Coll2>() const
 {
-    SmartHandle<U> other(static_cast<U*>(this->ptr),
-                         this->generation, 
-                         this->metaInformation);
+    auto newPtr = (this->ptr == nullptr) ? nullptr : static_cast<U*>(this->ptr);
+    SmartHandle<U, Coll2> other(this->id,
+                                newPtr,
+                                this->generation, 
+                                this->collection);
     return other;
 }

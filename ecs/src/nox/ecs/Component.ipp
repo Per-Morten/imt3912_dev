@@ -1,4 +1,4 @@
-nox::ecs::Component::Component(const EntityId& id_)
-    : entityId(id_)
+nox::ecs::Component::Component(const EntityId& id)
+    : id(id)
 {
 }

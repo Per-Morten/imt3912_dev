@@ -1,6 +1,7 @@
 #ifndef NOX_ECS_SMARTHANDLE_H_
 #define NOX_ECS_SMARTHANDLE_H_
 #include <cstdint>
+
 #include <nox/ecs/MetaInformation.h>
 
 namespace nox
@@ -10,7 +11,7 @@ namespace nox
         /**
          * @brief Class used to have pointers that "survives" iterator invalidation.
          */
-        template<class T>
+        template<class T, class Collection>
         class SmartHandle
         {
         public:
@@ -26,20 +27,21 @@ namespace nox
              *
              * @param object the object the handle points to.
              * @param generation the generation this handle was set.
-             * @param metaInformation the metaInformation that this object shall query
+             * @param Collection the metaInformation that this object shall query
              *                        for the current generation.
              */
-            SmartHandle(T* object,
+            SmartHandle(const EntityId& id,
+                        T* object,
                         std::size_t generation,
-                        const MetaInformation* metaInformation);
+                        Collection* lookup);
 
             /**
              * @brief User defined conversion, allows for down-casting of type.
              *
              * @return Smart handle of type U, instead of type T.
              */
-            template<class U>
-            operator SmartHandle<U>() const;
+            template<class U, class Coll2>
+            operator SmartHandle<U, Coll2>() const;
 
             /**
              * @brief Gets the underlying pointer to the object.
@@ -48,7 +50,7 @@ namespace nox
              * @return Pointer to the object.
              *         nullptr if the object was not found.
              */
-            T* get() const;
+            T* get();
 
             /**
              * @brief Gets the underlying pointer to the object.
@@ -57,7 +59,7 @@ namespace nox
              * @return Pointer to the object.
              *         nullptr if the object was not found.
              */
-            T* operator*() const;
+            T* operator*();
 
             /**
              * @brief Gets the underlying pointer to the object.
@@ -66,13 +68,22 @@ namespace nox
              * @return Pointer to the object.
              *         nullptr if the object was not found.
              */
-            T* operator->() const;
+            T* operator->();
 
         private:
             std::size_t generation{};
-            const MetaInformation* metaInformation{};
+            EntityId id{};
+            Collection* collection{};
             T* ptr{};
         };
+        
+        /**
+         * @brief use this alias rather than the SmartHandle.
+         *        Had to use a template trick to avoid cyclic dependency.
+         */
+        class ComponentCollection;
+        template<class T>
+        using ComponentHandle = SmartHandle<T, ComponentCollection>;
     }
 }
 
