@@ -1,6 +1,8 @@
 #ifndef NOX_ECS_COMPONENTCOLLECTION_H_
 #define NOX_ECS_COMPONENTCOLLECTION_H_
-#include <json/value.h>
+#include <memory>
+#include <cstdint>
+
 #include <nox/common/types.h>
 #include <nox/ecs/Component.h>
 #include <nox/ecs/EntityId.h>
@@ -8,6 +10,7 @@
 #include <nox/ecs/SmartHandle.h>
 #include <nox/ecs/TypeIdentifier.h>
 
+#include <json/value.h>
 
 namespace nox
 {
@@ -64,12 +67,12 @@ namespace nox
             /**
              * @brief Move assignment operator. Moves all members out of source.
              *
-             * @param[in] source the collection to move from.
-             * 
              * @warning source will not be usable after moving.
              *          Do not move after any ComponentHandles have been
              *          created with this collection, it will lead to a dangling pointer!
              *
+             * @param[in] source the collection to move from.
+             * 
              * @return *this after assignment.
              */
             ComponentCollection& operator=(ComponentCollection&& source);
@@ -162,15 +165,24 @@ namespace nox
              */
             void
             update(const nox::Duration& deltaTime);
+
+            /**
+             * @brief Calls the receiveLogicEvents on all components that shall receive
+             *        events based on their lifecycle state. 
+             *
+             * @param[in]  event  The event to send.
+             */
+            void
+            receiveLogicEvent(const std::shared_ptr<nox::event::Event>& event);
            
             /**
              * @brief Returns the number of components within the collection.
              *
-             * @return number of components within the collection.
-             * 
              * @note This is not necessarely (and probably not) the actual size of allocated
              *       memory by the container, as it does a growth based allocation strategy
              *       akin to that of std::vector.
+             *
+             * @return number of components within the collection.
              */
             std::size_t
             count() const;

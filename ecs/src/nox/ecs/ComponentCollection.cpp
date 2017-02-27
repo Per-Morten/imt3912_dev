@@ -141,9 +141,10 @@ nox::ecs::ComponentCollection::remove(const EntityId& id)
 
         this->last -= this->info.size;
         this->info.destruct(this->cast(last));
+        
+        this->gen++; 
     }
 
-    this->gen++; 
 }
 
 void
@@ -153,6 +154,20 @@ nox::ecs::ComponentCollection::update(const nox::Duration& duration)
     auto end = this->cast(this->last);
 
     this->info.update(begin, end, duration);
+}
+
+void
+nox::ecs::ComponentCollection::receiveLogicEvent(const std::shared_ptr<nox::event::Event>& event)
+{
+    if (this->info.receiveLogicEvent == nullptr)
+    {
+        return;
+    }
+
+    auto begin = this->cast(this->first);
+    auto end = this->cast(this->last);
+
+    this->info.receiveLogicEvent(begin, end, event);
 }
 
 std::size_t
@@ -223,7 +238,6 @@ nox::ecs::ComponentCollection::capacity() const
 void
 nox::ecs::ComponentCollection::reallocate()
 {
-    const auto oldSize = this->size();
     const auto newCap = this->capacity() * GROWTH_FACTOR;
     const auto newFirst = static_cast<Byte*>(std::malloc(newCap));
 
@@ -244,6 +258,7 @@ nox::ecs::ComponentCollection::reallocate()
 
     this->destroyRange(first, last);
 
+    const auto oldSize = this->size();
     std::free(this->first);
 
     this->first = newFirst;
