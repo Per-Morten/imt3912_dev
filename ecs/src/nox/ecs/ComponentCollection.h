@@ -20,9 +20,10 @@ namespace nox
          * @brief Class created for holding several components of the same type.
          *        It has a pooling mechanism and reuses as much memory as possible.
          *        It will not be fragmented as holes are filled up by other elements
-         *        in the container.
-         *        However it will invalidate iterators from time to time.
-         *        Use the ComponentHandle to avoid this.
+         *        in the container. Because of this the container can be viewed as unordered.
+         *        Iterators into the container will be invalidated each time the underlying
+         *        structure is changed, or an memory transitions.
+         *        Use the ComponentHandle to avoid the problem with iterator invalidation.
          *        
          * @detail The components are stored in different areas of memory based on 
          *         what part of the lifecycle they are in.
@@ -34,7 +35,9 @@ namespace nox
          *         ^active*               ^inactive*             ^hibernating*        ^memory*               ^cap*
          *
          *         An extra area called the swap area is also allocated, this is used when swapping components,
-         *         as we cant stack allocate the components when we don't know the size.
+         *         as we can't stack allocate the components when we don't know the size.
+         *         
+         * @see    nox::ecs::ComponentHandle
          */
         class ComponentCollection
         {
@@ -78,6 +81,7 @@ namespace nox
 
             /**
              * @brief Move assignment operator. Moves all members out of source.
+             *        The class is tolerant of self-assignment.
              *
              * @warning source will not be usable after moving.
              *          Do not move after any ComponentHandles have been
@@ -99,7 +103,7 @@ namespace nox
              *        The component is not initialized, awake or activated,
              *        those steps happens with the help of the other functions.
              *
-             * @param[in] id the id of the entity this component belongs to.
+             * @param[in] id the id of the entity the new component belongs to.
              */
             void
             create(const EntityId& id);
@@ -117,9 +121,9 @@ namespace nox
 
             /**
              * @brief Wakes up the component with the given id.
-             *        The awake function is called on the component.
-             *        if id does not exist, or if MetaInformation.awake == nullptr
-             *        nothing happens. 
+             *        The component is marked as awake, and 
+             *        awake is called on the component if the function exists.
+             *        Nothing happens if the object is not found.
              *
              * @param[in] id the id of the entity the component belongs to.
              */
@@ -128,9 +132,9 @@ namespace nox
 
             /**
              * @brief Activates the component with the given id.
-             *        The activate function is called on the component.
-             *        if id does not exist, or if MetaInformation.activate == nullptr
-             *        nothing happens. 
+             *        The component is marked as active, and
+             *        activate is called on the component if the function exists.
+             *        Nothing happens if the object is not found.
              *
              * @param[in] id the id of the entity the component belongs to.
              */
@@ -139,9 +143,9 @@ namespace nox
 
             /**
              * @brief Deactivates the component with the given id.
-             *        The deactivate function is called on the component.
-             *        if id does not exist, or if MetaInformation.deactivate == nullptr
-             *        nothing happens. 
+             *        The component is marked as deactivated, and
+             *        deactivate is called on the component if the function exists.
+             *        Nothing happend if the object is not found.
              *
              * @param[in] id the id of the entity the component belongs to.
              */
@@ -150,10 +154,10 @@ namespace nox
             
             /**
              * @brief Hibernates the component with the given id.
-             *        The hibernate function is called on the component.
-             *        if id does not exist, or if MetaInformation.hibernate == nullptr
-             *        nothing happens. 
-             *
+             *        The component is maked as hibernating, and 
+             *        hibernate is called on the component if the function exists.
+             *        Nothing happens if the object is not found.
+             *        
              * @param[in] id the id of the entity the component belongs to.
              */
             void
@@ -190,7 +194,7 @@ namespace nox
             /**
              * @brief Returns the number of components within the collection.
              *
-             * @note This is not necessarely (and probably not) the actual size of allocated
+             * @note This is not necessarily (and probably not) the actual size of allocated
              *       memory by the container, as it does a growth based allocation strategy
              *       akin to that of std::vector.
              *
@@ -229,7 +233,7 @@ namespace nox
 
         private:
             /**
-             * @brief Typedef to make it even more explicit that I am working with bytes.
+             * @brief Typedef to make it even more explicit that we am working with bytes.
              *        using unsigned char as bytes rather than std::uint8_t as
              *        bytes are not always guaranteed to be 8 bit.
              */
@@ -246,8 +250,10 @@ namespace nox
             cast(Byte* entity) const;
 
             /**
-             * @brief Finds the component whose id matches the id.
+             * @brief Finds the component whose id matches the id in the range [first, last)
              *
+             * @param[in] first pointer to the beginning of the range.
+             * @param[in] last past-the-end pointer of the range.
              * @param[in] id the id of the component to look for.
              *
              * @return the component where id == id, nullptr if none can be found.
@@ -308,10 +314,6 @@ namespace nox
              */
             static constexpr std::size_t GROWTH_FACTOR = 2; 
 
-            //--------------------------------------------------------------------------------------------------  
-            //| active               | inactive             |  hibernating       | raw memory           | swap |
-            //--------------------------------------------------------------------------------------------------
-            //^active*               ^inactive*             ^hibernating*        ^memory*               ^cap*
             MetaInformation info;
             std::size_t gen{};
             Byte* active{};
