@@ -22,7 +22,7 @@ namespace nox
          *        It will not be fragmented as holes are filled up by other elements
          *        in the container. Because of this the container can be viewed as unordered.
          *        Iterators into the container will be invalidated each time the underlying
-         *        structure is changed, or an memory transitions.
+         *        structure is changed, or on memory transitions.
          *        Use the ComponentHandle to avoid the problem with iterator invalidation.
          *        
          * @detail The components are stored in different areas of memory based on 
