@@ -1,4 +1,7 @@
 get_filename_component(TEST_NAME "${CMAKE_CURRENT_LIST_DIR}" NAME)
+
+add_definitions(-DTRIVIAL_COMPONENT_COUNT=100)
+
 project(${TEST_NAME})
  
 
