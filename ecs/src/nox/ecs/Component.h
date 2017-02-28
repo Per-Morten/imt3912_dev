@@ -1,9 +1,10 @@
 #ifndef NOX_ECS_COMPONENT_H_
 #define NOX_ECS_COMPONENT_H_
-#include <nox/ecs/EntityId.h>
-#include <nox/event/Event.h>
-#include <nox/ecs/Event.h>
 #include <nox/common/types.h>
+#include <nox/ecs/EntityId.h>
+#include <nox/ecs/Event.h>
+#include <nox/event/Event.h>
+
 #include <json/value.h>
 
 namespace nox
