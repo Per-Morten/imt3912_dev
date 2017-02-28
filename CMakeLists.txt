@@ -126,7 +126,7 @@ endif ()
 enable_testing()
 
 add_subdirectory(tests)
-
+add_subdirectory(ecs)
 if (EXAMPLES_BUILD)
     add_subdirectory(examples)
 endif ()
