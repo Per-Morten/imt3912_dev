@@ -207,10 +207,13 @@ nox::ecs::ComponentCollection::remove(const EntityId& id)
 void
 nox::ecs::ComponentCollection::update(const nox::Duration& duration)
 {
-    auto begin = this->cast(this->active);
-    auto end = this->cast(this->inactive);
-
-    this->info.update(begin, end, duration);
+    if (this->info.update)
+    {
+        auto begin = this->cast(this->active);
+        auto end = this->cast(this->inactive);
+    
+        this->info.update(begin, end, duration);
+    }
 }
 
 void
