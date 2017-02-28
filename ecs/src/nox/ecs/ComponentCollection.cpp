@@ -4,22 +4,28 @@
 
 nox::ecs::ComponentCollection::ComponentCollection(const MetaInformation& info)
     : info(info)
-    , gen(0)
-    , first(static_cast<Byte*>(std::malloc(GROWTH_FACTOR * info.size)))
-    , last(first)
-    , cap(first + (GROWTH_FACTOR * info.size))
+    , gen(0)                                           
+    , active(static_cast<Byte*>(std::malloc((GROWTH_FACTOR + 1) * info.size))) // + 1 for swap area.
+    , inactive(active)
+    , hibernating(active)
+    , memory(active)
+    , cap(active + (GROWTH_FACTOR * info.size))
 {
 }
 
 nox::ecs::ComponentCollection::ComponentCollection(ComponentCollection&& source)
     : info(std::move(source.info))
     , gen(std::move(source.gen))
-    , first(std::move(source.first))
-    , last(std::move(source.last))
+    , active(std::move(source.active))
+    , inactive(std::move(source.inactive))
+    , hibernating(std::move(source.hibernating))
+    , memory(std::move(source.memory))
     , cap(std::move(source.cap))
 {
-    source.first = nullptr;
-    source.last = nullptr;
+    source.active = nullptr;
+    source.inactive = nullptr;
+    source.hibernating = nullptr;
+    source.memory = nullptr;
     source.cap = nullptr;
     source.gen = 0;
 }
@@ -29,16 +35,20 @@ nox::ecs::ComponentCollection::operator=(ComponentCollection&& source)
 {
     if (this != &source)
     {
-        this->destroyRange(first, last);
-        std::free(first);
+        this->destroyRange(active, memory);
+        std::free(active);
         this->info = std::move(source.info);
-        this->first = std::move(source.first);
-        this->last = std::move(source.last);
-        this->cap = std::move(source.cap);
         this->gen = std::move(source.gen);
-
-        source.first = nullptr;
-        source.last = nullptr;
+        this->active = std::move(source.active);
+        this->inactive = std::move(source.inactive);
+        this->hibernating = std::move(source.hibernating);
+        this->memory = std::move(source.memory);
+        this->cap = std::move(source.cap);
+        
+        source.active = nullptr;
+        source.inactive = nullptr;
+        source.hibernating = nullptr;
+        source.memory = nullptr;
         source.cap = nullptr;
         source.gen = 0;
     }
@@ -48,8 +58,8 @@ nox::ecs::ComponentCollection::operator=(ComponentCollection&& source)
 
 nox::ecs::ComponentCollection::~ComponentCollection()
 {
-    auto begin = this->first;
-    const auto end = this->last;
+    auto begin = this->active;
+    const auto end = this->memory;
 
     while (begin != end)
     {
@@ -58,9 +68,11 @@ nox::ecs::ComponentCollection::~ComponentCollection()
         begin += this->info.size;
     }
 
-    std::free(this->first);
-    this->first = nullptr;
-    this->last = nullptr;
+    std::free(this->active);
+    this->active = nullptr;
+    this->inactive = nullptr;
+    this->hibernating = nullptr;
+    this->memory = nullptr;
     this->cap = nullptr;
 }
 
@@ -72,86 +84,131 @@ nox::ecs::ComponentCollection::create(const EntityId& id)
         this->reallocate();
     }
 
-    this->info.construct(this->cast(this->last), id);
-    this->last += this->info.size;
+    this->info.construct(this->cast(this->memory), id);
+    this->memory += this->info.size;
 }
 
 void
 nox::ecs::ComponentCollection::initialize(const EntityId& id,
                                           const Json::Value& value)
 {
-    auto component = this->find(id);
-    if (component && this->info.initialize)
+    if (this->info.initialize)
     {
-        this->info.initialize(component, value);
+        auto component = this->find(this->hibernating,
+                                    this->memory, 
+                                    id);
+        
+        if (component)
+        {
+            this->info.initialize(component, value);
+        }
     }
 }
 
 void
 nox::ecs::ComponentCollection::awake(const EntityId& id)
 {
-    auto component = this->find(id);
-    if (component && this->info.awake)
+    auto component = this->find(this->hibernating,
+                                this->memory,
+                                id);
+
+    if (component)
     {
-        this->info.awake(component);
+        auto ptr = this->cast(this->hibernating);
+        this->hibernating += this->info.size;
+        this->swap(component, ptr);
+
+        if (this->info.awake)
+        {
+            this->info.awake(component);
+        }
     }
 }
 
 void
 nox::ecs::ComponentCollection::activate(const EntityId& id)
 {
-    auto component = this->find(id);
-    if (component && this->info.activate)
+    auto component = this->find(this->inactive,
+                                this->hibernating,
+                                id);
+
+    if (component)
     {
-        this->info.activate(component);
+        auto ptr = this->cast(this->inactive);
+        this->inactive += this->info.size;
+        this->swap(component, ptr);
+
+        if (this->info.activate)
+        {
+            this->info.activate(component);
+        }
     }
 }
 
 void
 nox::ecs::ComponentCollection::deactivate(const EntityId& id)
 {
-    auto component = this->find(id);
-    if (component && this->info.deactivate)
+    auto component = this->find(this->active,
+                                this->inactive,
+                                id);
+
+    if (component)
     {
-        this->info.deactivate(component);
+        this->inactive -= this->info.size;
+        auto ptr = this->cast(this->inactive);
+        this->swap(component, ptr);
+        
+        if (this->info.deactivate)
+        {
+            this->info.deactivate(ptr);
+        }
     }
 }
 
 void
 nox::ecs::ComponentCollection::hibernate(const EntityId& id)
 {
-    auto component = this->find(id);
-    if (component && this->info.hibernate)
+    auto component = this->find(this->inactive,
+                                this->hibernating,
+                                id);
+
+    if (component)
     {
-        this->info.hibernate(component);
+        this->hibernating -= this->info.size;
+        auto ptr = this->cast(this->hibernating);
+        this->swap(component, ptr);
+
+        if (this->info.hibernate)
+        {
+            this->info.hibernate(ptr);
+        }
     }
 }
 
 void
 nox::ecs::ComponentCollection::remove(const EntityId& id)
 {
-    auto component = this->find(id);
-    
+    auto component = this->find(this->hibernating,
+                                this->memory,
+                                id);
+
     if (component)
     {
-        auto nextToLast = this->last - this->info.size;
-        auto ptr = this->cast(nextToLast);
+        this->memory -= this->info.size;
+        auto ptr = this->cast(this->memory);
 
         this->info.moveAssign(component, ptr);
+        this->info.destruct(ptr);
 
-        this->last -= this->info.size;
-        this->info.destruct(this->cast(last));
-        
         this->gen++; 
     }
-
 }
 
 void
 nox::ecs::ComponentCollection::update(const nox::Duration& duration)
 {
-    auto begin = this->cast(this->first);
-    auto end = this->cast(this->last);
+    auto begin = this->cast(this->active);
+    auto end = this->cast(this->inactive);
 
     this->info.update(begin, end, duration);
 }
@@ -159,28 +216,28 @@ nox::ecs::ComponentCollection::update(const nox::Duration& duration)
 void
 nox::ecs::ComponentCollection::receiveLogicEvent(const std::shared_ptr<nox::event::Event>& event)
 {
-    if (this->info.receiveLogicEvent == nullptr)
+    if (this->info.receiveLogicEvent)
     {
-        return;
+        auto begin = this->cast(this->active);
+        auto end = this->cast(this->memory);
+
+        this->info.receiveLogicEvent(begin, end, event);
     }
-
-    auto begin = this->cast(this->first);
-    auto end = this->cast(this->last);
-
-    this->info.receiveLogicEvent(begin, end, event);
 }
 
 std::size_t
 nox::ecs::ComponentCollection::count() const
 {
-    return this->size() / this->info.size;
+    return (this->memory - this->active) / this->info.size;
 }
 
 nox::ecs::ComponentHandle<nox::ecs::Component>
 nox::ecs::ComponentCollection::getComponent(const EntityId& id)
 {
     ComponentHandle<Component> handle(id, 
-                                      this->find(id), 
+                                      this->find(this->active,
+                                                 this->memory,
+                                                 id), 
                                       this->gen,
                                       this); 
     return handle;
@@ -205,19 +262,18 @@ nox::ecs::ComponentCollection::cast(Byte* entity) const
 }
 
 nox::ecs::Component*
-nox::ecs::ComponentCollection::find(const EntityId& id) const
+nox::ecs::ComponentCollection::find(Byte* first, 
+                                    Byte* last,
+                                    const EntityId& id) const
 {
-    auto begin = this->first;
-    const auto end = this->last;
-    
-    while (begin != end)
+    while (first != last)
     {
-        auto component = this->cast(begin);
+        auto component = this->cast(first);
         if (component->id == id)
         {
             return component;
         }
-        begin += this->info.size;
+        first += this->info.size;
     }
 
     return nullptr;
@@ -226,24 +282,26 @@ nox::ecs::ComponentCollection::find(const EntityId& id) const
 std::size_t
 nox::ecs::ComponentCollection::size() const
 {
-    return std::size_t(this->last - this->first);
+    return std::size_t(this->memory - this->active);
 }
 
 std::size_t
 nox::ecs::ComponentCollection::capacity() const
 {
-    return std::size_t(this->cap - this->first);
+    return std::size_t(this->cap - this->active);
 }
 
 void
 nox::ecs::ComponentCollection::reallocate()
 {
     const auto newCap = this->capacity() * GROWTH_FACTOR;
-    const auto newFirst = static_cast<Byte*>(std::malloc(newCap));
+
+    // + this->info.size for swapArea
+    const auto newFirst = static_cast<Byte*>(std::malloc(newCap + this->info.size));
 
     auto newItr = newFirst;
-    auto begin = this->first;
-    const auto end = this->last;
+    auto begin = this->active;
+    const auto end = this->memory;
     
     while (begin != end)
     {
@@ -256,15 +314,16 @@ nox::ecs::ComponentCollection::reallocate()
         begin += this->info.size;
     }
 
-    this->destroyRange(first, last);
+    this->destroyRange(active, memory);
 
-    const auto oldSize = this->size();
-    std::free(this->first);
-
-    this->first = newFirst;
-    this->last = newFirst + oldSize;
+    this->inactive = newFirst + std::distance(this->active, this->inactive);
+    this->hibernating = newFirst + std::distance(this->active, this->hibernating);
+    this->memory = newFirst + std::distance(this->active, this->memory);
     this->cap = newFirst + newCap;
 
+    std::free(this->active);
+
+    this->active = newFirst;
     this->gen++;
 }
 
@@ -277,5 +336,20 @@ nox::ecs::ComponentCollection::destroyRange(Byte* begin,
         auto ptr = this->cast(begin);
         this->info.destruct(ptr);
         begin += this->info.size;
+    }
+}
+
+void
+nox::ecs::ComponentCollection::swap(Component* lhs,
+                                    Component* rhs)
+{
+    if (lhs != rhs)
+    {
+        auto swapArea = this->cast(this->cap);
+        this->info.moveConstruct(swapArea, rhs);
+        this->info.moveAssign(rhs, lhs);
+        this->info.moveAssign(lhs, swapArea);   
+        this->info.destruct(swapArea);
+        this->gen++;
     }
 }

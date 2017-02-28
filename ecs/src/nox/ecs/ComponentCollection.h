@@ -1,7 +1,7 @@
 #ifndef NOX_ECS_COMPONENTCOLLECTION_H_
 #define NOX_ECS_COMPONENTCOLLECTION_H_
-#include <memory>
 #include <cstdint>
+#include <memory>
 
 #include <nox/common/types.h>
 #include <nox/ecs/Component.h>
@@ -23,6 +23,18 @@ namespace nox
          *        in the container.
          *        However it will invalidate iterators from time to time.
          *        Use the ComponentHandle to avoid this.
+         *        
+         * @detail The components are stored in different areas of memory based on 
+         *         what part of the lifecycle they are in.
+         *         The different pointers of the class points to the different areas of memory,
+         *         as shown below:
+         *         --------------------------------------------------------------------------------------------------  
+         *         | active               | inactive             |  hibernating       | raw memory           | swap |
+         *         --------------------------------------------------------------------------------------------------
+         *         ^active*               ^inactive*             ^hibernating*        ^memory*               ^cap*
+         *
+         *         An extra area called the swap area is also allocated, this is used when swapping components,
+         *         as we cant stack allocate the components when we don't know the size.
          */
         class ComponentCollection
         {
@@ -241,7 +253,7 @@ namespace nox
              * @return the component where id == id, nullptr if none can be found.
              */
             Component*
-            find(const EntityId& id) const;
+            find(Byte* first, Byte* last, const EntityId& id) const;
 
             /**
              * @brief Calculates the size of the collection in bytes.
@@ -282,14 +294,30 @@ namespace nox
             destroyRange(Byte* begin, Byte* end);
 
             /**
+             * @brief Swaps the two elements pointed to by lhs and rhs.
+             *        the swap area is used.
+             *        
+             * @param      lhs   The value to be swapped.
+             * @param      rhs   The value to be swapped.
+             */
+            void
+            swap(Component* lhs, Component* rhs);
+
+            /**
              * @brief Growth factor describing how much the capacity should grow per reallocation.
              */
             static constexpr std::size_t GROWTH_FACTOR = 2; 
 
+            //--------------------------------------------------------------------------------------------------  
+            //| active               | inactive             |  hibernating       | raw memory           | swap |
+            //--------------------------------------------------------------------------------------------------
+            //^active*               ^inactive*             ^hibernating*        ^memory*               ^cap*
             MetaInformation info;
             std::size_t gen{};
-            Byte* first{};
-            Byte* last{};
+            Byte* active{};
+            Byte* inactive{};
+            Byte* hibernating{};
+            Byte* memory{};
             Byte* cap{};
         };
     }
