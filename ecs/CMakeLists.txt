@@ -7,6 +7,7 @@ file(GLOB_RECURSE TEMPLATES "src/*.tpp")
 file(GLOB_RECURSE INLINES "src/*.ipp")
 file(GLOB_RECURSE HEADERS "src/*.h")
 
+SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g3 -Og" ) #-Wall -pedantic -Wall -Wextra
 
 set(INCLUDE_DIRS ${INCLUDE_DIRS} src/)
 
