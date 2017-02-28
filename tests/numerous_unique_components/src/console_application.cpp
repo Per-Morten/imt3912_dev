@@ -18,8 +18,12 @@
 #include <json/value.h>
 
 #include <cmd/parser.h>
-#include <components/spawning_component.h>
+#include <components/trivial_component.h>
+#include <recursive_register_component.h>
 
+#ifndef TRIVIAL_COMPONENT_COUNT
+    #error must define TRIVIAL_COMPONENT_COUNT!
+#endif
 
 ConsoleApplication::ConsoleApplication()
     : Application("numerous_unique_components", "PTPERF")
@@ -98,7 +102,11 @@ ConsoleApplication::initializeWorldManager(nox::logic::Logic* logic)
     world->registerActorComponent<nox::logic::actor::Transform>();
     world->registerActorComponent<nox::logic::physics::ActorPhysics>();
     world->registerActorComponent<nox::logic::graphics::ActorSprite>();
-    world->registerActorComponent<components::SpawningComponent>();
+
+
+    //Register all trivial component templates
+    registerTrivialComponent<TRIVIAL_COMPONENT_COUNT>(world.get());
+
 
     const auto actorDirectory = std::string{"actor"};
     world->loadActorDefinitions(getResourceAccess(), actorDirectory);
