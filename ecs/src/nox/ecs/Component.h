@@ -1,6 +1,10 @@
 #ifndef NOX_ECS_COMPONENT_H_
 #define NOX_ECS_COMPONENT_H_
 #include <nox/ecs/EntityId.h>
+#include <nox/event/Event.h>
+#include <nox/ecs/Event.h>
+#include <nox/common/types.h>
+#include <json/value.h>
 
 namespace nox
 {
@@ -28,7 +32,8 @@ namespace nox
              *
              * @param entityId the id of the entity this component is tied to.
              */
-            inline Component(const EntityId& entityId);
+            inline 
+            Component(const EntityId& entityId);
 
             /**
              * @brief Copying components is illegal, they are only movable.
@@ -49,6 +54,65 @@ namespace nox
              * @brief Components are only movable.
              */
             Component& operator=(Component&&) = default;
+
+            /**
+             * @brief      Overridable initialize function.
+             *
+             * @param[in]  value used to initialize the component.
+             */
+            void 
+            initialize(const Json::Value& value) {}
+
+
+            /**
+             * @brief      Overridable awake function.
+             */
+            void 
+            awake() {}
+
+            /**
+             * @brief      Overridable activate function.
+             */    
+            void 
+            activate() {}
+
+            /**
+             * @brief      Overridable deactivate function.
+             */    
+            void 
+            deactivate() {}
+
+            /**
+             * @brief      Overridable hibernate function.
+             */    
+            void 
+            hibernate() {}
+
+            /**
+             * @brief      Overridable update function.
+             *             
+             * @param[in]  deltaTime  The delta time.
+             */
+            void 
+            update(const nox::Duration& deltaTime) {}
+
+            /**
+             * @brief      Overridable receiveLogicEvent function.
+             *             For receiving events from the rest of the engine.
+             *
+             * @param[in]  event  The event
+             */
+            void 
+            receiveLogicEvent(const std::shared_ptr<nox::event::Event>& event) {}
+
+            /**
+             * @brief      Overridable receiveEntityEvent function.
+             *             For receiving events from other components or parts of the ecs.
+             *
+             * @param[in]  event  The event
+             */
+            void
+            receiveEntityEvent(const ecs::Event& event) {}
         };
     }
 }
