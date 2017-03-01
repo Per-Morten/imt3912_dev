@@ -5,7 +5,6 @@
 #include <cmd/parser.h>
 #include <send_dummy_event.h>
 
-#define PT_DONT_OPTIMIZE asm("");
 
 template<std::size_t duration>
 const nox::logic::actor::Component::IdType components::TrivialComponent<duration>::NAME = std::string("TrivialComponent" + std::to_string(duration));
