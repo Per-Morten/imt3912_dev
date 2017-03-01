@@ -43,6 +43,14 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
     this->componentCreationQueue.push_back({ id, identifier });
 }
 
+void
+nox::ecs::EntityManager::assignComponent(const EntityId& id,
+                                         const TypeIdentifier& identifier,
+                                         const Json::Value& value)
+{
+    this->componentCreationQueue.push_back({ id, identifier, value });
+}
+
 nox::ecs::ComponentHandle<nox::ecs::Component>
 nox::ecs::EntityManager::getComponent(const EntityId& id,
                                       const TypeIdentifier& identifier)
@@ -247,6 +255,10 @@ nox::ecs::EntityManager::createStep()
 
         auto& collection = this->getCollection(componentIdentifier.identifier);
         collection.create(componentIdentifier.id);
+        if (!componentIdentifier.json.empty())
+        {
+            collection.initialize(componentIdentifier.id, componentIdentifier.json);
+        }
     }
 }
 
@@ -307,6 +319,7 @@ nox::ecs::EntityManager::getCollection(const TypeIdentifier& identifier)
                                    std::end(this->components),
                                    [&identifier](const auto& item)
                                    { return item.getTypeIdentifier() == identifier; });
+    NOX_ASSERT(collection != std::end(this->components), "Illegal identifier, collection not found!\n");
 
     return *collection;
 }
