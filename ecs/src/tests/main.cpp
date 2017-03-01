@@ -8,14 +8,18 @@
 #include <nox/util/nox_assert.h>
 #include <nox/event/Event.h>
 #include <nox/util/pms_debug.h>
+#include <nox/ecs/Entity.h>
 
 #include <string>
 #include <cassert>
+#include <iostream>
+#include <cstdio>
+#include <fstream>
 
 enum Type : std::size_t
 {
-    MOCK_COMPONENT,
-    OTHER_COMPONENT,
+    MOCK_COMPONENT = 0,
+    OTHER_COMPONENT = 1,
 };
 
 enum class State : std::size_t
@@ -131,6 +135,7 @@ public:
 
     void initialize(const Json::Value& value)
     {
+        PMS_DEBUG("Value: %d\n", value["value"].asInt());
         str += "initialize ";
         PMS_DEBUG("%zu %s\n", id, str.c_str());
     }
@@ -527,6 +532,105 @@ testEntityManager()
     NOX_ASSERT(other1stHandle.get() != nullptr,"Wrong pointer deleted!\n");
 }
 
+void
+test(nox::ecs::Entity t)
+{
+}
+
+void
+entityTest()
+{
+using namespace nox::ecs;
+
+    using MockHandle = ComponentHandle<MockComponent>;
+    using OtherHandle = ComponentHandle<OtherComponent>;
+    using TypeTag = TypeIdentifier;
+    
+    EntityManager manager;
+
+    const auto mockInfo = createMetaInformation<MockComponent>(Type::MOCK_COMPONENT);
+    auto otherInfo = createMetaInformation<OtherComponent>(Type::OTHER_COMPONENT);
+
+    //otherInfo.awake = nullptr;
+
+    manager.registerComponent(mockInfo);
+    manager.registerComponent(otherInfo);
+
+    manager.configureComponents();
+
+    auto firstId = manager.createEntity();
+    auto secondId = manager.createEntity();
+
+    Entity entity1(firstId, &manager);
+    Entity entity2(secondId, &manager);
+
+    entity1.assignComponent(Type::MOCK_COMPONENT);
+    entity1.assignComponent(Type::OTHER_COMPONENT);
+
+    entity2.assignComponent(Type::MOCK_COMPONENT);
+
+    Entity entity3 = entity2;
+    entity3.remove();
+
+    manager.createStep();
+
+    MockHandle mock1stHandle = entity1.getComponent(Type::MOCK_COMPONENT);
+
+    OtherHandle other1stHandle = entity1.getComponent(Type::OTHER_COMPONENT);
+
+    MockHandle mock2ndHandle = entity2.getComponent(Type::MOCK_COMPONENT);
+    
+    NOX_ASSERT(mock1stHandle->state == State::HIBERNATION,"Incorrect state %zu, should be: State::HIBERNATION %zu\n", static_cast<std::size_t>(mock1stHandle->state), static_cast<std::size_t>(State::HIBERNATION));
+    NOX_ASSERT(other1stHandle->state == State::HIBERNATION,"Incorrect state %zu, should be: State::HIBERNATION %zu\n", static_cast<std::size_t>(other1stHandle->state), static_cast<std::size_t>(State::HIBERNATION));
+    NOX_ASSERT(mock2ndHandle->state == State::HIBERNATION,"Incorrect state %zu, should be: State::HIBERNATION %zu\n", static_cast<std::size_t>(mock2ndHandle->state), static_cast<std::size_t>(State::HIBERNATION));
+   
+    entity1.awake();
+    entity2.awakeComponent(Type::MOCK_COMPONENT); 
+    
+    manager.awakeStep();
+    NOX_ASSERT(mock1stHandle->state == State::DEACTIVATED,"Incorrect state %zu, should be: State::DEACTIVATED %zu\n", static_cast<std::size_t>(mock1stHandle->state), static_cast<std::size_t>(State::DEACTIVATED));
+    NOX_ASSERT(other1stHandle->state == State::DEACTIVATED,"Incorrect state %zu, should be: State::DEACTIVATED %zu\n", static_cast<std::size_t>(other1stHandle->state), static_cast<std::size_t>(State::DEACTIVATED));
+    NOX_ASSERT(mock2ndHandle->state == State::DEACTIVATED,"Incorrect state %zu, should be: State::DEACTIVATED %zu\n", static_cast<std::size_t>(mock2ndHandle->state), static_cast<std::size_t>(State::DEACTIVATED));
+
+    entity1.activate();
+    entity2.activateComponent(Type::MOCK_COMPONENT);
+
+    manager.activateStep();
+    NOX_ASSERT(mock1stHandle->state == State::ACTIVE,"Incorrect state %zu, should be: State::ACTIVE %zu\n", static_cast<std::size_t>(mock1stHandle->state), static_cast<std::size_t>(State::ACTIVE));
+    NOX_ASSERT(other1stHandle->state == State::ACTIVE,"Incorrect state %zu, should be: State::ACTIVE %zu\n", static_cast<std::size_t>(other1stHandle->state), static_cast<std::size_t>(State::ACTIVE));
+    NOX_ASSERT(mock2ndHandle->state == State::ACTIVE,"Incorrect state %zu, should be: State::ACTIVE %zu\n", static_cast<std::size_t>(mock2ndHandle->state), static_cast<std::size_t>(State::ACTIVE));
+
+//    auto event = std::make_shared<nox::event::Event>("Thing");
+
+//    manager.onEvent(event);
+    manager.step({});
+
+    entity1.deactivate();
+    entity2.deactivate();
+
+    manager.deactivateStep();
+    NOX_ASSERT(mock1stHandle->state == State::DEACTIVATED,"Incorrect state %zu, should be: State::DEACTIVATED %zu\n", static_cast<std::size_t>(mock1stHandle->state), static_cast<std::size_t>(State::DEACTIVATED));
+    NOX_ASSERT(other1stHandle->state == State::DEACTIVATED,"Incorrect state %zu, should be: State::DEACTIVATED %zu\n", static_cast<std::size_t>(other1stHandle->state), static_cast<std::size_t>(State::DEACTIVATED));
+    NOX_ASSERT(mock2ndHandle->state == State::DEACTIVATED,"Incorrect state %zu, should be: State::DEACTIVATED %zu\n", static_cast<std::size_t>(mock2ndHandle->state), static_cast<std::size_t>(State::DEACTIVATED));
+
+    entity1.hibernate();
+    entity2.hibernate();    
+
+    manager.hibernateStep();
+    NOX_ASSERT(mock1stHandle->state == State::HIBERNATION,"Incorrect state %zu, should be: State::HIBERNATION %zu\n", static_cast<std::size_t>(mock1stHandle->state), static_cast<std::size_t>(State::HIBERNATION));
+    NOX_ASSERT(other1stHandle->state == State::HIBERNATION,"Incorrect state %zu, should be: State::HIBERNATION %zu\n", static_cast<std::size_t>(other1stHandle->state), static_cast<std::size_t>(State::HIBERNATION));
+    NOX_ASSERT(mock2ndHandle->state == State::HIBERNATION,"Incorrect state %zu, should be: State::HIBERNATION %zu\n", static_cast<std::size_t>(mock2ndHandle->state), static_cast<std::size_t>(State::HIBERNATION));
+  
+    entity2.remove(); 
+    //manager.removeEntity(entity2.getId());
+    entity1.removeComponent(Type::MOCK_COMPONENT);
+
+    manager.removeStep(); 
+    NOX_ASSERT(mock1stHandle.get() == nullptr,"Dangling pointer!\n");
+    NOX_ASSERT(mock2ndHandle.get() == nullptr,"Dangling pointer!\n");    
+    NOX_ASSERT(other1stHandle.get() != nullptr,"Wrong pointer deleted!\n");
+}
+
  int 
  main(int argc, char** argv)
  {
@@ -537,18 +641,22 @@ testEntityManager()
 //     PRINT_TYPE_INFO(float);
 //     PRINT_TYPE_INFO(void*);
 //     PRINT_TYPE_INFO(std::vector<nox::event::Event::IdType>);
-    testingCollection();
-    testEntityManager();
-    //PMS_DEBUG("Hey\n");
-    testHandle();
-    //PMS_DEBUG("Finish TestHandle");
-    testingCollection();
-    testHandle();
-    testMove();
-    otherTest();
-    //
+    // testingCollection();
+    // testEntityManager();
+    // //PMS_DEBUG("Hey\n");
+    // testHandle();
+    // //PMS_DEBUG("Finish TestHandle");
+    // testingCollection();
+    // testHandle();
+    // testMove();
+    // otherTest();
+    entityTest();
+    // //
+    
 
     PMS_DEBUG("Exiting cleanly\n");    
 
 	return 0;
 }
+
+
