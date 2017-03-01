@@ -2,6 +2,7 @@
 
 #include <nox/event/IBroadcaster.h>
 
+#include <cmd/parser.h>
 #include <send_dummy_event.h>
 
 #define PT_DONT_OPTIMIZE asm("");
@@ -33,6 +34,15 @@ template<std::size_t duration>
 void 
 components::TrivialComponent<duration>::onCreate()
 {
+    auto durationMultiplier = cmd::g_cmdParser.getFloatArgument(cmd::constants::trivial_component_duration_multiplier_cmd,
+                                                                cmd::constants::trivial_component_duration_multiplier_default);
+
+    auto durationExponent = cmd::g_cmdParser.getFloatArgument(cmd::constants::trivial_component_duration_exponent_cmd,
+                                                              cmd::constants::trivial_component_duration_exponent_default);
+
+    std::size_t durationInNs = static_cast<std::size_t>(std::pow(duration, durationMultiplier) * durationMultiplier);
+    this->sleepDuration = std::chrono::nanoseconds(durationInNs);
+
     this->listener.setup(this, this->getLogicContext()->getEventBroadcaster());
     this->listener.addEventTypeToListenFor(DummyEvent::ID);
 }
@@ -59,8 +69,8 @@ components::TrivialComponent<duration>::onUpdate(const nox::Duration& deltaTime)
     std::chrono::nanoseconds currentDuration(0);
 
     sendDummyEvent<duration>(this->getOwner(), 
-                                 this->getLogicContext(),
-                                 this->NAME);
+                             this->getLogicContext(),
+                             this->NAME);
 
     while (currentDuration < this->sleepDuration)
     {
@@ -73,6 +83,26 @@ template<std::size_t duration>
 void 
 components::TrivialComponent<duration>::onEvent(const std::shared_ptr<nox::event::Event>& event)
 {
+    handleEvent(event);
+}
+
+template<std::size_t duration>
+void 
+components::TrivialComponent<duration>::onComponentEvent(const std::shared_ptr<nox::event::Event>& event)
+{
+    handleEvent(event);
+}
+
+template<std::size_t duration>
+void 
+components::TrivialComponent<duration>::serialize(Json::Value& /*componentObject*/)
+{
+}
+
+template<std::size_t duration>
+void 
+components::TrivialComponent<duration>::handleEvent(const std::shared_ptr<nox::event::Event>& event)
+{
     if (event->getType() == DummyEvent::ID)
     {
         auto dummyEvent = static_cast<DummyEvent*>(event.get());
@@ -82,10 +112,4 @@ components::TrivialComponent<duration>::onEvent(const std::shared_ptr<nox::event
             getLog().info().format("Message sent from actor \"%s\" to actor \"%s\"", dummyEvent->senderName, NAME);
         }
     }
-}
-
-template<std::size_t duration>
-void 
-components::TrivialComponent<duration>::serialize(Json::Value& /*componentObject*/)
-{
 }

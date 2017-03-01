@@ -3,6 +3,7 @@
 #include <chrono>
 
 #include <nox/logic/actor/Component.h>
+#include <nox/logic/actor/event/Event.h>
 #include <nox/event/IListener.h>
 #include <nox/event/ListenerManager.h>
 
@@ -25,10 +26,13 @@ namespace components
         virtual void onDeactivate() override;
         virtual void onUpdate(const nox::Duration& deltaTime) override;
         virtual void onEvent(const std::shared_ptr<nox::event::Event>& event) override;
+        virtual void onComponentEvent(const std::shared_ptr<nox::event::Event>& event) override;
         virtual void serialize(Json::Value& componentObject) override;
 
     private:
-        std::chrono::nanoseconds sleepDuration{ duration * 100 };
+        void handleEvent(const std::shared_ptr<nox::event::Event>& event);
+
+        std::chrono::nanoseconds sleepDuration;
         nox::event::ListenerManager listener;
 
     };
