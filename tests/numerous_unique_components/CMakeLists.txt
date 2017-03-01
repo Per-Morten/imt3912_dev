@@ -1,6 +1,7 @@
 get_filename_component(TEST_NAME "${CMAKE_CURRENT_LIST_DIR}" NAME)
 
-add_definitions(-DTRIVIAL_COMPONENT_COUNT=100)
+add_definitions(-DTRIVIAL_COMPONENT_COUNT=200)
+add_definitions(-DSEND_EVENT_PER_N_COMPONMENT=10)
 
 project(${TEST_NAME})
  
