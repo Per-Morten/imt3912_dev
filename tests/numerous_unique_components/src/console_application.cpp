@@ -149,6 +149,13 @@ ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic
                 log.error().format("Failed loading world \"%s\".", worldFileDescriptor.getPath().c_str());
                 return false;
             }
+
+            auto numberOfActors = cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
+                                                                  cmd::constants::actor_amount_default);
+            for (std::size_t i = 0; i < numberOfActors - 1; ++i)
+            {
+                loader.loadWorld(jsonData->getRootValue(), worldManager);
+            }
         }
     }
 
