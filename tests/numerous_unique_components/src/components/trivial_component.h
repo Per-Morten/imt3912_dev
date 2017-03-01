@@ -13,13 +13,13 @@ namespace components
     public:
         static const IdType NAME;
 
-        const IdType& getName() const override;
-        bool initialize(const Json::Value& componentJsonObject) override;
-        void onUpdate(const nox::Duration& deltaTime) override;
-        void serialize(Json::Value& componentObject) override;
+        virtual const IdType& getName() const override;
+        virtual bool initialize(const Json::Value& componentJsonObject) override;
+        virtual void onUpdate(const nox::Duration& deltaTime) override;
+        virtual void serialize(Json::Value& componentObject) override;
 
     private:
-        std::chrono::milliseconds sleepDuration{ std::chrono::milliseconds(durationInMs) };
+        std::chrono::milliseconds sleepDuration{ durationInMs };
 
     };
 }
