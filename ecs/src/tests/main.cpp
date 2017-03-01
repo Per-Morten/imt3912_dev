@@ -8,14 +8,16 @@
 #include <nox/util/nox_assert.h>
 #include <nox/event/Event.h>
 #include <nox/util/pms_debug.h>
+#include <nox/ecs/Factory.h>
 
 #include <string>
 #include <cassert>
+#include <fstream>
 
 enum Type : std::size_t
 {
-    MOCK_COMPONENT,
-    OTHER_COMPONENT,
+    MOCK_COMPONENT = 0,
+    OTHER_COMPONENT = 1,
 };
 
 enum class State : std::size_t
@@ -527,28 +529,67 @@ testEntityManager()
     NOX_ASSERT(other1stHandle.get() != nullptr,"Wrong pointer deleted!\n");
 }
 
+// int main() {
+//     ifstream ifs("alice.json");
+//     Json::Reader reader;
+//     Json::Value obj;
+//     reader.parse(ifs, obj); // reader can also read strings
+//     cout << "Book: " << obj["book"].asString() << endl;
+//     cout << "Year: " << obj["year"].asUInt() << endl;
+//     const Json::Value& characters = obj["characters"]; // array of characters
+//     for (int i = 0; i < characters.size(); i++){
+//         cout << "    name: " << characters[i]["name"].asString();
+//         cout << " chapter: " << characters[i]["chapter"].asUInt();
+//         cout << endl;
+//     }
+// }
+
+
+void
+testFactory(const char* filepath)
+{
+    using namespace nox::ecs;
+
+    std::ifstream file(filepath);
+    if (!file)
+    {
+        PMS_DEBUG("Error, file not found\n");
+        std::terminate();
+    }
+
+    Json::Reader reader;
+    Json::Value value;
+    reader.parse(file, value);
+    
+    const auto mockInfo = createMetaInformation<MockComponent>(Type::MOCK_COMPONENT);
+    const auto otherInfo = createMetaInformation<OtherComponent>(Type::OTHER_COMPONENT);
+    EntityManager manager;
+    manager.registerComponent(mockInfo);
+    manager.registerComponent(otherInfo);
+
+    Factory factory(manager);
+    factory.createEntityDefinition(value);
+    factory.createEntity(0, "Entity");
+    factory.createEntity(1, "ExtendedEntity");
+        
+    manager.createStep();
+
+    ComponentHandle<MockComponent> handle = manager.getComponent(0, Type::MOCK_COMPONENT);
+
+
+
+}
+
  int 
  main(int argc, char** argv)
  {
-//     using namespace nox::ecs;
-//     PRINT_TYPE_INFO(MetaInformation);
-//     PRINT_TYPE_INFO(TypeIdentifier);
-//     PRINT_TYPE_INFO(std::size_t);
-//     PRINT_TYPE_INFO(float);
-//     PRINT_TYPE_INFO(void*);
-//     PRINT_TYPE_INFO(std::vector<nox::event::Event::IdType>);
-    testingCollection();
-    testEntityManager();
-    //PMS_DEBUG("Hey\n");
-    testHandle();
-    //PMS_DEBUG("Finish TestHandle");
-    testingCollection();
-    testHandle();
-    testMove();
-    otherTest();
-    //
+if (argc < 2)
+    {
+        PMS_DEBUG("Enter filepath\n");
+        return 1;
+    }
 
-    PMS_DEBUG("Exiting cleanly\n");    
+     testFactory(argv[1]);
 
 	return 0;
 }
