@@ -1,5 +1,5 @@
-#ifndef NOX_ECS_TYPES_H_
-#define NOX_ECS_TYPES_H_
+#ifndef NOX_ECS_ENTITYID_H_
+#define NOX_ECS_ENTITYID_H_
 #include <cstdint>
 
 namespace nox
