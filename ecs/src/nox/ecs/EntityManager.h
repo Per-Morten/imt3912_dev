@@ -5,17 +5,20 @@
 #include <queue>
 #include <vector>
 
+#include <nox/ecs/component/Children.h>
+#include <nox/ecs/component/Parent.h>
 #include <nox/ecs/ComponentCollection.h>
 #include <nox/ecs/EntityId.h>
 #include <nox/ecs/Event.h>
+#include <nox/ecs/Factory.h>
 #include <nox/ecs/MetaInformation.h>
 #include <nox/ecs/SmartHandle.h>
 #include <nox/ecs/TypeIdentifier.h>
-#include <nox/util/nox_assert.h>
 #include <nox/event/IListener.h>
+#include <nox/util/nox_assert.h>
 
+#include <boost/variant.hpp>
 #include <json/json.h>
-
 
 namespace nox
 {
@@ -31,6 +34,11 @@ namespace nox
             EntityManager(EntityManager&&) = delete;
             EntityManager& operator=(EntityManager&&) = delete;
             virtual ~EntityManager() override final;
+
+            // Find a way to decouple this. 
+            // For example by taking in the factory as a parameter
+            void
+            createEntityDefinition(const Json::Value& root);
 
             /**
              * @brief      Informs the EntityManager that a certain component
@@ -115,6 +123,42 @@ namespace nox
             assignComponent(const EntityId& id,
                             const TypeIdentifier& identifier,
                             const Json::Value& value);
+
+            /**
+             * @brief      Assigns the children component to the entity
+             *             identified with the id. The component is moved from
+             *             and should be seen as invalid after this operation.
+             *
+             * @param[in]  id          The id of the entity to assign the
+             *                         component to.
+             * @param[in]  identifier  The type identifier of the component
+             *                         type. The identifier should be
+             *                         component_types::CHILDREN. It is only
+             *                         kept around to avoid ambiguity.
+             * @param[in]  children    The component to assign to the entity.
+             */
+            void
+            assignComponent(const EntityId& id,
+                            const TypeIdentifier& identifier,
+                            Children children);
+
+            /**
+             * @brief      Assigns the parent component to the entity identified
+             *             with the id. The component is moved from and should
+             *             be seen as invalid after this operation.
+             *
+             * @param[in]  id          The id of the entity to assign the
+             *                         component to.
+             * @param[in]  identifier  The type identifier of the component
+             *                         type. The identifier should be
+             *                         component_types::PARENT. it is only kept
+             *                         around to avoid ambiguity.
+             * @param[in]  parent      The component to assign to the entity.
+             */
+            void
+            assignComponent(const EntityId& id,
+                            const TypeIdentifier& identifier,
+                            Parent parent);
 
             /**
              * @brief      Gets the component belonging to the entity with the
@@ -392,7 +436,7 @@ namespace nox
                 AWAKE,
                 ACTIVATE,   
             };
-            
+
             struct TransitionInfo
             {
                 EntityId id;
@@ -404,11 +448,13 @@ namespace nox
             {
                 EntityId id;
                 TypeIdentifier identifier;
-                Json::Value json{};
+                boost::variant<Json::Value, Children, Parent> initValue;
             };
 
             ComponentCollection& 
             getCollection(const TypeIdentifier& identifier);
+
+            Factory factory{*this};
 
             std::vector<ComponentCollection> components{};
             std::vector<EntityId> activeIds{};
