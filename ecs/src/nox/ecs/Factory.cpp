@@ -1,4 +1,7 @@
 #include <nox/ecs/Factory.h>
+#include <nox/ecs/EntityManager.h>
+#include <nox/ecs/component/Types.h>
+
 #include <nox/util/pms_debug.h>
 
 nox::ecs::Factory::Factory(EntityManager& entityManager)
@@ -54,6 +57,11 @@ nox::ecs::Factory::createEntity(const EntityId& id,
 
     // Process children.
     const auto& children = components.get("Children", Json::nullValue);
+    if (children != Json::nullValue)
+    {
+        auto childrenComponent = std::move(this->parseChildren(id, children));
+        this->entityManager.assignComponent(id, component_types::CHILDREN, std::move(childrenComponent));
+    }
 
     // Start creating the types. 
     const auto componentNames = [](auto names) -> std::vector<std::string>
@@ -61,7 +69,7 @@ nox::ecs::Factory::createEntity(const EntityId& id,
         names.erase(std::remove_if(std::begin(names),
                                    std::end(names),
                                    [](const auto& item) 
-                                   {return item == "Children"; }),
+                                   { return item == "Children"; }),
                     std::end(names));
         
         return names;
@@ -135,9 +143,9 @@ nox::ecs::Factory::createExtensionStack(const Json::Value& root)
         const auto extensionName = extension.asString();
 
         const auto& definition = std::find_if(std::cbegin(this->definitions),
-                                             std::cend(this->definitions), 
-                                             [&extensionName](const auto& item)
-                                             { return item.name == extensionName; });
+                                              std::cend(this->definitions), 
+                                              [&extensionName](const auto& item)
+                                              { return item.name == extensionName; });
 
         if (definition != std::cend(this->definitions))
         {
@@ -151,6 +159,24 @@ nox::ecs::Factory::createExtensionStack(const Json::Value& root)
     }
 
     return stack;
+}
+
+nox::ecs::Children
+nox::ecs::Factory::parseChildren(const EntityId& id, 
+                                 const Json::Value& children)
+{
+    Children childrenComp(id);
+    for (const auto& item : children)
+    {
+        const auto childId = this->entityManager.createEntity(item.asString());
+        Parent parent(childId);
+        parent.parentId = id;
+        this->entityManager.assignComponent(childId, component_types::PARENT, std::move(parent));
+
+        childrenComp.addChild(childId);
+    }
+
+    return std::move(childrenComp);
 }
 
 nox::ecs::TypeIdentifier

@@ -3,9 +3,19 @@
 #include <vector>
 #include <string>
 
-#include <nox/ecs/EntityManager.h>
+#include <nox/ecs/Component.h>
+#include <nox/ecs/component/Children.h>
+#include <nox/ecs/TypeIdentifier.h>
 
 #include <json/json.h>
+
+namespace nox
+{
+    namespace ecs
+    {
+        class EntityManager;
+    }
+}
 
 namespace nox
 {
@@ -39,6 +49,7 @@ namespace nox
 
             using JsonStack = std::stack<Json::Value, std::vector<Json::Value>>;
 
+
             void 
             createEntity(const EntityId& id,
                          const EntityDefinition& definition);
@@ -52,12 +63,15 @@ namespace nox
             JsonStack
             createExtensionStack(const Json::Value& root);
 
+            Children
+            parseChildren(const EntityId& id,
+                          const Json::Value& children);
+            
             TypeIdentifier
             getTypeIdentifier(const Json::Value& value, const std::string& name);
 
             EntityManager& entityManager;
             std::vector<EntityDefinition> definitions;
-
         };
     }
 }
