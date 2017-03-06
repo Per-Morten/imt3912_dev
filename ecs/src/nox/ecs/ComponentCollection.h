@@ -109,6 +109,17 @@ namespace nox
             create(const EntityId& id);
 
             /**
+             * @brief Adopts the component pointed to by component parameter.
+             *        The component is moved from, and is not usable afterwards.
+             *        Choose the name adopt rather than overloading create
+             *
+             * @param component The component is moved from, and should not
+             *                  be considered usable.
+             */
+            void
+            adopt(Component& component);
+
+            /**
              * @brief Initializes the component with the specified id with
              *        the values from the value parameter.
              *
