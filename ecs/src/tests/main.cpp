@@ -9,6 +9,7 @@
 #include <nox/event/Event.h>
 #include <nox/util/pms_debug.h>
 #include <nox/ecs/Factory.h>
+#include <nox/ecs/component/Types.h>
 
 #include <string>
 #include <cassert>
@@ -16,8 +17,8 @@
 
 enum Type : std::size_t
 {
-    MOCK_COMPONENT = 0,
-    OTHER_COMPONENT = 1,
+    MOCK_COMPONENT = 2,
+    OTHER_COMPONENT = 3,
 };
 
 enum class State : std::size_t
@@ -133,8 +134,10 @@ public:
 
     void initialize(const Json::Value& value)
     {
-        str += "initialize ";
-        PMS_DEBUG("%zu %s\n", id, str.c_str());
+        // auto val = value["value"].asInt();
+        str += "initialize " + value["name"].asString();
+        // 
+        //PMS_DEBUG("%zu %s %d\n", id, str.c_str(), value["value"].asInt());
     }
 
     void receiveLogicEvent(const std::shared_ptr<nox::event::Event>& event)
@@ -143,7 +146,7 @@ public:
         PMS_DEBUG("%zu %s\n", id, str.c_str());
     }
 
-    void receiveComponentEvent(const nox::ecs::Event& event)
+    void receiveEntityEvent(const nox::ecs::Event& event)
     {
         str += "receiveComponentEvent ";
         PMS_DEBUG("%zu %s\n", id, str.c_str());
@@ -221,7 +224,7 @@ public:
 
     void initialize(const Json::Value& value)
     {
-        str += "initialize ";
+        str += "initialize " + value["name"].asString();
         printf("%zu %s\n", id, str.c_str());
     }
 
@@ -231,7 +234,7 @@ public:
         printf("%zu %s\n", id, str.c_str());
     }
 
-    void receiveComponentEvent(const nox::ecs::Event& event)
+    void receiveEntityEvent(const nox::ecs::Event& event)
     {
         str += "receiveComponentEvent ";
         printf("%zu %s\n", id, str.c_str());
@@ -566,15 +569,31 @@ testFactory(const char* filepath)
     EntityManager manager;
     manager.registerComponent(mockInfo);
     manager.registerComponent(otherInfo);
+    manager.registerComponent(createMetaInformation<Parent>(component_types::PARENT));
+    manager.registerComponent(createMetaInformation<Children>(component_types::CHILDREN));
 
-    Factory factory(manager);
-    factory.createEntityDefinition(value);
-    factory.createEntity(0, "Entity");
-    factory.createEntity(1, "ExtendedEntity");
-        
+
+    PMS_DEBUG("Creating Definition\n");
+    manager.createEntityDefinition(value);
+    PMS_DEBUG("Created Definition\n");
+    manager.createEntity("Entity");
+    PMS_DEBUG("Created Entity\n");
+    manager.createEntity("ExtendedEntity");
+    PMS_DEBUG("Created ExtendedEntity\n");
+
     manager.createStep();
 
-    ComponentHandle<MockComponent> handle = manager.getComponent(0, Type::MOCK_COMPONENT);
+    PMS_DEBUG("Called Create step\n");
+    ComponentHandle<Children> handle = manager.getComponent(0, component_types::CHILDREN);
+    PMS_DEBUG("Component 0 has: %zu children\n", handle->size());
+    ComponentHandle<MockComponent> child1MockHandle = manager.getComponent((**handle)[0], Type::MOCK_COMPONENT);
+    ///ComponentHandle<MockComponent> child2MockHandle = manager.getComponent((**handle)[1], Type::MOCK_COMPONENT);
+
+    PMS_DEBUG("child1MockHandle id: %zu name: %s\n", 
+              child1MockHandle->id,
+              child1MockHandle->str.c_str());
+              //child2MockHandle->id,
+              //child2MockHandle->str.c_str());
 
 
 
@@ -583,7 +602,7 @@ testFactory(const char* filepath)
  int 
  main(int argc, char** argv)
  {
-if (argc < 2)
+    if (argc < 2)
     {
         PMS_DEBUG("Enter filepath\n");
         return 1;
