@@ -1,8 +1,7 @@
 #include <nox/ecs/Factory.h>
+
 #include <nox/ecs/EntityManager.h>
 #include <nox/ecs/component/Types.h>
-
-#include <nox/util/pms_debug.h>
 
 nox::ecs::Factory::Factory(EntityManager& entityManager)
     : entityManager(entityManager)
