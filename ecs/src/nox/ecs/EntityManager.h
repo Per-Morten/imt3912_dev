@@ -35,8 +35,16 @@ namespace nox
             EntityManager& operator=(EntityManager&&) = delete;
             virtual ~EntityManager() override final;
 
-            // Find a way to decouple this. 
-            // For example by taking in the factory as a parameter
+            /**
+             * @brief      Creates entity definitions based on the root value
+             *             sent in.
+             *
+             * @todo       Find a way to decouple this so that the EntityManager does
+             *             not have to forward everything to the factory.
+             *
+             * @param[in]  root  The root json value holding all the other json
+             *                   values.
+             */
             void
             createEntityDefinition(const Json::Value& root);
 
