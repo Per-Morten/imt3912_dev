@@ -8,7 +8,16 @@ namespace nox
     {
         namespace component_types
         {
+            /**
+             * @brief      Constant numerical value used for identifying the
+             *             children type through the TypeIdentifier.
+             */ 
             constexpr std::size_t CHILDREN = 0;
+
+            /**
+             * @brief      Constant numerical value used for identifying the
+             *             parent type through the TypeIdentifier.
+             */
             constexpr std::size_t PARENT = 1;
         }
     }
