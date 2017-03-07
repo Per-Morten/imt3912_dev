@@ -17,7 +17,7 @@ mkdir build;
 
 pushd build > /dev/null 2>&1
 
-cmake ..
+cmake -DCOMPILATION_TEST=ON ..
 make
 
 popd > /dev/null 2>&1
