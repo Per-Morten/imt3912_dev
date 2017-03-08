@@ -405,24 +405,20 @@ namespace nox
              */
             void
             activateStep();
-
+            
             /**
-             * @brief      Queues up the sending of the component event to the
-             *             component identified by the parameters.
+             * @brief      Queues up the sending of the entity event.
              *
              * @note       Sending events is an async operation, happening in
-             *             the distribute component events step.
+             *             the distribute entity events step.
              *
-             * @param[in]  id          The id of the entity the component
-             *                         belongs to.
-             * @param[in]  identifier  The type identifier of the component that
-             *                         shall receive the event.
-             * @param[in]  event       The event.
+             * @warning    event will be moved from and will therefore be in an
+             *             invalid state after this operation.
+             *
+             * @param[in]  event  The event to send.
              */
             void
-            sendEntityEvent(const EntityId& id,
-                            const TypeIdentifier& identifier,
-                            const ecs::Event& event);
+            sendEntityEvent(ecs::Event event);
 
             /**
              * @brief      Receives an event that will in the future be
@@ -459,6 +455,7 @@ namespace nox
                 boost::variant<Json::Value, Children, Parent> initValue;
             };
 
+
             ComponentCollection& 
             getCollection(const TypeIdentifier& identifier);
 
@@ -473,6 +470,7 @@ namespace nox
             std::queue<EntityId> entityRemovalQueue{};
 
             std::queue<std::shared_ptr<nox::event::Event>> logicEvents{};
+            std::queue<nox::ecs::Event> entityEvents{};
 
             std::atomic<EntityId> currentEntityId{};
         };
