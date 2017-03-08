@@ -2,7 +2,7 @@
 #include <algorithm>
 
 nox::ecs::Children::Children(Children&& source)
-    : nox::ecs::Component(source.id)
+    : nox::ecs::Component(source.id, source.entityManager)
     , children(std::move(source.children))
 {
 
@@ -13,7 +13,7 @@ nox::ecs::Children::operator=(Children&& source)
 {
     if (this != &source)
     {
-        std::swap(this->id, source.id);
+        nox::ecs::Component::operator=(std::move(source)); 
         std::swap(this->children, source.children);
     }
     return *this;
