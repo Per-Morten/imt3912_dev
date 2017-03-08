@@ -15,11 +15,11 @@
 #include <cmd/parser.h>
 
 
-WindowView::WindowView(nox::app::IContext* applicationContext, const std::string& windowTitle):
-    nox::window::RenderSdlWindowView(applicationContext, windowTitle),
-    renderer(nullptr),
-    camera(std::make_shared<nox::app::graphics::Camera>(getWindowSize())),
-    listener("WindowView")
+WindowView::WindowView(nox::app::IContext* applicationContext, const std::string& windowTitle)
+    : nox::window::RenderSdlWindowView(applicationContext, windowTitle)
+    , renderer(nullptr)
+    , camera(std::make_shared<nox::app::graphics::Camera>(getWindowSize()))
+    , listener("WindowView")
 {
     log = applicationContext->createLogger();
     log.setName("WindowView");

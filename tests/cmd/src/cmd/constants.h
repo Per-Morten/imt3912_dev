@@ -2,8 +2,8 @@
 
 namespace cmd
 {
-     namespace constants
-     {
+    namespace constants
+    {
         constexpr auto args_from_file_cmd = "-args_from_file";
 
         constexpr auto thread_amount_cmd = "-thread_amount";
@@ -14,6 +14,6 @@ namespace cmd
 
         constexpr auto run_duration_ms_cmd = "-run_time_ms";
         constexpr auto run_duration_ms_default = 1000;
-   }
+    }
 }
 

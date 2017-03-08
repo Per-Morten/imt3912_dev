@@ -1,10 +1,10 @@
 #include "parser.h"
 
-#include <vector>
-#include <iterator>
-#include <fstream>
 #include <algorithm>
+#include <fstream>
 #include <iterator>
+#include <iterator>
+#include <vector>
 
 cmd::Parser cmd::g_cmdParser;
 
@@ -20,7 +20,7 @@ namespace
             str.erase(std::remove_if(std::begin(str),
                                      std::end(str),
                                      [](const auto& c)
-                                     {return c == '\n' || c == ' '; }), 
+                                     { return c == '\n' || c == ' '; }), 
                       std::end(str));
 
             return str;
@@ -129,7 +129,7 @@ cmd::Parser::setLogger(nox::log::Logger log)
 
 const std::string&
 cmd::Parser::getStringArgument(const std::string& commandName,
-                                     const std::string& defaultValue)
+                               const std::string& defaultValue)
 {
     const auto& arg = std::find_if(std::cbegin(m_arguments),
                                    std::cend(m_arguments),
@@ -172,7 +172,8 @@ cmd::Parser::getIntArgument(const std::string& commandName,
 }
 
 float 
-cmd::Parser::getFloatArgument(const std::string& commandName, float defaultValue)
+cmd::Parser::getFloatArgument(const std::string& commandName, 
+                              float defaultValue)
 {
     const auto& arg = std::find_if(std::cbegin(m_arguments),
                                    std::cend(m_arguments),
@@ -197,7 +198,7 @@ cmd::Parser::getFloatArgument(const std::string& commandName, float defaultValue
 
 std::size_t
 cmd::Parser::getStringArguments(const std::string& commandName,
-                                      std::vector<std::string>& buffer) const
+                                std::vector<std::string>& buffer) const
 {
     const auto& arg = std::find_if(std::cbegin(m_arguments),
                                    std::cend(m_arguments),
@@ -211,5 +212,6 @@ cmd::Parser::getStringArguments(const std::string& commandName,
                   std::back_inserter(buffer));
     }
     const auto sizeAfterCopy = buffer.size();
+    
     return sizeAfterCopy - sizeBeforeCopy;
 }

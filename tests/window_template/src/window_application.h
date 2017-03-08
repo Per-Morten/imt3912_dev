@@ -6,14 +6,15 @@
 #include <nox/logic/Logic.h>
 
 
-class WindowApplication: public nox::app::SdlApplication
+class WindowApplication
+    : public nox::app::SdlApplication
 {
 public:
     WindowApplication();
 
     bool onInit() override;
-    void onUpdate(const nox::Duration& deltaTime) override;
-    void onSdlEvent(const SDL_Event& event) override;
+    virtual void onUpdate(const nox::Duration& deltaTime) override;
+    virtual void onSdlEvent(const SDL_Event& event) override;
 
 private:
     bool initializeResourceCache();
