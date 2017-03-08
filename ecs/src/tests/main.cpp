@@ -9,6 +9,8 @@
 #include <nox/event/Event.h>
 #include <nox/util/pms_debug.h>
 #include <nox/ecs/Entity.h>
+#include <nox/ecs/Factory.h>
+#include <nox/ecs/component/Types.h>
 
 #include <string>
 #include <cassert>
@@ -18,8 +20,8 @@
 
 enum Type : std::size_t
 {
-    MOCK_COMPONENT = 0,
-    OTHER_COMPONENT = 1,
+    MOCK_COMPONENT = 2,
+    OTHER_COMPONENT = 3,
 };
 
 enum class State : std::size_t
@@ -135,9 +137,10 @@ public:
 
     void initialize(const Json::Value& value)
     {
-        PMS_DEBUG("Value: %d\n", value["value"].asInt());
-        str += "initialize ";
-        PMS_DEBUG("%zu %s\n", id, str.c_str());
+        // auto val = value["value"].asInt();
+        str += "initialize " + value["name"].asString();
+        // 
+        //PMS_DEBUG("%zu %s %d\n", id, str.c_str(), value["value"].asInt());
     }
 
     void receiveLogicEvent(const std::shared_ptr<nox::event::Event>& event)
@@ -146,7 +149,7 @@ public:
         PMS_DEBUG("%zu %s\n", id, str.c_str());
     }
 
-    void receiveComponentEvent(const nox::ecs::Event& event)
+    void receiveEntityEvent(const nox::ecs::Event& event)
     {
         str += "receiveComponentEvent ";
         PMS_DEBUG("%zu %s\n", id, str.c_str());
@@ -224,7 +227,7 @@ public:
 
     void initialize(const Json::Value& value)
     {
-        str += "initialize ";
+        str += "initialize " + value["name"].asString();
         printf("%zu %s\n", id, str.c_str());
     }
 
@@ -234,7 +237,7 @@ public:
         printf("%zu %s\n", id, str.c_str());
     }
 
-    void receiveComponentEvent(const nox::ecs::Event& event)
+    void receiveEntityEvent(const nox::ecs::Event& event)
     {
         str += "receiveComponentEvent ";
         printf("%zu %s\n", id, str.c_str());
@@ -631,16 +634,83 @@ using namespace nox::ecs;
     NOX_ASSERT(other1stHandle.get() != nullptr,"Wrong pointer deleted!\n");
 }
 
+// int main() {
+//     ifstream ifs("alice.json");
+//     Json::Reader reader;
+//     Json::Value obj;
+//     reader.parse(ifs, obj); // reader can also read strings
+//     cout << "Book: " << obj["book"].asString() << endl;
+//     cout << "Year: " << obj["year"].asUInt() << endl;
+//     const Json::Value& characters = obj["characters"]; // array of characters
+//     for (int i = 0; i < characters.size(); i++){
+//         cout << "    name: " << characters[i]["name"].asString();
+//         cout << " chapter: " << characters[i]["chapter"].asUInt();
+//         cout << endl;
+//     }
+// }
+
+
+void
+testFactory(const char* filepath)
+{
+    using namespace nox::ecs;
+
+    std::ifstream file(filepath);
+    if (!file)
+    {
+        PMS_DEBUG("Error, file not found\n");
+        std::terminate();
+    }
+
+    Json::Reader reader;
+    Json::Value value;
+    reader.parse(file, value);
+    
+    const auto mockInfo = createMetaInformation<MockComponent>(Type::MOCK_COMPONENT);
+    const auto otherInfo = createMetaInformation<OtherComponent>(Type::OTHER_COMPONENT);
+    EntityManager manager;
+    manager.registerComponent(mockInfo);
+    manager.registerComponent(otherInfo);
+    manager.registerComponent(createMetaInformation<Parent>(component_types::PARENT));
+    manager.registerComponent(createMetaInformation<Children>(component_types::CHILDREN));
+
+
+    PMS_DEBUG("Creating Definition\n");
+    manager.createEntityDefinition(value);
+    PMS_DEBUG("Created Definition\n");
+    manager.createEntity("Entity");
+    PMS_DEBUG("Created Entity\n");
+    manager.createEntity("ExtendedEntity");
+    PMS_DEBUG("Created ExtendedEntity\n");
+
+    manager.createStep();
+
+    PMS_DEBUG("Called Create step\n");
+    ComponentHandle<Children> handle = manager.getComponent(0, component_types::CHILDREN);
+    PMS_DEBUG("Component 0 has: %zu children\n", handle->size());
+    ComponentHandle<MockComponent> child1MockHandle = manager.getComponent((**handle)[0], Type::MOCK_COMPONENT);
+    ///ComponentHandle<MockComponent> child2MockHandle = manager.getComponent((**handle)[1], Type::MOCK_COMPONENT);
+
+    PMS_DEBUG("child1MockHandle id: %zu name: %s\n", 
+              child1MockHandle->id,
+              child1MockHandle->str.c_str());
+              //child2MockHandle->id,
+              //child2MockHandle->str.c_str());
+
+
+
+}
+
+
+
  int 
  main(int argc, char** argv)
  {
-//     using namespace nox::ecs;
-//     PRINT_TYPE_INFO(MetaInformation);
-//     PRINT_TYPE_INFO(TypeIdentifier);
-//     PRINT_TYPE_INFO(std::size_t);
-//     PRINT_TYPE_INFO(float);
-//     PRINT_TYPE_INFO(void*);
-//     PRINT_TYPE_INFO(std::vector<nox::event::Event::IdType>);
+    if (argc < 2)
+    {
+        PMS_DEBUG("Enter filepath\n");
+        return 1;
+    }
     // testingCollection();
     // testEntityManager();
     // //PMS_DEBUG("Hey\n");
@@ -654,7 +724,7 @@ using namespace nox::ecs;
     // //
     
 
-    PMS_DEBUG("Exiting cleanly\n");    
+     testFactory(argv[1]);
 
 	return 0;
 }

@@ -81,7 +81,7 @@ nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier,
 
         while (begin != end)
         {
-            begin->receiveComponentEvent(event);
+            begin->receiveEntityEvent(event);
             ++begin;
         }
     };

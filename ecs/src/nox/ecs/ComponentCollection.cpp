@@ -89,6 +89,17 @@ nox::ecs::ComponentCollection::create(const EntityId& id)
 }
 
 void
+nox::ecs::ComponentCollection::adopt(Component& component)
+{
+    if (this->size() >= this->capacity())
+    {
+        this->reallocate();
+    }
+    this->info.moveConstruct(this->cast(this->memory), &component);
+    this->memory += this->info.size;
+}
+
+void
 nox::ecs::ComponentCollection::initialize(const EntityId& id,
                                           const Json::Value& value)
 {
