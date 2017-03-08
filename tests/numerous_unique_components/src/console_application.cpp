@@ -167,6 +167,10 @@ ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic
 bool 
 ConsoleApplication::onInit()
 {
+    int runTimeMs = cmd::g_cmdParser.getIntArgument(cmd::constants::run_duration_ms_cmd,
+                                                    cmd::constants::run_duration_ms_default);
+    exitTimer.setTimerLength(std::chrono::milliseconds(runTimeMs));
+
     log = createLogger();
     log.setName("ConsoleApplication");
 
@@ -192,3 +196,13 @@ ConsoleApplication::onInit()
     return true;
 }
 
+void 
+ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
+{
+    exitTimer.spendTime(deltaTime);
+
+    if (exitTimer.timerReached() == true)
+    {
+        quitApplication();
+    }
+}

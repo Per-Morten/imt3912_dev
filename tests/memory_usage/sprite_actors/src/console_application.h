@@ -23,6 +23,6 @@ private:
     bool loadWorldFile(nox::logic::IContext* logicContext, nox::logic::world::Manager* worldManager);
 
     nox::log::Logger log;
-    nox::util::Timer<nox::Duration> outputTimer;
+    nox::util::Timer<nox::Duration> exitTimer;
 
 };

@@ -11,6 +11,7 @@ public:
     ConsoleApplication();
 
     virtual bool onInit() override;
+    virtual void onUpdate(const nox::Duration& deltaTime) override;
 
 private:
     bool initializeResourceCache();
@@ -21,5 +22,6 @@ private:
     bool loadWorldFile(nox::logic::IContext* logicContext, nox::logic::world::Manager* worldManager);
 
     nox::log::Logger log;
+    nox::util::Timer<nox::Duration> exitTimer;
 
 };
