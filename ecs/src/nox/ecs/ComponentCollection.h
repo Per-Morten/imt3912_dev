@@ -112,7 +112,8 @@ namespace nox
              *                            components.
              */
             void
-            create(const EntityId& id, EntityManager* entityManager);
+            create(const EntityId& id, 
+                   EntityManager* entityManager);
 
             /**
              * @brief      Adopts the component pointed to by component
@@ -302,7 +303,9 @@ namespace nox
              *             found.
              */
             Component*
-            find(Byte* first, Byte* last, const EntityId& id) const;
+            find(Byte* first, 
+                 Byte* last, 
+                 const EntityId& id) const;
 
             /**
              * @brief      Calculates the size of the collection in bytes. Used
@@ -341,7 +344,8 @@ namespace nox
              * @param      end    past-the-end pointer of the range to destroy.
              */
             void
-            destroyRange(Byte* begin, Byte* end);
+            destroyRange(Byte* begin, 
+                         Byte* end);
 
             /**
              * @brief      Swaps the two elements pointed to by lhs and rhs. the
@@ -351,7 +355,8 @@ namespace nox
              * @param      rhs   The value to be swapped.
              */
             void
-            swap(Component* lhs, Component* rhs);
+            swap(Component* lhs, 
+                 Component* rhs);
 
             /**
              * @brief      Growth factor describing how much the capacity should

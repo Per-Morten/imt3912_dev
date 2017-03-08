@@ -77,7 +77,8 @@ nox::ecs::ComponentCollection::~ComponentCollection()
 }
 
 void
-nox::ecs::ComponentCollection::create(const EntityId& id, EntityManager* manager)
+nox::ecs::ComponentCollection::create(const EntityId& id, 
+                                      EntityManager* manager)
 {
     if (this->size() >= this->capacity())
     {
