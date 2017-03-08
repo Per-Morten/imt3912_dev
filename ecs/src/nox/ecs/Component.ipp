@@ -1,4 +1,5 @@
-nox::ecs::Component::Component(const EntityId& id, EntityManager* entityManager)
+nox::ecs::Component::Component(const EntityId& id, 
+                               EntityManager* entityManager)
     : id(id)
     , entityManager(entityManager)
 {

@@ -53,7 +53,8 @@ namespace nox
              *                            handled by.
              */
             inline 
-            Component(const EntityId& entityId, EntityManager* entityManager);
+            Component(const EntityId& entityId, 
+                      EntityManager* entityManager);
 
             /**
              * @brief      Copying components is illegal, they are only movable.
