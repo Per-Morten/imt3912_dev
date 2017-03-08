@@ -158,7 +158,7 @@ ConsoleApplication::onInit()
 {
     int runTimeMs = cmd::g_cmdParser.getIntArgument(cmd::constants::run_duration_ms_cmd,
                                                     cmd::constants::run_duration_ms_default);
-    outputTimer.setTimerLength(std::chrono::milliseconds(runTimeMs));
+    exitTimer.setTimerLength(std::chrono::milliseconds(runTimeMs));
 
     log = createLogger();
     log.setName("MemoryUsageTest");
@@ -188,9 +188,9 @@ ConsoleApplication::onInit()
 void 
 ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
 {
-    outputTimer.spendTime(deltaTime);
+    exitTimer.spendTime(deltaTime);
 
-    if (outputTimer.timerReached() == true)
+    if (exitTimer.timerReached() == true)
     {
         quitApplication();
     }

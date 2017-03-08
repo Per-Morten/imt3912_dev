@@ -21,6 +21,12 @@ namespace cmd
 
         constexpr auto world_path_cmd = "-world_path";
         constexpr auto world_path_default = "world/world.json";
+
+        constexpr auto trivial_component_duration_multiplier_cmd = "-trivial_component_duration_multiplier";
+        constexpr auto trivial_component_duration_multiplier_default = 1.0f;
+        
+        constexpr auto trivial_component_duration_exponent_cmd = "-trivial_component_duration_exponent";
+        constexpr auto trivial_component_duration_exponent_default = 1.0f;
     }
 }
 

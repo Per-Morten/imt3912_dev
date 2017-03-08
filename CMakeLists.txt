@@ -8,6 +8,7 @@ endif()
 project(nox-examples)
 
 option(NOXSAMPLE_ENGINE_SUBPROJECT "Use the NOX Engine subproject rather than the system library" ON)
+option(COMPILATION_TEST "If the current building is used for the compilation test or not" OFF)
 option(EXAMPLES_BUILD "If the examples should be built or not" ON)
 
 # Get the compile commands so that we can use youcompleteme.
@@ -105,13 +106,27 @@ else ()
 	message(WARNING "You are using an unsupported compiler. Compilation has only been tested with GCC.")
 endif ()
 
+#Getting the gcc version
+SET(EXECUTE_COMMAND gcc -dumpversion)
+EXECUTE_PROCESS(COMMAND ${EXECUTE_COMMAND}
+                OUTPUT_VARIABLE GCC_VERSION)
+
+#Getting the Clang version
+SET(EXECUTE_COMMAND clang -dumpversion)
+EXECUTE_PROCESS(COMMAND ${EXECUTE_COMMAND}
+                OUTPUT_VARIABLE CLANG_VERSION)
+
+SET(CMAKE_CXX_COMPILER_ID ${CMAKE_CXX_COMPILER_ID} CACHE STRING "Compiler id" FORCE)
+SET(GCC_VERSION ${GCC_VERSION} CACHE STRING "GCC Version" FORCE)
+SET(CLANG_VERSION ${CLANG_VERSION} CACHE STRING "Clang Version" FORCE)
+
 SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib CACHE PATH "Single directory for all static libraries.")
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib CACHE PATH "Single directory for all dynamic libraries on Unix.")
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin CACHE PATH "Single directory for all executable and dynamic libraries on Windows.")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${NOXSAMPLE_CXX_FLAGS}")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${NOXSAMPLE_CXX_FLAGS_RELEASE}")
-set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} ${NOXSAMPLE_LINKER_FLAGS_RELEASE}")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${NOXSAMPLE_CXX_FLAGS}")
+SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${NOXSAMPLE_CXX_FLAGS_RELEASE}")
+SET(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} ${NOXSAMPLE_LINKER_FLAGS_RELEASE}")
 
 if (NOXSAMPLE_ENGINE_SUBPROJECT)
 	if (NOX_BUILD_SHARED)
@@ -123,10 +138,13 @@ else ()
 	set(NOXSAMPLE_NOX_LIBRARY nox)
 endif ()
 
-enable_testing()
+if (NOT COMPILATION_TEST)
+    enable_testing()
+    
+    add_subdirectory(tests)
+    add_subdirectory(ecs)  
 
-add_subdirectory(tests)
-add_subdirectory(ecs)
-if (EXAMPLES_BUILD)
-    add_subdirectory(examples)
+    if (EXAMPLES_BUILD)
+        add_subdirectory(examples)
+    endif ()
 endif ()
