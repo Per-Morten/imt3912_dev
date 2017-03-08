@@ -164,11 +164,11 @@ nox::ecs::Children
 nox::ecs::Factory::parseChildren(const EntityId& id, 
                                  const Json::Value& children)
 {
-    Children childrenComp(id);
+    Children childrenComp(id, &entityManager);
     for (const auto& item : children)
     {
         const auto childId = this->entityManager.createEntity(item.asString());
-        Parent parent(childId);
+        Parent parent(childId, &entityManager);
         parent.parentId = id;
         this->entityManager.assignComponent(childId, component_types::PARENT, std::move(parent));
 

@@ -213,7 +213,16 @@ nox::ecs::EntityManager::updateStep(const nox::Duration& deltaTime)
 void
 nox::ecs::EntityManager::distributeEntityEvents()
 {
-    // To be implemented sprint05 
+    while (!this->entityEvents.empty())
+    {
+        auto event = std::move(entityEvents.front());
+        entityEvents.pop();
+
+        for (auto& collection : this->components)
+        {
+            collection.receiveEntityEvent(event);
+        }
+    }
 }
 
 void
@@ -298,7 +307,7 @@ nox::ecs::EntityManager::createStep()
         }
         else
         {
-            collection.create(componentIdentifier.id);
+            collection.create(componentIdentifier.id, this);
             const Json::Value* jsonValue = boost::get<Json::Value>(&componentIdentifier.initValue);
 
             if (jsonValue != nullptr)
@@ -346,11 +355,9 @@ nox::ecs::EntityManager::activateStep()
 }
 
 void
-nox::ecs::EntityManager::sendEntityEvent(const EntityId& id,
-                                         const TypeIdentifier& identifier,
-                                         const ecs::Event& event)
+nox::ecs::EntityManager::sendEntityEvent(ecs::Event event)
 {
-    // To be implemented sprint05.
+    this->entityEvents.push(std::move(event));
 }
 
 void

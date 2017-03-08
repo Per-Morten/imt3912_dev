@@ -12,9 +12,9 @@ nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier,
 {
     MetaInformation metaInformation(typeIdentifier, sizeof(T));
     
-    const auto construct = [](Component* component, const EntityId& id)
+    const auto construct = [](Component* component, const EntityId& id, EntityManager* manager)
     { 
-        new(component)T(id);
+        new(component)T(id, manager);
     };
 
     const auto destruct = [](Component* component)
@@ -73,8 +73,9 @@ nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier,
         }
     };
 
-    const auto receiveComponentEvent = [](Component* first, Component* last,
-                                          const nox::ecs::Event& event)
+    const auto receiveEntityEvent = [](Component* first,
+                                       Component* last,
+                                       const nox::ecs::Event& event)
     {
         auto begin = static_cast<T*>(first);
         auto end = static_cast<T*>(last);
@@ -113,7 +114,7 @@ nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier,
     metaInformation.moveConstruct = moveConstruct;
     metaInformation.moveAssign = moveAssign;
     metaInformation.receiveLogicEvent = receiveLogicEvent;
-    metaInformation.receiveComponentEvent = receiveComponentEvent;
+    metaInformation.receiveEntityEvent = receiveEntityEvent;
     metaInformation.interestingLogicEvents = interestingLogicEvents;
 
     return metaInformation;
