@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include <nox/util/nox_assert.h>
+#include <nox/ecs/component/Types.h>
 
 nox::ecs::EntityManager::~EntityManager()
 {
@@ -14,6 +15,12 @@ nox::ecs::EntityManager::~EntityManager()
     this->deactivateStep();
     this->hibernateStep();
     this->removeStep();
+}
+
+void
+nox::ecs::EntityManager::createEntityDefinition(const Json::Value& root)
+{
+    this->factory.createEntityDefinition(root);
 }
 
 void
@@ -36,11 +43,44 @@ nox::ecs::EntityManager::createEntity()
     return newId;
 }
 
+nox::ecs::EntityId
+nox::ecs::EntityManager::createEntity(const std::string& definitionName)
+{
+    const auto newId = this->currentEntityId++;
+    this->activeIds.push_back(newId);
+    this->factory.createEntity(newId, definitionName);
+    return newId;
+}
+
 void
 nox::ecs::EntityManager::assignComponent(const EntityId& id,
                                          const TypeIdentifier& identifier)
 {
     this->componentCreationQueue.push_back({ id, identifier });
+}
+
+void
+nox::ecs::EntityManager::assignComponent(const EntityId& id,
+                                         const TypeIdentifier& identifier,
+                                         const Json::Value& value)
+{
+    this->componentCreationQueue.push_back({ id, identifier, value });
+}
+
+void
+nox::ecs::EntityManager::assignComponent(const EntityId& id,
+                                         const TypeIdentifier& identifier,
+                                         Children children)
+{
+    this->componentCreationQueue.push_back({ id, identifier, std::move(children) });
+}
+
+void
+nox::ecs::EntityManager::assignComponent(const EntityId& id,
+                                         const TypeIdentifier& identifier,
+                                         Parent parent)
+{
+    this->componentCreationQueue.push_back({ id, identifier, std::move(parent) });
 }
 
 nox::ecs::ComponentHandle<nox::ecs::Component>
@@ -57,7 +97,6 @@ nox::ecs::EntityManager::removeComponent(const EntityId& id,
 {
     this->componentRemovalQueue.push_back({ id, identifier });
 }
-
 
 void
 nox::ecs::EntityManager::awakeComponent(const EntityId& id,
@@ -174,7 +213,16 @@ nox::ecs::EntityManager::updateStep(const nox::Duration& deltaTime)
 void
 nox::ecs::EntityManager::distributeEntityEvents()
 {
-    // To be implemented sprint05 
+    while (!this->entityEvents.empty())
+    {
+        auto event = std::move(entityEvents.front());
+        entityEvents.pop();
+
+        for (auto& collection : this->components)
+        {
+            collection.receiveEntityEvent(event);
+        }
+    }
 }
 
 void
@@ -218,7 +266,7 @@ nox::ecs::EntityManager::removeStep()
 {
     while (!this->componentRemovalQueue.empty())
     {
-        const auto componentIdentifier = this->componentRemovalQueue.front();
+        const auto componentIdentifier = std::move(this->componentRemovalQueue.front());
         this->componentRemovalQueue.pop_front();
 
         auto& collection = this->getCollection(componentIdentifier.identifier);
@@ -242,11 +290,31 @@ nox::ecs::EntityManager::createStep()
 {
     while (!this->componentCreationQueue.empty())
     {
-        const auto componentIdentifier = this->componentCreationQueue.front();
+        auto componentIdentifier = std::move(this->componentCreationQueue.front());
         this->componentCreationQueue.pop_front();
 
         auto& collection = this->getCollection(componentIdentifier.identifier);
-        collection.create(componentIdentifier.id);
+
+        if (componentIdentifier.identifier == ecs::component_types::CHILDREN)
+        {
+            Children& child = boost::get<Children>(componentIdentifier.initValue);
+            collection.adopt(child);
+        } 
+        else if (componentIdentifier.identifier == ecs::component_types::PARENT)
+        {
+            Parent& parent = boost::get<Parent>(componentIdentifier.initValue);
+            collection.adopt(parent);
+        }
+        else
+        {
+            collection.create(componentIdentifier.id, this);
+            const Json::Value* jsonValue = boost::get<Json::Value>(&componentIdentifier.initValue);
+
+            if (jsonValue != nullptr)
+            {
+                collection.initialize(componentIdentifier.id, *jsonValue);
+            }
+        }
     }
 }
 
@@ -287,11 +355,9 @@ nox::ecs::EntityManager::activateStep()
 }
 
 void
-nox::ecs::EntityManager::sendEntityEvent(const EntityId& id,
-                                         const TypeIdentifier& identifier,
-                                         const ecs::Event& event)
+nox::ecs::EntityManager::sendEntityEvent(ecs::Event event)
 {
-    // To be implemented sprint05.
+    this->entityEvents.push(std::move(event));
 }
 
 void
@@ -307,6 +373,7 @@ nox::ecs::EntityManager::getCollection(const TypeIdentifier& identifier)
                                    std::end(this->components),
                                    [&identifier](const auto& item)
                                    { return item.getTypeIdentifier() == identifier; });
+    NOX_ASSERT(collection != std::end(this->components), "Illegal identifier, collection not found!\n");
 
     return *collection;
 }
