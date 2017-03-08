@@ -99,7 +99,7 @@ namespace nox
             /**
              * @brief Operation to run when a component is supposed to receive a component event.
              */
-            operation::ComponentEventOp receiveComponentEvent{};
+            operation::EntityEventOp receiveEntityEvent{};
 
             /**
              * @brief Collection of logicEvents that this component wants to subscribe to.

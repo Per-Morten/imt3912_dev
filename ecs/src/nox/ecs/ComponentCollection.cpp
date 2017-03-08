@@ -77,14 +77,26 @@ nox::ecs::ComponentCollection::~ComponentCollection()
 }
 
 void
-nox::ecs::ComponentCollection::create(const EntityId& id)
+nox::ecs::ComponentCollection::create(const EntityId& id, 
+                                      EntityManager* manager)
 {
     if (this->size() >= this->capacity())
     {
         this->reallocate();
     }
 
-    this->info.construct(this->cast(this->memory), id);
+    this->info.construct(this->cast(this->memory), id, manager);
+    this->memory += this->info.size;
+}
+
+void
+nox::ecs::ComponentCollection::adopt(Component& component)
+{
+    if (this->size() >= this->capacity())
+    {
+        this->reallocate();
+    }
+    this->info.moveConstruct(this->cast(this->memory), &component);
     this->memory += this->info.size;
 }
 
@@ -225,6 +237,31 @@ nox::ecs::ComponentCollection::receiveLogicEvent(const std::shared_ptr<nox::even
         auto end = this->cast(this->memory);
 
         this->info.receiveLogicEvent(begin, end, event);
+    }
+}
+
+void
+nox::ecs::ComponentCollection::receiveEntityEvent(const ecs::Event& event)
+{
+    if (this->info.receiveEntityEvent)
+    {
+        if (event.getReceiver() == ecs::Event::BROADCAST)
+        {
+            auto begin = this->cast(this->active);
+            auto end = this->cast(this->memory);
+            this->info.receiveEntityEvent(begin, end, event);
+        }
+        else
+        {
+            auto component = this->find(this->active, this->memory, event.getReceiver());
+            if (component)
+            {
+                // Ugly I know. However I must increment the bytes the correct number. 
+                // And I can't do that without casting it over to bytes.
+                auto end = reinterpret_cast<Component*>(reinterpret_cast<Byte*>(component) + this->info.size);
+                this->info.receiveEntityEvent(component, end, event);
+            }
+        }
     }
 }
 
