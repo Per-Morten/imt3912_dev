@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <chrono>
-#include <thread>
 #include <iostream>
+#include <thread>
 
 #include <nox/log/Logger.h>
 #include <nox/log/OutputManager.h>
@@ -47,8 +47,8 @@ main(int argc,
     //Fetch arguments from the command line parser
     programDuration = cmd::g_cmdParser.getIntArgument(cmd::constants::run_duration_ms_cmd,
                                                       cmd::constants::run_duration_ms_default);
-    int threadCount = cmd::g_cmdParser.getIntArgument(cmd::constants::thread_count_cmd,
-                                                      cmd::constants::thread_count_default);
+    int threadCount = cmd::g_cmdParser.getIntArgument(cmd::constants::thread_amount_cmd,
+                                                      cmd::constants::thread_amount_default);
     
     // Starting threads
     std::vector<std::thread> threads;
