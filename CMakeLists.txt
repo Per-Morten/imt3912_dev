@@ -10,6 +10,13 @@ project(nox-examples)
 option(NOXSAMPLE_ENGINE_SUBPROJECT "Use the NOX Engine subproject rather than the system library" ON)
 option(COMPILATION_TEST "If the current building is used for the compilation test or not" OFF)
 option(EXAMPLES_BUILD "If the examples should be built or not" ON)
+option(USE_CLANG "build application with clang" OFF) 
+
+if(USE_CLANG)
+    SET (CMAKE_CXX_COMPILER_ID "Clang")
+    SET (CMAKE_CXX_COMPILER "clang++")
+endif(USE_CLANG)
+
 
 # Get the compile commands so that we can use youcompleteme.
 set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
