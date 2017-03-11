@@ -2,7 +2,7 @@
 
 pushd ../.. > /dev/null 2>&1
 
-output="$(./build/bin/thread_safe_logger -thread_count 4 -run_time_ms 1000 --logall 2>&1)";
+output="$(./build/bin/thread_safe_logger -thread_amount 4 -run_time_ms 1000 --logall 2>&1)";
 
 popd > /dev/null 2>&1
 
