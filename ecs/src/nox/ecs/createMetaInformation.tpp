@@ -89,7 +89,6 @@ nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier,
 
     const auto moveConstruct = [](Component* dest, Component* src)
     {
-        auto destComp = static_cast<T*>(dest);
         auto srcComp = static_cast<T*>(src);
 
         new(dest)T(std::move(*srcComp));
