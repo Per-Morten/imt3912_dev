@@ -57,6 +57,11 @@ fi
 
 pushd ../.. > /dev/null 2>&1;
 
+#Do time estimate of program
+{ time $COMMAND > program_output.txt 2> program_error_output.txt ; } 2> time_output.txt;
+
+mkdir -p $RESULTS_FOLDER;
+
 #Getting various hardware information
 hardwareInfo="$(sudo lshw -short)";
 hardwareInfoVerbose="$(sudo lshw)";
@@ -77,12 +82,6 @@ if [[ "$USE_CALLGRIND" == "yes" ]];
 then
     valgrind --tool=callgrind --callgrind-out-file=callgrind_output.txt --log-file=callgrind_log.txt --cache-sim=yes --branch-sim=yes $COMMAND > /dev/null 2>&1;
 fi
-
-
-#Do time estimate of program
-{ time $COMMAND > program_output.txt 2> program_error_output.txt ; } 2> time_output.txt;
-
-mkdir -p $RESULTS_FOLDER;
 
 
 #Set folder name using date and time
