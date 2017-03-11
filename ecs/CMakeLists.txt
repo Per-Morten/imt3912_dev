@@ -7,7 +7,10 @@ file(GLOB_RECURSE TEMPLATES "src/*.tpp")
 file(GLOB_RECURSE INLINES "src/*.ipp")
 file(GLOB_RECURSE HEADERS "src/*.h")
 
-SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g3 -Og -ggdb3" ) #-Wall -pedantic -Wall -Wextra
+# Debug flags: "${CMAKE_CXX_FLAGS} -O0 -g3 -Og -ggdb3"
+# Regular flags: "${CMAKE_CXX_FLAGS} -O3 -Wall"
+# Think of adding -Wextra.
+SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O3 -Wall" )
 
 set(INCLUDE_DIRS ${INCLUDE_DIRS} src/)
 
