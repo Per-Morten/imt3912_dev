@@ -106,7 +106,7 @@ namespace nox
             bool empty() const;
 
         private:
-            std::queue<T> queue;
+            container_type queue;
             mutable std::mutex mutex;
         };
     }
