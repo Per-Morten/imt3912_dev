@@ -10,7 +10,7 @@ USE_MASSIF="yes"
 USE_CALLGRIND="yes"
 SAVE_PROGRAM_OUTPUT="yes"
 
-#Parser all arguments and put them into variables
+#Parses all arguments and put them into variables
 for i in "$@"
 do
     case $i in
@@ -41,7 +41,7 @@ do
     esac
 done
 
-#Check if all nessecarry arguments were set
+#Check if all necessary arguments were set
 if [[ "$TEST_NAME" == "" ]];
 then
     printf "Test needs to be named. --test-name=<test name>\n";
