@@ -8,6 +8,7 @@ fi
 
 USE_MASSIF="yes"
 USE_CALLGRIND="yes"
+SAVE_PROGRAM_OUTPUT="yes"
 
 #Parser all arguments and put them into variables
 for i in "$@"
@@ -31,6 +32,10 @@ do
         ;;
         --use-callgrind=*)
         USE_CALLGRIND="${i#*=}"
+        shift # past argument=value
+        ;;
+        --save_program_output=*)
+        SAVE_PROGRAM_OUTPUT="${1#*=}"
         shift # past argument=value
         ;;
     esac
@@ -57,55 +62,41 @@ fi
 
 pushd ../.. > /dev/null 2>&1;
 
-#Do time estimate of program
-{ time $COMMAND > program_output.txt 2> program_error_output.txt ; } 2> time_output.txt;
-
-mkdir -p $RESULTS_FOLDER;
-
-#Getting various hardware information
-hardwareInfo="$(sudo lshw -short)";
-hardwareInfoVerbose="$(sudo lshw)";
-cpuInfo="$(sudo lscpu)";
-batteryInfo="$(upower -d)";
-
-#Copying cmake cache
-cMakeCache="$(cat build/CMakeCache.txt)"
-
-
-#Running valgrind programs
-if [[ "$USE_MASSIF" == "yes" ]];
-then
-    valgrind --tool=massif --time-unit=B --detailed-freq=100 --massif-out-file=massif_output.txt --log-file=massif_log.txt $COMMAND > /dev/null 2>&1;
-fi
-
-if [[ "$USE_CALLGRIND" == "yes" ]];
-then
-    valgrind --tool=callgrind --callgrind-out-file=callgrind_output.txt --log-file=callgrind_log.txt --cache-sim=yes --branch-sim=yes $COMMAND > /dev/null 2>&1;
-fi
-
-
 #Set folder name using date and time
 folderName="_$(date +%F_%H-%M-%S)";
 folderName="$TEST_NAME$folderName";
 folderPath="$RESULTS_FOLDER/$folderName";
 
 
+mkdir -p $RESULTS_FOLDER;
 mkdir $folderPath
 
 
-#Move all outputs and logs to the appropriate folder
+#Do time estimate of program
+{ time $COMMAND > program_output.txt 2> program_error_output.txt ; } 2> time_output.txt;
+
+#Output the program output to screen
+cat program_output.txt;
+
+#Remove program output if specified
+if [[ "$SAVE_PROGRAM_OUTPUT" == "no" ]]
+then
+    rm program_output.txt;
+fi
+
+#Running valgrind programs
 if [[ "$USE_MASSIF" == "yes" ]];
 then
-    mv massif_log.txt $folderPath/
-    mv massif_output.txt $folderPath/
+    valgrind --tool=massif --time-unit=B --detailed-freq=100 --massif-out-file="$folderPath/massif_output.txt" --log-file="$folderPath/massif_log.txt" $COMMAND > /dev/null 2>&1;
 fi
 
 if [[ "$USE_CALLGRIND" == "yes" ]];
 then
-    mv callgrind_log.txt $folderPath/
-    mv callgrind_output.txt $folderPath/
-fi
+    valgrind --tool=callgrind --callgrind-out-file="$folderPath/callgrind_output.txt" --log-file="$folderPath/callgrind_log.txt" --cache-sim=yes --branch-sim=yes $COMMAND > /dev/null 2>&1;
+fi 
 
+
+#Move all outputs and logs to the appropriate folder
 mv program_output.txt $folderPath/
 mv program_error_output.txt $folderPath/
 mv time_output.txt $folderPath/
@@ -117,5 +108,11 @@ echo "$cpuInfo" >> $folderPath/cpu_info.txt;
 echo "$batteryInfo" >> $folderPath/battery_info.txt;
 echo "$cMakeCache" >> $folderPath/cmakecache_copy.txt;
 
+printf "Test name: $TEST_NAME\n"  >> $folderPath/test_arguments.txt;
+printf "Results folder: $RESULTS_FOLDER\n"  >> $folderPath/test_arguments.txt;
+printf "Command: $COMMAND\n"  >> $folderPath/test_arguments.txt;
+printf "Using massif: $USE_MASSIF\n"  >> $folderPath/test_arguments.txt;
+printf "Using callgrind: $USE_CALLGRIND\n" >> $folderPath/test_arguments.txt;
+printf "Save program output: $SAVE_PROGRAM_OUTPUT\n" >> $folderPath/test_arguments.txt;
 
 popd > /dev/null 2>&1;
