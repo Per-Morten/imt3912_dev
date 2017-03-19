@@ -105,8 +105,31 @@ namespace nox
             std::condition_variable cv{};
             std::mutex cvMutex{};
             QueueType<Task> tasks;
+            
+            /**
+             * @brief      Indicates how many tasks are left to processed, used
+             *             within the wait function to block the calling thread
+             *             properly.
+             *
+             *             Memory Order: Task count only does acquire release
+             *             order, as we don't think we need sequentially
+             *             consistency. We think it could have been relaxed as
+             *             we are mostly doing opaque function calls, however,
+             *             we choose to be on the safe side and go for acquire
+             *             release.
+             */
             std::atomic_size_t taskCount{0};
+
             std::vector<std::thread> threads{};
+
+            /**
+             * @brief      Used to indicate whether or not a thread should
+             *             continue with tasks, or if the pool is stopping.
+             *
+             *             Memory Order: All ordering is relaxed, we are not
+             *             guarding any information with this variable, and it
+             *             is only used for signaling to stop in the future.
+             */
             std::atomic_bool shouldContinue{true};
         };
     }

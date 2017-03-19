@@ -7,23 +7,24 @@ nox::thread::Pool<QueueType>::Pool(std::size_t threadCount)
 {
     auto workerFunc = [this]() -> void
     {
-        while (std::atomic_load_explicit(&this->shouldContinue, std::memory_order_seq_cst))
+        while (std::atomic_load_explicit(&this->shouldContinue, std::memory_order_relaxed))
         {
             std::unique_lock<std::mutex> lock(this->cvMutex);
-            Task task;
+            Task task{};
             
-            // Continue waiting if: No tasks are popped from the queue, and we should continue.
+            // Stop waiting if: A task is popped successfully from the queue or we should not continue.
             auto waitPred = [this, &task]() 
             { 
                 return this->tasks.pop(task) || 
                        !std::atomic_load_explicit(&this->shouldContinue, 
-                                                  std::memory_order_seq_cst); 
+                                                  std::memory_order_relaxed); 
             };
 
-            // Tells the thread to try and wake up again every  0.5 second to avoid "race"
-            // on "registering" a wait on the cv.
+            // Tells the thread to try and wake up again every  0.25 second to avoid "race"
+            // on "registering" a wait on the cv, and to ensure that all threads wake up at some point
+            // in the destructor of the pool.
             this->cv.wait_for(lock, 
-                              std::chrono::milliseconds(500),
+                              std::chrono::milliseconds(250),
                               [waitPred]() { return waitPred(); });
 
             // No need to continue waiting after we have gotten the task.
@@ -35,7 +36,7 @@ nox::thread::Pool<QueueType>::Pool(std::size_t threadCount)
                 task();
                 std::atomic_fetch_sub_explicit(&this->taskCount, 
                                                std::size_t(1), 
-                                               std::memory_order_seq_cst);
+                                               std::memory_order_acq_rel);
             }
         }
     };
@@ -51,9 +52,9 @@ nox::thread::Pool<QueueType>::~Pool()
 {
     std::atomic_store_explicit(&this->shouldContinue, 
                                false, 
-                               std::memory_order_seq_cst);
-    
+                               std::memory_order_relaxed);
     this->tasks.clear();
+    
     this->cv.notify_all();
 
     for (auto& thread : this->threads)
@@ -66,11 +67,11 @@ template<template<class> class QueueType>
 void
 nox::thread::Pool<QueueType>::addTask(const Task& task)
 {
+    this->tasks.push(task);
     std::atomic_fetch_add_explicit(&this->taskCount, 
                                    std::size_t(1), 
-                                   std::memory_order_seq_cst);
+                                   std::memory_order_acq_rel);
 
-    this->tasks.push(task);
     this->cv.notify_one();
 }
 
@@ -78,7 +79,7 @@ template<template<class> class QueueType>
 void
 nox::thread::Pool<QueueType>::wait()
 {
-    while (std::atomic_load_explicit(&this->taskCount, std::memory_order_seq_cst) != 0)
+    while (std::atomic_load_explicit(&this->taskCount, std::memory_order_acquire) != 0)
     {
         this->cv.notify_all();
         std::this_thread::yield();    
@@ -89,10 +90,10 @@ template<template<class> class QueueType>
 void
 nox::thread::Pool<QueueType>::clearTasks()
 {
-    std::atomic_store_explicit(&this->taskCount, 
-                               std::size_t(1), 
-                               std::memory_order_seq_cst);
     this->tasks.clear();
+    std::atomic_store_explicit(&this->taskCount, 
+                               std::size_t(0), 
+                               std::memory_order_release);
 }
 
 template<template<class> class QueueType>
