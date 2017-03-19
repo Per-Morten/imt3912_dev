@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <cstdarg>
 #include <exception>
+#include <mutex>
+
+extern std::mutex g_mutex;
 
 template<std::size_t sizeOfFileName>
 void
@@ -12,9 +15,10 @@ logDebug(const char(&filename)[sizeOfFileName],
          const char* fmt,
          ...)
 {
+    std::lock_guard<std::mutex> lock(g_mutex);
     const char* format = "[DEBUG] Function: %s Line: %i: Message: ";
-    std::printf(format, function, line);
 
+    std::printf(format, function, line);
     std::va_list args;
     va_start(args, fmt);
     std::vprintf(fmt, args);
