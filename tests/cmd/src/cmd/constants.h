@@ -27,6 +27,9 @@ namespace cmd
         
         constexpr auto trivial_component_duration_exponent_cmd = "-trivial_component_duration_exponent";
         constexpr auto trivial_component_duration_exponent_default = 1.0f;
+
+        constexpr auto run_count_cmd = "-run_count";
+        constexpr auto run_count_default = 10;
     }
 }
 
