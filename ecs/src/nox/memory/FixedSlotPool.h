@@ -108,7 +108,7 @@ namespace nox
                 /**
                  * @brief      How many bytes that is used within the slots.
                  */
-                std::size_t used{0};
+                std::size_t used{};
 
                 /**
                  * @brief      Area of raw memory which is allocated into.
