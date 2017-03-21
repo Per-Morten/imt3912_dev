@@ -73,7 +73,7 @@ do
     readableNumber $i 6;
     nr=$result;
 
-    ./run_test.sh --test-name="$compiler_$nr" --results-folder="$root/memory_usage/empty_actors" --command="./build/bin/empty_actors -actor_amount $i --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$root/memory_usage/empty_actors" --command="./build/bin/empty_actors -actor_amount $i --logrm warning" --save-program-output=no;
     ((i=i*2));
     ((count++));
 done
@@ -85,7 +85,7 @@ do
     readableNumber $i 6;
     nr=$result;
 
-    ./run_test.sh --test-name="$compiler_$nr" --results-folder="$root/memory_usage/physics_actors" --command="./build/bin/physics_actors -actor_amount $i --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$root/memory_usage/physics_actors" --command="./build/bin/physics_actors -actor_amount $i --logrm warning" --save-program-output=no;
     ((i=i*2));
     ((count++));
 done
@@ -97,7 +97,7 @@ do
     readableNumber $i 6;
     nr=$result;
 
-    ./run_test.sh --test-name="$compiler_$nr" --results-folder="$root/memory_usage/sprite_actors" --command="./build/bin/sprite_actors -actor_amount $i --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$root/memory_usage/sprite_actors" --command="./build/bin/sprite_actors -actor_amount $i --logrm warning" --save-program-output=no;
     ((i=i*2));
     ((count++));
 done
@@ -111,14 +111,14 @@ do
     readableNumber $i 6;
     nr=$result;
 
-    ./run_test.sh --test-name="$compiler_deletes_01_empty_actors_$nr" --results-folder="$root/fast_spawning" --command="./build/bin/fast_spawning -world_path world/creator_world.json -actor_name EmptyActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=no;
-    ./run_test.sh --test-name="$compiler_deletes_10_empty_actors_$nr" --results-folder="$root/fast_spawning" --command="./build/bin/fast_spawning -world_path world/creator_world.json -actor_name EmptyActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="${compiler}_deletes_01_empty_actors_${nr}" --results-folder="$root/fast_spawning" --command="./build/bin/fast_spawning -world_path world/creator_world.json -actor_name EmptyActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="${compiler}_deletes_10_empty_actors_${nr}" --results-folder="$root/fast_spawning" --command="./build/bin/fast_spawning -world_path world/creator_world.json -actor_name EmptyActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=no;
     
-    ./run_test.sh --test-name="$compiler_deletes_01_sprite_actors_$nr" --results-folder="$root/fast_spawning" --command="./build/bin/fast_spawning -world_path world/creator_world.json -actor_name SpriteActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=no;
-    ./run_test.sh --test-name="$compiler_deletes_10_sprite_actors_$nr" --results-folder="$root/fast_spawning" --command="./build/bin/fast_spawning -world_path world/creator_world.json -actor_name SpriteActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="${compiler}_deletes_01_sprite_actors_${nr}" --results-folder="$root/fast_spawning" --command="./build/bin/fast_spawning -world_path world/creator_world.json -actor_name SpriteActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="${compiler}_deletes_10_sprite_actors_${nr}" --results-folder="$root/fast_spawning" --command="./build/bin/fast_spawning -world_path world/creator_world.json -actor_name SpriteActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=no;
     
-    ./run_test.sh --test-name="$compiler_deletes_01_physics_actors_$nr" --results-folder="$root/fast_spawning" --command="./build/bin/fast_spawning -world_path world/creator_world.json -actor_name PhysicsActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=no;
-    ./run_test.sh --test-name="$compiler_deletes_10_physics_actors_$nr" --results-folder="$root/fast_spawning" --command="./build/bin/fast_spawning -world_path world/creator_world.json -actor_name PhysicsActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="${compiler}_deletes_01_physics_actors_${nr}" --results-folder="$root/fast_spawning" --command="./build/bin/fast_spawning -world_path world/creator_world.json -actor_name PhysicsActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="${compiler}_deletes_10_physics_actors_${nr}" --results-folder="$root/fast_spawning" --command="./build/bin/fast_spawning -world_path world/creator_world.json -actor_name PhysicsActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=no;
 
     ((i=i*2));
     ((count++));
@@ -129,7 +129,7 @@ j="1";
 while [ $componentCount -lt 8];
 do
     pushd ../.. > /dev/null 2>&1;
-    ./compile --cmake-arguments="-DNUC_TRIVIAL_COMPONENT_COMPONENT_COUNT=$j" --make-arguments="-j4";
+    ./compile --cmake-arguments="-DNUC_TRIVIAL_COMPONENT_COMPONENT_COUNT=${j}" --make-arguments="-j4";
     popd > /dev/null 2>&1;
 
     i=1;
@@ -139,7 +139,7 @@ do
         readableNumber $i 4;
         nr=$result;
     
-        ./run_test.sh --test-name="$compiler_components_$j_actors_$nr" --results-folder="$root/numerious_unique_components" --command="./build/bin/fast_spawning -actor_amount $i --logrm warning" --save-program-output=no;
+        ./run_test.sh --test-name="${compiler]_components_${j]_actors_${nr}" --results-folder="$root/numerious_unique_components" --command="./build/bin/fast_spawning -actor_amount $i --logrm warning" --save-program-output=no;
         
     
         ((i=i*2));
