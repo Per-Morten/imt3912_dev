@@ -6,6 +6,7 @@ then
     exit 1;
 fi
 
+#Default values for some arguments
 USE_MASSIF="yes"
 USE_CALLGRIND="yes"
 SAVE_PROGRAM_OUTPUT="yes"
@@ -34,7 +35,7 @@ do
         USE_CALLGRIND="${i#*=}"
         shift # past argument=value
         ;;
-        --save_program_output=*)
+        --save-program-output=*)
         SAVE_PROGRAM_OUTPUT="${1#*=}"
         shift # past argument=value
         ;;
@@ -75,11 +76,11 @@ mkdir $folderPath
 #Do time estimate of program
 { time $COMMAND > program_output.txt 2> program_error_output.txt ; } 2> time_output.txt;
 
-#Output the program output to screen
+#Print the program output to screen
 cat program_output.txt;
 
 #Remove program output if specified
-if [[ "$SAVE_PROGRAM_OUTPUT" == "no" ]]
+if [[ "$SAVE_PROGRAM_OUTPUT" == "no" ]];
 then
     rm program_output.txt;
 fi
@@ -97,22 +98,20 @@ fi
 
 
 #Move all outputs and logs to the appropriate folder
-mv program_output.txt $folderPath/
+if [[ "$SAVE_PROGRAM_OUTPUT" != "no" ]];
+then
+    mv program_output.txt $folderPath/
+fi
+
 mv program_error_output.txt $folderPath/
 mv time_output.txt $folderPath/
 
 
-echo "$hardwareInfo" >> $folderPath/hardware_info.txt;
-echo "$hardwareInfoVerbose" >> $folderPath/hardware_info_verbose.txt;
-echo "$cpuInfo" >> $folderPath/cpu_info.txt;
-echo "$batteryInfo" >> $folderPath/battery_info.txt;
-echo "$cMakeCache" >> $folderPath/cmakecache_copy.txt;
-
 printf "Test name: $TEST_NAME\n"  >> $folderPath/test_arguments.txt;
 printf "Results folder: $RESULTS_FOLDER\n"  >> $folderPath/test_arguments.txt;
 printf "Command: $COMMAND\n"  >> $folderPath/test_arguments.txt;
-printf "Using massif: $USE_MASSIF\n"  >> $folderPath/test_arguments.txt;
-printf "Using callgrind: $USE_CALLGRIND\n" >> $folderPath/test_arguments.txt;
+printf "Use massif: $USE_MASSIF\n"  >> $folderPath/test_arguments.txt;
+printf "Use callgrind: $USE_CALLGRIND\n" >> $folderPath/test_arguments.txt;
 printf "Save program output: $SAVE_PROGRAM_OUTPUT\n" >> $folderPath/test_arguments.txt;
 
 popd > /dev/null 2>&1;
