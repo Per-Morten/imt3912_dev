@@ -14,8 +14,8 @@
 #include <nox/logic/world/Loader.h>
 #include <nox/logic/world/Manager.h>
 
-#include <json/value.h>
 #include <glm/gtx/string_cast.hpp>
+#include <json/value.h>
 
 #include <cmd/parser.h>
 
