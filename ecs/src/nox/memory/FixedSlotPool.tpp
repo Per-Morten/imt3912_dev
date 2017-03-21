@@ -4,11 +4,11 @@ template<std::size_t slotSize, std::size_t slotCount>
 nox::memory::FixedSlotPool<slotSize, slotCount>::FixedSlotPool(std::size_t initialBlockCount) 
 {
     NOX_ASSERT(initialBlockCount > 0, "At least one block must be allocated!");
-    first = new Block();
-    firstFree = first;
+    this->first = new Block();
+    this->firstFree = this->first;
 
     // Doing -1 because we have already done the first block.
-    auto itr = first;
+    auto itr = this->first;
     for (std::size_t i = 0; i < initialBlockCount - 1; ++i)
     {
         itr->next = new Block();

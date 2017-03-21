@@ -19,17 +19,6 @@ namespace nox
         {
         public:
             /**
-             * @brief      Block holding a link to the next block, as well as
-             *             the memory area within the block.
-             */ 
-            struct Block
-            {
-                Block* next{};
-                std::size_t used{0};
-                Byte slots[slotSize * slotCount];
-            };
-            
-            /**
              * @brief      Creates the FixedSlotPool with as many blocks as
              *             specified by the parameter.
              *
@@ -105,7 +94,36 @@ namespace nox
             void reset();
 
         private:
+            /**
+             * @brief      Block holding a link to the next block, as well as
+             *             the memory area within the block.
+             */ 
+            struct Block
+            {
+                /**
+                 * @brief      Pointer to next block within the list of blocks.
+                 */
+                Block* next{};
+
+                /**
+                 * @brief      How many bytes that is used within the slots.
+                 */
+                std::size_t used{0};
+
+                /**
+                 * @brief      Area of raw memory which is allocated into.
+                 */
+                Byte slots[slotSize * slotCount];
+            };
+
+            /**
+             * @brief Pointer to the first block within the list.
+             */
             Block* first{};
+
+            /**
+             * @brief Pointer to the first block that contains free slots.
+             */
             Block* firstFree{};
         };
     }
