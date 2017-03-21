@@ -36,6 +36,14 @@ namespace nox
              * @param      ptr   Ptr to memory to deallocate.
              */
             void deallocate(void* ptr);
+
+            /**
+             * @brief      Function is ignored in this allocator. The function
+             *             exists only reason for easing performance testing in
+             *             real world case. See:
+             *             https://github.com/Per-Morten/imt3912_dev/issues/81
+             */
+            void reset() {}
         };
     }
 }
