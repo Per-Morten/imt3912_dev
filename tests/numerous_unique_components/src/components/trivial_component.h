@@ -34,6 +34,9 @@ namespace components
 
         std::chrono::nanoseconds sleepDuration;
         nox::event::ListenerManager listener;
+        std::size_t updateCount{ 0 };
+        std::size_t updateSize{ 0 };
+        bool running{ true };
 
     };
 }

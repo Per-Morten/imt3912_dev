@@ -19,6 +19,7 @@
 
 #include <cmd/parser.h>
 #include <components/trivial_component.h>
+#include <globals.h>
 #include <recursive_register_component.h>
 
 #ifndef TRIVIAL_COMPONENT_COUNT
@@ -167,9 +168,9 @@ ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic
 bool 
 ConsoleApplication::onInit()
 {
-    int runTimeMs = cmd::g_cmdParser.getIntArgument(cmd::constants::run_duration_ms_cmd,
-                                                    cmd::constants::run_duration_ms_default);
-    exitTimer.setTimerLength(std::chrono::milliseconds(runTimeMs));
+    int actorAmount = cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
+                                                      cmd::constants::actor_amount_default);
+    globals::activeComponentCount = actorAmount * TRIVIAL_COMPONENT_COUNT;
 
     log = createLogger();
     log.setName("ConsoleApplication");
@@ -199,9 +200,7 @@ ConsoleApplication::onInit()
 void 
 ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
 {
-    exitTimer.spendTime(deltaTime);
-
-    if (exitTimer.timerReached() == true)
+    if (globals::activeComponentCount <= 0)
     {
         quitApplication();
     }
