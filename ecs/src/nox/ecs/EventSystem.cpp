@@ -1,18 +1,14 @@
 #include <nox/ecs/EventSystem.h>
 
 nox::ecs::EventSystem::EventSystem()
-    : head(static_cast<Base*>(nodeAllocator.allocate(sizeof(EventNode))))
-    , readHead(static_cast<EventNode*>(head))
-    , writeHead(static_cast<EventNode*>(head))
+    : readHead(static_cast<EventNode*>(&head))
+    , writeHead(static_cast<EventNode*>(&head))
 {
-    new (this->head) Base();
 }
 
 nox::ecs::EventSystem::~EventSystem()
 {
-    auto itr = this->cast(this->head->next);
-    this->head->~Base();
-    this->nodeAllocator.deallocate(this->head);
+    auto itr = this->cast(this->head.next);
 
     while (itr)
     {
@@ -29,7 +25,7 @@ nox::ecs::EventSystem::createEvent(const TypeIdentifier& eventType,
     auto tmp = this->writeHead;
     this->writeHead = static_cast<EventNode*>(this->nodeAllocator.allocate(sizeof(EventNode)));
     tmp->next = this->writeHead;
-    new (this->writeHead) EventNode({eventType, senderId, receiverId});
+    new (this->writeHead) EventNode({this->argumentAllocator, eventType, senderId, receiverId});
     return this->writeHead->event;
 }
 
@@ -41,11 +37,11 @@ nox::ecs::EventSystem::readNextEvent()
 }
 
 void
-nox::ecs::EventSystem::reset()
+nox::ecs::EventSystem::clear()
 {
-    this->readHead = this->cast(this->head);
-    this->writeHead = this->cast(this->head);
-    auto itr = this->cast(this->head->next);
+    this->readHead = this->cast(&this->head);
+    this->writeHead = this->cast(&this->head);
+    auto itr = this->cast(this->head.next);
     while (itr)
     {
         auto next = this->cast(itr->next);
@@ -53,8 +49,9 @@ nox::ecs::EventSystem::reset()
         this->nodeAllocator.deallocate(itr);
         itr = next;
     }
-    this->nodeAllocator.reset();
-    this->head->next = nullptr;
+    this->nodeAllocator.clear();
+    this->argumentAllocator.clear();
+    this->head.next = nullptr;
 }
 
 bool

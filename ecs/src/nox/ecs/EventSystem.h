@@ -1,10 +1,10 @@
 #ifndef NOX_ECS_EVENTSYSTEM_H_
 #define NOX_ECS_EVENTSYSTEM_H_
 #include <cstdint>
-#include <nox/memory/Byte.h>
+
 #include <nox/ecs/Event.h>
-#include <nox/memory/FixedSlotPool.h>
-#include <nox/memory/HeapAllocator.h>
+#include <nox/memory/Byte.h>
+#include <nox/memory/LinearAllocator.h>
 
 namespace nox
 {
@@ -41,7 +41,8 @@ namespace nox
              * @param[in]  senderId    The sender of the event.
              * @param[in]  receiverId  The receiver of the event.
              *
-             * @return     Reference to a new event that can be customized further.
+             * @return     Reference to a new event that can be customized
+             *             further.
              */
             Event& createEvent(const TypeIdentifier& eventType,
                                const EntityId& senderId,
@@ -59,14 +60,16 @@ namespace nox
             Event& readNextEvent();
 
             /**
-             * @brief      Removes and deallocates all memory from the container.
+             * @brief      Removes and deallocates all memory from the
+             *             container.
              */ 
-            void reset();
+            void clear();
 
             /**
              * @brief      Checks if the container is empty.
              *
-             * @return     True if the container is currently empty, false otherwise.
+             * @return     True if the container is currently empty, false
+             *             otherwise.
              */
             bool empty();
             
@@ -99,7 +102,7 @@ namespace nox
             /**
              * @brief      Allocator to be used for allocating EventNodes.
              */
-            using NodeAllocator = nox::memory::FixedSlotPool<sizeof(EventNode), 1024>;
+            using NodeAllocator = nox::memory::LinearAllocator<sizeof(EventNode) * 1024>;
 
             /**
              * @brief      Casts a Base* to an EventNode*
@@ -111,14 +114,19 @@ namespace nox
             EventNode* cast(Base* ptr);
             
             /**
+             * @brief Shared among all the different events, used to allocate memory for arguments.
+             */
+            Event::ArgumentAllocator argumentAllocator{};
+
+            /**
              * @brief      Allocator used for allocating EventNodes.
              */ 
-            NodeAllocator nodeAllocator;
+            NodeAllocator nodeAllocator{};
 
             /**
              * @brief      Head of the list, with pointer to the first element.
              */
-            Base* head{};
+            Base head{};
 
             /**
              * @brief      Ptr to the node before the node to read next.
