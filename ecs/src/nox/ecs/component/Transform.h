@@ -4,7 +4,6 @@
 #include <string>
 
 #include <nox/ecs/Component.h>
-#include <nox/ecs/EntityManager.h>
 
 #include <glm/mat4x4.hpp>
 #include <glm/vec2.hpp>
@@ -16,36 +15,39 @@ namespace nox
     namespace ecs
     {
         /**
-         * Place an Actor with a position, rotation, and scale.
-         * An important component used by many other components.
-         *
-         * # JSON Description
-         * ## Name
-         * %Transform
-         *
-         * ## Properties
-         * - __position__:vec2 - Position of the Actor. Default vec2(0, 0).
-         * - __rotation__:real - Rotation of the Actor. Default 0.
-         * - __scale__:vec2 - Scale of the actor. Default vec2(1, 1).
+         * @brief      Place an Entity with a position, rotation, and scale. An
+         *             important component used by many other components.
          */
         class Transform final
             : public Component
         {
         public:
-            const static std::string NAME;
-        
-            virtual ~Transform() = default;
-        
+            /**
+             * @brief      Move constructor for Children component.
+             *
+             * @param[in]  position   The position
+             * @param[in]  rotation   The rotation
+             * @param[in]  scale      The scale
+             * @param[in]  broadcast  If the changes should be broadcasted
+             */
+            Transform(const glm::vec2& position, 
+                            const float rotation, 
+                            const glm::vec2& scale, 
+                            bool broadcast = true);
+
             bool initialize(const Json::Value& componentJsonObject);
             //void serialize(Json::Value& componentObject) override;
             void onCreate();
-            const std::string& getName() const;
         
             /**
-             * Get the transform matrix representing the operations scale->rotate->translate.
+             * @brief      Get the transform matrix representing the operations
+             *             scale->rotate->translate.
+             *
+             * @return     The transform matrix.
              */
             glm::mat4 getTransformMatrix();
         
+
             void setPosition(const glm::vec2& position, 
                              bool broadcast = true);
 
@@ -66,8 +68,8 @@ namespace nox
         
         private:
             /**
-             * Broadcast a transformation change to other components,
-             * and globally to the EventManager.
+             * @brief      Broadcast a transformation change to other
+             *             components, and globally to the EventManager.
              */
             void broadcastTransformChange();
         
@@ -79,6 +81,6 @@ namespace nox
     }
 }
 
-#include "Transform.ipp"
+#include <nox/ecs/component/Transform.ipp>
 
 #endif

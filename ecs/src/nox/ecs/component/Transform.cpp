@@ -1,14 +1,11 @@
-#include "Transform.h"
+#include <nox/ecs/component/Tranform.h>
 
-#include <nox/util/json_utils.h>
+#include <nox/ecs/createEventArgument.h>
 #include <nox/ecs/Event.h>
 #include <nox/ecs/TypeIdentifier.h>
-#include <nox/ecs/createEventArgument.h>
 
 #include <glm/gtc/matrix_transform.hpp>
-
-
-const std::string nox::ecs::Transform::NAME = "Transform";
+#include <nox/util/json_utils.h>
 
 
 bool 
@@ -36,12 +33,6 @@ nox::ecs::Transform::getTransformMatrix()
     transform = glm::scale(transform, glm::vec3(this->scale, 1.0f));
 
     return transform;
-}
-
-const std::string& 
-nox::ecs::Transform::getName() const
-{
-    return NAME;
 }
 
 void 
