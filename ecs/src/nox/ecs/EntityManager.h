@@ -480,7 +480,7 @@ namespace nox
             nox::thread::LockedQueue<CreationArguments> creationQueue{};
             nox::thread::LockedQueue<ComponentIdentifier> removalQueue{};
 
-            std::queue<std::shared_ptr<nox::event::Event>> logicEvents{};
+            nox::thread::LockedQueue<std::shared_ptr<nox::event::Event>> logicEvents{};
             std::queue<nox::ecs::Event> entityEvents{};
 
             std::atomic<EntityId> currentEntityId{};

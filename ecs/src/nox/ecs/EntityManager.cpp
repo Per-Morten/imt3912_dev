@@ -194,11 +194,9 @@ nox::ecs::EntityManager::step(const nox::Duration& deltaTime)
 void
 nox::ecs::EntityManager::distributeLogicEvents()
 {
-    while (!this->logicEvents.empty())
+    std::shared_ptr<nox::event::Event> event{};
+    while (this->logicEvents.pop(event))
     {
-        auto event = this->logicEvents.front();
-        this->logicEvents.pop();
-
         for (auto& collection : this->components)
         {
             collection.receiveLogicEvent(event);
