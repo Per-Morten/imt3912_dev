@@ -1,7 +1,7 @@
 #include <nox/util/nox_assert.h>
 
-template<std::size_t slotSize, std::size_t slotCount>
-nox::memory::FixedSlotPool<slotSize, slotCount>::FixedSlotPool(std::size_t initialBlockCount) 
+template<std::size_t blockSize>
+nox::memory::LinearAllocator<blockSize>::LinearAllocator(std::size_t initialBlockCount) 
 {
     NOX_ASSERT(initialBlockCount > 0, "At least one block must be allocated!");
     this->first = new Block();
@@ -16,8 +16,8 @@ nox::memory::FixedSlotPool<slotSize, slotCount>::FixedSlotPool(std::size_t initi
     }
 }
 
-template<std::size_t slotSize, std::size_t slotCount>
-nox::memory::FixedSlotPool<slotSize, slotCount>::FixedSlotPool(FixedSlotPool&& source)
+template<std::size_t blockSize>
+nox::memory::LinearAllocator<blockSize>::LinearAllocator(LinearAllocator&& source)
     : first(source.first)
     , firstFree(source.firstFree)
 {
@@ -25,9 +25,9 @@ nox::memory::FixedSlotPool<slotSize, slotCount>::FixedSlotPool(FixedSlotPool&& s
     source.firstFree = nullptr;
 }
 
-template<std::size_t slotSize, std::size_t slotCount>
-nox::memory::FixedSlotPool<slotSize, slotCount>& 
-nox::memory::FixedSlotPool<slotSize, slotCount>::operator=(FixedSlotPool&& source)
+template<std::size_t blockSize>
+nox::memory::LinearAllocator<blockSize>& 
+nox::memory::LinearAllocator<blockSize>::operator=(LinearAllocator&& source)
 {
     if (this != &source)
     {
@@ -48,8 +48,8 @@ nox::memory::FixedSlotPool<slotSize, slotCount>::operator=(FixedSlotPool&& sourc
     return *this;
 }
 
-template<std::size_t slotSize, std::size_t slotCount>
-nox::memory::FixedSlotPool<slotSize, slotCount>::~FixedSlotPool()
+template<std::size_t blockSize>
+nox::memory::LinearAllocator<blockSize>::~LinearAllocator()
 {
     while (this->first != nullptr)
     {
@@ -59,12 +59,12 @@ nox::memory::FixedSlotPool<slotSize, slotCount>::~FixedSlotPool()
     }
 }
 
-template<std::size_t slotSize, std::size_t slotCount>
+template<std::size_t blockSize>
 void* 
-nox::memory::FixedSlotPool<slotSize, slotCount>::allocate(std::size_t size)
+nox::memory::LinearAllocator<blockSize>::allocate(std::size_t size)
 {
-    NOX_ASSERT(size == slotSize, "Wrong allocate size passed! Template: %zu, Argument: %zu", slotSize, size);
-    if (this->firstFree->used >= slotSize * slotCount)
+    NOX_ASSERT(size <= blockSize, "Requesting to large allocation! MAX_SIZE: %zu, Argument: %zu", blockSize, size);
+    if (this->firstFree->used + size >= MAX_SIZE)
     {
         // Might be that we are reusing a block here, which can happen after we have done a reset.
         auto newBlock = (this->firstFree->next != nullptr) ? this->firstFree->next : new Block();
@@ -73,13 +73,13 @@ nox::memory::FixedSlotPool<slotSize, slotCount>::allocate(std::size_t size)
         this->firstFree->used = 0;
     }
     auto ret = &(this->firstFree->slots[this->firstFree->used]);
-    this->firstFree->used += slotSize;
+    this->firstFree->used += size;
     return ret;
 }
 
-template<std::size_t slotSize, std::size_t slotCount>
+template<std::size_t blockSize>
 void 
-nox::memory::FixedSlotPool<slotSize, slotCount>::reset()
+nox::memory::LinearAllocator<blockSize>::clear()
 {
     this->first->used = 0;
     this->firstFree = this->first;

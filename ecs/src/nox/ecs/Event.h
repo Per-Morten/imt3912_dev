@@ -1,10 +1,10 @@
 #ifndef NOX_ECS_EVENT_H_
 #define NOX_ECS_EVENT_H_
 #include <limits>
-#include <vector>
 
 #include <nox/ecs/EntityId.h>
 #include <nox/ecs/TypeIdentifier.h>
+#include <nox/memory/LinearAllocator.h>
 
 namespace nox
 {
@@ -18,30 +18,24 @@ namespace nox
         {
         public:
             /**
-             * @brief      Class for holding arguments within the event.
-             *             The class is a non owning container for memory,
-             *             it is the events job to destroy all of its arguments properly.
+             * @brief      Class for holding arguments within the event. The
+             *             class is a non owning container for memory, it is the
+             *             events job to destroy all of its arguments properly.
              */
             class Argument
             {
             public:
-
                 /**
-                 * @brief      Friending to get easy access to the destructor.
+                 * @brief      Friending event so it gets access to destructor,
+                 *             without giving anyone else that access.
                  */
                 friend ecs::Event;
-
-                /**
-                 * @brief      Doing unsigned char rather than std::uint8_t as a
-                 *             byte are not necessarily 8 bits.
-                 */
-                using Byte = unsigned char;
 
                 /**
                  * @brief      Function pointer to allow for destruction while
                  *             maintaining types info.
                  */
-                using Destructor = void(*)(Byte*);
+                using Destructor = void(*)(nox::memory::Byte*);
 
                 /**
                  * @brief      Creating arguments without payload etc is illegal.
@@ -58,8 +52,8 @@ namespace nox
                  * @param[in]  destructor  The destructor to use when destroying the
                  *                         argument.
                  */
-                Argument(Byte* payload,
-                         const TypeIdentifier& identifier,
+                Argument(const TypeIdentifier& identifier,
+                         nox::memory::Byte* payload,
                          Destructor destructor);
 
                 /**
@@ -111,20 +105,26 @@ namespace nox
                  * @return     The TypeIdentifier of the argument.
                  */
                 const TypeIdentifier& 
-                getType() const;
+                getIdentifier() const;
 
             private:
-                TypeIdentifier type;
-                Byte* payload;
+                Argument* next{};
+                TypeIdentifier identifier;
+                nox::memory::Byte* payload;
                 Destructor destructor;
             };
 
             /**
+             * @brief      Allocator used for allocating events.
+             */ 
+            using ArgumentAllocator = nox::memory::LinearAllocator<1024>;
+           
+            /**
              * @brief      Constant value used to signal that an event shall be
              *             broadcast, not just sent to one entity.
              */
-            static const EntityId BROADCAST;
-           
+            static constexpr EntityId BROADCAST = std::numeric_limits<EntityId>::max();
+
             /**
              * @brief      Creating events within sender, receiver or type is
              *             illegal.
@@ -135,11 +135,14 @@ namespace nox
              * @brief      Constructs an event that is ready to be used and can
              *             be given arguments.
              *
+             * @param      allocator   The allocator that this event will used
+             *                         for allocating arguments.
              * @param[in]  eventType   The event type.
              * @param[in]  senderId    The sender of the event.
              * @param[in]  receiverId  The receiver of the event.
              */
-            Event(const TypeIdentifier& eventType,
+            Event(ArgumentAllocator& allocator,
+                  const TypeIdentifier& eventType,
                   const EntityId& senderId,
                   const EntityId& receiverId = nox::ecs::Event::BROADCAST);
 
@@ -153,15 +156,20 @@ namespace nox
              */
             Event& operator=(const Event&) = delete;
 
-            /**
-             * @brief      Defaulting the move constructor, should have the intended effect.
-             */
-            Event(Event&&) = default;
+             /**
+              * @brief      Move constructor. Moves all members out of source.
+              *
+              * @warning    source will not be usable after moving.
+
+              * @param[in]  source  the Event to move from.
+              */
+            Event(Event&& source);
 
             /**
-             * @brief      Defaulting the move assignment operator, should have the intended effect.
+             * @brief      Deleting move assignment operator as references to
+             *             allocators prohibits moving properly.
              */
-            Event& operator=(Event&&) = default;
+            Event& operator=(Event&&) = delete;
 
             /**
              * @brief      Destructor, destroys all the arguments belonging to
@@ -177,8 +185,7 @@ namespace nox
              *                         is not valid after movement.
              */
             void 
-            addArgument(const TypeIdentifier& identifier,
-                        Argument argument);
+            addArgument(Argument* argument);
 
             /**
              * @brief      Checks if the event has an argument with the
@@ -231,18 +238,23 @@ namespace nox
             const EntityId&
             getReceiver() const;
 
+            /**
+             * @brief      Returns the allocator belonging to this event.
+             *
+             * @return     The argumentAllocator belonging to this event.
+             *             Mainly used within the createEventArgument function.
+             */
+            ArgumentAllocator&
+            getAllocator();
+
         private:
-            struct ArgumentPair
-            {
-                TypeIdentifier identifier;
-                Argument arg;
-            };
+            bool isDuplicate(const TypeIdentifier& identifier) const;
 
             EntityId receiverId;
             EntityId senderId;
             TypeIdentifier type;
-
-            std::vector<ArgumentPair> arguments;
+            ArgumentAllocator& allocator;
+            Argument* first{nullptr};
         };
     }
 }

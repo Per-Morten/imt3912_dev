@@ -1,16 +1,22 @@
 template<class T>
-nox::ecs::Event::Argument
-nox::ecs::createEventArgument(const T& argument,
+void
+nox::ecs::createEventArgument(Event& event,
+                              const T& argument,
                               const TypeIdentifier& identifier)
 {
-    auto memory = static_cast<Event::Argument::Byte*>(std::malloc(sizeof(T)));
-    new(memory)T(argument);
+    static_assert(sizeof(T) + sizeof(Event::Argument) <= Event::ArgumentAllocator::MAX_SIZE,
+                   "sizeof T + sizeof Event::Argument is larger than Event::ArgumentAllocator::MAX_SIZE");
+    auto memory = static_cast<nox::memory::Byte*>(event.getAllocator().allocate(sizeof(T) + sizeof(Event::Argument)));
 
-    auto destructor = [](Event::Argument::Byte* payload)
+    auto payloadStart = memory + sizeof(Event::Argument);
+    new(payloadStart)T(argument);
+
+    auto destructor = [](nox::memory::Byte* payload)
     {
         reinterpret_cast<T*>(payload)->~T();
-        std::free(payload);
     };
 
-    return {memory, identifier, destructor};
+    auto arg = new(memory) Event::Argument(identifier, payloadStart, destructor);
+
+    event.addArgument(arg);
 }

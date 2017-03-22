@@ -1,67 +1,93 @@
 #include <nox/ecs/Event.h>
-
-#include <algorithm>
-
-#include <nox/util/nox_assert.h>
-
 ///////////
 // Event //
 /////////// 
-const nox::ecs::EntityId nox::ecs::Event::BROADCAST = std::numeric_limits<EntityId>::max();
-
-nox::ecs::Event::Event(const TypeIdentifier& eventType,
+nox::ecs::Event::Event(ArgumentAllocator& allocator,
+                       const TypeIdentifier& eventType,
                        const EntityId& senderId,
                        const EntityId& receiverId)
     : receiverId(receiverId) 
     , senderId(senderId)
     , type(eventType)
+    , allocator(allocator)
 {
 
+}
+
+nox::ecs::Event::Event(Event&& source)
+    : receiverId(source.receiverId)
+    , senderId(source.senderId)
+    , type(source.type)
+    , allocator(source.allocator)
+    , first(source.first)
+{
+    source.first = nullptr;
 }
 
 nox::ecs::Event::~Event()
 {
-    for (auto& item : this->arguments)
+    while (first)
     {
-        auto destructor = item.arg.destructor;
-        destructor(item.arg.payload);
+        auto next = first->next;
+        first->destructor(first->payload);
+        allocator.deallocate(first);
+        first = next;
     }
 }
 
 void
-nox::ecs::Event::addArgument(const TypeIdentifier& identifier,
-                             Argument argument)
+nox::ecs::Event::addArgument(Argument* argument)
 {
-    NOX_ASSERT(std::none_of(std::cbegin(this->arguments),
-                            std::cend(this->arguments),
-                            [&identifier](const auto& item)
-                            { return item.identifier == identifier; }), 
-               "Event was given duplicate arguments!");
+    NOX_ASSERT(!this->isDuplicate(argument->getIdentifier()), "Event was given duplicate arguments!");
 
-    this->arguments.push_back({ identifier, std::move(argument) });
+    if (!first)
+    {
+        first = argument;
+        return;
+    }
+
+    auto before = first; 
+    auto itr = first->next;
+    while (itr)
+    {
+        before = itr;
+        itr = itr->next;
+    }
+    before->next = argument;
 }
 
 bool
 nox::ecs::Event::hasArgument(const TypeIdentifier& identifier) const
 {
-    return std::any_of(std::cbegin(this->arguments),
-                       std::cend(this->arguments),
-                       [&identifier](const auto& item)
-                       { return item.identifier == identifier; });
+    auto itr = first;
+    while (itr)
+    {
+        if (itr->getIdentifier() == identifier)
+        {
+            return true;
+        }
+        itr = itr->next;
+    }
+    return false;
 }
 
 
 const nox::ecs::Event::Argument&
 nox::ecs::Event::getArgument(const TypeIdentifier& identifier) const
 {
-    const auto argument = std::find_if(std::cbegin(this->arguments),
-                                       std::cend(this->arguments),
-                                       [&identifier](const auto& item)
-                                       { return item.identifier == identifier; });
-        
-    NOX_ASSERT(argument != std::cend(this->arguments), "Event has no argument with type identifier: %zu", identifier.getValue());
+    auto itr = first;
+    while (itr)
+    {
+        if (itr->getIdentifier() == identifier)
+        {
+            break;
+        }
+        itr = itr->next;
+    }
 
-    return argument->arg;
+    NOX_ASSERT(itr, "Event has no argument with type identifier: %zu", identifier.getValue());
+
+    return *itr;
 }
 
 const nox::ecs::TypeIdentifier&
@@ -82,13 +108,34 @@ nox::ecs::Event::getReceiver() const
     return this->receiverId;
 }
 
+nox::ecs::Event::ArgumentAllocator&
+nox::ecs::Event::getAllocator()
+{
+    return this->allocator;
+}
+
+bool 
+nox::ecs::Event::isDuplicate(const TypeIdentifier& identifier) const
+{
+    auto itr = first;
+    while (itr)
+    {
+        if (itr->getIdentifier() == identifier)
+        {
+            return true;
+        }
+        itr = itr->next;
+    }
+    return false;
+}
+
 /////////////////////
 // Event::Argument //
 /////////////////////
-nox::ecs::Event::Argument::Argument(Byte* payload,
-                                    const TypeIdentifier& identifier,
+nox::ecs::Event::Argument::Argument(const TypeIdentifier& identifier,
+                                    nox::memory::Byte* payload,
                                     Destructor destructor)
-    : type(identifier)
+    : identifier(identifier)
     , payload(payload)
     , destructor(destructor)
 {
@@ -96,7 +143,7 @@ nox::ecs::Event::Argument::Argument(Byte* payload,
 }
 
 nox::ecs::Event::Argument::Argument(Event::Argument&& source)
-    : type(source.type)
+    : identifier(source.identifier)
     , payload(source.payload)
     , destructor(source.destructor)
 {
@@ -112,7 +159,7 @@ nox::ecs::Event::Argument::operator=(Event::Argument&& source)
         this->destructor(payload);
         this->destructor = source.destructor;
         this->payload = source.payload;
-        this->type = source.type;
+        this->identifier = source.identifier;
 
         source.destructor = nullptr;
         source.payload = nullptr;
@@ -127,7 +174,8 @@ nox::ecs::Event::Argument::value() const
 }
 
 const nox::ecs::TypeIdentifier&
-nox::ecs::Event::Argument::getType() const
+nox::ecs::Event::Argument::getIdentifier() const
 {
-    return this->type;
+    return this->identifier;
 }
+
