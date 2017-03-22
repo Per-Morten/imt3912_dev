@@ -7,19 +7,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <nox/util/json_utils.h>
 
-nox::ecs::Transform(const glm::vec2& position, 
-                    const float rotation, 
-                    const glm::vec2& scale, 
-                    bool broadcast = true)
-    : position(position)
-    , rotation(rotation)
-    , scale(scale)
-{
-    if (broadcast == true)
-    {
-
-    }
-}
 
 bool 
 nox::ecs::Transform::initialize(const Json::Value& componentJsonObject)
