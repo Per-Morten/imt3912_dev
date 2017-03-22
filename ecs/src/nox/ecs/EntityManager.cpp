@@ -33,7 +33,11 @@ nox::ecs::EntityManager::registerComponent(const MetaInformation& info)
 void
 nox::ecs::EntityManager::configureComponents()
 {
-    // To be implemented sprint05. Needed to avoid linker issues.
+    // Temporary solution to test the pool. This will be changed out with the layering algorithm.
+    this->threadSafeStop = std::partition(this->components.begin(),
+                                          this->components.end(),
+                                          [this](const auto& item)
+                                          { return item.getMetaInformation().updateAccess == DataAccess::INDEPENDENT; });
 }
 
 nox::ecs::EntityId
@@ -207,9 +211,15 @@ nox::ecs::EntityManager::distributeLogicEvents()
 void
 nox::ecs::EntityManager::updateStep(const nox::Duration& deltaTime)
 {
-    for (auto& collection : this->components)
+    for (auto itr = this->components.begin(); itr != this->threadSafeStop; ++itr)
     {
-        collection.update(deltaTime);
+        this->threads.addTask([this, itr, deltaTime](){ itr->update(deltaTime); });
+    }
+    this->threads.wait();
+
+    for (auto itr = this->threadSafeStop; itr != this->components.end(); ++itr)
+    {
+        itr->update(deltaTime);
     }
 }
 

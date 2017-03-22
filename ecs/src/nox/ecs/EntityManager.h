@@ -18,6 +18,7 @@
 #include <nox/event/IListener.h>
 #include <nox/thread/LockedQueue.h>
 #include <nox/util/nox_assert.h>
+#include <nox/thread/Pool.h>
 
 #include <json/json.h>
 
@@ -473,6 +474,7 @@ namespace nox
 
             Factory factory{*this};
 
+            std::vector<ComponentCollection>::iterator threadSafeStop{};
             std::vector<ComponentCollection> components{};
  
             std::array<TransitionQueue, Transition::META_COUNT> transitionQueues{}; 
@@ -481,6 +483,9 @@ namespace nox
             nox::thread::LockedQueue<ComponentIdentifier> removalQueue{};
 
             nox::thread::LockedQueue<std::shared_ptr<nox::event::Event>> logicEvents{};
+
+            nox::thread::Pool<nox::thread::LockedQueue> threads{};
+
             std::queue<nox::ecs::Event> entityEvents{};
 
             std::atomic<EntityId> currentEntityId{};
