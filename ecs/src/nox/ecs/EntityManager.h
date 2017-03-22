@@ -19,7 +19,6 @@
 #include <nox/thread/LockedQueue.h>
 #include <nox/util/nox_assert.h>
 
-#include <boost/variant.hpp>
 #include <json/json.h>
 
 namespace nox
@@ -460,9 +459,11 @@ namespace nox
 
             struct ComponentIdentifier
             {
-                EntityId id;
-                TypeIdentifier identifier;
-                boost::variant<Json::Value, Children, Parent> initValue;
+                EntityId id{0};
+                TypeIdentifier identifier{0};
+                Json::Value json{};
+                Children children{0, nullptr};
+                Parent parent{0, nullptr};
             };
 
             using TransitionQueue = nox::thread::LockedQueue<TransitionInfo>;
@@ -476,8 +477,8 @@ namespace nox
  
             std::array<TransitionQueue, Transition::META_COUNT> transitionQueues{}; 
 
-            std::deque<ComponentIdentifier> componentCreationQueue{};
-            std::deque<ComponentIdentifier> componentRemovalQueue{};
+            nox::thread::LockedQueue<ComponentIdentifier> creationQueue{};
+            nox::thread::LockedQueue<ComponentIdentifier> removalQueue{};
 
             std::queue<std::shared_ptr<nox::event::Event>> logicEvents{};
             std::queue<nox::ecs::Event> entityEvents{};

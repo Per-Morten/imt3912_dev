@@ -55,7 +55,8 @@ void
 nox::ecs::EntityManager::assignComponent(const EntityId& id,
                                          const TypeIdentifier& identifier)
 {
-    this->componentCreationQueue.push_back({ id, identifier });
+    ComponentIdentifier tmp{ id, identifier };
+    this->creationQueue.push(std::move(tmp));
 }
 
 void
@@ -63,7 +64,9 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
                                          const TypeIdentifier& identifier,
                                          const Json::Value& value)
 {
-    this->componentCreationQueue.push_back({ id, identifier, value });
+    ComponentIdentifier tmp{ id, identifier };
+    tmp.json = value;
+    this->creationQueue.push(std::move(tmp));
 }
 
 void
@@ -71,7 +74,9 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
                                          const TypeIdentifier& identifier,
                                          Children&& children)
 {
-    this->componentCreationQueue.push_back({ id, identifier, std::move(children) });
+    ComponentIdentifier tmp{ id, identifier };
+    tmp.children = std::move(children);
+    this->creationQueue.push(std::move(tmp));
 }
 
 void
@@ -79,7 +84,9 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
                                          const TypeIdentifier& identifier,
                                          Parent&& parent)
 {
-    this->componentCreationQueue.push_back({ id, identifier, std::move(parent) });
+    ComponentIdentifier tmp{ id, identifier };
+    tmp.parent = std::move(parent);
+    this->creationQueue.push(std::move(tmp));
 }
 
 nox::ecs::ComponentHandle<nox::ecs::Component>
@@ -94,7 +101,7 @@ void
 nox::ecs::EntityManager::removeComponent(const EntityId& id,
                                          const TypeIdentifier& identifier)
 {
-    this->componentRemovalQueue.push_back({ id, identifier });
+    this->removalQueue.push({ id, identifier });
 }
 
 void
@@ -248,11 +255,9 @@ nox::ecs::EntityManager::hibernateStep()
 void
 nox::ecs::EntityManager::removeStep()
 {
-    while (!this->componentRemovalQueue.empty())
+    ComponentIdentifier componentIdentifier;
+    while (this->removalQueue.pop(componentIdentifier))
     {
-        const auto componentIdentifier = std::move(this->componentRemovalQueue.front());
-        this->componentRemovalQueue.pop_front();
-
         auto& collection = this->getCollection(componentIdentifier.identifier);
         collection.remove(componentIdentifier.id);
     }
@@ -261,31 +266,29 @@ nox::ecs::EntityManager::removeStep()
 void
 nox::ecs::EntityManager::createStep()
 {
-    while (!this->componentCreationQueue.empty())
+    ComponentIdentifier componentIdentifier;
+    while (this->creationQueue.pop(componentIdentifier))
     {
-        auto componentIdentifier = std::move(this->componentCreationQueue.front());
-        this->componentCreationQueue.pop_front();
-
         auto& collection = this->getCollection(componentIdentifier.identifier);
 
         if (componentIdentifier.identifier == ecs::component_types::CHILDREN)
         {
-            Children& child = boost::get<Children>(componentIdentifier.initValue);
+            Children& child = componentIdentifier.children;
             collection.adopt(child);
         } 
         else if (componentIdentifier.identifier == ecs::component_types::PARENT)
         {
-            Parent& parent = boost::get<Parent>(componentIdentifier.initValue);
+            Parent& parent = componentIdentifier.parent;
             collection.adopt(parent);
         }
         else
         {
             collection.create(componentIdentifier.id, this);
-            const Json::Value* jsonValue = boost::get<Json::Value>(&componentIdentifier.initValue);
+            const Json::Value& jsonValue = componentIdentifier.json;
 
-            if (jsonValue != nullptr)
+            if (jsonValue.isNull())
             {
-                collection.initialize(componentIdentifier.id, *jsonValue);
+                collection.initialize(componentIdentifier.id, jsonValue);
             }
         }
     }
