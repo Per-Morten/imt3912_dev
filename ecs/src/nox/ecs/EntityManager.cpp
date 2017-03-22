@@ -101,28 +101,28 @@ void
 nox::ecs::EntityManager::awakeComponent(const EntityId& id,
                                         const TypeIdentifier& identifier)
 {
-    this->componentTransitionQueue.push_back({ id, identifier, Transition::AWAKE });    
+    this->transitionQueues[Transition::AWAKE].push({id, identifier});
 }
 
 void
 nox::ecs::EntityManager::activateComponent(const EntityId& id,
                                            const TypeIdentifier& identifier)
 {
-    this->componentTransitionQueue.push_back({ id, identifier, Transition::ACTIVATE });
+    this->transitionQueues[Transition::ACTIVATE].push({id, identifier});
 }
 
 void
 nox::ecs::EntityManager::deactivateComponent(const EntityId& id,
                                              const TypeIdentifier& identifier)
 {
-    this->componentTransitionQueue.push_back({ id, identifier, Transition::DEACTIVATE });
+    this->transitionQueues[Transition::DEACTIVATE].push({id, identifier});
 }
 
 void
 nox::ecs::EntityManager::hibernateComponent(const EntityId& id, 
                                             const TypeIdentifier& identifier)
 {
-    this->componentTransitionQueue.push_back({ id, identifier, Transition::HIBERNATE });
+    this->transitionQueues[Transition::HIBERNATE].push({id, identifier});
 }
 
 void
@@ -226,16 +226,9 @@ nox::ecs::EntityManager::distributeEntityEvents()
 void
 nox::ecs::EntityManager::deactivateStep()
 {
-    const auto end = std::partition(std::begin(this->componentTransitionQueue),
-                                    std::end(this->componentTransitionQueue),
-                                    [](const auto& item)
-                                    { return item.transition == Transition::DEACTIVATE; });
-
-    while (std::begin(this->componentTransitionQueue) != end)
+    TransitionInfo transition;
+    while (this->transitionQueues[Transition::DEACTIVATE].pop(transition))
     {
-        const auto transition = this->componentTransitionQueue.front();
-        this->componentTransitionQueue.pop_front(); 
-
         auto& collection = this->getCollection(transition.identifier);
         collection.deactivate(transition.id);
     }
@@ -244,16 +237,9 @@ nox::ecs::EntityManager::deactivateStep()
 void
 nox::ecs::EntityManager::hibernateStep()
 {
-    const auto end = std::partition(std::begin(this->componentTransitionQueue),
-                                    std::end(this->componentTransitionQueue),
-                                    [](const auto& item)
-                                    { return item.transition == Transition::HIBERNATE; });
-
-    while (std::begin(this->componentTransitionQueue) != end)
+    TransitionInfo transition;
+    while (this->transitionQueues[Transition::HIBERNATE].pop(transition))
     {
-        const auto transition = this->componentTransitionQueue.front();
-        this->componentTransitionQueue.pop_front(); 
-
         auto& collection = this->getCollection(transition.identifier);
         collection.hibernate(transition.id);
     }
@@ -308,16 +294,9 @@ nox::ecs::EntityManager::createStep()
 void
 nox::ecs::EntityManager::awakeStep()
 {
-    const auto end = std::partition(std::begin(this->componentTransitionQueue),
-                                    std::end(this->componentTransitionQueue),
-                                    [](const auto& item)
-                                    { return item.transition == Transition::AWAKE; });
-
-    while (std::begin(this->componentTransitionQueue) != end)
+    TransitionInfo transition;
+    while (this->transitionQueues[Transition::AWAKE].pop(transition))
     {
-        const auto transition = this->componentTransitionQueue.front();
-        this->componentTransitionQueue.pop_front(); 
-
         auto& collection = this->getCollection(transition.identifier);
         collection.awake(transition.id);
     }
@@ -326,16 +305,9 @@ nox::ecs::EntityManager::awakeStep()
 void
 nox::ecs::EntityManager::activateStep()
 {
-    const auto end = std::partition(std::begin(this->componentTransitionQueue),
-                                    std::end(this->componentTransitionQueue),
-                                    [](const auto& item)
-                                    { return item.transition == Transition::ACTIVATE; });
-
-    while (std::begin(this->componentTransitionQueue) != end)
+    TransitionInfo transition;
+    while (this->transitionQueues[Transition::ACTIVATE].pop(transition))
     {
-        const auto transition = this->componentTransitionQueue.front();
-        this->componentTransitionQueue.pop_front(); 
-
         auto& collection = this->getCollection(transition.identifier);
         collection.activate(transition.id);
     }
