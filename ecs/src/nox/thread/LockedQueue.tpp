@@ -7,13 +7,22 @@ nox::thread::LockedQueue<T>::push(const_reference value)
 }
 
 template<class T>
+void 
+nox::thread::LockedQueue<T>::push(value_type&& value)
+{
+    std::lock_guard<std::mutex> lock(this->mutex);
+    this->queue.push(std::move(value)); 
+}
+
+
+template<class T>
 bool 
 nox::thread::LockedQueue<T>::pop(reference value)
 {
     std::lock_guard<std::mutex> lock(this->mutex);
     if (!this->queue.empty())
     {
-        value = this->queue.front();
+        value = std::move(this->queue.front());
         this->queue.pop();
         return true;
     }
