@@ -108,28 +108,28 @@ void
 nox::ecs::EntityManager::awakeComponent(const EntityId& id,
                                         const TypeIdentifier& identifier)
 {
-    this->transitionQueues[Transition::AWAKE].push({id, identifier});
+    this->transitionQueues[Transition::AWAKE].push({ id, identifier });
 }
 
 void
 nox::ecs::EntityManager::activateComponent(const EntityId& id,
                                            const TypeIdentifier& identifier)
 {
-    this->transitionQueues[Transition::ACTIVATE].push({id, identifier});
+    this->transitionQueues[Transition::ACTIVATE].push({ id, identifier });
 }
 
 void
 nox::ecs::EntityManager::deactivateComponent(const EntityId& id,
                                              const TypeIdentifier& identifier)
 {
-    this->transitionQueues[Transition::DEACTIVATE].push({id, identifier});
+    this->transitionQueues[Transition::DEACTIVATE].push({ id, identifier });
 }
 
 void
 nox::ecs::EntityManager::hibernateComponent(const EntityId& id, 
                                             const TypeIdentifier& identifier)
 {
-    this->transitionQueues[Transition::HIBERNATE].push({id, identifier});
+    this->transitionQueues[Transition::HIBERNATE].push({ id, identifier });
 }
 
 void
