@@ -152,11 +152,7 @@ done
 
 
 
-
-
-
-
-
+### ENDING TESTS WITH GCC. STARTING TESTS WITH CLANG ###
 
 
 
