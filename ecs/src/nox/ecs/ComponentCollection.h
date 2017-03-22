@@ -271,6 +271,14 @@ namespace nox
             const TypeIdentifier&
             getTypeIdentifier() const;
 
+            /**
+             * @brief      Returns the meta information related to this collection.
+             *
+             * @return     The meta information related to this collection.
+             */
+            const MetaInformation&
+            getMetaInformation() const;
+
         private:
             /**
              * @brief      Typedef to make it even more explicit that we am
