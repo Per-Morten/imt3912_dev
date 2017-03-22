@@ -7,6 +7,19 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <nox/util/json_utils.h>
 
+nox::ecs::Transform(const glm::vec2& position, 
+                    const float rotation, 
+                    const glm::vec2& scale, 
+                    bool broadcast = true)
+    : position(position)
+    , rotation(rotation)
+    , scale(scale)
+{
+    if (broadcast == true)
+    {
+
+    }
+}
 
 bool 
 nox::ecs::Transform::initialize(const Json::Value& componentJsonObject)
@@ -17,6 +30,14 @@ nox::ecs::Transform::initialize(const Json::Value& componentJsonObject)
 
     return true;
 }
+
+//void 
+//nox::ecs::Transform::serialize(Json::Value& componentObject)
+//{
+//    componentObject["position"] = util::writeJsonVec(this->position);
+//    componentObject["scale"] = util::writeJsonVec(this->scale);
+//    componentObject["rotation"] = this->rotation;
+//}
 
 void 
 nox::ecs::Transform::onCreate()
@@ -41,7 +62,7 @@ nox::ecs::Transform::setPosition(const glm::vec2& position,
 {
     this->position = position;
 
-    if (broadcast)
+    if (broadcast == true)
     {
         this->broadcastTransformChange();
     }
@@ -53,7 +74,7 @@ nox::ecs::Transform::setScale(const glm::vec2& scale,
 {
     this->scale = scale;
 
-    if (broadcast)
+    if (broadcast == true)
     {
         this->broadcastTransformChange();
     }
@@ -65,7 +86,7 @@ nox::ecs::Transform::setRotation(const float rotation,
 {
     this->rotation = rotation;
 
-    if (broadcast)
+    if (broadcast == true)
     {
         this->broadcastTransformChange();
     }
@@ -81,7 +102,7 @@ nox::ecs::Transform::setTransform(const glm::vec2& position,
     this->scale = scale;
     this->rotation = rotation;
 
-    if (broadcast)
+    if (broadcast == true)
     {
         this->broadcastTransformChange();
     }
@@ -110,11 +131,3 @@ nox::ecs::Transform::broadcastTransformChange()
 
     this->entityManager->sendEntityEvent(std::move(event));
 }
-
-//void 
-//nox::ecs::Transform::serialize(Json::Value& componentObject)
-//{
-//    componentObject["position"] = util::writeJsonVec(this->position);
-//    componentObject["scale"] = util::writeJsonVec(this->scale);
-//    componentObject["rotation"] = this->rotation;
-//}
