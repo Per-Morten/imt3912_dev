@@ -26,7 +26,6 @@ namespace nox
              * @brief Default constructor is deleted to avoid
              *        setting up the identifier in an invalid state.
              */  
-
             TypeIdentifier() = delete;
 
             /**
