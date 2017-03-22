@@ -451,22 +451,22 @@ namespace nox
                 };
             };
 
-            struct TransitionInfo
-            {
-                EntityId id{0};
-                TypeIdentifier identifier{0};
-            };
-
             struct ComponentIdentifier
             {
                 EntityId id{0};
-                TypeIdentifier identifier{0};
+                TypeIdentifier type{0};
+            };
+
+            struct CreationArguments
+            {
+                EntityId id{0};
+                TypeIdentifier type{0};
                 Json::Value json{};
                 Children children{0, nullptr};
                 Parent parent{0, nullptr};
             };
 
-            using TransitionQueue = nox::thread::LockedQueue<TransitionInfo>;
+            using TransitionQueue = nox::thread::LockedQueue<ComponentIdentifier>;
 
             ComponentCollection& 
             getCollection(const TypeIdentifier& identifier);
@@ -477,7 +477,7 @@ namespace nox
  
             std::array<TransitionQueue, Transition::META_COUNT> transitionQueues{}; 
 
-            nox::thread::LockedQueue<ComponentIdentifier> creationQueue{};
+            nox::thread::LockedQueue<CreationArguments> creationQueue{};
             nox::thread::LockedQueue<ComponentIdentifier> removalQueue{};
 
             std::queue<std::shared_ptr<nox::event::Event>> logicEvents{};

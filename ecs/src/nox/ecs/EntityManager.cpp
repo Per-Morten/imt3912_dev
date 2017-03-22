@@ -55,7 +55,7 @@ void
 nox::ecs::EntityManager::assignComponent(const EntityId& id,
                                          const TypeIdentifier& identifier)
 {
-    ComponentIdentifier tmp{ id, identifier };
+    CreationArguments tmp{ id, identifier };
     this->creationQueue.push(std::move(tmp));
 }
 
@@ -64,7 +64,7 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
                                          const TypeIdentifier& identifier,
                                          const Json::Value& value)
 {
-    ComponentIdentifier tmp{ id, identifier };
+    CreationArguments tmp{ id, identifier };
     tmp.json = value;
     this->creationQueue.push(std::move(tmp));
 }
@@ -74,7 +74,7 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
                                          const TypeIdentifier& identifier,
                                          Children&& children)
 {
-    ComponentIdentifier tmp{ id, identifier };
+    CreationArguments tmp{ id, identifier };
     tmp.children = std::move(children);
     this->creationQueue.push(std::move(tmp));
 }
@@ -84,7 +84,7 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
                                          const TypeIdentifier& identifier,
                                          Parent&& parent)
 {
-    ComponentIdentifier tmp{ id, identifier };
+    CreationArguments tmp{ id, identifier };
     tmp.parent = std::move(parent);
     this->creationQueue.push(std::move(tmp));
 }
@@ -233,62 +233,62 @@ nox::ecs::EntityManager::distributeEntityEvents()
 void
 nox::ecs::EntityManager::deactivateStep()
 {
-    TransitionInfo transition;
-    while (this->transitionQueues[Transition::DEACTIVATE].pop(transition))
+    ComponentIdentifier identifier;
+    while (this->transitionQueues[Transition::DEACTIVATE].pop(identifier))
     {
-        auto& collection = this->getCollection(transition.identifier);
-        collection.deactivate(transition.id);
+        auto& collection = this->getCollection(identifier.type);
+        collection.deactivate(identifier.id);
     }
 }
 
 void
 nox::ecs::EntityManager::hibernateStep()
 {
-    TransitionInfo transition;
-    while (this->transitionQueues[Transition::HIBERNATE].pop(transition))
+    ComponentIdentifier identifier;
+    while (this->transitionQueues[Transition::HIBERNATE].pop(identifier))
     {
-        auto& collection = this->getCollection(transition.identifier);
-        collection.hibernate(transition.id);
+        auto& collection = this->getCollection(identifier.type);
+        collection.hibernate(identifier.id);
     }
 }
 
 void
 nox::ecs::EntityManager::removeStep()
 {
-    ComponentIdentifier componentIdentifier;
-    while (this->removalQueue.pop(componentIdentifier))
+    ComponentIdentifier identifier;
+    while (this->removalQueue.pop(identifier))
     {
-        auto& collection = this->getCollection(componentIdentifier.identifier);
-        collection.remove(componentIdentifier.id);
+        auto& collection = this->getCollection(identifier.type);
+        collection.remove(identifier.id);
     }
 }
 
 void
 nox::ecs::EntityManager::createStep()
 {
-    ComponentIdentifier componentIdentifier;
-    while (this->creationQueue.pop(componentIdentifier))
+    CreationArguments identifier;
+    while (this->creationQueue.pop(identifier))
     {
-        auto& collection = this->getCollection(componentIdentifier.identifier);
+        auto& collection = this->getCollection(identifier.type);
 
-        if (componentIdentifier.identifier == ecs::component_types::CHILDREN)
+        if (identifier.type == ecs::component_types::CHILDREN)
         {
-            Children& child = componentIdentifier.children;
+            Children& child = identifier.children;
             collection.adopt(child);
         } 
-        else if (componentIdentifier.identifier == ecs::component_types::PARENT)
+        else if (identifier.type == ecs::component_types::PARENT)
         {
-            Parent& parent = componentIdentifier.parent;
+            Parent& parent = identifier.parent;
             collection.adopt(parent);
         }
         else
         {
-            collection.create(componentIdentifier.id, this);
-            const Json::Value& jsonValue = componentIdentifier.json;
+            collection.create(identifier.id, this);
+            const Json::Value& jsonValue = identifier.json;
 
             if (jsonValue.isNull())
             {
-                collection.initialize(componentIdentifier.id, jsonValue);
+                collection.initialize(identifier.id, jsonValue);
             }
         }
     }
@@ -297,22 +297,22 @@ nox::ecs::EntityManager::createStep()
 void
 nox::ecs::EntityManager::awakeStep()
 {
-    TransitionInfo transition;
-    while (this->transitionQueues[Transition::AWAKE].pop(transition))
+    ComponentIdentifier identifier;
+    while (this->transitionQueues[Transition::AWAKE].pop(identifier))
     {
-        auto& collection = this->getCollection(transition.identifier);
-        collection.awake(transition.id);
+        auto& collection = this->getCollection(identifier.type);
+        collection.awake(identifier.id);
     }
 }
 
 void
 nox::ecs::EntityManager::activateStep()
 {
-    TransitionInfo transition;
-    while (this->transitionQueues[Transition::ACTIVATE].pop(transition))
+    ComponentIdentifier identifier;
+    while (this->transitionQueues[Transition::ACTIVATE].pop(identifier))
     {
-        auto& collection = this->getCollection(transition.identifier);
-        collection.activate(transition.id);
+        auto& collection = this->getCollection(identifier.type);
+        collection.activate(identifier.id);
     }
 }
 
