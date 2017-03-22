@@ -2,7 +2,6 @@
 #include <nox/app/Application.h>
 #include <nox/log/Logger.h>
 #include <nox/logic/Logic.h>
-#include <nox/util/Timer.h>
 
 class ConsoleApplication 
     : public nox::app::Application
@@ -22,6 +21,5 @@ private:
     bool loadWorldFile(nox::logic::IContext* logicContext, nox::logic::world::Manager* worldManager);
 
     nox::log::Logger log;
-    nox::util::Timer<nox::Duration> exitTimer;
 
 };

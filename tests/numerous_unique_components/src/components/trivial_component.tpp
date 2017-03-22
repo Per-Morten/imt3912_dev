@@ -3,6 +3,7 @@
 #include <nox/event/IBroadcaster.h>
 
 #include <cmd/parser.h>
+#include <globals.h>
 #include <send_dummy_event.h>
 
 
@@ -39,8 +40,11 @@ components::TrivialComponent<duration>::onCreate()
     auto durationExponent = cmd::g_cmdParser.getFloatArgument(cmd::constants::trivial_component_duration_exponent_cmd,
                                                               cmd::constants::trivial_component_duration_exponent_default);
 
-    std::size_t durationInNs = static_cast<std::size_t>(std::pow(duration, durationMultiplier) * durationMultiplier);
+    std::size_t durationInNs = static_cast<std::size_t>(std::pow(duration, durationExponent) * durationMultiplier);
     this->sleepDuration = std::chrono::nanoseconds(durationInNs);
+
+    this->updateSize = cmd::g_cmdParser.getIntArgument(cmd::constants::run_count_cmd,
+                                                       cmd::constants::run_count_default);
 
     this->listener.setup(this, this->getLogicContext()->getEventBroadcaster());
     this->listener.addEventTypeToListenFor(DummyEvent::ID);
@@ -64,6 +68,11 @@ template<std::size_t duration>
 void 
 components::TrivialComponent<duration>::onUpdate(const nox::Duration& deltaTime)
 {
+    if (!this->running)
+    {
+        return;
+    }
+
     const auto clockStart = std::chrono::high_resolution_clock::now();
     std::chrono::nanoseconds currentDuration(0);
 
@@ -75,6 +84,13 @@ components::TrivialComponent<duration>::onUpdate(const nox::Duration& deltaTime)
     {
         const auto now = std::chrono::high_resolution_clock::now();
         currentDuration = std::chrono::duration_cast<std::chrono::nanoseconds>(now - clockStart);
+    }
+
+    this->updateCount++;
+    if (this->updateCount >= this->updateSize)
+    {
+        globals::activeComponentCount--;
+        this->running = false;
     }
 }
 
@@ -96,6 +112,7 @@ template<std::size_t duration>
 void 
 components::TrivialComponent<duration>::serialize(Json::Value& /*componentObject*/)
 {
+    
 }
 
 template<std::size_t duration>
@@ -108,7 +125,7 @@ components::TrivialComponent<duration>::handleEvent(const std::shared_ptr<nox::e
 
         if (dummyEvent->receiverId == duration)
         {
-            getLog().info().format("Message sent from actor \"%s\" to actor \"%s\"", dummyEvent->senderName, NAME);
+            getLog().debug().format("Message sent from actor \"%s\" to actor \"%s\"", dummyEvent->senderName, NAME);
         }
     }
 }

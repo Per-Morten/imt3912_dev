@@ -68,8 +68,10 @@ void components::SpawningComponent::deleteWorld()
     getLog().info().format("Deleting world");
     auto actorAmount = cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
                                                        cmd::constants::actor_amount_default);
+
     auto deletionAmount = cmd::g_cmdParser.getIntArgument(cmd::constants::deletion_amount_cmd,
                                                           cmd::constants::deletion_amount_default);
+    
     auto worldManager = getLogicContext()->getWorldManager();
     
     for (std::size_t i = 0; i < actorAmount; ++i)
