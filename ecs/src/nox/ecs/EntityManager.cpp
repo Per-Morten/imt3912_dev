@@ -69,7 +69,7 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
 void
 nox::ecs::EntityManager::assignComponent(const EntityId& id,
                                          const TypeIdentifier& identifier,
-                                         Children children)
+                                         Children&& children)
 {
     this->componentCreationQueue.push_back({ id, identifier, std::move(children) });
 }
@@ -77,7 +77,7 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
 void
 nox::ecs::EntityManager::assignComponent(const EntityId& id,
                                          const TypeIdentifier& identifier,
-                                         Parent parent)
+                                         Parent&& parent)
 {
     this->componentCreationQueue.push_back({ id, identifier, std::move(parent) });
 }

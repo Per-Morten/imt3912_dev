@@ -148,7 +148,7 @@ namespace nox
             void
             assignComponent(const EntityId& id,
                             const TypeIdentifier& identifier,
-                            Children children);
+                            Children&& children);
 
             /**
              * @brief      Assigns the parent component to the entity identified
@@ -166,7 +166,7 @@ namespace nox
             void
             assignComponent(const EntityId& id,
                             const TypeIdentifier& identifier,
-                            Parent parent);
+                            Parent&& parent);
 
             /**
              * @brief      Gets the component belonging to the entity with the
