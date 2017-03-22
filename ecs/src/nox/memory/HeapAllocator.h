@@ -1,8 +1,7 @@
 #ifndef NOX_MEMORY_HEAPALLOCATOR_H_
 #define NOX_MEMORY_HEAPALLOCATOR_H_
 #include <cstdint>
-#include <mutex>
-#include <vector>
+#include <limits>
 
 namespace nox
 {
@@ -18,6 +17,7 @@ namespace nox
         class HeapAllocator
         {
         public:
+            constexpr static std::size_t MAX_SIZE = std::numeric_limits<std::size_t>::max();
             /**
              * @brief      Allocates size amount of uninitialized memory.
              *
@@ -43,7 +43,7 @@ namespace nox
              *             real world case. See:
              *             https://github.com/Per-Morten/imt3912_dev/issues/81
              */
-            void reset() {}
+            void clear() {}
         };
     }
 }
