@@ -462,12 +462,10 @@ namespace nox
             Factory factory{*this};
 
             std::vector<ComponentCollection> components{};
-            std::vector<EntityId> activeIds{};
  
             std::deque<TransitionInfo> componentTransitionQueue{};
             std::deque<ComponentIdentifier> componentCreationQueue{};
             std::deque<ComponentIdentifier> componentRemovalQueue{};
-            std::queue<EntityId> entityRemovalQueue{};
 
             std::queue<std::shared_ptr<nox::event::Event>> logicEvents{};
             std::queue<nox::ecs::Event> entityEvents{};

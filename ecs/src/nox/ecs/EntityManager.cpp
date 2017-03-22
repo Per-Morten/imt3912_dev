@@ -7,9 +7,10 @@
 
 nox::ecs::EntityManager::~EntityManager()
 {
-    for (const auto item : this->activeIds)
+    const auto maxId = this->currentEntityId.load(std::memory_order_acquire);
+    for (std::size_t i = 0; i < maxId; ++i)
     {
-        this->removeEntity(item);
+        this->removeEntity(i);
     }
 
     this->deactivateStep();
@@ -38,16 +39,14 @@ nox::ecs::EntityManager::configureComponents()
 nox::ecs::EntityId
 nox::ecs::EntityManager::createEntity()
 {
-    const auto newId = this->currentEntityId++;
-    this->activeIds.push_back(newId);
+    const auto newId = this->currentEntityId.fetch_add(EntityId(1), std::memory_order_acq_rel);
     return newId;
 }
 
 nox::ecs::EntityId
 nox::ecs::EntityManager::createEntity(const std::string& definitionName)
 {
-    const auto newId = this->currentEntityId++;
-    this->activeIds.push_back(newId);
+    const auto newId = this->currentEntityId.fetch_add(EntityId(1), std::memory_order_acq_rel);
     this->factory.createEntity(newId, definitionName);
     return newId;
 }
@@ -133,7 +132,6 @@ nox::ecs::EntityManager::removeEntity(const EntityId& id)
     {
         this->removeComponent(id, item.getTypeIdentifier());
     }
-    this->entityRemovalQueue.push(id);
 }
 
 void
@@ -271,17 +269,6 @@ nox::ecs::EntityManager::removeStep()
 
         auto& collection = this->getCollection(componentIdentifier.identifier);
         collection.remove(componentIdentifier.id);
-    }
-
-    while (!this->entityRemovalQueue.empty())
-    {
-        const auto entityId = this->entityRemovalQueue.front();
-        this->entityRemovalQueue.pop();
-
-        this->activeIds.erase(std::remove(std::begin(this->activeIds),
-                                          std::end(this->activeIds),
-                                          entityId),
-                              std::end(this->activeIds));
     }
 }
 
