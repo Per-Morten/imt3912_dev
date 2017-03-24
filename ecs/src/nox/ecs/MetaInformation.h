@@ -4,6 +4,7 @@
 
 #include <nox/ecs/TypeIdentifier.h>
 #include <nox/ecs/OperationTypes.h>
+#include <nox/ecs/DataAccess.h>
 
 #include <nox/event/Event.h>
 
@@ -90,6 +91,12 @@ namespace nox
              * @brief Operation to run when a component is updated.
              */
             operation::UpdateOp update{};
+
+            /**
+             * @brief      DataAccess indicating what sort of DataAccess that is
+             *             done throughout the update operation.
+             */
+            DataAccess updateAccess{DataAccess::UNKNOWN};
 
             /**
              * @brief Operation to run when a component is supposed to receive a logic event.

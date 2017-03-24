@@ -1,5 +1,6 @@
 #ifndef NOX_ECS_ENTITYMANAGER_H_
 #define NOX_ECS_ENTITYMANAGER_H_
+#include <array>
 #include <atomic>
 #include <deque>
 #include <queue>
@@ -15,9 +16,10 @@
 #include <nox/ecs/SmartHandle.h>
 #include <nox/ecs/TypeIdentifier.h>
 #include <nox/event/IListener.h>
+#include <nox/thread/LockedQueue.h>
 #include <nox/util/nox_assert.h>
+#include <nox/thread/Pool.h>
 
-#include <boost/variant.hpp>
 #include <json/json.h>
 
 namespace nox
@@ -148,7 +150,7 @@ namespace nox
             void
             assignComponent(const EntityId& id,
                             const TypeIdentifier& identifier,
-                            Children children);
+                            Children&& children);
 
             /**
              * @brief      Assigns the parent component to the entity identified
@@ -166,7 +168,7 @@ namespace nox
             void
             assignComponent(const EntityId& id,
                             const TypeIdentifier& identifier,
-                            Parent parent);
+                            Parent&& parent);
 
             /**
              * @brief      Gets the component belonging to the entity with the
@@ -433,43 +435,57 @@ namespace nox
             onEvent(const std::shared_ptr<nox::event::Event>& event) override final;
 
         private:
-            enum class Transition
+            /**
+             * @brief      Enum wrapper allowing for the use of enums as indexes
+             *             without having to cast them constantly, and without
+             *             it bleeding into the global namespace.
+             */
+            struct Transition
             {
-                DEACTIVATE,
-                HIBERNATE,
-                AWAKE,
-                ACTIVATE,   
-            };
-
-            struct TransitionInfo
-            {
-                EntityId id;
-                TypeIdentifier identifier;
-                Transition transition;
+                enum Enum : std::size_t
+                {
+                    DEACTIVATE,
+                    HIBERNATE,
+                    AWAKE,
+                    ACTIVATE,
+                    META_COUNT,
+                };
             };
 
             struct ComponentIdentifier
             {
-                EntityId id;
-                TypeIdentifier identifier;
-                boost::variant<Json::Value, Children, Parent> initValue;
+                EntityId id{0};
+                TypeIdentifier type{0};
             };
 
+            struct CreationArguments
+            {
+                EntityId id{0};
+                TypeIdentifier type{0};
+                Json::Value json{};
+                Children children{0, nullptr};
+                Parent parent{0, nullptr};
+            };
+
+            using TransitionQueue = nox::thread::LockedQueue<ComponentIdentifier>;
 
             ComponentCollection& 
             getCollection(const TypeIdentifier& identifier);
 
             Factory factory{*this};
 
+            std::vector<ComponentCollection>::iterator threadSafeStop{};
             std::vector<ComponentCollection> components{};
-            std::vector<EntityId> activeIds{};
  
-            std::deque<TransitionInfo> componentTransitionQueue{};
-            std::deque<ComponentIdentifier> componentCreationQueue{};
-            std::deque<ComponentIdentifier> componentRemovalQueue{};
-            std::queue<EntityId> entityRemovalQueue{};
+            std::array<TransitionQueue, Transition::META_COUNT> transitionQueues{}; 
 
-            std::queue<std::shared_ptr<nox::event::Event>> logicEvents{};
+            nox::thread::LockedQueue<CreationArguments> creationQueue{};
+            nox::thread::LockedQueue<ComponentIdentifier> removalQueue{};
+
+            nox::thread::LockedQueue<std::shared_ptr<nox::event::Event>> logicEvents{};
+
+            nox::thread::Pool<nox::thread::LockedQueue> threads{};
+
             std::queue<nox::ecs::Event> entityEvents{};
 
             std::atomic<EntityId> currentEntityId{};

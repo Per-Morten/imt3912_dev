@@ -74,15 +74,23 @@ namespace nox
             void push(const_reference value);
 
             /**
-             * @brief         Pops a value of the queue if possible and stores
-             *                it in value. If no value can be popped from queue
-             *                "value" remains unchanged.
+             * @brief      Pushes a value onto the queue with a std::move.
              *
-             * @param[out] value  The value to store the popped value from
-             *                       the queue in.
+             * @param[in]  value  The value to push onto the queue. 
+             *                    It will be moved from.
+             */
+            void push(value_type&& value);
+
+            /**
+             * @brief      Pops a value of the queue if possible and move
+             *             assigns it in value. If no value can be popped from
+             *             queue "value" remains unchanged.
              *
-             * @return        True if a value could be popped from the queue.
-             *                False otherwise.
+             * @param[out] value  The value to store the popped value from the
+             *                    queue in.
+             *
+             * @return     True if a value could be popped from the queue. False
+             *             otherwise.
              */
             bool pop(reference value);
 

@@ -295,6 +295,12 @@ nox::ecs::ComponentCollection::getTypeIdentifier() const
     return this->info.typeIdentifier;
 }
 
+const nox::ecs::MetaInformation&
+nox::ecs::ComponentCollection::getMetaInformation() const
+{
+    return this->info;
+}
+
 nox::ecs::Component*
 nox::ecs::ComponentCollection::cast(Byte* entity) const
 {

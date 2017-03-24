@@ -7,9 +7,10 @@
 
 nox::ecs::EntityManager::~EntityManager()
 {
-    for (const auto item : this->activeIds)
+    const auto maxId = this->currentEntityId.load(std::memory_order_acquire);
+    for (std::size_t i = 0; i < maxId; ++i)
     {
-        this->removeEntity(item);
+        this->removeEntity(i);
     }
 
     this->deactivateStep();
@@ -32,22 +33,24 @@ nox::ecs::EntityManager::registerComponent(const MetaInformation& info)
 void
 nox::ecs::EntityManager::configureComponents()
 {
-    // To be implemented sprint05. Needed to avoid linker issues.
+    // Temporary solution to test the pool. This will be changed out with the layering algorithm.
+    this->threadSafeStop = std::partition(this->components.begin(),
+                                          this->components.end(),
+                                          [this](const auto& item)
+                                          { return item.getMetaInformation().updateAccess == DataAccess::INDEPENDENT; });
 }
 
 nox::ecs::EntityId
 nox::ecs::EntityManager::createEntity()
 {
-    const auto newId = this->currentEntityId++;
-    this->activeIds.push_back(newId);
+    const auto newId = this->currentEntityId.fetch_add(EntityId(1), std::memory_order_acq_rel);
     return newId;
 }
 
 nox::ecs::EntityId
 nox::ecs::EntityManager::createEntity(const std::string& definitionName)
 {
-    const auto newId = this->currentEntityId++;
-    this->activeIds.push_back(newId);
+    const auto newId = this->currentEntityId.fetch_add(EntityId(1), std::memory_order_acq_rel);
     this->factory.createEntity(newId, definitionName);
     return newId;
 }
@@ -56,7 +59,8 @@ void
 nox::ecs::EntityManager::assignComponent(const EntityId& id,
                                          const TypeIdentifier& identifier)
 {
-    this->componentCreationQueue.push_back({ id, identifier });
+    CreationArguments tmp{ id, identifier };
+    this->creationQueue.push(std::move(tmp));
 }
 
 void
@@ -64,23 +68,29 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
                                          const TypeIdentifier& identifier,
                                          const Json::Value& value)
 {
-    this->componentCreationQueue.push_back({ id, identifier, value });
+    CreationArguments tmp{ id, identifier };
+    tmp.json = value;
+    this->creationQueue.push(std::move(tmp));
 }
 
 void
 nox::ecs::EntityManager::assignComponent(const EntityId& id,
                                          const TypeIdentifier& identifier,
-                                         Children children)
+                                         Children&& children)
 {
-    this->componentCreationQueue.push_back({ id, identifier, std::move(children) });
+    CreationArguments tmp{ id, identifier };
+    tmp.children = std::move(children);
+    this->creationQueue.push(std::move(tmp));
 }
 
 void
 nox::ecs::EntityManager::assignComponent(const EntityId& id,
                                          const TypeIdentifier& identifier,
-                                         Parent parent)
+                                         Parent&& parent)
 {
-    this->componentCreationQueue.push_back({ id, identifier, std::move(parent) });
+    CreationArguments tmp{ id, identifier };
+    tmp.parent = std::move(parent);
+    this->creationQueue.push(std::move(tmp));
 }
 
 nox::ecs::ComponentHandle<nox::ecs::Component>
@@ -95,35 +105,35 @@ void
 nox::ecs::EntityManager::removeComponent(const EntityId& id,
                                          const TypeIdentifier& identifier)
 {
-    this->componentRemovalQueue.push_back({ id, identifier });
+    this->removalQueue.push({ id, identifier });
 }
 
 void
 nox::ecs::EntityManager::awakeComponent(const EntityId& id,
                                         const TypeIdentifier& identifier)
 {
-    this->componentTransitionQueue.push_back({ id, identifier, Transition::AWAKE });    
+    this->transitionQueues[Transition::AWAKE].push({ id, identifier });
 }
 
 void
 nox::ecs::EntityManager::activateComponent(const EntityId& id,
                                            const TypeIdentifier& identifier)
 {
-    this->componentTransitionQueue.push_back({ id, identifier, Transition::ACTIVATE });
+    this->transitionQueues[Transition::ACTIVATE].push({ id, identifier });
 }
 
 void
 nox::ecs::EntityManager::deactivateComponent(const EntityId& id,
                                              const TypeIdentifier& identifier)
 {
-    this->componentTransitionQueue.push_back({ id, identifier, Transition::DEACTIVATE });
+    this->transitionQueues[Transition::DEACTIVATE].push({ id, identifier });
 }
 
 void
 nox::ecs::EntityManager::hibernateComponent(const EntityId& id, 
                                             const TypeIdentifier& identifier)
 {
-    this->componentTransitionQueue.push_back({ id, identifier, Transition::HIBERNATE });
+    this->transitionQueues[Transition::HIBERNATE].push({ id, identifier });
 }
 
 void
@@ -133,7 +143,6 @@ nox::ecs::EntityManager::removeEntity(const EntityId& id)
     {
         this->removeComponent(id, item.getTypeIdentifier());
     }
-    this->entityRemovalQueue.push(id);
 }
 
 void
@@ -189,11 +198,9 @@ nox::ecs::EntityManager::step(const nox::Duration& deltaTime)
 void
 nox::ecs::EntityManager::distributeLogicEvents()
 {
-    while (!this->logicEvents.empty())
+    std::shared_ptr<nox::event::Event> event{};
+    while (this->logicEvents.pop(event))
     {
-        auto event = this->logicEvents.front();
-        this->logicEvents.pop();
-
         for (auto& collection : this->components)
         {
             collection.receiveLogicEvent(event);
@@ -204,9 +211,15 @@ nox::ecs::EntityManager::distributeLogicEvents()
 void
 nox::ecs::EntityManager::updateStep(const nox::Duration& deltaTime)
 {
-    for (auto& collection : this->components)
+    for (auto itr = this->components.begin(); itr != this->threadSafeStop; ++itr)
     {
-        collection.update(deltaTime);
+        this->threads.addTask([this, itr, deltaTime](){ itr->update(deltaTime); });
+    }
+    this->threads.wait();
+
+    for (auto itr = this->threadSafeStop; itr != this->components.end(); ++itr)
+    {
+        itr->update(deltaTime);
     }
 }
 
@@ -228,91 +241,62 @@ nox::ecs::EntityManager::distributeEntityEvents()
 void
 nox::ecs::EntityManager::deactivateStep()
 {
-    const auto end = std::partition(std::begin(this->componentTransitionQueue),
-                                    std::end(this->componentTransitionQueue),
-                                    [](const auto& item)
-                                    { return item.transition == Transition::DEACTIVATE; });
-
-    while (std::begin(this->componentTransitionQueue) != end)
+    ComponentIdentifier identifier;
+    while (this->transitionQueues[Transition::DEACTIVATE].pop(identifier))
     {
-        const auto transition = this->componentTransitionQueue.front();
-        this->componentTransitionQueue.pop_front(); 
-
-        auto& collection = this->getCollection(transition.identifier);
-        collection.deactivate(transition.id);
+        auto& collection = this->getCollection(identifier.type);
+        collection.deactivate(identifier.id);
     }
 }
 
 void
 nox::ecs::EntityManager::hibernateStep()
 {
-    const auto end = std::partition(std::begin(this->componentTransitionQueue),
-                                    std::end(this->componentTransitionQueue),
-                                    [](const auto& item)
-                                    { return item.transition == Transition::HIBERNATE; });
-
-    while (std::begin(this->componentTransitionQueue) != end)
+    ComponentIdentifier identifier;
+    while (this->transitionQueues[Transition::HIBERNATE].pop(identifier))
     {
-        const auto transition = this->componentTransitionQueue.front();
-        this->componentTransitionQueue.pop_front(); 
-
-        auto& collection = this->getCollection(transition.identifier);
-        collection.hibernate(transition.id);
+        auto& collection = this->getCollection(identifier.type);
+        collection.hibernate(identifier.id);
     }
 }
 
 void
 nox::ecs::EntityManager::removeStep()
 {
-    while (!this->componentRemovalQueue.empty())
+    ComponentIdentifier identifier;
+    while (this->removalQueue.pop(identifier))
     {
-        const auto componentIdentifier = std::move(this->componentRemovalQueue.front());
-        this->componentRemovalQueue.pop_front();
-
-        auto& collection = this->getCollection(componentIdentifier.identifier);
-        collection.remove(componentIdentifier.id);
-    }
-
-    while (!this->entityRemovalQueue.empty())
-    {
-        const auto entityId = this->entityRemovalQueue.front();
-        this->entityRemovalQueue.pop();
-
-        this->activeIds.erase(std::remove(std::begin(this->activeIds),
-                                          std::end(this->activeIds),
-                                          entityId),
-                              std::end(this->activeIds));
+        auto& collection = this->getCollection(identifier.type);
+        collection.remove(identifier.id);
     }
 }
 
 void
 nox::ecs::EntityManager::createStep()
 {
-    while (!this->componentCreationQueue.empty())
+    CreationArguments identifier;
+    while (this->creationQueue.pop(identifier))
     {
-        auto componentIdentifier = std::move(this->componentCreationQueue.front());
-        this->componentCreationQueue.pop_front();
+        auto& collection = this->getCollection(identifier.type);
 
-        auto& collection = this->getCollection(componentIdentifier.identifier);
-
-        if (componentIdentifier.identifier == ecs::component_types::CHILDREN)
+        if (identifier.type == ecs::component_types::CHILDREN)
         {
-            Children& child = boost::get<Children>(componentIdentifier.initValue);
+            Children& child = identifier.children;
             collection.adopt(child);
         } 
-        else if (componentIdentifier.identifier == ecs::component_types::PARENT)
+        else if (identifier.type == ecs::component_types::PARENT)
         {
-            Parent& parent = boost::get<Parent>(componentIdentifier.initValue);
+            Parent& parent = identifier.parent;
             collection.adopt(parent);
         }
         else
         {
-            collection.create(componentIdentifier.id, this);
-            const Json::Value* jsonValue = boost::get<Json::Value>(&componentIdentifier.initValue);
+            collection.create(identifier.id, this);
+            const Json::Value& jsonValue = identifier.json;
 
-            if (jsonValue != nullptr)
+            if (jsonValue.isNull())
             {
-                collection.initialize(componentIdentifier.id, *jsonValue);
+                collection.initialize(identifier.id, jsonValue);
             }
         }
     }
@@ -321,36 +305,22 @@ nox::ecs::EntityManager::createStep()
 void
 nox::ecs::EntityManager::awakeStep()
 {
-    const auto end = std::partition(std::begin(this->componentTransitionQueue),
-                                    std::end(this->componentTransitionQueue),
-                                    [](const auto& item)
-                                    { return item.transition == Transition::AWAKE; });
-
-    while (std::begin(this->componentTransitionQueue) != end)
+    ComponentIdentifier identifier;
+    while (this->transitionQueues[Transition::AWAKE].pop(identifier))
     {
-        const auto transition = this->componentTransitionQueue.front();
-        this->componentTransitionQueue.pop_front(); 
-
-        auto& collection = this->getCollection(transition.identifier);
-        collection.awake(transition.id);
+        auto& collection = this->getCollection(identifier.type);
+        collection.awake(identifier.id);
     }
 }
 
 void
 nox::ecs::EntityManager::activateStep()
 {
-    const auto end = std::partition(std::begin(this->componentTransitionQueue),
-                                    std::end(this->componentTransitionQueue),
-                                    [](const auto& item)
-                                    { return item.transition == Transition::ACTIVATE; });
-
-    while (std::begin(this->componentTransitionQueue) != end)
+    ComponentIdentifier identifier;
+    while (this->transitionQueues[Transition::ACTIVATE].pop(identifier))
     {
-        const auto transition = this->componentTransitionQueue.front();
-        this->componentTransitionQueue.pop_front(); 
-
-        auto& collection = this->getCollection(transition.identifier);
-        collection.activate(transition.id);
+        auto& collection = this->getCollection(identifier.type);
+        collection.activate(identifier.id);
     }
 }
 
