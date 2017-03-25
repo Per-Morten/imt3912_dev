@@ -226,16 +226,17 @@ nox::ecs::EntityManager::updateStep(const nox::Duration& deltaTime)
 void
 nox::ecs::EntityManager::distributeEntityEvents()
 {
-    while (!this->entityEvents.empty())
+    // Temp event, only needed for the popping.
+    Event event(&eventArgumentAllocator, {0}, 0, 0);
+    while (this->entityEventSystem.pop(event))
     {
-        auto event = std::move(entityEvents.front());
-        entityEvents.pop();
-
         for (auto& collection : this->components)
         {
             collection.receiveEntityEvent(event);
         }
     }
+    this->entityEventSystem.clear();
+    this->eventArgumentAllocator.clear();
 }
 
 void
@@ -324,10 +325,21 @@ nox::ecs::EntityManager::activateStep()
     }
 }
 
+nox::ecs::Event
+nox::ecs::EntityManager::createEntityEvent(const TypeIdentifier& eventType,
+                                           const EntityId& senderId,
+                                           const EntityId& receiverId)
+{
+    return std::move(Event(&eventArgumentAllocator,
+                           eventType,
+                           senderId,
+                           receiverId));
+}
+
 void
 nox::ecs::EntityManager::sendEntityEvent(ecs::Event event)
 {
-    this->entityEvents.push(std::move(event));
+    this->entityEventSystem.push(std::move(event));
 }
 
 void
