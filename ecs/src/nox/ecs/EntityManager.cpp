@@ -1,6 +1,9 @@
 #include <nox/ecs/EntityManager.h>
 
 #include <algorithm>
+#include <functional>
+#include <set>
+#include <utility>
 
 #include <nox/util/nox_assert.h>
 #include <nox/ecs/component/Types.h>
@@ -33,6 +36,190 @@ nox::ecs::EntityManager::registerComponent(const MetaInformation& info)
 void
 nox::ecs::EntityManager::configureComponents()
 {
+    auto typeIdentifierComp = [](const TypeIdentifier& lhs, const TypeIdentifier& rhs)
+    {
+        return lhs.getValue() < rhs.getValue();
+    };
+
+    struct TypeIdentifierComp
+    {
+        bool operator()(const TypeIdentifier& lhs, const TypeIdentifier& rhs)
+        {
+            return lhs.getValue() < rhs.getValue();
+        }
+    };
+
+    using TypeIdentifierSet = std::set<TypeIdentifier, TypeIdentifierComp>; //decltype(typeIdentifierComp)>;
+
+    std::vector<std::pair<TypeIdentifier, TypeIdentifierSet>> componentAccessLists;
+
+    for (std::size_t i = 0; i < this->components.size(); ++i)
+    {
+        auto metaInformation = this->components[i].getMetaInformation();
+
+        componentAccessLists.emplace_back(metaInformation.typeIdentifier,
+                                          TypeIdentifierSet());//TypeIdentifierSet(typeIdentifierComp));
+
+        //Remove self reads
+        for (auto itr = std::begin(componentAccessLists.back().second); itr != std::end(componentAccessLists.back().second);)
+        {
+            if (*itr == componentAccessLists.back().first)
+            {
+                itr = componentAccessLists.back().second.erase(itr);
+            }
+            else
+            {
+                ++itr;
+            }
+        }
+    }
+
+    //Makes sure that the read connection goes both ways for all component types
+    //If A reads B, B also needs to read A in this model
+    for (const auto& list : componentAccessLists)
+    {
+        for (const auto& type : list.second)
+        {
+            auto itr = std::find_if(std::begin(componentAccessLists),
+                                    std::end(componentAccessLists),
+                                    [type](const auto& listPair)
+                                    { return listPair.first == type; });
+            itr->second.insert(list.first);
+        }
+    }
+
+    std::vector<std::vector<TypeIdentifier>> executionOrder; 
+ 
+    while (!componentAccessLists.empty())
+    {     
+        //Sort so the list with largest amount of connections to others comes first
+        std::sort(std::begin(componentAccessLists),
+                  std::end(componentAccessLists),
+                  [](const auto& lhs, const auto& rhs)
+                  { return lhs.second.size() > rhs.second.size(); });
+
+        //Start of with the component type with the most connections
+        TypeIdentifier initialComponent = componentAccessLists.front().first;
+
+        executionOrder.emplace_back();
+        executionOrder.back().push_back(initialComponent);
+
+        TypeIdentifierSet connectedComponents(std::begin(componentAccessLists.front().second),
+                                              std::end(componentAccessLists.front().second),
+                                              TypeIdentifierComp()); //typeIdentifierComp);
+
+        //Need a copy to work with so deleting is not affecting the original
+        auto accessListsCopy = componentAccessLists;
+
+        //Done with the starting component, so erase it from the list
+        accessListsCopy.erase(std::begin(accessListsCopy));
+
+        while (!accessListsCopy.empty())
+        {
+            //Remove all component types that has a connection to component types already put in the executionOrder
+            for (auto itr = std::begin(accessListsCopy); itr != std::end(accessListsCopy);)
+            {
+                std::vector<TypeIdentifier> intersection;
+                std::set_intersection(std::begin(itr->second), std::end(itr->second),
+                                      std::begin(executionOrder.back()), std::end(executionOrder.back()),
+                                      std::back_inserter(intersection),
+                                      typeIdentifierComp);
+                
+                if (!intersection.empty())
+                {
+                    itr = accessListsCopy.erase(itr);
+                }
+                else
+                {
+                    ++itr;
+                }
+            }
+
+            //Lambda less than comparison between which component types has more relations to the connectedComponents
+            auto compareFunction = [&connectedComponents, typeIdentifierComp](auto& lhs, auto& rhs)
+            { 
+                std::vector<TypeIdentifier> intersection;
+    
+                intersection.clear();
+                std::set_intersection(std::begin(lhs.second), std::end(lhs.second),
+                                      std::begin(connectedComponents), std::end(connectedComponents),
+                                      std::back_inserter(intersection),
+                                      typeIdentifierComp);
+                const std::size_t lhsSize = intersection.size();
+    
+                intersection.clear();
+                std::set_intersection(std::begin(rhs.second), std::end(rhs.second),
+                                      std::begin(connectedComponents), std::end(connectedComponents),
+                                      std::back_inserter(intersection),
+                                      typeIdentifierComp);
+                const std::size_t rhsSize = intersection.size();
+    
+                return lhsSize > rhsSize;
+            };
+
+            //Component type with least amount of new connections to other component types
+            const auto minListCopyItr = std::min_element(std::begin(accessListsCopy),
+                                                         std::end(accessListsCopy),
+                                                         compareFunction);
+            const auto minListItr = std::find_if(std::begin(componentAccessLists),
+                                                 std::end(componentAccessLists),
+                                                 [minListCopyItr](auto& list)
+                                                 { return list.first == minListCopyItr->first; });
+            accessListsCopy.erase(std::find_if(std::begin(accessListsCopy),
+                                               std::end(accessListsCopy),
+                                               [minListItr](auto& listPair)
+                                               { return listPair.first == minListItr->first; }));
+
+            //Add newfound component type to the executionOrder
+            executionOrder.back().push_back(minListItr->first);
+        }
+
+        //Removes components if there are too many to fit nicely into the threadpool
+        const std::size_t overshot = executionOrder.back().size() % threads.threadCount();  
+        if (overshot != executionOrder.back().size())
+        {
+            for (std::size_t i = 0; i < overshot; ++i)
+            {
+                executionOrder.back().erase(std::end(executionOrder.back()) - 1);
+            }            
+        }
+
+        //Removes the components from the componentAccessLists now placed in the new execution layer
+        for (const auto& type : executionOrder.back())
+        {
+            componentAccessLists.erase(std::find_if(std::begin(componentAccessLists),
+                                                    std::end(componentAccessLists),
+                                                    [type](auto& pair)
+                                                    { return pair.first == type; }));
+        }
+    }
+
+    //If there are still more components left, add them into separate execution layers
+    if (!componentAccessLists.empty())
+    {
+        for (const auto& listPair : componentAccessLists)
+        {
+            executionOrder.emplace_back();
+            executionOrder.back().push_back(listPair.first);
+        }
+    }
+
+    //Change the executionOrder into the format executionLayers has
+    for (const auto& layer : executionOrder)
+    {
+        this->executionLayers.emplace_back();
+
+        for (const auto& type : layer)
+        {
+            const std::size_t index = std::distance(std::begin(this->components),
+                                                    std::find_if(std::begin(this->components),
+                                                                 std::end(this->components),
+                                                                 [type](const auto& component)
+                                                                 { return component.getMetaInformation().typeIdentifier == type; }));
+            this->executionLayers.back().push_back(index);
+        }
+    }
+
     // Temporary solution to test the pool. This will be changed out with the layering algorithm.
     this->threadSafeStop = std::partition(this->components.begin(),
                                           this->components.end(),
