@@ -501,6 +501,8 @@ namespace nox
 
             std::vector<ComponentCollection>::iterator threadSafeStop{};
             std::vector<ComponentCollection> components{};
+
+            std::vector<std::vector<std::size_t>> executionLayers{};
  
             std::array<TransitionQueue, Transition::META_COUNT> transitionQueues{}; 
 
