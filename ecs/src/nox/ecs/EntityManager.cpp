@@ -36,11 +36,6 @@ nox::ecs::EntityManager::registerComponent(const MetaInformation& info)
 void
 nox::ecs::EntityManager::configureComponents()
 {
-    auto typeIdentifierComp = [](const TypeIdentifier& lhs, const TypeIdentifier& rhs)
-    {
-        return lhs.getValue() < rhs.getValue();
-    };
-
     struct TypeIdentifierComp
     {
         bool operator()(const TypeIdentifier& lhs, const TypeIdentifier& rhs)
@@ -51,6 +46,7 @@ nox::ecs::EntityManager::configureComponents()
 
     using TypeIdentifierSet = std::set<TypeIdentifier, TypeIdentifierComp>;
 
+
     std::vector<std::pair<TypeIdentifier, TypeIdentifierSet>> componentAccessLists;
 
     for (std::size_t i = 0; i < this->components.size(); ++i)
@@ -59,6 +55,9 @@ nox::ecs::EntityManager::configureComponents()
 
         componentAccessLists.emplace_back(metaInformation.typeIdentifier,
                                           TypeIdentifierSet());
+
+        //INSERT DATA ACCESS DEPENDENCIES HERE
+        //Possibly place it into the componentAccessLists.emplace_back above
 
         //Remove self reads
         for (auto itr = std::begin(componentAccessLists.back().second); itr != std::end(componentAccessLists.back().second);)
@@ -123,16 +122,9 @@ nox::ecs::EntityManager::configureComponents()
                 std::set_intersection(std::begin(itr->second), std::end(itr->second),
                                       std::begin(executionOrder.back()), std::end(executionOrder.back()),
                                       std::back_inserter(intersection),
-                                      typeIdentifierComp);
+                                      TypeIdentifierComp());
                 
-                if (!intersection.empty())
-                {
-                    itr = accessListsCopy.erase(itr);
-                }
-                else
-                {
-                    ++itr;
-                }
+                itr = (!intersection.empty()) ? accessListCopy.erase(itr) : std::next(itr)
             }
 
             //Ensure not to try to add another component to the executionOrder when there are none left
@@ -142,22 +134,21 @@ nox::ecs::EntityManager::configureComponents()
             }
 
             //Lambda less than comparison between which component types has more relations to the connectedComponents
-            auto compareFunction = [&connectedComponents, typeIdentifierComp](auto& lhs, auto& rhs)
+            const auto& compareFunction = [&connectedComponents, typeIdentifierComp](auto& lhs, auto& rhs)
             { 
                 std::vector<TypeIdentifier> intersection;
     
-                intersection.clear();
                 std::set_intersection(std::begin(lhs.second), std::end(lhs.second),
                                       std::begin(connectedComponents), std::end(connectedComponents),
                                       std::back_inserter(intersection),
-                                      typeIdentifierComp);
+                                      TypeIdentifierComp());
                 const std::size_t lhsSize = intersection.size();
     
                 intersection.clear();
                 std::set_intersection(std::begin(rhs.second), std::end(rhs.second),
                                       std::begin(connectedComponents), std::end(connectedComponents),
                                       std::back_inserter(intersection),
-                                      typeIdentifierComp);
+                                      TypeIdentifierComp());
                 const std::size_t rhsSize = intersection.size();
     
                 return lhsSize > rhsSize;
@@ -169,8 +160,8 @@ nox::ecs::EntityManager::configureComponents()
                                                          compareFunction);
             const auto minListItr = std::find_if(std::begin(componentAccessLists),
                                                  std::end(componentAccessLists),
-                                                 [minListCopyItr](const auto& list)
-                                                 { return list.first == minListCopyItr->first; });
+                                                 [minListCopyItr](const auto& listPair)
+                                                 { return listPair.first == minListCopyItr->first; });
             accessListsCopy.erase(std::find_if(std::begin(accessListsCopy),
                                                std::end(accessListsCopy),
                                                [minListItr](const auto& listPair)
@@ -195,8 +186,8 @@ nox::ecs::EntityManager::configureComponents()
         {
             componentAccessLists.erase(std::find_if(std::begin(componentAccessLists),
                                                     std::end(componentAccessLists),
-                                                    [type](auto& pair)
-                                                    { return pair.first == type; }));
+                                                    [type](auto& listPair)
+                                                    { return listPair.first == type; }));
         }
     }
 
