@@ -19,6 +19,12 @@ namespace nox
              *             parent type through the TypeIdentifier.
              */
             constexpr std::size_t PARENT = 1;
+
+            /**
+             * @brief      Constant numerical value used for identifying the
+             *             transform type through the TypeIdentifier.
+             */
+            constexpr std::size_t TRANSFORM = 2;
         }
     }
 }
