@@ -3,9 +3,9 @@
 
 template<class T, class Collection>
 nox::ecs::SmartHandle<T, Collection>::SmartHandle(const EntityId& id,
-                                      T* object,
-                                      const std::size_t generation,
-                                      Collection* collection)
+                                                  T* object,
+                                                  const std::size_t generation,
+                                                  Collection* collection)
     : generation(generation)
     , id(id)
     , collection(collection)
@@ -18,7 +18,7 @@ template<class T, class Collection>
 T*
 nox::ecs::SmartHandle<T, Collection>::get()
 {
-    if (this->generation != collection->getGeneration())
+    if (this->generation != collection->getGeneration() || this->ptr == nullptr)
     {
         *this = collection->getComponent(this->id);
     }

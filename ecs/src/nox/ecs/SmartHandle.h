@@ -22,18 +22,18 @@ namespace nox
             SmartHandle() = default;
 
             /**
-             * @brief Creates a smart handle with the given object, 
-             *        generation and metaInformation.
+             * @brief      Creates a smart handle with the given object,
+             *             generation and metaInformation.
              *
-             * @param object the object the handle points to.
-             * @param generation the generation this handle was set.
-             * @param Collection the metaInformation that this object shall query
-             *                        for the current generation.
+             * @param[in]  id          The id of the entity the component belongs to.
+             * @param      object      The object the handle points to.
+             * @param      generation  The generation this handle was set.
+             * @param      collection  The collection containing the component.
              */
             SmartHandle(const EntityId& id,
                         T* object,
                         std::size_t generation,
-                        Collection* lookup);
+                        Collection* collection);
 
             /**
              * @brief User defined conversion, allows for down-casting of type.
