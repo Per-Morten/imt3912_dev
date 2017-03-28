@@ -4,8 +4,7 @@
 
 #include <nox/ecs/EntityId.h>
 #include <nox/ecs/TypeIdentifier.h>
-#include <nox/memory/LinearAllocator.h>
-#include <nox/memory/LockedAllocator.h>
+#include <nox/memory/LockFreeAllocator.h>
 
 namespace nox
 {
@@ -117,8 +116,8 @@ namespace nox
 
             /**
              * @brief      Allocator used for allocating events.
-             */ 
-            using ArgumentAllocator = nox::memory::LockedAllocator<nox::memory::LinearAllocator<1024>>;
+             */
+            using ArgumentAllocator = nox::memory::LockFreeAllocator<1024>;
            
             /**
              * @brief      Constant value used to signal that an event shall be
