@@ -49,7 +49,7 @@ nox::ecs::EntityManager::configureComponents()
         }
     };
 
-    using TypeIdentifierSet = std::set<TypeIdentifier, TypeIdentifierComp>; //decltype(typeIdentifierComp)>;
+    using TypeIdentifierSet = std::set<TypeIdentifier, TypeIdentifierComp>;
 
     std::vector<std::pair<TypeIdentifier, TypeIdentifierSet>> componentAccessLists;
 
@@ -58,7 +58,7 @@ nox::ecs::EntityManager::configureComponents()
         auto metaInformation = this->components[i].getMetaInformation();
 
         componentAccessLists.emplace_back(metaInformation.typeIdentifier,
-                                          TypeIdentifierSet());//TypeIdentifierSet(typeIdentifierComp));
+                                          TypeIdentifierSet());
 
         //Remove self reads
         for (auto itr = std::begin(componentAccessLists.back().second); itr != std::end(componentAccessLists.back().second);)
@@ -80,10 +80,10 @@ nox::ecs::EntityManager::configureComponents()
     {
         for (const auto& type : list.second)
         {
-            auto itr = std::find_if(std::begin(componentAccessLists),
-                                    std::end(componentAccessLists),
-                                    [type](const auto& listPair)
-                                    { return listPair.first == type; });
+            const auto itr = std::find_if(std::begin(componentAccessLists),
+                                          std::end(componentAccessLists),
+                                          [type](const auto& listPair)
+                                          { return listPair.first == type; });
             itr->second.insert(list.first);
         }
     }
@@ -106,7 +106,7 @@ nox::ecs::EntityManager::configureComponents()
 
         TypeIdentifierSet connectedComponents(std::begin(componentAccessLists.front().second),
                                               std::end(componentAccessLists.front().second),
-                                              TypeIdentifierComp()); //typeIdentifierComp);
+                                              TypeIdentifierComp());
 
         //Need a copy to work with so deleting is not affecting the original
         auto accessListsCopy = componentAccessLists;
@@ -169,11 +169,11 @@ nox::ecs::EntityManager::configureComponents()
                                                          compareFunction);
             const auto minListItr = std::find_if(std::begin(componentAccessLists),
                                                  std::end(componentAccessLists),
-                                                 [minListCopyItr](auto& list)
+                                                 [minListCopyItr](const auto& list)
                                                  { return list.first == minListCopyItr->first; });
             accessListsCopy.erase(std::find_if(std::begin(accessListsCopy),
                                                std::end(accessListsCopy),
-                                               [minListItr](auto& listPair)
+                                               [minListItr](const auto& listPair)
                                                { return listPair.first == minListItr->first; }));
 
             //Add newfound component type to the executionOrder
@@ -187,7 +187,7 @@ nox::ecs::EntityManager::configureComponents()
             for (std::size_t i = 0; i < overshot; ++i)
             {
                 executionOrder.back().erase(std::end(executionOrder.back()) - 1);
-            }            
+            }
         }
 
         //Removes the components from the componentAccessLists now placed in the new execution layer
@@ -201,13 +201,10 @@ nox::ecs::EntityManager::configureComponents()
     }
 
     //If there are still more components left, add them into separate execution layers
-    if (!componentAccessLists.empty())
+    for (const auto& listPair : componentAccessLists)
     {
-        for (const auto& listPair : componentAccessLists)
-        {
-            executionOrder.emplace_back();
-            executionOrder.back().push_back(listPair.first);
-        }
+        executionOrder.emplace_back();
+        executionOrder.back().push_back(listPair.first);
     }
 
     //Change the executionOrder into the format executionLayers has
@@ -217,11 +214,14 @@ nox::ecs::EntityManager::configureComponents()
 
         for (const auto& type : layer)
         {
+            const auto componentItr = std::find_if(std::begin(this->components),
+                                                   std::end(this->components),
+                                                   [type](const auto& component)
+                                                   { return component.getMetaInformation().typeIdentifier == type; });
+
             const std::size_t index = std::distance(std::begin(this->components),
-                                                    std::find_if(std::begin(this->components),
-                                                                 std::end(this->components),
-                                                                 [type](const auto& component)
-                                                                 { return component.getMetaInformation().typeIdentifier == type; }));
+                                                    componentItr);
+
             this->executionLayers.back().push_back(index);
         }
     }
