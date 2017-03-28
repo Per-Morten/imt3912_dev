@@ -1,6 +1,7 @@
 #ifndef NOX_ECS_EVENTSYSTEM_H_
 #define NOX_ECS_EVENTSYSTEM_H_
 #include <cstdint>
+#include <mutex>
 
 #include <nox/ecs/Event.h>
 #include <nox/memory/Byte.h>
@@ -12,9 +13,9 @@ namespace nox
     {
         /**
          * @brief      Class for handling events within the ECS. Functions sort
-         *             of like a queue except that no references are invalidated
+         *             of like a queue/stack except that no references are invalidated
          *             before a call to reset, which will invalidate all
-         *             references and destroy all events in the queue.
+         *             references and destroy all events in the queue/stack.
          */
         class EventSystem
         {
@@ -31,40 +32,33 @@ namespace nox
             ~EventSystem();
 
             /**
-             * @brief      Creates an event with the given arguments that is
-             *             then handed back to the user for further construction
-             *             and customization. The Event is tied to the
-             *             EventSystem, and will be deallocated when a reset is
-             *             called.
+             * @brief      Pushes an event onto the EventSystem.
              *
-             * @param[in]  eventType   The event type.
-             * @param[in]  senderId    The sender of the event.
-             * @param[in]  receiverId  The receiver of the event.
-             *
-             * @return     Reference to a new event that can be customized
-             *             further.
+             * @param[in]  event  The event to add to the EventSystem.
              */
-            Event& createEvent(const TypeIdentifier& eventType,
-                               const EntityId& senderId,
-                               const EntityId& receiverId = nox::ecs::Event::BROADCAST);
+            void
+            push(Event&& event);
 
             /**
-             * @brief      Gets the next event that needs to be processed in the
-             *             event system.
+             * @brief      Pops an event from the System and stores it in event
+             *             if possible.
              *
-             * @warning    Calling readNextEvent on an empty EventSystem is
-             *             undefined behavior.
+             * @param      event  The event to store the popped value into. If
+             *                    no value is popped, the event remains
+             *                    unchanged.
              *
-             * @return     The next event to process.
+             * @return     True if a value is popped and stored in event, false
+             *             otherwise.
              */
-            Event& readNextEvent();
+            bool
+            pop(Event& event);
 
             /**
-             * @brief      Removes and deallocates all memory from the
-             *             container.
+             * @brief      Removes all elements within the container.
              */ 
             void clear();
 
+        private:
             /**
              * @brief      Checks if the container is empty.
              *
@@ -72,8 +66,7 @@ namespace nox
              *             otherwise.
              */
             bool empty();
-            
-        private:
+
             /**
              * @brief      Base struct used just so the head of the list does
              *             not allocate an extra slot for event. This also
@@ -91,8 +84,8 @@ namespace nox
              */
             struct EventNode : public Base
             {
-                EventNode(Event e)
-                    : event(std::move(e))
+                EventNode(Event event)
+                    : event(std::move(event))
                 {
                 }
                 
@@ -112,11 +105,11 @@ namespace nox
              * @return     ptr casted to EventNode*.
              */
             EventNode* cast(Base* ptr);
-            
+
             /**
-             * @brief Shared among all the different events, used to allocate memory for arguments.
-             */
-            Event::ArgumentAllocator argumentAllocator{};
+             * @brief       Used to protect all access to this container.
+             */ 
+            std::mutex mutex{};
 
             /**
              * @brief      Allocator used for allocating EventNodes.

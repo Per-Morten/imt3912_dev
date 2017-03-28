@@ -17,28 +17,35 @@ nox::ecs::EventSystem::~EventSystem()
     }
 }
 
-nox::ecs::Event&
-nox::ecs::EventSystem::createEvent(const TypeIdentifier& eventType,
-                                   const EntityId& senderId,
-                                   const EntityId& receiverId)
+void
+nox::ecs::EventSystem::push(Event&& event)
 {
+    std::lock_guard<std::mutex> lock(this->mutex);
     auto tmp = this->writeHead;
     this->writeHead = static_cast<EventNode*>(this->nodeAllocator.allocate(sizeof(EventNode)));
     tmp->next = this->writeHead;
-    new (this->writeHead) EventNode({this->argumentAllocator, eventType, senderId, receiverId});
-    return this->writeHead->event;
+    new (this->writeHead) EventNode(std::move(event));
 }
 
-nox::ecs::Event&
-nox::ecs::EventSystem::readNextEvent()
+bool
+nox::ecs::EventSystem::pop(Event& event)
 {
-    this->readHead = this->cast(this->readHead->next);
-    return this->readHead->event;
+    std::lock_guard<std::mutex> lock(this->mutex);
+    if (!empty())
+    {
+        this->readHead = this->cast(this->readHead->next);
+        event = std::move(this->readHead->event);
+        return true;
+    }
+
+    return false;
 }
 
 void
 nox::ecs::EventSystem::clear()
 {
+    std::lock_guard<std::mutex> lock(this->mutex);
+
     this->readHead = this->cast(&this->head);
     this->writeHead = this->cast(&this->head);
     auto itr = this->cast(this->head.next);
@@ -50,7 +57,6 @@ nox::ecs::EventSystem::clear()
         itr = next;
     }
     this->nodeAllocator.clear();
-    this->argumentAllocator.clear();
     this->head.next = nullptr;
 }
 

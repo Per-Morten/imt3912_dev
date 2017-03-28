@@ -5,6 +5,7 @@
 #include <nox/ecs/EntityId.h>
 #include <nox/ecs/TypeIdentifier.h>
 #include <nox/memory/LinearAllocator.h>
+#include <nox/memory/LockedAllocator.h>
 
 namespace nox
 {
@@ -117,13 +118,13 @@ namespace nox
             /**
              * @brief      Allocator used for allocating events.
              */ 
-            using ArgumentAllocator = nox::memory::LinearAllocator<1024>;
+            using ArgumentAllocator = nox::memory::LockedAllocator<nox::memory::LinearAllocator<1024>>;
            
             /**
              * @brief      Constant value used to signal that an event shall be
              *             broadcast, not just sent to one entity.
              */
-            static constexpr EntityId BROADCAST = std::numeric_limits<EntityId>::max();
+            static const EntityId BROADCAST;
 
             /**
              * @brief      Creating events within sender, receiver or type is
@@ -141,7 +142,7 @@ namespace nox
              * @param[in]  senderId    The sender of the event.
              * @param[in]  receiverId  The receiver of the event.
              */
-            Event(ArgumentAllocator& allocator,
+            Event(ArgumentAllocator* allocator,
                   const TypeIdentifier& eventType,
                   const EntityId& senderId,
                   const EntityId& receiverId = nox::ecs::Event::BROADCAST);
@@ -169,7 +170,7 @@ namespace nox
              * @brief      Deleting move assignment operator as references to
              *             allocators prohibits moving properly.
              */
-            Event& operator=(Event&&) = delete;
+            Event& operator=(Event&& source);
 
             /**
              * @brief      Destructor, destroys all the arguments belonging to
@@ -253,7 +254,7 @@ namespace nox
             EntityId receiverId;
             EntityId senderId;
             TypeIdentifier type;
-            ArgumentAllocator& allocator;
+            ArgumentAllocator* allocator{nullptr};
             Argument* first{nullptr};
         };
     }

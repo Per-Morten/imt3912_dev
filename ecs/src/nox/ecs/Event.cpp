@@ -1,8 +1,11 @@
 #include <nox/ecs/Event.h>
 ///////////
 // Event //
-/////////// 
-nox::ecs::Event::Event(ArgumentAllocator& allocator,
+///////////
+
+const nox::ecs::EntityId nox::ecs::Event::BROADCAST = std::numeric_limits<nox::ecs::EntityId>::max();
+
+nox::ecs::Event::Event(ArgumentAllocator* allocator,
                        const TypeIdentifier& eventType,
                        const EntityId& senderId,
                        const EntityId& receiverId)
@@ -24,13 +27,36 @@ nox::ecs::Event::Event(Event&& source)
     source.first = nullptr;
 }
 
+nox::ecs::Event&
+nox::ecs::Event::operator=(Event&& source)
+{
+    if (this != &source)
+    {
+        while (first)
+        {
+            auto next = first->next;
+            first->destructor(first->payload);
+            allocator->deallocate(first);
+            first = next;
+        }
+
+        this->receiverId = source.receiverId;
+        this->senderId = source.senderId;
+        this->type = source.type;
+        this->allocator = source.allocator;
+        this->first = source.first;
+
+        source.first = nullptr;
+    }
+}
+
 nox::ecs::Event::~Event()
 {
     while (first)
     {
         auto next = first->next;
         first->destructor(first->payload);
-        allocator.deallocate(first);
+        allocator->deallocate(first);
         first = next;
     }
 }
@@ -111,7 +137,7 @@ nox::ecs::Event::getReceiver() const
 nox::ecs::Event::ArgumentAllocator&
 nox::ecs::Event::getAllocator()
 {
-    return this->allocator;
+    return *this->allocator;
 }
 
 bool 

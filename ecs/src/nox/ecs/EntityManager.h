@@ -6,19 +6,20 @@
 #include <queue>
 #include <vector>
 
-#include <nox/ecs/component/Children.h>
-#include <nox/ecs/component/Parent.h>
 #include <nox/ecs/ComponentCollection.h>
 #include <nox/ecs/EntityId.h>
 #include <nox/ecs/Event.h>
+#include <nox/ecs/EventSystem.h>
 #include <nox/ecs/Factory.h>
 #include <nox/ecs/MetaInformation.h>
 #include <nox/ecs/SmartHandle.h>
 #include <nox/ecs/TypeIdentifier.h>
+#include <nox/ecs/component/Children.h>
+#include <nox/ecs/component/Parent.h>
 #include <nox/event/IListener.h>
 #include <nox/thread/LockedQueue.h>
-#include <nox/util/nox_assert.h>
 #include <nox/thread/Pool.h>
+#include <nox/util/nox_assert.h>
 
 #include <json/json.h>
 
@@ -407,6 +408,30 @@ namespace nox
              */
             void
             activateStep();
+
+            /**
+             * @brief      Creates an event with the parameters given to the
+             *             function. The event is not added to the EventSystem,
+             *             this is done through the sendEntityEvent function.
+             *
+             * @note       Creating events within receiveEvent functions in a
+             *             concurrent environment is legal, and the event will
+             *             be parsed in the current frame.
+             *
+             * @see        nox::ecs::Event
+             *
+             * @param[in]  eventType   The event type.
+             * @param[in]  senderId    The id of the sender.
+             * @param[in]  receiverId  The id of the receiver entity. Defaults
+             *                         to Event::BROADCAST, i.e. Every entity
+             *                         within the system will see the message.
+             *
+             * @return     An event that can be further customized.
+             */
+            nox::ecs::Event 
+            createEntityEvent(const TypeIdentifier& eventType,
+                              const EntityId& senderId,
+                              const EntityId& receiverId = nox::ecs::Event::BROADCAST);
             
             /**
              * @brief      Queues up the sending of the entity event.
@@ -486,7 +511,9 @@ namespace nox
 
             nox::thread::Pool<nox::thread::LockedQueue> threads{};
 
-            std::queue<nox::ecs::Event> entityEvents{};
+            nox::ecs::Event::ArgumentAllocator eventArgumentAllocator{};
+
+            nox::ecs::EventSystem entityEventSystem{};
 
             std::atomic<EntityId> currentEntityId{};
         };
