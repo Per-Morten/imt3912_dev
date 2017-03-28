@@ -135,6 +135,12 @@ nox::ecs::EntityManager::configureComponents()
                 }
             }
 
+            //Ensure not to try to add another component to the executionOrder when there are none left
+            if (accessListsCopy.empty())
+            {
+                break;
+            }
+
             //Lambda less than comparison between which component types has more relations to the connectedComponents
             auto compareFunction = [&connectedComponents, typeIdentifierComp](auto& lhs, auto& rhs)
             { 
