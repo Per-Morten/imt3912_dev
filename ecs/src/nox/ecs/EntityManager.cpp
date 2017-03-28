@@ -47,10 +47,18 @@ namespace
                 ComponentCollectionInfo newComponent;
                 newComponent.type = metaInformation.typeIdentifier;
                 newComponent.access = metaInformation.updateAccess;
-                newComponent.connectionSet;// = INSERT DATA HERE
+                newComponent.connectionSet.insert(metaInformation.updateDependencies.cbegin(),
+                                                  metaInformation.updateDependencies.cend());
+
 
                 componentAccessLists.push_back(newComponent);
-        
+                printf("Type: %zu: \t", componentAccessLists.back().type.getValue());
+                for(const auto& item : componentAccessLists.back().connectionSet)
+                {
+                    printf("%zu ", item.getValue());
+                }
+                printf("\n");
+
                 //Remove self reads
                 auto& collection = componentAccessLists.back();
                 for (auto itr = std::begin(collection.connectionSet); itr != std::end(collection.connectionSet);)
@@ -72,6 +80,8 @@ namespace
                     componentAccessLists.erase(std::end(componentAccessLists) - 1);
                 }
             }
+
+            printf("\n");
         
             //Makes sure that the read connection goes both ways for all component types
             //If A reads B, B also needs to read A in this model
@@ -87,6 +97,17 @@ namespace
                 }
             }
         
+            for (const auto& thing : componentAccessLists)
+            {
+                printf("Type: %zu: \t", thing.type.getValue());
+                for(const auto& item : thing.connectionSet)
+                {
+                    printf("%zu ", item.getValue());
+                }
+                printf("\n");
+            }
+
+            printf("\n");
             while (!componentAccessLists.empty())
             {     
                 //Sort so the list with largest amount of connections to others comes first
@@ -163,6 +184,8 @@ namespace
         
                     //Add newfound component type to the executionOrder
                     executionOrder.back().push_back(minListItr->type);
+                    connectedComponents.insert(std::begin(minListItr->connectionSet),
+                                               std::end(minListItr->connectionSet));
                 }
         
                 //Removes components if there are too many to fit nicely into the threadpool
@@ -197,7 +220,7 @@ namespace
             for (const auto& layer : executionOrder)
             {
                 executionLayers.emplace_back();
-        
+
                 for (const auto& type : layer)
                 {
                     const auto componentItr = std::find_if(std::cbegin(collections),
@@ -209,7 +232,10 @@ namespace
                                                             componentItr);
         
                     executionLayers.back().push_back(index);
+
+                    printf("%zu ", type.getValue());
                 }
+                printf("\n");
             }
 
             return executionLayers;
@@ -247,12 +273,12 @@ nox::ecs::EntityManager::registerComponent(const MetaInformation& info)
 void
 nox::ecs::EntityManager::configureComponents()
 {
-    //this->executionLayers = local::createExecutionLayers(this->components, this->threads.threadCount());
+    this->executionLayers = local::createExecutionLayers(this->components, this->threads.threadCount());
     // Temporary solution to test the pool. This will be changed out with the layering algorithm.
-    this->threadSafeStop = std::partition(this->components.begin(),
-                                          this->components.end(),
-                                          [this](const auto& item)
-                                          { return item.getMetaInformation().updateAccess == DataAccess::INDEPENDENT; });
+    //this->threadSafeStop = std::partition(this->components.begin(),
+    //                                      this->components.end(),
+    //                                      [this](const auto& item)
+    //                                      { return item.getMetaInformation().updateAccess == DataAccess::INDEPENDENT; });
 }
 
 nox::ecs::EntityId
@@ -426,15 +452,25 @@ nox::ecs::EntityManager::distributeLogicEvents()
 void
 nox::ecs::EntityManager::updateStep(const nox::Duration& deltaTime)
 {
-    for (auto itr = this->components.begin(); itr != this->threadSafeStop; ++itr)
-    {
-        this->threads.addTask([this, itr, deltaTime](){ itr->update(deltaTime); });
-    }
-    this->threads.wait();
+    // for (auto itr = this->components.begin(); itr != this->threadSafeStop; ++itr)
+    // {
+    //     this->threads.addTask([this, itr, deltaTime](){ itr->update(deltaTime); });
+    // }
+    // this->threads.wait();
 
-    for (auto itr = this->threadSafeStop; itr != this->components.end(); ++itr)
+    // for (auto itr = this->threadSafeStop; itr != this->components.end(); ++itr)
+    // {
+    //     itr->update(deltaTime);
+    // }
+
+    for (const auto& layer : this->executionLayers)
     {
-        itr->update(deltaTime);
+        for (const auto& item : layer)
+        {
+            this->threads.addTask([this, item, deltaTime]
+                                  { this->components[item].update(deltaTime); });
+        }
+        this->threads.wait();
     }
 }
 

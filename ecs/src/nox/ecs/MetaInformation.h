@@ -91,6 +91,7 @@ namespace nox
              * @brief Operation to run when a component is updated.
              */
             operation::UpdateOp update{};
+            std::vector<TypeIdentifier> updateDependencies{};
 
             /**
              * @brief      DataAccess indicating what sort of DataAccess that is
