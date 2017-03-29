@@ -8,7 +8,6 @@
 #include <nox/util/nox_assert.h>
 #include <nox/ecs/component/Types.h>
 
-
 namespace
 {
     namespace local
@@ -242,8 +241,6 @@ namespace
     }
 }
 
-
-
 nox::ecs::EntityManager::~EntityManager()
 {
     const auto maxId = this->currentEntityId.load(std::memory_order_acquire);
@@ -470,6 +467,10 @@ nox::ecs::EntityManager::distributeEntityEvents()
             collection.receiveEntityEvent(event);
         }
     }
+    // Hack, done to ensure that event is destroyed 
+    // before the eventArgumentAllocator is cleared.
+    event.~Event();
+
     this->entityEvents.clear();
     this->eventArgumentAllocator.clear();
 }
