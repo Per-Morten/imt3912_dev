@@ -6,7 +6,7 @@
 #include <utility>
 
 #include <nox/util/nox_assert.h>
-#include <nox/ecs/component/Types.h>
+#include <nox/ecs/ComponentType.h>
 
 namespace
 {
@@ -519,12 +519,12 @@ nox::ecs::EntityManager::createStep()
     {
         auto& collection = this->getCollection(identifier.type);
 
-        if (identifier.type == ecs::component_types::CHILDREN)
+        if (identifier.type == ecs::component_type::CHILDREN)
         {
             Children& child = identifier.children;
             collection.adopt(child);
         } 
-        else if (identifier.type == ecs::component_types::PARENT)
+        else if (identifier.type == ecs::component_type::PARENT)
         {
             Parent& parent = identifier.parent;
             collection.adopt(parent);
