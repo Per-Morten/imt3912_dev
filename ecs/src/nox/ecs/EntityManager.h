@@ -11,7 +11,6 @@
 #include <nox/ecs/ComponentCollection.h>
 #include <nox/ecs/EntityId.h>
 #include <nox/ecs/Event.h>
-#include <nox/ecs/EventSystem.h>
 #include <nox/ecs/Factory.h>
 #include <nox/ecs/MetaInformation.h>
 #include <nox/ecs/SmartHandle.h>
@@ -492,7 +491,8 @@ namespace nox
                 Parent parent{0, nullptr};
             };
 
-            using TransitionQueue = nox::thread::LockedQueue<ComponentIdentifier>;
+            template<class T>
+            using ContainerType = nox::thread::LockedQueue<T>;
 
             ComponentCollection& 
             getCollection(const TypeIdentifier& identifier);
@@ -502,18 +502,18 @@ namespace nox
             std::vector<ComponentCollection> components{};
             std::vector<std::vector<std::size_t>> executionLayers{};
  
-            std::array<TransitionQueue, Transition::META_COUNT> transitionQueues{}; 
+            std::array<ContainerType<ComponentIdentifier>, Transition::META_COUNT> transitionQueues{};
 
-            nox::thread::LockedQueue<CreationArguments> creationQueue{};
-            nox::thread::LockedQueue<ComponentIdentifier> removalQueue{};
+            ContainerType<CreationArguments> creationQueue{};
+            ContainerType<ComponentIdentifier> removalQueue{};
 
-            nox::thread::LockedQueue<std::shared_ptr<nox::event::Event>> logicEvents{};
+            ContainerType<std::shared_ptr<nox::event::Event>> logicEvents{};
 
             nox::thread::Pool<nox::thread::LockedQueue> threads{};
 
             nox::ecs::Event::ArgumentAllocator eventArgumentAllocator{};
 
-            nox::ecs::EventSystem entityEventSystem{};
+            ContainerType<nox::ecs::Event> entityEventSystem{};
 
             std::atomic<EntityId> currentEntityId{};
         };
