@@ -5,6 +5,7 @@
 #include <nox/ecs/Event.h>
 #include <nox/ecs/TypeIdentifier.h>
 #include <nox/util/json_utils.h>
+#include <nox/ecs/EventType.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -98,13 +99,13 @@ nox::ecs::Transform::setTransform(const glm::vec2& position,
 void 
 nox::ecs::Transform::broadcastTransformChange()
 {
-    auto event = std::move(this->entityManager->createEntityEvent({"TransformChange"},
+    auto event = std::move(this->entityManager->createEntityEvent(event_type::TRANSFORM_CHANGE,
                                                                   this->id,
                                                                   this->id));
 
-    createEventArgument(event, this->position, {"Position"});
-    createEventArgument(event, this->rotation, {"Rotation"});
-    createEventArgument(event, this->scale, {"Scale"});
+    createEventArgument(event, this->position, event_arg_type::TRANSFORM_CHANGE_POSITION);
+    createEventArgument(event, this->rotation, event_arg_type::TRANSFORM_CHANGE_ROTATION);
+    createEventArgument(event, this->scale, event_arg_type::TRANSFORM_CHANGE_SCALE);
 
     this->entityManager->sendEntityEvent(std::move(event));
 }
