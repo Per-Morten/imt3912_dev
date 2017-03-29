@@ -1,12 +1,12 @@
-#ifndef NOX_ECS_TYPES_H_
-#define NOX_ECS_TYPES_H_
+#ifndef NOX_ECS_COMPONENTTYPE_H_
+#define NOX_ECS_COMPONENTTYPE_H_
 #include <cstdint>
 
 namespace nox
 {
     namespace ecs 
     {
-        namespace component_types
+        namespace component_type
         {
             /**
              * @brief      Constant numerical value used for identifying the
