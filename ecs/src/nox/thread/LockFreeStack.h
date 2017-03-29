@@ -91,6 +91,9 @@ namespace nox
             /**
              * @brief      Removes and deallocates all the memory used in the
              *             stack at the point in time the function was called.
+             *            
+             * @warning    Function cannot be called concurrently with push,
+             *             as this could corrupt memory with the linear allocator.
              */
             void
             clear();
