@@ -273,11 +273,6 @@ void
 nox::ecs::EntityManager::configureComponents()
 {
     this->executionLayers = local::createExecutionLayers(this->components, this->threads.threadCount());
-    // Temporary solution to test the pool. This will be changed out with the layering algorithm.
-    //this->threadSafeStop = std::partition(this->components.begin(),
-    //                                      this->components.end(),
-    //                                      [this](const auto& item)
-    //                                      { return item.getMetaInformation().updateAccess == DataAccess::INDEPENDENT; });
 }
 
 nox::ecs::EntityId
@@ -451,22 +446,11 @@ nox::ecs::EntityManager::distributeLogicEvents()
 void
 nox::ecs::EntityManager::updateStep(const nox::Duration& deltaTime)
 {
-    // for (auto itr = this->components.begin(); itr != this->threadSafeStop; ++itr)
-    // {
-    //     this->threads.addTask([this, itr, deltaTime](){ itr->update(deltaTime); });
-    // }
-    // this->threads.wait();
-
-    // for (auto itr = this->threadSafeStop; itr != this->components.end(); ++itr)
-    // {
-    //     itr->update(deltaTime);
-    // }
-
     for (const auto& layer : this->executionLayers)
     {
         for (const auto& item : layer)
         {
-            this->threads.addTask([this, item, deltaTime]
+            this->threads.addTask([this, item, deltaTime]()
                                   { this->components[item].update(deltaTime); });
         }
         this->threads.wait();

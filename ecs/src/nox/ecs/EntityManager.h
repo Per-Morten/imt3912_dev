@@ -6,6 +6,8 @@
 #include <queue>
 #include <vector>
 
+#include <nox/ecs/component/Children.h>
+#include <nox/ecs/component/Parent.h>
 #include <nox/ecs/ComponentCollection.h>
 #include <nox/ecs/EntityId.h>
 #include <nox/ecs/Event.h>
@@ -14,8 +16,6 @@
 #include <nox/ecs/MetaInformation.h>
 #include <nox/ecs/SmartHandle.h>
 #include <nox/ecs/TypeIdentifier.h>
-#include <nox/ecs/component/Children.h>
-#include <nox/ecs/component/Parent.h>
 #include <nox/event/IListener.h>
 #include <nox/thread/LockedQueue.h>
 #include <nox/thread/Pool.h>
@@ -499,9 +499,7 @@ namespace nox
 
             Factory factory{*this};
 
-            std::vector<ComponentCollection>::iterator threadSafeStop{};
             std::vector<ComponentCollection> components{};
-
             std::vector<std::vector<std::size_t>> executionLayers{};
  
             std::array<TransitionQueue, Transition::META_COUNT> transitionQueues{}; 
