@@ -1,4 +1,5 @@
 #include <nox/util/nox_assert.h>
+#include <cstring>
 
 template<std::size_t blockSize>
 nox::memory::LockFreeAllocator<blockSize>::LockFreeAllocator(std::size_t initialBlockCount) 
@@ -98,6 +99,7 @@ nox::memory::LockFreeAllocator<blockSize>::clear()
     while (itr)
     {
         itr->used.store(0, std::memory_order_release);
+        std::memset(itr->memory, 0, MAX_SIZE);
         itr = itr->next;
     }
 
