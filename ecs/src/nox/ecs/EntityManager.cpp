@@ -34,28 +34,54 @@ namespace
         };
 
         std::vector<std::vector<std::size_t>> 
-        createExecutionLayers(const std::vector<ComponentCollection>& collections,
-                              std::size_t threadCount)
-        {        
-            std::vector<ComponentCollectionInfo> componentAccessLists;
-            std::vector<std::vector<TypeIdentifier>> executionOrder; 
-        
-            for (std::size_t i = 0; i < collections.size(); ++i)
+        parseExecutionOrder(const std::vector<std::vector<TypeIdentifier>>& executionOrder,
+                            const std::vector<ComponentCollection>& collections)
+        {
+            std::vector<std::vector<std::size_t>> executionLayers;
+
+            for (const auto& layer : executionOrder)
             {
-                auto metaInformation = collections[i].getMetaInformation();
+                executionLayers.emplace_back();
+
+                for (const auto& type : layer)
+                {
+                    const auto componentItr = std::find_if(std::cbegin(collections),
+                                                           std::cend(collections),
+                                                           [type](const auto& component)
+                                                           { return component.getMetaInformation().typeIdentifier == type; });
+        
+                    const std::size_t index = std::distance(std::cbegin(collections),
+                                                            componentItr);
+        
+                    executionLayers.back().push_back(index);
+                }
+            }
+
+            return executionLayers;
+        }
+
+        void
+        initializeData(std::vector<ComponentCollectionInfo>& componentAccessLists,
+                       std::vector<std::vector<TypeIdentifier>>& executionOrder,
+                       const std::vector<ComponentCollection>& collections)
+        {
+            for (const auto& collection : collections)
+            {
+                auto metaInformation = collection.getMetaInformation();
                 
                 ComponentCollectionInfo newComponent;
                 newComponent.type = metaInformation.typeIdentifier;
                 newComponent.access = metaInformation.updateAccess;
-                newComponent.connectionSet;// = INSERT DATA HERE
+                newComponent.connectionSet.insert(metaInformation.updateDependencies.cbegin(),
+                                                  metaInformation.updateDependencies.cend());
 
                 componentAccessLists.push_back(newComponent);
-        
+
                 //Remove self reads
-                auto& collection = componentAccessLists.back();
-                for (auto itr = std::begin(collection.connectionSet); itr != std::end(collection.connectionSet);)
+                auto& list = componentAccessLists.back();
+                for (auto itr = std::begin(list.connectionSet); itr != std::end(list.connectionSet);)
                 {
-                    itr = (*itr == collection.type) ? collection.connectionSet.erase(itr) : std::next(itr);
+                    itr = (*itr == list.type) ? list.connectionSet.erase(itr) : std::next(itr);
                 }
 
                 //Ensure independent component types have no read connections
@@ -86,6 +112,17 @@ namespace
                     itr->connectionSet.insert(collection.type);
                 }
             }
+        }
+
+        std::vector<std::vector<std::size_t>> 
+        createExecutionLayers(const std::vector<ComponentCollection>& collections,
+                              std::size_t threadCount)
+        {        
+            std::vector<ComponentCollectionInfo> componentAccessLists;
+            std::vector<std::vector<TypeIdentifier>> executionOrder; 
+        
+            //Collect and set up the data properly for the algorithm to use
+            initializeData(componentAccessLists, executionOrder, collections);
         
             while (!componentAccessLists.empty())
             {     
@@ -102,8 +139,7 @@ namespace
                 executionOrder.back().push_back(initialComponent);
         
                 TypeIdentifierSet connectedComponents(std::cbegin(componentAccessLists.front().connectionSet),
-                                                      std::cend(componentAccessLists.front().connectionSet),
-                                                      TypeIdentifierComp());
+                                                      std::cend(componentAccessLists.front().connectionSet));
         
                 //Need a copy to work with so deleting is not affecting the original
                 auto accessListsCopy = componentAccessLists;
@@ -117,11 +153,11 @@ namespace
                     for (auto itr = std::begin(accessListsCopy); itr != std::end(accessListsCopy);)
                     {
                         std::vector<TypeIdentifier> intersection;
-                        std::set_intersection(std::cbegin(itr->connectionSet), std::cend(itr->connectionSet),
-                                              std::cbegin(executionOrder.back()), std::cend(executionOrder.back()),
+                        std::set_intersection(std::begin(itr->connectionSet), std::end(itr->connectionSet),
+                                              std::begin(executionOrder.back()), std::end(executionOrder.back()),
                                               std::back_inserter(intersection),
                                               TypeIdentifierComp());
-                        
+
                         itr = (!intersection.empty()) ? accessListsCopy.erase(itr) : std::next(itr);
                     }
         
@@ -156,13 +192,21 @@ namespace
                                                          std::cend(componentAccessLists),
                                                          [minListCopyItr](const auto& collection)
                                                          { return collection.type == minListCopyItr->type; });
+                    
+                    //Add newfound component type to the executionOrder
+                    executionOrder.back().push_back(minListItr->type);
+                    connectedComponents.insert(std::begin(minListItr->connectionSet),
+                                               std::end(minListItr->connectionSet));
                     accessListsCopy.erase(std::find_if(std::cbegin(accessListsCopy),
                                                        std::cend(accessListsCopy),
                                                        [minListItr](const auto& collection)
                                                        { return collection.type == minListItr->type; }));
+
+                    std::sort(std::begin(executionOrder.back()),
+                              std::end(executionOrder.back()),
+                              [](const auto& lhs, const auto& rhs)
+                              { return lhs.getValue() < rhs.getValue(); });
         
-                    //Add newfound component type to the executionOrder
-                    executionOrder.back().push_back(minListItr->type);
                 }
         
                 //Removes components if there are too many to fit nicely into the threadpool
@@ -192,27 +236,8 @@ namespace
                 executionOrder.back().push_back(info.type);
             }
         
-            //Change the executionOrder into the format executionLayers has
-            std::vector<std::vector<std::size_t>> executionLayers;
-            for (const auto& layer : executionOrder)
-            {
-                executionLayers.emplace_back();
-        
-                for (const auto& type : layer)
-                {
-                    const auto componentItr = std::find_if(std::cbegin(collections),
-                                                           std::cend(collections),
-                                                           [type](const auto& component)
-                                                           { return component.getMetaInformation().typeIdentifier == type; });
-        
-                    const std::size_t index = std::distance(std::cbegin(collections),
-                                                            componentItr);
-        
-                    executionLayers.back().push_back(index);
-                }
-            }
-
-            return executionLayers;
+            //Change the executionOrder into the format executionLayers should have
+            return parseExecutionOrder(executionOrder, collections);
         }
     }
 }
@@ -247,12 +272,12 @@ nox::ecs::EntityManager::registerComponent(const MetaInformation& info)
 void
 nox::ecs::EntityManager::configureComponents()
 {
-    //this->executionLayers = local::createExecutionLayers(this->components, this->threads.threadCount());
+    this->executionLayers = local::createExecutionLayers(this->components, this->threads.threadCount());
     // Temporary solution to test the pool. This will be changed out with the layering algorithm.
-    this->threadSafeStop = std::partition(this->components.begin(),
-                                          this->components.end(),
-                                          [this](const auto& item)
-                                          { return item.getMetaInformation().updateAccess == DataAccess::INDEPENDENT; });
+    //this->threadSafeStop = std::partition(this->components.begin(),
+    //                                      this->components.end(),
+    //                                      [this](const auto& item)
+    //                                      { return item.getMetaInformation().updateAccess == DataAccess::INDEPENDENT; });
 }
 
 nox::ecs::EntityId
@@ -426,15 +451,25 @@ nox::ecs::EntityManager::distributeLogicEvents()
 void
 nox::ecs::EntityManager::updateStep(const nox::Duration& deltaTime)
 {
-    for (auto itr = this->components.begin(); itr != this->threadSafeStop; ++itr)
-    {
-        this->threads.addTask([this, itr, deltaTime](){ itr->update(deltaTime); });
-    }
-    this->threads.wait();
+    // for (auto itr = this->components.begin(); itr != this->threadSafeStop; ++itr)
+    // {
+    //     this->threads.addTask([this, itr, deltaTime](){ itr->update(deltaTime); });
+    // }
+    // this->threads.wait();
 
-    for (auto itr = this->threadSafeStop; itr != this->components.end(); ++itr)
+    // for (auto itr = this->threadSafeStop; itr != this->components.end(); ++itr)
+    // {
+    //     itr->update(deltaTime);
+    // }
+
+    for (const auto& layer : this->executionLayers)
     {
-        itr->update(deltaTime);
+        for (const auto& item : layer)
+        {
+            this->threads.addTask([this, item, deltaTime]
+                                  { this->components[item].update(deltaTime); });
+        }
+        this->threads.wait();
     }
 }
 
