@@ -4,7 +4,6 @@ nox::thread::LockFreeStack<T>::~LockFreeStack()
     this->clear();
 }
 
-
 template<class T>
 void
 nox::thread::LockFreeStack<T>::push(const T& value)
@@ -67,7 +66,7 @@ template<class T>
 void
 nox::thread::LockFreeStack<T>::clear()
 {
-    auto itr = this->head.load();
+    auto itr = this->head.exchange(nullptr, std::memory_order_acq_rel);
     while (itr)
     {
         itr->~Node();
