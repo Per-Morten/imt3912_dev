@@ -17,6 +17,7 @@
 #include <nox/ecs/TypeIdentifier.h>
 #include <nox/event/IListener.h>
 #include <nox/thread/LockedQueue.h>
+#include <nox/thread/LockFreeStack.h>
 #include <nox/thread/Pool.h>
 #include <nox/util/nox_assert.h>
 
@@ -492,7 +493,7 @@ namespace nox
             };
 
             template<class T>
-            using ContainerType = nox::thread::LockedQueue<T>;
+            using ContainerType = nox::thread::LockFreeStack<T>;
 
             ComponentCollection& 
             getCollection(const TypeIdentifier& identifier);
@@ -502,10 +503,10 @@ namespace nox
             std::vector<ComponentCollection> components{};
             std::vector<std::vector<std::size_t>> executionLayers{};
  
-            std::array<ContainerType<ComponentIdentifier>, Transition::META_COUNT> transitionQueues{};
+            std::array<ContainerType<ComponentIdentifier>, Transition::META_COUNT> transitionRequests{};
 
-            ContainerType<CreationArguments> creationQueue{};
-            ContainerType<ComponentIdentifier> removalQueue{};
+            ContainerType<CreationArguments> creationRequests{};
+            ContainerType<ComponentIdentifier> removalRequests{};
 
             ContainerType<std::shared_ptr<nox::event::Event>> logicEvents{};
 
@@ -513,7 +514,7 @@ namespace nox
 
             nox::ecs::Event::ArgumentAllocator eventArgumentAllocator{};
 
-            ContainerType<nox::ecs::Event> entityEventSystem{};
+            ContainerType<nox::ecs::Event> entityEvents{};
 
             std::atomic<EntityId> currentEntityId{};
         };

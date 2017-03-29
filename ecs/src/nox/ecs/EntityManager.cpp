@@ -295,7 +295,7 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
                                          const TypeIdentifier& identifier)
 {
     CreationArguments tmp{ id, identifier };
-    this->creationQueue.push(std::move(tmp));
+    this->creationRequests.push(std::move(tmp));
 }
 
 void
@@ -305,7 +305,7 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
 {
     CreationArguments tmp{ id, identifier };
     tmp.json = value;
-    this->creationQueue.push(std::move(tmp));
+    this->creationRequests.push(std::move(tmp));
 }
 
 void
@@ -315,7 +315,7 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
 {
     CreationArguments tmp{ id, identifier };
     tmp.children = std::move(children);
-    this->creationQueue.push(std::move(tmp));
+    this->creationRequests.push(std::move(tmp));
 }
 
 void
@@ -325,7 +325,7 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
 {
     CreationArguments tmp{ id, identifier };
     tmp.parent = std::move(parent);
-    this->creationQueue.push(std::move(tmp));
+    this->creationRequests.push(std::move(tmp));
 }
 
 nox::ecs::ComponentHandle<nox::ecs::Component>
@@ -340,35 +340,35 @@ void
 nox::ecs::EntityManager::removeComponent(const EntityId& id,
                                          const TypeIdentifier& identifier)
 {
-    this->removalQueue.push({ id, identifier });
+    this->removalRequests.push({ id, identifier });
 }
 
 void
 nox::ecs::EntityManager::awakeComponent(const EntityId& id,
                                         const TypeIdentifier& identifier)
 {
-    this->transitionQueues[Transition::AWAKE].push({ id, identifier });
+    this->transitionRequests[Transition::AWAKE].push({ id, identifier });
 }
 
 void
 nox::ecs::EntityManager::activateComponent(const EntityId& id,
                                            const TypeIdentifier& identifier)
 {
-    this->transitionQueues[Transition::ACTIVATE].push({ id, identifier });
+    this->transitionRequests[Transition::ACTIVATE].push({ id, identifier });
 }
 
 void
 nox::ecs::EntityManager::deactivateComponent(const EntityId& id,
                                              const TypeIdentifier& identifier)
 {
-    this->transitionQueues[Transition::DEACTIVATE].push({ id, identifier });
+    this->transitionRequests[Transition::DEACTIVATE].push({ id, identifier });
 }
 
 void
 nox::ecs::EntityManager::hibernateComponent(const EntityId& id, 
                                             const TypeIdentifier& identifier)
 {
-    this->transitionQueues[Transition::HIBERNATE].push({ id, identifier });
+    this->transitionRequests[Transition::HIBERNATE].push({ id, identifier });
 }
 
 void
@@ -441,6 +441,7 @@ nox::ecs::EntityManager::distributeLogicEvents()
             collection.receiveLogicEvent(event);
         }
     }
+    this->logicEvents.clear();
 }
 
 void
@@ -462,14 +463,14 @@ nox::ecs::EntityManager::distributeEntityEvents()
 {
     // Temp event, only needed for the popping.
     Event event(&eventArgumentAllocator, {0}, 0, 0);
-    while (this->entityEventSystem.pop(event))
+    while (this->entityEvents.pop(event))
     {
         for (auto& collection : this->components)
         {
             collection.receiveEntityEvent(event);
         }
     }
-    this->entityEventSystem.clear();
+    this->entityEvents.clear();
     this->eventArgumentAllocator.clear();
 }
 
@@ -477,40 +478,43 @@ void
 nox::ecs::EntityManager::deactivateStep()
 {
     ComponentIdentifier identifier;
-    while (this->transitionQueues[Transition::DEACTIVATE].pop(identifier))
+    while (this->transitionRequests[Transition::DEACTIVATE].pop(identifier))
     {
         auto& collection = this->getCollection(identifier.type);
         collection.deactivate(identifier.id);
     }
+    this->transitionRequests[Transition::DEACTIVATE].clear();
 }
 
 void
 nox::ecs::EntityManager::hibernateStep()
 {
     ComponentIdentifier identifier;
-    while (this->transitionQueues[Transition::HIBERNATE].pop(identifier))
+    while (this->transitionRequests[Transition::HIBERNATE].pop(identifier))
     {
         auto& collection = this->getCollection(identifier.type);
         collection.hibernate(identifier.id);
     }
+    this->transitionRequests[Transition::HIBERNATE].clear();
 }
 
 void
 nox::ecs::EntityManager::removeStep()
 {
     ComponentIdentifier identifier;
-    while (this->removalQueue.pop(identifier))
+    while (this->removalRequests.pop(identifier))
     {
         auto& collection = this->getCollection(identifier.type);
         collection.remove(identifier.id);
     }
+    this->removalRequests.clear();
 }
 
 void
 nox::ecs::EntityManager::createStep()
 {
     CreationArguments identifier;
-    while (this->creationQueue.pop(identifier))
+    while (this->creationRequests.pop(identifier))
     {
         auto& collection = this->getCollection(identifier.type);
 
@@ -535,28 +539,31 @@ nox::ecs::EntityManager::createStep()
             }
         }
     }
+    this->creationRequests.clear();
 }
 
 void
 nox::ecs::EntityManager::awakeStep()
 {
     ComponentIdentifier identifier;
-    while (this->transitionQueues[Transition::AWAKE].pop(identifier))
+    while (this->transitionRequests[Transition::AWAKE].pop(identifier))
     {
         auto& collection = this->getCollection(identifier.type);
         collection.awake(identifier.id);
     }
+    this->transitionRequests[Transition::AWAKE].clear();
 }
 
 void
 nox::ecs::EntityManager::activateStep()
 {
     ComponentIdentifier identifier;
-    while (this->transitionQueues[Transition::ACTIVATE].pop(identifier))
+    while (this->transitionRequests[Transition::ACTIVATE].pop(identifier))
     {
         auto& collection = this->getCollection(identifier.type);
         collection.activate(identifier.id);
     }
+    this->transitionRequests[Transition::ACTIVATE].clear();
 }
 
 nox::ecs::Event
@@ -573,13 +580,13 @@ nox::ecs::EntityManager::createEntityEvent(const TypeIdentifier& eventType,
 void
 nox::ecs::EntityManager::sendEntityEvent(ecs::Event event)
 {
-    this->entityEventSystem.push(std::move(event));
+    this->entityEvents.push(std::move(event));
 }
 
 void
 nox::ecs::EntityManager::onEvent(const std::shared_ptr<nox::event::Event>& event)
 {
-    logicEvents.push(event);
+    this->logicEvents.push(event);
 }
 
 nox::ecs::ComponentCollection&
