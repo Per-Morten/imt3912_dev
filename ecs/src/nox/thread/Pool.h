@@ -118,7 +118,7 @@ namespace nox
              *             we choose to be on the safe side and go for acquire
              *             release.
              */
-            std::atomic_size_t taskCount{0};
+            std::atomic<std::size_t> taskCount{0};
 
             std::vector<std::thread> threads{};
 
@@ -130,7 +130,7 @@ namespace nox
              *             guarding any information with this variable, and it
              *             is only used for signaling to stop in the future.
              */
-            std::atomic_bool shouldContinue{true};
+            std::atomic<bool> shouldContinue{true};
         };
     }
 }
