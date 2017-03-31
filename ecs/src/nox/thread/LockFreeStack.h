@@ -29,6 +29,8 @@ namespace nox
         class LockFreeStack
         {
         public:
+            static_assert(std::is_move_assignable<T>::value, "Type T must be move assignable");
+
             /**
              * @brief      Creates the stack
              */
