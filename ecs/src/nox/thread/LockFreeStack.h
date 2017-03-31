@@ -8,11 +8,6 @@ namespace nox
 {
     namespace thread
     {
-        // Based on: http://en.cppreference.com/w/cpp/atomic/atomic/compare_exchange
-        // The push were taken directly from the link, with some changes to the memory order.
-        // Those changes might be pessimistic, but we are more certain about their correctness.
-        // 
-        
         /**
          * @brief      A minimalistic implementation of a lock-free stack. The
          *             stack can be pushed to, popped from, and cleared. The
@@ -22,6 +17,13 @@ namespace nox
          *
          * @tparam     T     Must be of move assignable type, as the pop
          *                   function uses move to into value.
+         *
+         * @note       Push function were taken directly from cppreference (see
+         *             link), with some changes to the memory order. Those
+         *             changes might be pessimistic, but we are more certain
+         *             about their correctness.
+         *
+         * @see        http://en.cppreference.com/w/cpp/atomic/atomic/compare_exchange
          */
         template<class T>
         class LockFreeStack
