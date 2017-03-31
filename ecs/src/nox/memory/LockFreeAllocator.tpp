@@ -73,7 +73,7 @@ nox::memory::LockFreeAllocator<blockSize>::allocate(const std::size_t size)
         if (this->firstFree.compare_exchange_weak(expected, 
                                                   desired, 
                                                   std::memory_order_acq_rel, 
-                                                  std::memory_order_acquire))
+                                                  std::memory_order_relaxed))
         {
             // We know that everyone watching the firstFree variable will now see "desired",
             // meaning it should not be a data race to update prev->next.
@@ -126,7 +126,7 @@ nox::memory::LockFreeAllocator<blockSize>::tryAllocate(Block& block,
     } while (!block.used.compare_exchange_weak(current,
                                                desired,
                                                std::memory_order_acq_rel,
-                                               std::memory_order_acquire));
+                                               std::memory_order_relaxed));
 
     // At this point we know current < block->used,
     // meaning it should not be a race to send this back.
