@@ -1,3 +1,6 @@
+#include <type_traits>
+#include <nox/ecs/Component.h>
+
 template<class T>
 nox::ecs::MetaInformation
 nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier)
@@ -10,6 +13,7 @@ nox::ecs::MetaInformation
 nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier, 
                                 const std::vector<nox::event::Event::IdType>& interestingLogicEvents)
 {
+    static_assert(std::is_base_of<nox::ecs::Component, T>::value, "Type T must inherit from nox::ecs::Component");
     MetaInformation metaInformation(typeIdentifier, sizeof(T));
     
     const auto construct = [](Component* component, const EntityId& id, EntityManager* manager)
