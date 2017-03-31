@@ -70,6 +70,14 @@ nox::thread::Pool<QueueType>::addTask(const Task& task)
 
 template<template<class> class QueueType>
 void
+nox::thread::Pool<QueueType>::clearTasks()
+{
+    this->tasks.clear();
+    this->taskCount.store(0, std::memory_order_release);
+}
+
+template<template<class> class QueueType>
+void
 nox::thread::Pool<QueueType>::wait()
 {
     while (this->taskCount.load(std::memory_order_acquire) != 0)
@@ -77,14 +85,6 @@ nox::thread::Pool<QueueType>::wait()
         this->cv.notify_all();
         std::this_thread::yield();
     }
-}
-
-template<template<class> class QueueType>
-void
-nox::thread::Pool<QueueType>::clearTasks()
-{
-    this->tasks.clear();
-    this->taskCount.store(0, std::memory_order_release);
 }
 
 template<template<class> class QueueType>

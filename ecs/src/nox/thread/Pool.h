@@ -3,28 +3,30 @@
 #include <atomic>
 #include <condition_variable>
 #include <thread>
+#include <functional>
 
 namespace nox
 {
     namespace thread
     {
         /**
-          * @brief      Thread pool used within ECS. Currently interface is
-          *             pretty limited.
-          *             
-          * @todo make template with container type.
-          *
-          * @tparam     T     T must be a thread safe queue with the following functions:
-          *                   bool pop(reference value), 
-          *                   returning true if a value was popped successfully. 
-          *                   
-          *                   void clear(), 
-          *                   removes all elements. 
-          *                   
-          *                   void push(const reference value), 
-          *                   pushes value onto the back of the queue.
-          */ 
-        template<template <class> class QueueType> 
+         * @brief      Thread pool used within ECS. Currently interface is
+         *             pretty limited.
+         *
+         * @todo make template with container type.
+         *
+         * @tparam     QueueType  QueueType must be a thread safe queue with the
+         *                        following functions:
+         *
+         *             bool pop(reference value), returning true if a value was
+         *             popped successfully.
+         *
+         *             void clear(), removes all elements.
+         *
+         *             void push(const reference value), pushes value onto the
+         *             back of the queue.
+         */
+        template<template <class> class QueueType>
         class Pool
         {
         public:
@@ -74,7 +76,7 @@ namespace nox
              * @brief      Notifies all threads that they should stop execution,
              *             before joining the threads. All tasks left in the
              *             queue is discarded.
-             */ 
+             */
             ~Pool();
 
             /**
@@ -85,14 +87,14 @@ namespace nox
             void addTask(const Task& task);
 
             /**
-             * @brief      Blocking function, finishes running all the functions in the queue.
-             */
-            void wait();
-
-            /**
              * @brief      Removes all the tasks from the taskQueue.
              */
             void clearTasks();
+
+            /**
+             * @brief      Blocking function, finishes running all the functions in the queue.
+             */
+            void wait();
 
             /**
              * @brief      Returns the number of threads this pool has.
@@ -105,7 +107,8 @@ namespace nox
             std::condition_variable cv{};
             std::mutex cvMutex{};
             QueueType<Task> tasks;
-            
+            std::vector<std::thread> threads{};
+
             /**
              * @brief      Indicates how many tasks are left to processed, used
              *             within the wait function to block the calling thread
@@ -119,8 +122,6 @@ namespace nox
              *             release.
              */
             std::atomic<std::size_t> taskCount{0};
-
-            std::vector<std::thread> threads{};
 
             /**
              * @brief      Used to indicate whether or not a thread should
