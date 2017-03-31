@@ -19,9 +19,7 @@ namespace nox
          *                   function uses move to into value.
          *
          * @note       Push function were taken directly from cppreference (see
-         *             link), with some changes to the memory order. Those
-         *             changes might be pessimistic, but we are more certain
-         *             about their correctness.
+         *             link).
          *
          * @see        http://en.cppreference.com/w/cpp/atomic/atomic/compare_exchange
          */
