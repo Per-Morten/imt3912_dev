@@ -11,12 +11,12 @@ nox::thread::LockFreeStack<T>::push(const T& value)
     auto memory = this->allocator.allocate(sizeof(Node));
     auto newHead = new (memory) Node(value);
 
-    newHead->next = this->head.load(std::memory_order_acquire);
+    newHead->next = this->head.load(std::memory_order_relaxed);
 
-    while (!head.compare_exchange_weak(newHead->next, 
+    while (!head.compare_exchange_weak(newHead->next,
                                        newHead,
-                                       std::memory_order_acq_rel,
-                                       std::memory_order_acquire))
+                                       std::memory_order_release,
+                                       std::memory_order_relaxed))
     {
     }
 }
@@ -28,12 +28,12 @@ nox::thread::LockFreeStack<T>::push(T&& value)
     auto memory = this->allocator.allocate(sizeof(Node));
     auto newHead = new (memory) Node(std::move(value));
 
-    newHead->next = this->head.load(std::memory_order_acquire);
+    newHead->next = this->head.load(std::memory_order_relaxed);
 
-    while (!head.compare_exchange_weak(newHead->next, 
+    while (!head.compare_exchange_weak(newHead->next,
                                        newHead,
-                                       std::memory_order_acq_rel,
-                                       std::memory_order_acquire))
+                                       std::memory_order_release,
+                                       std::memory_order_relaxed))
     {
     }
 }
@@ -43,23 +43,23 @@ bool
 nox::thread::LockFreeStack<T>::pop(T& value)
 {
     auto expected = this->head.load(std::memory_order_acquire);
-    if (expected)
+    if (!expected)
     {
-        while (!head.compare_exchange_weak(expected,
-                                           expected->next,
-                                           std::memory_order_acq_rel,
-                                           std::memory_order_acquire))
-        {
-        }
-
-        value = std::move(expected->value);
-        expected->~Node();
-        this->allocator.deallocate(expected);
-
-        return true;
+        return false;
     }
 
-    return false;
+    while (!head.compare_exchange_weak(expected,
+                                       expected->next,
+                                       std::memory_order_release,
+                                       std::memory_order_relaxed))
+    {
+    }
+
+    value = std::move(expected->value);
+    expected->~Node();
+    this->allocator.deallocate(expected);
+
+    return true;
 }
 
 template<class T>
