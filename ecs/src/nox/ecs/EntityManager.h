@@ -503,14 +503,24 @@ namespace nox
             using ContainerType = nox::thread::LockFreeStack<T>;
             #endif
 
-            ComponentCollection& 
+            #if defined(NOX_ENTITYMANAGER_POOL_USE_LOCK_FREE_STACK)
+            #pragma message "pool using lock-free stack"
+            template<class T>
+            using PoolQueueType = nox::thread::LockFreeStack<T>;
+            #else
+            #pragma message "pool using locked queue"
+            template<class T>
+            using PoolQueueType = nox::thread::LockedQueue<T>;
+            #endif
+
+            ComponentCollection&
             getCollection(const TypeIdentifier& identifier);
 
             Factory factory{*this};
 
             std::vector<ComponentCollection> components{};
             std::vector<std::vector<std::size_t>> executionLayers{};
- 
+
             std::array<ContainerType<ComponentIdentifier>, Transition::META_COUNT> transitionRequests{};
 
             ContainerType<CreationArguments> creationRequests{};
@@ -518,7 +528,7 @@ namespace nox
 
             ContainerType<std::shared_ptr<nox::event::Event>> logicEvents{};
 
-            nox::thread::Pool<nox::thread::LockedQueue> threads{};
+            nox::thread::Pool<PoolQueueType> threads{};
 
             nox::ecs::Event::ArgumentAllocator eventArgumentAllocator{};
 
