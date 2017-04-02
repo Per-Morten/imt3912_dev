@@ -124,11 +124,11 @@ namespace nox
             #pragma message "using linear allocator"
             using ArgumentAllocator = nox::memory::LockedAllocator<nox::memory::LinearAllocator<1024>>;
             #elif defined(NOX_EVENT_USE_HEAP_ALLOCATOR)
-            using ArgumentAllocator = nox::memory::HeapAllocator;
             #pragma message "using heap allocator"
+            using ArgumentAllocator = nox::memory::HeapAllocator;
             #else
-            using ArgumentAllocator = nox::memory::LockFreeAllocator<1024>;
             #pragma message "using lock-free allocator"
+            using ArgumentAllocator = nox::memory::LockFreeAllocator<1024>;
             #endif
 
             /**
