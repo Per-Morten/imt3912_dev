@@ -5,6 +5,9 @@
 #include <nox/ecs/EntityId.h>
 #include <nox/ecs/TypeIdentifier.h>
 #include <nox/memory/LockFreeAllocator.h>
+#include <nox/memory/LockedAllocator.h>
+#include <nox/memory/LinearAllocator.h>
+#include <nox/memory/HeapAllocator.h>
 
 namespace nox
 {
@@ -68,7 +71,7 @@ namespace nox
 
                 /**
                  * @brief      Move constructor of the argument.
-                 * 
+                 *
                  * @warning    source is not valid after movement.
                  *
                  * @param[in]  source The argument to move from.
@@ -78,9 +81,9 @@ namespace nox
                 /**
                  * @brief      Move assignment operator. Move assigns from source.
                  *             Class is tolerant of self-assignment.
-                 *             
+                 *
                  * @warning    source is not valid after movement.
-                 *             
+                 *
                  * @param[in]  source The argument to move assign from.
                  *
                  * @return     *this after assignment.
@@ -96,7 +99,7 @@ namespace nox
                  *
                  * @return     Pointer to value held within argument.
                  */
-                const void* const 
+                const void* const
                 value() const;
 
                 /**
@@ -104,7 +107,7 @@ namespace nox
                  *
                  * @return     The TypeIdentifier of the argument.
                  */
-                const TypeIdentifier& 
+                const TypeIdentifier&
                 getIdentifier() const;
 
             private:
@@ -117,8 +120,17 @@ namespace nox
             /**
              * @brief      Allocator used for allocating events.
              */
+            #if defined(NOX_EVENT_USE_LINEAR_ALLOCATOR)
+            #pragma message "using linear allocator"
+            using ArgumentAllocator = nox::memory::LockedAllocator<nox::memory::LinearAllocator<1024>>;
+            #elif defined(NOX_EVENT_USE_HEAP_ALLOCATOR)
+            using ArgumentAllocator = nox::memory::HeapAllocator;
+            #pragma message "using heap allocator"
+            #else
             using ArgumentAllocator = nox::memory::LockFreeAllocator<1024>;
-           
+            #pragma message "using lock-free allocator"
+            #endif
+
             /**
              * @brief      Constant value used to signal that an event shall be
              *             broadcast, not just sent to one entity.
@@ -129,7 +141,7 @@ namespace nox
              * @brief      Creating events within sender, receiver or type is
              *             illegal.
              */
-            Event() = delete; 
+            Event() = delete;
 
             /**
              * @brief      Constructs an event that is ready to be used and can
@@ -184,7 +196,7 @@ namespace nox
              * @param[in]  argument    The argument itself. It is moved from and
              *                         is not valid after movement.
              */
-            void 
+            void
             addArgument(Argument* argument);
 
             /**
@@ -219,7 +231,7 @@ namespace nox
              *
              * @return     The event type.
              */
-            const TypeIdentifier& 
+            const TypeIdentifier&
             getType() const;
 
             /**
