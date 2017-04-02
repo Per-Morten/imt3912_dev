@@ -3,6 +3,9 @@
 #include <atomic>
 
 #include <nox/memory/LockFreeAllocator.h>
+#include <nox/memory/LockedAllocator.h>
+#include <nox/memory/LinearAllocator.h>
+#include <nox/memory/HeapAllocator.h>
 
 namespace nox
 {
@@ -112,7 +115,16 @@ namespace nox
                 T value;
             };
 
+            #if defined(NOX_LOCKFREESTACK_USE_LINEAR_ALLOCATOR)
+            #pragma message "using linear allocator"
+            using Allocator = nox::memory::LockedAllocator<nox::memory::LinearAllocator<sizeof(Node) * 128>>;
+            #elif defined(NOX_LOCKFREESTACK_USE_HEAP_ALLOCATOR)
+            #pragma message "using heap allocator"
+            using Allocator = nox::memory::HeapAllocator;
+            #else
+            #pragma message "using lock-free allocator"
             using Allocator = nox::memory::LockFreeAllocator<sizeof(Node) * 128>;
+            #endif
 
             Allocator allocator{};
 
