@@ -492,8 +492,16 @@ namespace nox
                 Parent parent{0, nullptr};
             };
 
+
+            #if defined(NOX_ENTITYMANAGER_USE_LOCKED_QUEUE)
+            #pragma message "using locked queue"
+            template<class T>
+            using ContainerType = nox::thread::LockedQueue<T>;
+            #else
+            #pragma message "using lock-free stack"
             template<class T>
             using ContainerType = nox::thread::LockFreeStack<T>;
+            #endif
 
             ComponentCollection& 
             getCollection(const TypeIdentifier& identifier);
