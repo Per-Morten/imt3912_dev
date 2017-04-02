@@ -7,10 +7,10 @@ function(add_google_test target)
     project(${target})
 
     add_executable(${target} ${ARGN})
-    
+
     include_directories(${INCLUDE_DIRS})
 
-    target_link_libraries(${target} 
+    target_link_libraries(${target}
                           ${NOX_ECS_LIBRARY}
                           ${NOX_GTEST_LIBRARY}
                           ${NOX_LINK_TARGET})
@@ -18,7 +18,7 @@ function(add_google_test target)
     add_test(NAME ${target}
              COMMAND $<TARGET_FILE:${target}>
              WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-endfunction() 
+endfunction()
 
 project(${NOX_ECS_LIBRARY})
 
@@ -40,6 +40,26 @@ set(NOXSAMPLE_CXX_FLAGS ${NOXSAMPLE_CXX_FLAGS} "-O3 -Wall -S")
 
 # CREATE ECS LIBRARY
 include_directories(${INCLUDE_DIRS})
+
+# For EventArgument Allocator:
+#add_definitions(-DNOX_EVENT_USE_LINEAR_ALLOCATOR)
+#add_definitions(-DNOX_EVENT_USE_HEAP_ALLOCATOR)
+add_definitions(-DNOX_EVENT_USE_LOCK_FREE_ALLOCATOR)
+
+# For EntityManager Queues in general:
+#add_definitions(-DNOX_ENTITYMANAGER_USE_LOCKED_QUEUE)
+add_definitions(-DNOX_ENTITYMANAGER_USE_LOCK_FREE_STACK)
+
+# For EntityManager Pool:
+#add_definitions(-DNOX_ENTITYMANAGER_POOL_USE_LOCKED_FREE_STACK)
+add_definitions(-DNOX_ENTITYMANAGER_POOL_USE_LOCKED_QUEUE)
+
+# For LockFreeStack Allocator:
+#add_definitions(-DNOX_LOCKFREESTACK_USE_LINEAR_ALLOCATOR)
+#add_definitions(-DNOX_LOCKFREESTACK_USE_HEAP_ALLOCATOR)
+add_definitions(-DNOX_LOCKFREESTACK_USE_LOCK_FREE_ALLOCATOR)
+
+
 add_library(${NOX_ECS_LIBRARY} STATIC ${ALL_SOURCES})
 target_link_libraries(${NOX_ECS_LIBRARY} ${NOXSAMPLE_NOX_LIBRARY})
 
