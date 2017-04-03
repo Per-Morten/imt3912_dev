@@ -116,13 +116,10 @@ namespace nox
             };
 
             #if defined(NOX_LOCKFREESTACK_USE_LINEAR_ALLOCATOR)
-            #pragma message "using linear allocator"
             using Allocator = nox::memory::LockedAllocator<nox::memory::LinearAllocator<sizeof(Node) * 128>>;
             #elif defined(NOX_LOCKFREESTACK_USE_HEAP_ALLOCATOR)
-            #pragma message "using heap allocator"
             using Allocator = nox::memory::HeapAllocator;
             #else
-            #pragma message "using lock-free allocator"
             using Allocator = nox::memory::LockFreeAllocator<sizeof(Node) * 128>;
             #endif
 

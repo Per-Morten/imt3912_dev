@@ -9,11 +9,10 @@ namespace nox
         namespace event_type
         {
             #ifdef NOX_USE_STRING_TYPE_ID
-            #pragma message "using string values for TypeIdentifier"
+            constexpr auto TRANSFORM_CHANGE = "TRANSFORM_CHANGE";
             constexpr auto TRANSFORM_CHANGE = "TRANSFORM_CHANGE";
 
             #else
-            #pragma message "using numeric values for TypeIdentifier"
             /**
              * @brief      Constant numerical value used for identifying the
              *             transform_change type through the TypeIdentifier.
@@ -25,13 +24,11 @@ namespace nox
         namespace event_arg_type
         {
             #ifdef NOX_USE_STRING_TYPE_ID
-            #pragma message "using string values for TypeIdentifier"
             constexpr auto TRANSFORM_CHANGE_POSITION = "TRANSFORM_CHANGE_POSITION";
             constexpr auto TRANSFORM_CHANGE_ROTATION = "TRANSFORM_CHANGE_ROTATION";
             constexpr auto TRANSFORM_CHANGE_SCALE = "TRANSFORM_CHANGE_SCALE";
 
             #else
-            #pragma message "using numeric values for TypeIdentifier"
             /**
              * @brief      Constant numerical value used for identifying the 
              *             transform_change_position type through the TypeIdentifier.

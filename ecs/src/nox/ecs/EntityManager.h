@@ -537,21 +537,17 @@ namespace nox
 
 
             #if defined(NOX_ENTITYMANAGER_USE_LOCKED_QUEUE)
-            #pragma message "using locked queue"
             template<class T>
             using ContainerType = nox::thread::LockedQueue<T>;
             #else
-            #pragma message "using lock-free stack"
             template<class T>
             using ContainerType = nox::thread::LockFreeStack<T>;
             #endif
 
             #if defined(NOX_ENTITYMANAGER_POOL_USE_LOCK_FREE_STACK)
-            #pragma message "pool using lock-free stack"
             template<class T>
             using PoolQueueType = nox::thread::LockFreeStack<T>;
             #else
-            #pragma message "pool using locked queue"
             template<class T>
             using PoolQueueType = nox::thread::LockedQueue<T>;
             #endif
