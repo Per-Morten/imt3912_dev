@@ -1,3 +1,5 @@
+#ifndef NOX_ECS_COMPONENT_UNIQUE_PTR_VIRTUAL
+
 #include <nox/ecs/ComponentCollection.h>
 
 #include <cstdlib>
@@ -449,3 +451,5 @@ nox::ecs::ComponentCollection::updateWholeMap()
         begin += this->info.size;
     }
 }
+
+#endif

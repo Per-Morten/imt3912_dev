@@ -15,6 +15,13 @@ namespace nox
     }
 }
 
+#if defined(NOX_ECS_COMPONENT_UNIQUE_PTR_VIRTUAL)
+#define ECS_VIRTUAL virtual
+#else
+#define ECS_VIRTUAL 
+#endif
+
+
 namespace nox
 {
     namespace ecs
@@ -81,32 +88,32 @@ namespace nox
              *
              * @param[in]  value  used to initialize the component.
              */
-            void 
+            ECS_VIRTUAL void 
             initialize(const Json::Value& value) {}
 
 
             /**
              * @brief      Overridable awake function.
              */
-            void 
+            ECS_VIRTUAL void 
             awake() {}
 
             /**
              * @brief      Overridable activate function.
              */    
-            void 
+            ECS_VIRTUAL void 
             activate() {}
 
             /**
              * @brief      Overridable deactivate function.
              */    
-            void 
+            ECS_VIRTUAL void 
             deactivate() {}
 
             /**
              * @brief      Overridable hibernate function.
              */    
-            void 
+            ECS_VIRTUAL void 
             hibernate() {}
 
             /**
@@ -114,7 +121,7 @@ namespace nox
              *
              * @param[in]  deltaTime  The delta time.
              */
-            void 
+            ECS_VIRTUAL void 
             update(const nox::Duration& deltaTime) {}
 
             /**
@@ -123,7 +130,7 @@ namespace nox
              *
              * @param[in]  event  The event.
              */
-            void 
+            ECS_VIRTUAL void 
             receiveLogicEvent(const std::shared_ptr<nox::event::Event>& event) {}
 
             /**
@@ -133,7 +140,7 @@ namespace nox
              *
              * @param[in]  event  The event.
              */
-            void
+            ECS_VIRTUAL void
             receiveEntityEvent(const ecs::Event& event) {}
         };
     }

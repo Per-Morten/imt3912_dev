@@ -120,5 +120,21 @@ nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier,
     metaInformation.receiveEntityEvent = receiveEntityEvent;
     metaInformation.interestingLogicEvents = interestingLogicEvents;
 
+    #ifdef NOX_ECS_COMPONENT_UNIQUE_PTR_VIRTUAL
+    const auto create = [](const nox::ecs::EntityId& id, nox::ecs::EntityManager* manager) -> std::unique_ptr<Component>
+    {
+        return std::make_unique<T>(id, manager);
+    };
+
+    const auto moveCreate = [](Component& comp) -> std::unique_ptr<Component>
+    {
+        auto& tmp = static_cast<T&>(comp);
+        return std::make_unique<T>(std::move(tmp));
+    };
+
+    metaInformation.virtualCreate = create;
+    metaInformation.virtualMoveCreate = moveCreate;
+    #endif 
+
     return metaInformation;
 }

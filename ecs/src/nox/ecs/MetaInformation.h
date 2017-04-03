@@ -1,6 +1,7 @@
 #ifndef NOX_ECS_METAINFORMATION_H_
 #define NOX_ECS_METAINFORMATION_H_
 #include <cstdint>
+#include <memory>
 
 #include <nox/ecs/TypeIdentifier.h>
 #include <nox/ecs/OperationTypes.h>
@@ -12,8 +13,29 @@ namespace nox
 {
     namespace ecs
     {
+        class EntityManager;
+        class Component;
+    }
+}
+
+namespace nox
+{
+    namespace ecs
+    {
         struct MetaInformation
         {
+            #ifdef NOX_ECS_COMPONENT_UNIQUE_PTR_VIRTUAL
+            using Create = std::unique_ptr<Component>(*)(const EntityId& id,
+                                                         EntityManager* manager);
+
+            using MoveCreate = std::unique_ptr<Component>(*)(Component& comp);
+
+            Create virtualCreate{};
+            MoveCreate virtualMoveCreate{};
+
+            #endif
+
+
             /**
              * @brief      To ensure that the two most important pieces of
              *             information are given, the default constructor is

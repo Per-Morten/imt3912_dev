@@ -1,8 +1,9 @@
-#ifndef NOX_ECS_COMPONENTCOLLECTION_H_
-#define NOX_ECS_COMPONENTCOLLECTION_H_
+#ifndef NOX_ECS_UniquePtrComponentCollection_H_
+#define NOX_ECS_UniquePtrComponentCollection_H_
 #include <cstdint>
 #include <memory>
 #include <vector>
+#include <memory>
 
 #include <nox/common/types.h>
 #include <nox/ecs/Component.h>
@@ -10,19 +11,10 @@
 #include <nox/ecs/MetaInformation.h>
 #include <nox/ecs/SmartHandle.h>
 #include <nox/ecs/TypeIdentifier.h>
-#include <nox/ecs/UniquePtrComponentCollection.h>
 
 #include <json/value.h>
 
 #ifdef NOX_ECS_COMPONENT_UNIQUE_PTR_VIRTUAL
-namespace nox
-{
-    namespace ecs
-    {
-        using ComponentCollection = nox::ecs::UniquePtrComponentCollection;    
-    }
-}
-#else
 
 namespace nox
 {
@@ -51,36 +43,36 @@ namespace nox
          *
          * @see    nox::ecs::ComponentHandle
          */
-        class ComponentCollection
+        class UniquePtrComponentCollection
         {
         public:
             /**
-             * @brief      Default construction of ComponentCollection is
+             * @brief      Default construction of UniquePtrComponentCollection is
              *             illegal. MetaInformation is needed.
              */
-            ComponentCollection() = delete;
+            UniquePtrComponentCollection() = delete;
 
             /**
-             * @brief      Creates a ComponentCollection for a specified
+             * @brief      Creates a UniquePtrComponentCollection for a specified
              *             component type. All information related to the
              *             component type is located in the MetaInformation.
              *
              * @param[in]  info  Info holding all the information about the
              *                   operations to be done on the component.
              */
-            ComponentCollection(const MetaInformation& info);
+            UniquePtrComponentCollection(const MetaInformation& info);
 
             /**
              * @brief      Copy construction is illegal as component types are
              *             only allowed to be moved.
              */
-            ComponentCollection(const ComponentCollection& other) = delete;
+            UniquePtrComponentCollection(const UniquePtrComponentCollection& other) = delete;
 
             /**
              * @brief      Copy assignment is illegal as component types are
              *             only allowed to be moved.
              */
-            ComponentCollection& operator=(const ComponentCollection& other) = delete;
+            UniquePtrComponentCollection& operator=(const UniquePtrComponentCollection& other) = delete;
 
             /**
              * @brief      Move constructor. Moves all members out of source.
@@ -91,7 +83,7 @@ namespace nox
              *
              * @param[in]  source  the collection to move from.
              */
-            ComponentCollection(ComponentCollection&& source);
+            UniquePtrComponentCollection(UniquePtrComponentCollection&& source) = default;
 
             /**
              * @brief      Move assignment operator. Moves all members out of
@@ -105,12 +97,12 @@ namespace nox
              *
              * @return     *this after assignment.
              */
-            ComponentCollection& operator=(ComponentCollection&& source);
+            UniquePtrComponentCollection& operator=(UniquePtrComponentCollection&& source) = default;
 
             /**
              * @brief      Standard destructor, destroys all the objects.
              */
-            ~ComponentCollection();
+            ~UniquePtrComponentCollection() = default;
 
             /**
              * @brief      Creates a component with the specified id. The
@@ -292,135 +284,19 @@ namespace nox
             getMetaInformation() const;
 
         private:
-            /**
-             * @brief      Used within the IndexMap, allowing for faster searches.
-             */
-            struct ComponentPair
-            {
-                EntityId id;
-                Component* component;
-            };
+            using Components = std::vector<std::unique_ptr<Component>>;
 
-            using IndexMap = std::vector<ComponentPair>;
-
-            /**
-             * @brief      Typedef to make it even more explicit that we am
-             *             working with bytes. using unsigned char as bytes
-             *             rather than std::uint8_t as bytes are not always
-             *             guaranteed to be 8 bit.
-             */
-            using Byte = unsigned char;
-
-            /**
-             * @brief      Convenience wrapper for
-             *             reinterpret_cast<Component*>(entity)
-             *
-             * @param      entity  the entity to cast over to a Component*
-             *
-             * @return     entity reinterpret_casted to a Component*
-             */
-            Component*
-            cast(Byte* entity) const;
-
-            /**
-             * @brief      Finds the component whose id matches id.
-             *
-             * @param[in]  id    the id of the component to look for.
-             *
-             * @return     iterator with ptr pointing to the component whose id
-             *             == id if it can be found. std::end(componentMap)
-             *             otherwise.
-             *
-             * @complexity O(log n)
-             */
-            IndexMap::iterator
+            Components::iterator
             find(const EntityId& id);
 
-            /**
-             * @brief      Finds the component whose id matches id.
-             *
-             * @param[in]  id    the id of the component to look for.
-             *
-             * @return     const_iterator with ptr pointing to the component
-             *             whose id == id if it can be found.
-             *             std::cend(componentMap) otherwise.
-             *
-             * @complexity O(log n)
-             */
-            IndexMap::const_iterator
+            Components::const_iterator
             find(const EntityId& id) const;
 
-            /**
-             * @brief      Finds the last iterator whose id < id, Used when we
-             *             are inserting into the componentMap, allowing us to
-             *             know where to insert.
-             *
-             * @param[in]  id    The id to compare the components.id to.
-             *
-             * @return     const_iterator to last component whose id < id,
-             *             std::cend if none can be found.
-             *
-             * @complexity O(log n)
-             */
-            IndexMap::const_iterator
+            Components::iterator
+            findBefore(const EntityId& id);
+
+            Components::const_iterator
             findBefore(const EntityId& id) const;
-
-            /**
-             * @brief      Calculates the size of the collection in bytes. Used
-             *             for internal calculations only, as iterating with
-             *             char* requires knowing the value in bytes.
-             *
-             * @return     size of collection in bytes.
-             */
-            std::size_t
-            size() const;
-
-            /**
-             * @brief      Calculates the capacity of the collection in bytes.
-             *             Used to figure out when to reallocate.
-             *
-             * @return     capacity of the collection in bytes.
-             */
-            std::size_t
-            capacity() const;
-
-            /**
-             * @brief      Reallocates the collection to another memory area.
-             *             this allows for dynamic growth of the container.
-             */
-            void
-            reallocate();
-
-            /**
-             * @brief      Destroys all objects in the range [begin, end) calls
-             *             destructor on all the objects, but does not do
-             *             lifecycle calls as the components are moved when
-             *             reallocation happens, and that is the only time this
-             *             function is called.
-             *
-             * @param      begin  The beginning of the range to destroy.
-             * @param      end    past-the-end pointer of the range to destroy.
-             */
-            void
-            destroyRange(Byte* begin,
-                         Byte* end);
-
-            /**
-             * @brief      Swaps the two elements pointed to by lhs and rhs. the
-             *             swap area is used.
-             *
-             * @param      lhs   The value to be swapped.
-             * @param      rhs   The value to be swapped.
-             */
-            void
-            swap(Component* lhs,
-                 Component* rhs);
-
-            /**
-             * @brief      Used to update the componentMap when we have reallocated.
-             */
-            void
-            updateWholeMap();
 
             /**
              * @brief      Growth factor describing how much the capacity should
@@ -429,19 +305,11 @@ namespace nox
             static constexpr std::size_t GROWTH_FACTOR = 2;
 
             MetaInformation info;
-            std::size_t gen{};
-
-            IndexMap componentMap{};
-
-            Byte* active{};
-            Byte* inactive{};
-            Byte* hibernating{};
-            Byte* memory{};
-            Byte* cap{};
+            std::size_t gen{0};
+            std::vector<std::unique_ptr<Component>> components;
         };
     }
 }
 
 #endif
-
 #endif

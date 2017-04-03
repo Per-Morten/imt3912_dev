@@ -1,4 +1,5 @@
 #include <nox/ecs/ComponentCollection.h>
+#include <nox/ecs/UniquePtrComponentCollection.h>
 
 
 template<class T, class Collection>

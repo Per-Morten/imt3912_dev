@@ -81,9 +81,15 @@ namespace nox
          * @brief use this alias rather than the SmartHandle.
          *        Had to use a template trick to avoid cyclic dependency.
          */
+        #ifdef NOX_ECS_COMPONENT_UNIQUE_PTR_VIRTUAL
+        class UniquePtrComponentCollection;
+        template<class T>
+        using ComponentHandle = SmartHandle<T, UniquePtrComponentCollection>;
+        #else
         class ComponentCollection;
         template<class T>
         using ComponentHandle = SmartHandle<T, ComponentCollection>;
+        #endif
     }
 }
 

@@ -9,6 +9,8 @@
 #include <nox/ecs/component/Children.h>
 #include <nox/ecs/component/Parent.h>
 #include <nox/ecs/ComponentCollection.h>
+#include <nox/ecs/UniquePtrComponentCollection.h>
+
 #include <nox/ecs/EntityId.h>
 #include <nox/ecs/Event.h>
 #include <nox/ecs/Factory.h>
