@@ -12,7 +12,7 @@
 #include <nox/util/pms_debug.h>
 #include <nox/ecs/Entity.h>
 #include <nox/ecs/Factory.h>
-#include <nox/ecs/component/Types.h>
+#include <nox/ecs/ComponentType.h>
 #include <nox/ecs/Event.h>
 #include <nox/ecs/createEventArgument.h>
 #include <nox/thread/LockedQueue.h>
@@ -150,7 +150,7 @@ public:
 
         nox::ecs::Event thisEvent = this->entityManager->createEntityEvent({"thisEvent"}, this->id, this->id);
         //nox::ecs::createEventArgument(thisEvent,2,{"Arg2"});
-        nox::ecs::createEventArgument(thisEvent,std::string("THIS EVENT IS SO FUCKING HUGE IT HAS TO DO HEAP ALLOCATION"), {"string"});
+        nox::ecs::createEventArgument(thisEvent,std::string("THIS EVENT IS SO HUGE IT HAS TO DO HEAP ALLOCATION"), {"string"});
         this->entityManager->sendEntityEvent(std::move(thisEvent));
 
     }
@@ -168,7 +168,7 @@ public:
         //PMS_DEBUG("%zu %s\n", id, str.c_str());
         state = State::ACTIVE;
     }
-    
+
     void deactivate()
     {
         str += "deactivate ";
@@ -187,7 +187,7 @@ public:
     {
         // auto val = value["value"].asInt();
         str += "initialize " + value["name"].asString();
-        // 
+        //
         //PMS_DEBUG("%zu %s %d\n", id, str.c_str(), value["value"].asInt());
     }
 
@@ -217,7 +217,7 @@ public:
         // {
         //     auto argument = static_cast<const std::string*>(event.getArgument({"Arg1"}).value());
         //     PMS_DEBUG("%zu %s\n", id, str.c_str());
-        //     PMS_DEBUG("Received event from: %zu, type: %zu argument: %s\n", 
+        //     PMS_DEBUG("Received event from: %zu, type: %zu argument: %s\n",
         //               event.getSender(),
         //               event.getType(),
         //               argument->c_str());
@@ -232,7 +232,7 @@ public:
         //               *argument);
         // }
     }
-    
+
 
 public:
     int messagesReceived{};
@@ -280,7 +280,7 @@ public:
 
         nox::ecs::Event thisEvent = this->entityManager->createEntityEvent({"thisEvent2"}, this->id, this->id);
         //nox::ecs::createEventArgument(thisEvent,2,{"Arg2"});
-        nox::ecs::createEventArgument(thisEvent,std::string("THIS EVENT IS SO FUCKING HUGE IT HAS TO DO HEAP ALLOCATION"), {"string"});
+        nox::ecs::createEventArgument(thisEvent,std::string("THIS EVENT IS SO HUGE IT HAS TO DO HEAP ALLOCATION"), {"string"});
         this->entityManager->sendEntityEvent(std::move(thisEvent));
 
         // CREATE EVENT HERE!
@@ -302,7 +302,7 @@ public:
         //printf("%zu %s\n", id, str.c_str());
         state = State::ACTIVE;
     }
-    
+
     void deactivate()
     {
         str += "deactivate ";
@@ -351,12 +351,12 @@ public:
 
         //     PMS_DEBUG("Position: x: %f y: %f\n", position->x, position->y);
         //     PMS_DEBUG("Rotation: x: %f y: %f\n", rotation->x, rotation->y);
-        //     PMS_DEBUG("Scale: %f\n", *scale);            
+        //     PMS_DEBUG("Scale: %f\n", *scale);
         // }
         //PMS_DEBUG("I am: %zu, received from: %zu\n", this->id, event.getSender());
         //printf("%zu %s\n", id, str.c_str());
     }
-    
+
 
 public:
     int messagesReceived{};
@@ -383,7 +383,7 @@ test()
     // metaInfo.hibernate(begin);
     // metaInfo.initialize(begin, {});
     // metaInfo.receiveLogicEvent(begin, end,{});
-    // //metaInfo.receiveEntityEvent(begin, end,{}); 
+    // //metaInfo.receiveEntityEvent(begin, end,{});
 
     // metaInfo.destruct((Component*)buffer);
     // delete[] buffer;
@@ -431,21 +431,21 @@ testingCollection()
     // {
     //     collection.deactivate(i);
     // }
-    // printf("\n"); 
+    // printf("\n");
 
     // PMS_DEBUG("Hibernating\n");
     // for (std::size_t i = 0; i < collection.count(); ++i)
     // {
     //     collection.hibernate(i);
     // }
-    // printf("\n"); 
+    // printf("\n");
 
     // PMS_DEBUG("Removing\n");
     // for (std::size_t i = 0; i < 5; ++i)
     // {
     //     collection.remove(i);
     // }
-    // printf("\n"); 
+    // printf("\n");
 
 
     // printf("Count: %zu\n", collection.count());
@@ -454,32 +454,144 @@ testingCollection()
 void
 testHandle()
 {
-    // using namespace nox::ecs;
-    // const auto metaInfo = nox::ecs::createMetaInformation<MockComponent>({"MockComponent"});
+    constexpr std::size_t maxComponents = 100;
+    using namespace nox::ecs;
+    const auto metaInfo = nox::ecs::createMetaInformation<MockComponent>(Type::MOCK_01);
 
-    // ComponentCollection collection(metaInfo);
-    // collection.create(0);
+    EntityManager entityManager;
+    entityManager.registerComponent(metaInfo);
+    entityManager.configureComponents();
 
-    // ComponentHandle<MockComponent> test = collection.getComponent(0);
+    entityManager.createEntity();
+    entityManager.assignComponent(0, Type::MOCK_01);
+    entityManager.createStep();
+
+    ComponentHandle<MockComponent> test = entityManager.getComponent(0, Type::MOCK_01);
+    std::vector<EntityId> idsToWorkWith(maxComponents);
+    std::iota(std::begin(idsToWorkWith), std::end(idsToWorkWith), 0);
+
+    const auto existsIn = [](const std::vector<EntityId>& vec, const auto& target)
+    {
+        return std::any_of(std::cbegin(vec),
+                           std::cend(vec),
+                           [target](const auto& item)
+                           {
+                            return item == target;
+                           });
+    };
+
+    const auto eraseIf = [](std::vector<EntityId>& vec, const auto& predicate)
+    {
+        vec.erase(std::remove_if(std::begin(vec),
+                                 std::end(vec),
+                                 predicate),
+                  std::cend(vec));
+    };
+
+    // This test is wrong!
+    // I should create a vector up front that I eliminate numbers from, rather than doing this.
+    // the modulus turns out wrong.
+
+    PMS_DEBUG("Starting Create procedure\n");
+    for (std::size_t i = 1; i < maxComponents; ++i)
+    {
+        //PMS_DEBUG("Count: %zu\n", entityManager.count());
+        entityManager.createEntity();
+        entityManager.assignComponent(i, Type::MOCK_01);
+        entityManager.createStep();
+        NOX_ASSERT(test->id == 0, "ID did not match! Iterator is not mapped to correct component");
+        NOX_ASSERT(test->state == State::HIBERNATION, "Wrong state!");
+    }
+
+    eraseIf(idsToWorkWith, [](const auto& item) { return item != 0 && item % 17 == 0; });
+
+    PMS_DEBUG("Starting Awake procedure\n");
+    for (std::size_t i = 0; i < maxComponents; ++i)
+    {
+        if (existsIn(idsToWorkWith, i))
+        {
+            PMS_DEBUG("Awaking: %zu\n", i);
+            entityManager.awakeComponent(i, Type::MOCK_01);
+        }
+        entityManager.awakeStep();
+        NOX_ASSERT(test->id == 0, "ID did not match! Iterator is not mapped to correct component");
+        NOX_ASSERT(test->state == State::DEACTIVATED, "Wrong state!");
+    }
+
+    eraseIf(idsToWorkWith, [](const auto& item) { return item != 0 && item % 15 == 0; });
+
+    PMS_DEBUG("Starting Activate procedure\n");
+    for (std::size_t i = 0; i < maxComponents; ++i)
+    {
+        if (existsIn(idsToWorkWith, i))
+        {
+            PMS_DEBUG("Activating: %zu\n", i);
+            entityManager.activateComponent(i, Type::MOCK_01);
+        }
+        entityManager.activateStep();
+        NOX_ASSERT(test->id == 0, "ID did not match! Iterator is not mapped to correct component");
+        NOX_ASSERT(test->state == State::ACTIVE, "Wrong state!");
+    }
+
+    eraseIf(idsToWorkWith, [](const auto& item) { return item != 0 && item % 12 == 0; });
 
 
-    // for (std::size_t i = 1; i < 5; ++i)
-    // {
-    //     PMS_DEBUG("Count: %zu\n", collection.count());
-    //     collection.create(i);
-    //     NOX_ASSERT(test->id == 0, "ID did not match! Iterator is not mapped to correct component");
-    // }
+    PMS_DEBUG("Starting Deactivate procedure\n");
+    for (std::size_t i = 0; i < maxComponents; ++i)
+    {
+        if (existsIn(idsToWorkWith, i))
+        {
+            PMS_DEBUG("Deactivating: %zu\n", i);
+            entityManager.deactivateComponent(i, Type::MOCK_01);
+        }
+        PMS_DEBUG("Deactivate step\n");
+        entityManager.deactivateStep();
+        NOX_ASSERT(test->id == 0, "ID did not match! Iterator is not mapped to correct component");
+        NOX_ASSERT(test->state == State::DEACTIVATED, "Wrong state!");
+    }
+
+    eraseIf(idsToWorkWith, [](const auto& item) { return item != 0 && item % 9 == 0; });
+
+    PMS_DEBUG("Starting Hibernate procedure\n");
+    for (std::size_t i = 0; i < maxComponents; ++i)
+    {
+        if (existsIn(idsToWorkWith, i))
+        {
+            PMS_DEBUG("Hibernating: %zu\n", i);
+            entityManager.hibernateComponent(i, Type::MOCK_01);
+        }
+        entityManager.hibernateStep();
+        NOX_ASSERT(test->id == 0, "ID did not match! Iterator is not mapped to correct component");
+        NOX_ASSERT(test->state == State::HIBERNATION, "Wrong state!");
+    }
+
+    eraseIf(idsToWorkWith, [](const auto& item) { return item != 0 && item % 9 == 0; });
+
+    PMS_DEBUG("Starting Remove procedure\n");
+    for (std::size_t i = 1; i < maxComponents; ++i)
+    {
+        if (existsIn(idsToWorkWith, i))
+        {
+            entityManager.removeComponent(i, Type::MOCK_01);
+        }
+        entityManager.removeStep();
+        NOX_ASSERT(test->id == 0, "ID did not match! Iterator is not mapped to correct component");
+    }
+
+    eraseIf(idsToWorkWith, [](const auto& item) { return item != 0 && item % 6 == 0; });
 
 
-    // collection.remove(0);
+    entityManager.removeComponent(0, Type::MOCK_01);
 
+    PMS_DEBUG("Removed all relevant\n");
 
+    entityManager.removeStep();
 
-    // collection.update({});
+    PMS_DEBUG("After remove step\n");
 
-    // NOX_ASSERT(test.get() == nullptr, "ID is not nullptr, dangling pointer!, %zu", test->id);
-    //printf("Passed %d", test.get() == nullptr);
-    //
+    NOX_ASSERT(test.get() == nullptr, "ID is not nullptr, dangling pointer!, %zu", test->id);
+    printf("Passed %d", test.get() == nullptr);
+
     //PMS_DEBUG("Capacity: %zu\n", collection.capacity() / metaInfo.size);
 }
 
@@ -550,7 +662,7 @@ testMove()
     // collection3.update({});
 
 }
-template<class T> 
+template<class T>
 void
 print_info(const char* name)
 {
@@ -567,7 +679,7 @@ testEntityManager()
     using MockHandle = ComponentHandle<MockComponent>;
     using OtherHandle = ComponentHandle<OtherComponent>;
 //    using TypeTag = TypeIdentifier;
-    
+
     EntityManager manager;
 
     const auto mockInfo = createMetaInformation<MockComponent>(Type::MOCK_01);
@@ -599,14 +711,14 @@ testEntityManager()
 
     MockHandle mock2ndHandle = manager.getComponent(secondId,
                                                     Type::MOCK_01);
-    
+
     NOX_ASSERT(mock1stHandle->state == State::HIBERNATION,"Incorrect state %zu, should be: State::HIBERNATION %zu\n", static_cast<std::size_t>(mock1stHandle->state), static_cast<std::size_t>(State::HIBERNATION));
     NOX_ASSERT(other1stHandle->state == State::HIBERNATION,"Incorrect state %zu, should be: State::HIBERNATION %zu\n", static_cast<std::size_t>(other1stHandle->state), static_cast<std::size_t>(State::HIBERNATION));
     NOX_ASSERT(mock2ndHandle->state == State::HIBERNATION,"Incorrect state %zu, should be: State::HIBERNATION %zu\n", static_cast<std::size_t>(mock2ndHandle->state), static_cast<std::size_t>(State::HIBERNATION));
-    
+
     manager.awakeEntity(firstId);
     manager.awakeComponent(secondId, Type::MOCK_01);
-    
+
     manager.awakeStep();
     NOX_ASSERT(mock1stHandle->state == State::DEACTIVATED,"Incorrect state %zu, should be: State::DEACTIVATED %zu\n", static_cast<std::size_t>(mock1stHandle->state), static_cast<std::size_t>(State::DEACTIVATED));
     NOX_ASSERT(other1stHandle->state == State::DEACTIVATED,"Incorrect state %zu, should be: State::DEACTIVATED %zu\n", static_cast<std::size_t>(other1stHandle->state), static_cast<std::size_t>(State::DEACTIVATED));
@@ -635,7 +747,7 @@ testEntityManager()
     NOX_ASSERT(mock1stHandle->state == State::DEACTIVATED,"Incorrect state %zu, should be: State::DEACTIVATED %zu\n", static_cast<std::size_t>(mock1stHandle->state), static_cast<std::size_t>(State::DEACTIVATED));
     NOX_ASSERT(other1stHandle->state == State::DEACTIVATED,"Incorrect state %zu, should be: State::DEACTIVATED %zu\n", static_cast<std::size_t>(other1stHandle->state), static_cast<std::size_t>(State::DEACTIVATED));
     NOX_ASSERT(mock2ndHandle->state == State::DEACTIVATED,"Incorrect state %zu, should be: State::DEACTIVATED %zu\n", static_cast<std::size_t>(mock2ndHandle->state), static_cast<std::size_t>(State::DEACTIVATED));
-    
+
     manager.hibernateEntity(firstId);
     manager.hibernateEntity(secondId);
     manager.hibernateStep();
@@ -647,9 +759,9 @@ testEntityManager()
     manager.removeComponent(firstId,
                             Type::MOCK_01);
 
-    manager.removeStep(); 
+    manager.removeStep();
     NOX_ASSERT(mock1stHandle.get() == nullptr,"Dangling pointer!\n");
-    NOX_ASSERT(mock2ndHandle.get() == nullptr,"Dangling pointer!\n");    
+    NOX_ASSERT(mock2ndHandle.get() == nullptr,"Dangling pointer!\n");
     NOX_ASSERT(other1stHandle.get() != nullptr,"Wrong pointer deleted!\n");
 }
 
@@ -661,7 +773,7 @@ entityTest()
     using MockHandle = ComponentHandle<MockComponent>;
     using OtherHandle = ComponentHandle<OtherComponent>;
   //  using TypeTag = TypeIdentifier;
-    
+
     EntityManager manager;
 
     const auto mockInfo = createMetaInformation<MockComponent>(Type::MOCK_01);
@@ -695,14 +807,14 @@ entityTest()
     OtherHandle other1stHandle = entity1.getComponent(Type::MOCK_02);
 
     MockHandle mock2ndHandle = entity2.getComponent(Type::MOCK_01);
-    
+
     NOX_ASSERT(mock1stHandle->state == State::HIBERNATION,"Incorrect state %zu, should be: State::HIBERNATION %zu\n", static_cast<std::size_t>(mock1stHandle->state), static_cast<std::size_t>(State::HIBERNATION));
     NOX_ASSERT(other1stHandle->state == State::HIBERNATION,"Incorrect state %zu, should be: State::HIBERNATION %zu\n", static_cast<std::size_t>(other1stHandle->state), static_cast<std::size_t>(State::HIBERNATION));
     NOX_ASSERT(mock2ndHandle->state == State::HIBERNATION,"Incorrect state %zu, should be: State::HIBERNATION %zu\n", static_cast<std::size_t>(mock2ndHandle->state), static_cast<std::size_t>(State::HIBERNATION));
 
     entity1.awake();
-    entity2.awakeComponent(Type::MOCK_01); 
-    
+    entity2.awakeComponent(Type::MOCK_01);
+
     manager.awakeStep();
     NOX_ASSERT(mock1stHandle->state == State::DEACTIVATED,"Incorrect state %zu, should be: State::DEACTIVATED %zu\n", static_cast<std::size_t>(mock1stHandle->state), static_cast<std::size_t>(State::DEACTIVATED));
     NOX_ASSERT(other1stHandle->state == State::DEACTIVATED,"Incorrect state %zu, should be: State::DEACTIVATED %zu\n", static_cast<std::size_t>(other1stHandle->state), static_cast<std::size_t>(State::DEACTIVATED));
@@ -730,20 +842,20 @@ entityTest()
     NOX_ASSERT(mock2ndHandle->state == State::DEACTIVATED,"Incorrect state %zu, should be: State::DEACTIVATED %zu\n", static_cast<std::size_t>(mock2ndHandle->state), static_cast<std::size_t>(State::DEACTIVATED));
 
     entity1.hibernate();
-    entity2.hibernate();    
+    entity2.hibernate();
 
     manager.hibernateStep();
     NOX_ASSERT(mock1stHandle->state == State::HIBERNATION,"Incorrect state %zu, should be: State::HIBERNATION %zu\n", static_cast<std::size_t>(mock1stHandle->state), static_cast<std::size_t>(State::HIBERNATION));
     NOX_ASSERT(other1stHandle->state == State::HIBERNATION,"Incorrect state %zu, should be: State::HIBERNATION %zu\n", static_cast<std::size_t>(other1stHandle->state), static_cast<std::size_t>(State::HIBERNATION));
     NOX_ASSERT(mock2ndHandle->state == State::HIBERNATION,"Incorrect state %zu, should be: State::HIBERNATION %zu\n", static_cast<std::size_t>(mock2ndHandle->state), static_cast<std::size_t>(State::HIBERNATION));
 
-    entity2.remove(); 
+    entity2.remove();
     //manager.removeEntity(entity2.getId());
     entity1.removeComponent(Type::MOCK_01);
 
-    manager.removeStep(); 
+    manager.removeStep();
     NOX_ASSERT(mock1stHandle.get() == nullptr,"Dangling pointer!\n");
-    NOX_ASSERT(mock2ndHandle.get() == nullptr,"Dangling pointer!\n");    
+    NOX_ASSERT(mock2ndHandle.get() == nullptr,"Dangling pointer!\n");
     NOX_ASSERT(other1stHandle.get() != nullptr,"Wrong pointer deleted!\n");
 }
 
@@ -762,14 +874,14 @@ testFactory(const char* filepath)
     Json::Reader reader;
     Json::Value value;
     reader.parse(file, value);
-    
+
     const auto mockInfo = createMetaInformation<MockComponent>(Type::MOCK_01);
     const auto otherInfo = createMetaInformation<OtherComponent>(Type::MOCK_02);
     EntityManager manager;
     manager.registerComponent(mockInfo);
     manager.registerComponent(otherInfo);
-    manager.registerComponent(createMetaInformation<Parent>(component_types::PARENT));
-    manager.registerComponent(createMetaInformation<Children>(component_types::CHILDREN));
+    manager.registerComponent(createMetaInformation<Parent>(component_type::PARENT));
+    manager.registerComponent(createMetaInformation<Children>(component_type::CHILDREN));
 
 
     PMS_DEBUG("Creating Definition\n");
@@ -783,12 +895,12 @@ testFactory(const char* filepath)
     manager.createStep();
 
     PMS_DEBUG("Called Create step\n");
-    ComponentHandle<Children> handle = manager.getComponent(0, component_types::CHILDREN);
+    ComponentHandle<Children> handle = manager.getComponent(0, component_type::CHILDREN);
     PMS_DEBUG("Component 0 has: %zu children\n", handle->size());
     ComponentHandle<MockComponent> child1MockHandle = manager.getComponent((**handle)[0], Type::MOCK_01);
     ///ComponentHandle<MockComponent> child2MockHandle = manager.getComponent((**handle)[1], Type::MOCK_01);
 
-    PMS_DEBUG("child1MockHandle id: %zu name: %s\n", 
+    PMS_DEBUG("child1MockHandle id: %zu name: %s\n",
               child1MockHandle->id,
               child1MockHandle->str.c_str());
               //child2MockHandle->id,
@@ -1016,7 +1128,7 @@ testLockedPool(const std::size_t iterations, const std::size_t numberOfElements,
     //     }
 
     //     for (std::size_t i = 0; i < numberOfElements; ++i)
-    //     {   
+    //     {
     //         volatile auto temp = array[i];
     //     }
 
@@ -1026,7 +1138,7 @@ testLockedPool(const std::size_t iterations, const std::size_t numberOfElements,
     //     }
 
     //     for (std::size_t i = 0; i < numberOfElements; ++i)
-    //     {   
+    //     {
     //         volatile auto temp = array[i];
     //     }
 
@@ -1070,7 +1182,7 @@ testVSPool(const std::size_t iterations, const std::size_t numberOfElements,  co
     //     }
 
     //     for (std::size_t i = 0; i < numberOfElements; ++i)
-    //     {   
+    //     {
     //         volatile auto temp = array[i];
     //     }
 
@@ -1080,7 +1192,7 @@ testVSPool(const std::size_t iterations, const std::size_t numberOfElements,  co
     //     }
 
     //     for (std::size_t i = 0; i < numberOfElements; ++i)
-    //     {   
+    //     {
     //         volatile auto temp = array[i];
     //     }
 
@@ -1131,7 +1243,7 @@ testThreadedUpdate()
     constexpr std::size_t NUMBER_OF_ITERATIONS = 1000;
     constexpr std::size_t MAX_ENTITIES = 100;
     using namespace nox::ecs;
-    
+
     EntityManager manager;
     //const auto transformInfo = createMetaInformation<Transform>(component_types::TRANSFORM);
     //manager.registerComponent(transformInfo);
@@ -1147,7 +1259,7 @@ testThreadedUpdate()
             mockInfo.updateAccess = DataAccess::READ_ONLY;
             for (std::size_t j = Type::MOCK_01; j != Type::MOCK_COUNT; ++j)
             {
-                if (j % 2 == 0)
+                if (j % 5 == 0)
                 {
                     mockInfo.updateDependencies.push_back(j);
                 }
@@ -1162,7 +1274,7 @@ testThreadedUpdate()
 
             for (std::size_t j = Type::MOCK_01; j != Type::MOCK_COUNT; ++j)
             {
-                if (j % 3 == 0)
+                if (j % 4 == 0)
                 {
                     otherInfo.updateDependencies.push_back(j);
                 }
@@ -1174,12 +1286,12 @@ testThreadedUpdate()
     manager.configureComponents();
     PMS_DEBUG("Configured\n");
 
-    for (std::size_t i = 0; i < MAX_ENTITIES; ++i)
+    for (std::size_t i = 0; i < MAX_ENTITIES / 2; ++i)
     {
         auto id = manager.createEntity();
         for (std::size_t j = Type::MOCK_01; j != Type::MOCK_COUNT; ++j)
         {
-            manager.assignComponent(id, j);    
+            manager.assignComponent(id, j);
         }
         //manager.assignComponent(id, component_types::TRANSFORM);
         manager.awakeEntity(id);
@@ -1187,14 +1299,29 @@ testThreadedUpdate()
         //handles.push_back(manager.getComponent(id, component_types::TRANSFORM));
     }
 
+    for (std::size_t i = 0; i < MAX_ENTITIES / 2; ++i)
+    {
+        auto id = manager.createEntity();
+        for (std::size_t j = Type::MOCK_01; j != Type::MOCK_COUNT; ++j)
+        {
+            manager.assignComponent(id, j);
+        }
+        //manager.assignComponent(id, component_types::TRANSFORM);
+        manager.awakeEntity(id);
+        manager.activateEntity(id);
+        //handles.push_back(manager.getComponent(id, component_types::TRANSFORM));
+    }
+
+    manager.step({});
+
     //PMS_DEBUG("Update\n");
     for (volatile std::size_t i = 0; i < NUMBER_OF_ITERATIONS; ++i)
     {
-        // if (i % 100 == 0)
-        // {
-        //     PMS_DEBUG("Updating %zu\n", i);
-        // }
-        
+        if (i % 100 == 0)
+        {
+            PMS_DEBUG("Updating %zu\n", i);
+        }
+
         volatile EntityManager* m = &manager;
 
 
@@ -1211,10 +1338,10 @@ testThreadedUpdate()
     {
         ComponentHandle<MockComponent> mock = manager.getComponent(i, Type::MOCK_01);
         ComponentHandle<OtherComponent> other = manager.getComponent(i, Type::MOCK_02);
-        //PMS_DEBUG("Mock  Received: %d of events\n", mock->messagesReceived);//  NUMBER_OF_ITERATIONS * (MOCK_COUNT % 1000) - (MOCK_COUNT % 1000));
-        //PMS_DEBUG("Other Received: %d of %zu events\n", other->messagesReceived, NUMBER_OF_ITERATIONS * (MOCK_COUNT % 1000) - (MOCK_COUNT % 1000));
-        NOX_ASSERT(mock->messagesReceived == NUMBER_OF_ITERATIONS * (MOCK_COUNT % 1000) - (MOCK_COUNT % 1000), "Component has not received enough events!");
-        NOX_ASSERT(other->messagesReceived == NUMBER_OF_ITERATIONS * (MOCK_COUNT % 1000) - (MOCK_COUNT % 1000), "Component has not received enough events!");
+        PMS_DEBUG("Mock  Received: %d of events\n", mock->messagesReceived);//  NUMBER_OF_ITERATIONS * (MOCK_COUNT % 1000) - (MOCK_COUNT % 1000));
+        PMS_DEBUG("Other Received: %d of %zu events\n", other->messagesReceived, (NUMBER_OF_ITERATIONS + 1) * (MOCK_COUNT % 1000) - (MOCK_COUNT % 1000));
+        NOX_ASSERT(mock->messagesReceived == (NUMBER_OF_ITERATIONS + 1) * (MOCK_COUNT % 1000) - (MOCK_COUNT % 1000), "Component has not received enough events!");
+        NOX_ASSERT(other->messagesReceived == (NUMBER_OF_ITERATIONS + 1) * (MOCK_COUNT % 1000) - (MOCK_COUNT % 1000), "Component has not received enough events!");
 
     }
 
@@ -1225,11 +1352,11 @@ testThreadedUpdate()
         manager.removeEntity(i);
     }
 
-    //PMS_DEBUG("Last step\n");
+    PMS_DEBUG("Last step\n");
     manager.step({});
 }
 
-int 
+int
 main(int argc, char** argv)
 {
     // PRINT_TYPE_INFO(std::vector<std::thread>);
@@ -1286,14 +1413,14 @@ main(int argc, char** argv)
     // }
     // PMS_DEBUG("Time LockedPool %f\n",lockedTime);
     // PMS_DEBUG("Time VsPool %f\n",vsTime);
-    
+
 
     // const auto start = std::chrono::high_resolution_clock::now();
     // testEventSystem();
     // const auto stop = std::chrono::high_resolution_clock::now();
-    
+
     // PMS_DEBUG("Time: %f\n", std::chrono::duration<float, std::chrono::milliseconds::period>(stop - start).count());
-    
+
     // PMS_DEBUG("Test: testEntityManager\n");
     // testEntityManager();
     // PMS_DEBUG("\n");
@@ -1304,12 +1431,14 @@ main(int argc, char** argv)
 
     // PMS_DEBUG("Test: testFactory\n");
     // testFactory(argv[1]);
-    // 
+    //
+
+    testHandle();
     const auto start = std::chrono::high_resolution_clock::now();
     testThreadedUpdate();
     const auto stop = std::chrono::high_resolution_clock::now();
     PMS_DEBUG("Time: %f\n", std::chrono::duration<float, std::chrono::milliseconds::period>(stop - start).count());
-    
+
     return 0;
 }
 

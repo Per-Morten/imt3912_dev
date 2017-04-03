@@ -458,18 +458,19 @@ nox::ecs::EntityManager::updateStep(const nox::Duration& deltaTime)
 void
 nox::ecs::EntityManager::distributeEntityEvents()
 {
-    // Temp event, only needed for the popping.
-    Event event(&eventArgumentAllocator, {0}, 0, 0);
-    while (this->entityEvents.pop(event))
+    // Hack, done to ensure that event is destroyed
+    // before the eventArgumentAllocator is cleared.
     {
-        for (auto& collection : this->components)
+        // Temp event, only needed for the popping.
+        Event event(&eventArgumentAllocator, {0}, 0, 0);
+        while (this->entityEvents.pop(event))
         {
-            collection.receiveEntityEvent(event);
+            for (auto& collection : this->components)
+            {
+                collection.receiveEntityEvent(event);
+            }
         }
     }
-    // Hack, done to ensure that event is destroyed 
-    // before the eventArgumentAllocator is cleared.
-    event.~Event();
 
     this->entityEvents.clear();
     this->eventArgumentAllocator.clear();
