@@ -1,5 +1,5 @@
-#ifndef NOX_ECS_UniquePtrComponentCollection_H_
-#define NOX_ECS_UniquePtrComponentCollection_H_
+#ifndef NOX_ECS_UNIQUEPTRCOMPONENTCOLLECTION_H_
+#define NOX_ECS_UNIQUEPTRCOMPONENTCOLLECTION_H_
 #include <cstdint>
 #include <memory>
 #include <vector>
