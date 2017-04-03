@@ -15,7 +15,7 @@ namespace nox
     }
 }
 
-#if defined(NOX_ECS_COMPONENT_UNIQUE_PTR_VIRTUAL)
+#if defined(NOX_ECS_COMPONENT_UNIQUE_PTR_VIRTUAL) || defined(NOX_ECS_COMPONENT_VIRTUAL)
 #define ECS_VIRTUAL virtual
 #else
 #define ECS_VIRTUAL 

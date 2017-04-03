@@ -1,10 +1,10 @@
-#if !defined(NOX_ECS_COMPONENT_UNIQUE_PTR_VIRTUAL) && !defined(NOX_ECS_COMPONENT_VIRTUAL)
+#ifdef NOX_ECS_COMPONENT_VIRTUAL
 
-#include <nox/ecs/ComponentCollection.h>
+#include <nox/ecs/VirtualComponentCollection.h>
 
 #include <cstdlib>
 
-nox::ecs::ComponentCollection::ComponentCollection(const MetaInformation& info)
+nox::ecs::VirtualComponentCollection::VirtualComponentCollection(const MetaInformation& info)
     : info(info)
     , gen(0)
     , active(static_cast<Byte*>(std::malloc((GROWTH_FACTOR + 1) * info.size))) // + 1 for swap area.
@@ -15,7 +15,7 @@ nox::ecs::ComponentCollection::ComponentCollection(const MetaInformation& info)
 {
 }
 
-nox::ecs::ComponentCollection::ComponentCollection(ComponentCollection&& source)
+nox::ecs::VirtualComponentCollection::VirtualComponentCollection(VirtualComponentCollection&& source)
     : info(std::move(source.info))
     , gen(std::move(source.gen))
     , componentMap(std::move(source.componentMap))
@@ -33,8 +33,8 @@ nox::ecs::ComponentCollection::ComponentCollection(ComponentCollection&& source)
     source.gen = 0;
 }
 
-nox::ecs::ComponentCollection&
-nox::ecs::ComponentCollection::operator=(ComponentCollection&& source)
+nox::ecs::VirtualComponentCollection&
+nox::ecs::VirtualComponentCollection::operator=(VirtualComponentCollection&& source)
 {
     if (this != &source)
     {
@@ -60,7 +60,7 @@ nox::ecs::ComponentCollection::operator=(ComponentCollection&& source)
     return *this;
 }
 
-nox::ecs::ComponentCollection::~ComponentCollection()
+nox::ecs::VirtualComponentCollection::~VirtualComponentCollection()
 {
     auto begin = this->active;
     const auto end = this->memory;
@@ -81,7 +81,7 @@ nox::ecs::ComponentCollection::~ComponentCollection()
 }
 
 void
-nox::ecs::ComponentCollection::create(const EntityId& id,
+nox::ecs::VirtualComponentCollection::create(const EntityId& id,
                                       EntityManager* manager)
 {
     if (this->size() >= this->capacity())
@@ -97,7 +97,7 @@ nox::ecs::ComponentCollection::create(const EntityId& id,
 }
 
 void
-nox::ecs::ComponentCollection::adopt(Component& component)
+nox::ecs::VirtualComponentCollection::adopt(Component& component)
 {
     if (this->size() >= this->capacity())
     {
@@ -112,23 +112,18 @@ nox::ecs::ComponentCollection::adopt(Component& component)
 }
 
 void
-nox::ecs::ComponentCollection::initialize(const EntityId& id,
+nox::ecs::VirtualComponentCollection::initialize(const EntityId& id,
                                           const Json::Value& value)
 {
-    if (!this->info.initialize)
-    {
-        return;
-    }
-
     auto target = this->find(id);
     if (target != std::end(this->componentMap))
     {
-        this->info.initialize(target->component, value);
+        target->component->initialize(value);
     }
 }
 
 void
-nox::ecs::ComponentCollection::awake(const EntityId& id)
+nox::ecs::VirtualComponentCollection::awake(const EntityId& id)
 {
     auto target = this->find(id);
 
@@ -139,16 +134,12 @@ nox::ecs::ComponentCollection::awake(const EntityId& id)
 
         this->swap(target->component, swapped->component);
         std::swap(target->component, swapped->component);
-
-        if (this->info.awake)
-        {
-            this->info.awake(target->component);
-        }
+        target->component->awake();
     }
 }
 
 void
-nox::ecs::ComponentCollection::activate(const EntityId& id)
+nox::ecs::VirtualComponentCollection::activate(const EntityId& id)
 {
     auto target = this->find(id);
 
@@ -160,15 +151,12 @@ nox::ecs::ComponentCollection::activate(const EntityId& id)
         this->swap(target->component, swapped->component);
         std::swap(target->component, swapped->component);
 
-        if (this->info.activate)
-        {
-            this->info.activate(target->component);
-        }
+        target->component->activate();        
     }
 }
 
 void
-nox::ecs::ComponentCollection::deactivate(const EntityId& id)
+nox::ecs::VirtualComponentCollection::deactivate(const EntityId& id)
 {
     auto target = this->find(id);
 
@@ -180,15 +168,12 @@ nox::ecs::ComponentCollection::deactivate(const EntityId& id)
         this->swap(target->component, swapped->component);
         std::swap(target->component, swapped->component);
 
-        if (this->info.deactivate)
-        {
-            this->info.deactivate(target->component);
-        }
+        target->component->deactivate();
     }
 }
 
 void
-nox::ecs::ComponentCollection::hibernate(const EntityId& id)
+nox::ecs::VirtualComponentCollection::hibernate(const EntityId& id)
 {
     auto target = this->find(id);
 
@@ -200,15 +185,12 @@ nox::ecs::ComponentCollection::hibernate(const EntityId& id)
         this->swap(target->component, swapped->component);
         std::swap(target->component, swapped->component);
 
-        if (this->info.hibernate)
-        {
-            this->info.hibernate(target->component);
-        }
+        target->component->hibernate();
     }
 }
 
 void
-nox::ecs::ComponentCollection::remove(const EntityId& id)
+nox::ecs::VirtualComponentCollection::remove(const EntityId& id)
 {
     auto target = this->find(id);
 
@@ -227,64 +209,63 @@ nox::ecs::ComponentCollection::remove(const EntityId& id)
 }
 
 void
-nox::ecs::ComponentCollection::update(const nox::Duration& duration)
+nox::ecs::VirtualComponentCollection::update(const nox::Duration& duration)
 {
-    if (this->info.update)
+    auto begin = this->active;
+    auto end = this->inactive;
+    while (begin != end)
     {
-        auto begin = this->cast(this->active);
-        auto end = this->cast(this->inactive);
-
-        this->info.update(begin, end, duration);
+        auto component = this->cast(begin);
+        component->update(duration);
+        begin += this->info.size;
     }
 }
 
 void
-nox::ecs::ComponentCollection::receiveLogicEvent(const std::shared_ptr<nox::event::Event>& event)
+nox::ecs::VirtualComponentCollection::receiveLogicEvent(const std::shared_ptr<nox::event::Event>& event)
 {
-    if (this->info.receiveLogicEvent)
+    auto begin = this->active;
+    auto end = this->inactive;
+    while (begin != end)
     {
-        auto begin = this->cast(this->active);
-        auto end = this->cast(this->memory);
-
-        this->info.receiveLogicEvent(begin, end, event);
+        auto component = this->cast(begin);
+        component->receiveLogicEvent(event);
+        begin += this->info.size;
     }
 }
 
 void
-nox::ecs::ComponentCollection::receiveEntityEvent(const ecs::Event& event)
+nox::ecs::VirtualComponentCollection::receiveEntityEvent(const ecs::Event& event)
 {
-    if (!this->info.receiveEntityEvent)
-    {
-        return;
-    }
-
     if (event.getReceiver() == ecs::Event::BROADCAST)
     {
-        auto begin = this->cast(this->active);
-        auto end = this->cast(this->memory);
-        this->info.receiveEntityEvent(begin, end, event);
+        auto begin = this->active;
+        auto end = this->inactive;
+        while (begin != end)
+        {
+            auto component = this->cast(begin);
+            component->receiveEntityEvent(event);
+            begin += this->info.size;
+        }
     }
     else
     {
         auto target = this->find(event.getReceiver());
         if (target != std::end(this->componentMap))
         {
-            // Ugly I know. However I must increment the bytes the correct number.
-            // And I can't do that without casting it over to bytes.
-            auto end = this->cast(reinterpret_cast<Byte*>(target->component) + this->info.size);
-            this->info.receiveEntityEvent(target->component, end, event);
+            target->component->receiveEntityEvent(event);
         }
     }
 }
 
 std::size_t
-nox::ecs::ComponentCollection::count() const
+nox::ecs::VirtualComponentCollection::count() const
 {
     return (this->memory - this->active) / this->info.size;
 }
 
 nox::ecs::ComponentHandle<nox::ecs::Component>
-nox::ecs::ComponentCollection::getComponent(const EntityId& id)
+nox::ecs::VirtualComponentCollection::getComponent(const EntityId& id)
 {
     auto itr = this->find(id);
     auto component = (itr != std::end(this->componentMap)) ? itr->component : nullptr;
@@ -296,31 +277,31 @@ nox::ecs::ComponentCollection::getComponent(const EntityId& id)
 }
 
 std::size_t
-nox::ecs::ComponentCollection::getGeneration() const
+nox::ecs::VirtualComponentCollection::getGeneration() const
 {
     return this->gen;
 }
 
 const nox::ecs::TypeIdentifier&
-nox::ecs::ComponentCollection::getTypeIdentifier() const
+nox::ecs::VirtualComponentCollection::getTypeIdentifier() const
 {
     return this->info.typeIdentifier;
 }
 
 const nox::ecs::MetaInformation&
-nox::ecs::ComponentCollection::getMetaInformation() const
+nox::ecs::VirtualComponentCollection::getMetaInformation() const
 {
     return this->info;
 }
 
 nox::ecs::Component*
-nox::ecs::ComponentCollection::cast(Byte* entity) const
+nox::ecs::VirtualComponentCollection::cast(Byte* entity) const
 {
     return reinterpret_cast<Component*>(entity);
 }
 
-nox::ecs::ComponentCollection::IndexMap::iterator
-nox::ecs::ComponentCollection::find(const EntityId& id)
+nox::ecs::VirtualComponentCollection::IndexMap::iterator
+nox::ecs::VirtualComponentCollection::find(const EntityId& id)
 {
     auto component = std::lower_bound(std::begin(this->componentMap),
                                       std::end(this->componentMap),
@@ -336,8 +317,8 @@ nox::ecs::ComponentCollection::find(const EntityId& id)
     return component;
 }
 
-nox::ecs::ComponentCollection::IndexMap::const_iterator
-nox::ecs::ComponentCollection::find(const EntityId& id) const
+nox::ecs::VirtualComponentCollection::IndexMap::const_iterator
+nox::ecs::VirtualComponentCollection::find(const EntityId& id) const
 {
     const auto component = this->findBefore(id);
     if (component != std::cend(componentMap) &&
@@ -348,8 +329,8 @@ nox::ecs::ComponentCollection::find(const EntityId& id) const
     return component;
 }
 
-nox::ecs::ComponentCollection::IndexMap::const_iterator
-nox::ecs::ComponentCollection::findBefore(const EntityId& id) const
+nox::ecs::VirtualComponentCollection::IndexMap::const_iterator
+nox::ecs::VirtualComponentCollection::findBefore(const EntityId& id) const
 {
     const auto component = std::lower_bound(std::cbegin(this->componentMap),
                                             std::cend(this->componentMap),
@@ -360,19 +341,19 @@ nox::ecs::ComponentCollection::findBefore(const EntityId& id) const
 }
 
 std::size_t
-nox::ecs::ComponentCollection::size() const
+nox::ecs::VirtualComponentCollection::size() const
 {
     return std::size_t(this->memory - this->active);
 }
 
 std::size_t
-nox::ecs::ComponentCollection::capacity() const
+nox::ecs::VirtualComponentCollection::capacity() const
 {
     return std::size_t(this->cap - this->active);
 }
 
 void
-nox::ecs::ComponentCollection::reallocate()
+nox::ecs::VirtualComponentCollection::reallocate()
 {
     const auto newCap = this->capacity() * GROWTH_FACTOR;
 
@@ -410,7 +391,7 @@ nox::ecs::ComponentCollection::reallocate()
 }
 
 void
-nox::ecs::ComponentCollection::destroyRange(Byte* begin,
+nox::ecs::VirtualComponentCollection::destroyRange(Byte* begin,
                                             Byte* end)
 {
     while (begin != end)
@@ -422,7 +403,7 @@ nox::ecs::ComponentCollection::destroyRange(Byte* begin,
 }
 
 void
-nox::ecs::ComponentCollection::swap(Component* lhs,
+nox::ecs::VirtualComponentCollection::swap(Component* lhs,
                                     Component* rhs)
 {
     if (lhs != rhs)
@@ -437,7 +418,7 @@ nox::ecs::ComponentCollection::swap(Component* lhs,
 }
 
 void
-nox::ecs::ComponentCollection::updateWholeMap()
+nox::ecs::VirtualComponentCollection::updateWholeMap()
 {
     auto begin = this->active;
     auto end = this->memory;

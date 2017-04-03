@@ -1,5 +1,5 @@
-#ifndef NOX_ECS_COMPONENTCOLLECTION_H_
-#define NOX_ECS_COMPONENTCOLLECTION_H_
+#ifndef NOX_ECS_VIRTUALCOMPONENTCOLLECTION_H_
+#define NOX_ECS_VIRTUALCOMPONENTCOLLECTION_H_
 #include <cstdint>
 #include <memory>
 #include <vector>
@@ -10,29 +10,10 @@
 #include <nox/ecs/MetaInformation.h>
 #include <nox/ecs/SmartHandle.h>
 #include <nox/ecs/TypeIdentifier.h>
-#include <nox/ecs/UniquePtrComponentCollection.h>
-#include <nox/ecs/VirtualComponentCollection.h>
 
 #include <json/value.h>
 
-#ifdef NOX_ECS_COMPONENT_UNIQUE_PTR_VIRTUAL
-namespace nox
-{
-    namespace ecs
-    {
-        using ComponentCollection = nox::ecs::UniquePtrComponentCollection;    
-    }
-}
-#elif defined(NOX_ECS_COMPONENT_VIRTUAL)
-namespace nox
-{
-    namespace ecs
-    {
-        using ComponentCollection = nox::ecs::VirtualComponentCollection;
-    }
-}
-
-#else
+#ifdef NOX_ECS_COMPONENT_VIRTUAL
 
 namespace nox
 {
@@ -61,36 +42,36 @@ namespace nox
          *
          * @see    nox::ecs::ComponentHandle
          */
-        class ComponentCollection
+        class VirtualComponentCollection
         {
         public:
             /**
-             * @brief      Default construction of ComponentCollection is
+             * @brief      Default construction of VirtualComponentCollection is
              *             illegal. MetaInformation is needed.
              */
-            ComponentCollection() = delete;
+            VirtualComponentCollection() = delete;
 
             /**
-             * @brief      Creates a ComponentCollection for a specified
+             * @brief      Creates a VirtualComponentCollection for a specified
              *             component type. All information related to the
              *             component type is located in the MetaInformation.
              *
              * @param[in]  info  Info holding all the information about the
              *                   operations to be done on the component.
              */
-            ComponentCollection(const MetaInformation& info);
+            VirtualComponentCollection(const MetaInformation& info);
 
             /**
              * @brief      Copy construction is illegal as component types are
              *             only allowed to be moved.
              */
-            ComponentCollection(const ComponentCollection& other) = delete;
+            VirtualComponentCollection(const VirtualComponentCollection& other) = delete;
 
             /**
              * @brief      Copy assignment is illegal as component types are
              *             only allowed to be moved.
              */
-            ComponentCollection& operator=(const ComponentCollection& other) = delete;
+            VirtualComponentCollection& operator=(const VirtualComponentCollection& other) = delete;
 
             /**
              * @brief      Move constructor. Moves all members out of source.
@@ -101,7 +82,7 @@ namespace nox
              *
              * @param[in]  source  the collection to move from.
              */
-            ComponentCollection(ComponentCollection&& source);
+            VirtualComponentCollection(VirtualComponentCollection&& source);
 
             /**
              * @brief      Move assignment operator. Moves all members out of
@@ -115,12 +96,12 @@ namespace nox
              *
              * @return     *this after assignment.
              */
-            ComponentCollection& operator=(ComponentCollection&& source);
+            VirtualComponentCollection& operator=(VirtualComponentCollection&& source);
 
             /**
              * @brief      Standard destructor, destroys all the objects.
              */
-            ~ComponentCollection();
+            ~VirtualComponentCollection();
 
             /**
              * @brief      Creates a component with the specified id. The

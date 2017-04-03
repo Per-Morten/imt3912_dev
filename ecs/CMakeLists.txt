@@ -73,7 +73,9 @@ add_definitions(-DNOX_ATOMIC_USE_RELAXED)
 add_definitions(-DNOX_USE_NUMERIC_TYPE_ID)
 
 # For Virtual And UniquePtr:
-add_definitions(-DNOX_ECS_COMPONENT_UNIQUE_PTR_VIRTUAL)
+#add_definitions(-DNOX_ECS_COMPONENT_UNIQUE_PTR_VIRTUAL)
+#add_definitions(-DNOX_ECS_COMPONENT_VIRTUAL)
+add_definitions(-DNOX_ECS_COMPONENT_NON_VIRTUAL)
 
 add_library(${NOX_ECS_LIBRARY} STATIC ${ALL_SOURCES})
 target_link_libraries(${NOX_ECS_LIBRARY} ${NOXSAMPLE_NOX_LIBRARY})

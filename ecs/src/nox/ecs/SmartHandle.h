@@ -85,6 +85,10 @@ namespace nox
         class UniquePtrComponentCollection;
         template<class T>
         using ComponentHandle = SmartHandle<T, UniquePtrComponentCollection>;
+        #elif defined(NOX_ECS_COMPONENT_VIRTUAL)
+        class VirtualComponentCollection;
+        template<class T>
+        using ComponentHandle = SmartHandle<T, VirtualComponentCollection>;
         #else
         class ComponentCollection;
         template<class T>
