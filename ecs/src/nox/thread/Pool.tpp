@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <chrono>
+#include <nox/thread/Atomic.h>
 
 template<template<class> class QueueType>
 nox::thread::Pool<QueueType>::Pool(std::size_t threadCount)
@@ -7,7 +8,7 @@ nox::thread::Pool<QueueType>::Pool(std::size_t threadCount)
 {
     auto workerFunc = [this]() -> void
     {
-        while (this->shouldContinue.load(std::memory_order_relaxed))
+        while (this->shouldContinue.load(NOX_ATOMIC_RELAXED))
         {
             std::unique_lock<std::mutex> lock(this->cvMutex);
             Task task{};
@@ -16,7 +17,7 @@ nox::thread::Pool<QueueType>::Pool(std::size_t threadCount)
             auto waitPred = [this, &task]()
             {
                 return this->tasks.pop(task) ||
-                       !this->shouldContinue.load(std::memory_order_relaxed);
+                       !this->shouldContinue.load(NOX_ATOMIC_RELAXED);
             };
 
             // Tells the thread to try and wake up again every  0.25 second to avoid "race"
@@ -33,7 +34,7 @@ nox::thread::Pool<QueueType>::Pool(std::size_t threadCount)
             if (task)
             {
                 task();
-                this->taskCount.fetch_sub(1, std::memory_order_release);
+                this->taskCount.fetch_sub(1, NOX_ATOMIC_RELEASE);
             }
         }
     };
@@ -47,7 +48,7 @@ nox::thread::Pool<QueueType>::Pool(std::size_t threadCount)
 template<template<class> class QueueType>
 nox::thread::Pool<QueueType>::~Pool()
 {
-    this->shouldContinue.store(false, std::memory_order_relaxed);
+    this->shouldContinue.store(false, NOX_ATOMIC_RELAXED);
     this->tasks.clear();
 
     this->cv.notify_all();
@@ -63,7 +64,7 @@ void
 nox::thread::Pool<QueueType>::addTask(const Task& task)
 {
     this->tasks.push(task);
-    this->taskCount.fetch_add(1, std::memory_order_release);
+    this->taskCount.fetch_add(1, NOX_ATOMIC_RELEASE);
 
     this->cv.notify_one();
 }
@@ -73,14 +74,14 @@ void
 nox::thread::Pool<QueueType>::clearTasks()
 {
     this->tasks.clear();
-    this->taskCount.store(0, std::memory_order_release);
+    this->taskCount.store(0, NOX_ATOMIC_RELEASE);
 }
 
 template<template<class> class QueueType>
 void
 nox::thread::Pool<QueueType>::wait()
 {
-    while (this->taskCount.load(std::memory_order_acquire) != 0)
+    while (this->taskCount.load(NOX_ATOMIC_ACQUIRE) != 0)
     {
         this->cv.notify_all();
         std::this_thread::yield();

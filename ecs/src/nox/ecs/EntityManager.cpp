@@ -8,6 +8,8 @@
 #include <nox/util/nox_assert.h>
 #include <nox/ecs/ComponentType.h>
 
+#include <nox/thread/Atomic.h>
+
 namespace
 {
     namespace local
@@ -253,7 +255,7 @@ namespace
 
 nox::ecs::EntityManager::~EntityManager()
 {
-    const auto maxId = this->currentEntityId.load(std::memory_order_acquire);
+    const auto maxId = this->currentEntityId.load(NOX_ATOMIC_ACQUIRE);
     for (std::size_t i = 0; i < maxId; ++i)
     {
         this->removeEntity(i);
@@ -340,14 +342,14 @@ nox::ecs::EntityManager::configureComponents()
 nox::ecs::EntityId
 nox::ecs::EntityManager::createEntity()
 {
-    const auto newId = this->currentEntityId.fetch_add(EntityId(1), std::memory_order_acq_rel);
+    const auto newId = this->currentEntityId.fetch_add(EntityId(1), NOX_ATOMIC_ACQ_REL);
     return newId;
 }
 
 nox::ecs::EntityId
 nox::ecs::EntityManager::createEntity(const std::string& definitionName)
 {
-    const auto newId = this->currentEntityId.fetch_add(EntityId(1), std::memory_order_acq_rel);
+    const auto newId = this->currentEntityId.fetch_add(EntityId(1), NOX_ATOMIC_ACQ_REL);
     this->factory.createEntity(newId, definitionName);
     return newId;
 }

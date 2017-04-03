@@ -1,6 +1,8 @@
 #include <nox/util/nox_assert.h>
 #include <cstring>
 
+#include <nox/thread/Atomic.h>
+
 template<std::size_t blockSize>
 nox::memory::LockFreeAllocator<blockSize>::LockFreeAllocator(std::size_t initialBlockCount) 
 {
@@ -42,7 +44,7 @@ nox::memory::LockFreeAllocator<blockSize>::allocate(const std::size_t size)
     while (memory == nullptr)
     {
         // Ensure that each time we come around we have as new version of firstFree as possible.
-        Block* expected = this->firstFree.load(std::memory_order_acquire);
+        Block* expected = this->firstFree.load(NOX_ATOMIC_ACQUIRE);
         
         memory = this->tryAllocate(*expected, size);
         if (memory)
@@ -72,8 +74,8 @@ nox::memory::LockFreeAllocator<blockSize>::allocate(const std::size_t size)
         // Doing a weak because spurious wakeup should not hurt us in this case.
         if (this->firstFree.compare_exchange_weak(expected, 
                                                   desired, 
-                                                  std::memory_order_acq_rel, 
-                                                  std::memory_order_relaxed))
+                                                  NOX_ATOMIC_ACQ_REL, 
+                                                  NOX_ATOMIC_RELAXED))
         {
             // We know that everyone watching the firstFree variable will now see "desired",
             // meaning it should not be a data race to update prev->next.
@@ -98,12 +100,12 @@ nox::memory::LockFreeAllocator<blockSize>::clear()
     auto itr = this->first;
     while (itr)
     {
-        itr->used.store(0, std::memory_order_release);
+        itr->used.store(0, NOX_ATOMIC_RELEASE);
         std::memset(itr->memory, 0, MAX_SIZE);
         itr = itr->next;
     }
 
-    this->firstFree.store(this->first, std::memory_order_release);
+    this->firstFree.store(this->first, NOX_ATOMIC_RELEASE);
 }
 
 template<std::size_t blockSize>
@@ -112,7 +114,7 @@ nox::memory::LockFreeAllocator<blockSize>::tryAllocate(Block& block,
                                                        const std::size_t size)
 {
     // Only need to load this value once, as it is updated in the compare_exchange.
-    std::size_t current = block.used.load(std::memory_order_acquire);
+    std::size_t current = block.used.load(NOX_ATOMIC_ACQUIRE);
     std::size_t desired = 0;
     
     do
@@ -125,8 +127,8 @@ nox::memory::LockFreeAllocator<blockSize>::tryAllocate(Block& block,
 
     } while (!block.used.compare_exchange_weak(current,
                                                desired,
-                                               std::memory_order_acq_rel,
-                                               std::memory_order_relaxed));
+                                               NOX_ATOMIC_ACQ_REL,
+                                               NOX_ATOMIC_RELAXED));
 
     // At this point we know current < block->used,
     // meaning it should not be a race to send this back.

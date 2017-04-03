@@ -1,3 +1,5 @@
+#include <nox/thread/Atomic.h>
+
 template<class T>
 nox::thread::LockFreeStack<T>::~LockFreeStack()
 {
@@ -11,12 +13,12 @@ nox::thread::LockFreeStack<T>::push(const T& value)
     auto memory = this->allocator.allocate(sizeof(Node));
     auto newHead = new (memory) Node(value);
 
-    newHead->next = this->head.load(std::memory_order_relaxed);
+    newHead->next = this->head.load(NOX_ATOMIC_RELAXED);
 
     while (!head.compare_exchange_weak(newHead->next,
                                        newHead,
-                                       std::memory_order_release,
-                                       std::memory_order_relaxed))
+                                       NOX_ATOMIC_RELEASE,
+                                       NOX_ATOMIC_RELAXED))
     {
     }
 }
@@ -28,12 +30,12 @@ nox::thread::LockFreeStack<T>::push(T&& value)
     auto memory = this->allocator.allocate(sizeof(Node));
     auto newHead = new (memory) Node(std::move(value));
 
-    newHead->next = this->head.load(std::memory_order_relaxed);
+    newHead->next = this->head.load(NOX_ATOMIC_RELAXED);
 
     while (!head.compare_exchange_weak(newHead->next,
                                        newHead,
-                                       std::memory_order_release,
-                                       std::memory_order_relaxed))
+                                       NOX_ATOMIC_RELEASE,
+                                       NOX_ATOMIC_RELAXED))
     {
     }
 }
@@ -42,7 +44,7 @@ template<class T>
 bool
 nox::thread::LockFreeStack<T>::pop(T& value)
 {
-    auto expected = this->head.load(std::memory_order_acquire);
+    auto expected = this->head.load(NOX_ATOMIC_ACQUIRE);
     if (!expected)
     {
         return false;
@@ -50,8 +52,8 @@ nox::thread::LockFreeStack<T>::pop(T& value)
 
     while (!head.compare_exchange_weak(expected,
                                        expected->next,
-                                       std::memory_order_release,
-                                       std::memory_order_relaxed))
+                                       NOX_ATOMIC_RELEASE,
+                                       NOX_ATOMIC_RELAXED))
     {
     }
 
@@ -66,7 +68,7 @@ template<class T>
 void
 nox::thread::LockFreeStack<T>::clear()
 {
-    auto itr = this->head.exchange(nullptr, std::memory_order_acq_rel);
+    auto itr = this->head.exchange(nullptr, NOX_ATOMIC_ACQ_REL);
     while (itr)
     {
         itr->~Node();
