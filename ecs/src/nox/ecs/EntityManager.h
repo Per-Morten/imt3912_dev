@@ -27,6 +27,47 @@ namespace nox
 {
     namespace ecs
     {
+        /**
+         * @brief      Class is the central hub for all interaction between the
+         *             different entities. Every entity is owned by an
+         *             EntityManager, and get their various functions called
+         *             through the EntityManager.
+         *
+         * @detailed   The Interactions with the manager is thread-safe both
+         *             from the perspective of the components,
+         *             and from the thread who is in charge of the EntityManager
+         *             (i.e. The main thread in a single threaded program).
+         *
+         *             The EntityManager by default runs in a single threaded
+         *             model, however it can be turned on to run with a layered
+         *             execution model using multiple threads by enabling some
+         *             macros. There are some reasons for leaving these macros
+         *             off, as the overhead of working with the threads might
+         *             surpass the time it takes to execute a function. An
+         *             example could be the distributeEntityEvents function, if
+         *             your entity events usually are sent directly to a target,
+         *             rather than broadcast to all entities, you should
+         *             probably not do layered execution on that function.
+         *
+         *             Update should in general be on, the exception is if there
+         *             is no way to parallelize those functions, i.e. all
+         *             components have updateAccess == DataAccess::UNKNOWN, or
+         *             the dependencies makes them impossible to parallelize.
+         *
+         *             The macros to use are:
+         *
+         *             NOX_ECS_LAYERED_EXECUTION_UPDATE
+         *             Defining this macro will turn on layered execution
+         *             for the updateStep function.
+         *
+         *             NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
+         *             Defining this macro will turn on layered execution
+         *             for the distributeEntityEvents function.
+         *
+         *             NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS
+         *             Defining this macro will turn on layered execution
+         *             for the distributeLogicEvents function.
+         */
         class EntityManager final
             : public nox::event::IListener
         {
@@ -519,7 +560,6 @@ namespace nox
             Factory factory{*this};
 
             std::vector<ComponentCollection> components{};
-            std::vector<std::vector<std::size_t>> executionLayers{};
 
             std::array<ContainerType<ComponentIdentifier>, Transition::META_COUNT> transitionRequests{};
 
@@ -535,6 +575,18 @@ namespace nox
             ContainerType<nox::ecs::Event> entityEvents{};
 
             std::atomic<EntityId> currentEntityId{};
+
+            #ifdef NOX_ECS_LAYERED_EXECUTION_UPDATE
+            std::vector<std::vector<std::size_t>> updateExecutionLayers{};
+            #endif
+
+            #ifdef NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
+            std::vector<std::vector<std::size_t>> entityEventExecutionLayers{};
+            #endif
+
+            #ifdef NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS
+            std::vector<std::vector<std::size_t>> logicEventExecutionLayers{};
+            #endif
         };
     }
 }
