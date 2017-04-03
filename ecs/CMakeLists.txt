@@ -64,9 +64,14 @@ add_definitions(-DNOX_ECS_LAYERED_EXECUTION_UPDATE)
 add_definitions(-DNOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS)
 add_definitions(-DNOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS)
 
-# For Atomics
+# For Atomics:
 #add_definitions(-DNOX_ATOMIC_USE_SEQ_CST)
 add_definitions(-DNOX_ATOMIC_USE_RELAXED)
+
+# For TypeIdentifiers:
+#add_definitions(-DNOX_USE_STRING_TYPE_ID)
+add_definitions(-DNOX_USE_NUMERIC_TYPE_ID)
+
 
 add_library(${NOX_ECS_LIBRARY} STATIC ${ALL_SOURCES})
 target_link_libraries(${NOX_ECS_LIBRARY} ${NOXSAMPLE_NOX_LIBRARY})

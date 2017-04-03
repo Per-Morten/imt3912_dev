@@ -8,6 +8,14 @@ namespace nox
     {
         namespace component_type
         {
+            #ifdef NOX_USE_STRING_TYPE_ID
+            #pragma message "using string values for TypeIdentifier"
+            constexpr auto CHILDREN = "CHILDREN";
+            constexpr auto PARENT = "PARENT";
+            constexpr auto TRANSFORM = "TRANSFORM";
+
+            #else
+            #pragma message "using numeric values for TypeIdentifier"
             /**
              * @brief      Constant numerical value used for identifying the
              *             children type through the TypeIdentifier.
@@ -25,6 +33,7 @@ namespace nox
              *             transform type through the TypeIdentifier.
              */
             constexpr std::size_t TRANSFORM = 2;
+            #endif
         }
     }
 }
