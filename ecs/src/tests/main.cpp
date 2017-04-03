@@ -492,7 +492,6 @@ testHandle()
     // I should create a vector up front that I eliminate numbers from, rather than doing this.
     // the modulus turns out wrong.
 
-    PMS_DEBUG("Starting Create procedure\n");
     for (std::size_t i = 1; i < maxComponents; ++i)
     {
         //PMS_DEBUG("Count: %zu\n", entityManager.count());
@@ -505,12 +504,10 @@ testHandle()
 
     eraseIf(idsToWorkWith, [](const auto& item) { return item != 0 && item % 17 == 0; });
 
-    PMS_DEBUG("Starting Awake procedure\n");
     for (std::size_t i = 0; i < maxComponents; ++i)
     {
         if (existsIn(idsToWorkWith, i))
         {
-            PMS_DEBUG("Awaking: %zu\n", i);
             entityManager.awakeComponent(i, Type::MOCK_01);
         }
         entityManager.awakeStep();
@@ -520,12 +517,10 @@ testHandle()
 
     eraseIf(idsToWorkWith, [](const auto& item) { return item != 0 && item % 15 == 0; });
 
-    PMS_DEBUG("Starting Activate procedure\n");
     for (std::size_t i = 0; i < maxComponents; ++i)
     {
         if (existsIn(idsToWorkWith, i))
         {
-            PMS_DEBUG("Activating: %zu\n", i);
             entityManager.activateComponent(i, Type::MOCK_01);
         }
         entityManager.activateStep();
@@ -536,15 +531,12 @@ testHandle()
     eraseIf(idsToWorkWith, [](const auto& item) { return item != 0 && item % 12 == 0; });
 
 
-    PMS_DEBUG("Starting Deactivate procedure\n");
     for (std::size_t i = 0; i < maxComponents; ++i)
     {
         if (existsIn(idsToWorkWith, i))
         {
-            PMS_DEBUG("Deactivating: %zu\n", i);
             entityManager.deactivateComponent(i, Type::MOCK_01);
         }
-        PMS_DEBUG("Deactivate step\n");
         entityManager.deactivateStep();
         NOX_ASSERT(test->id == 0, "ID did not match! Iterator is not mapped to correct component");
         NOX_ASSERT(test->state == State::DEACTIVATED, "Wrong state!");
@@ -552,12 +544,10 @@ testHandle()
 
     eraseIf(idsToWorkWith, [](const auto& item) { return item != 0 && item % 9 == 0; });
 
-    PMS_DEBUG("Starting Hibernate procedure\n");
     for (std::size_t i = 0; i < maxComponents; ++i)
     {
         if (existsIn(idsToWorkWith, i))
         {
-            PMS_DEBUG("Hibernating: %zu\n", i);
             entityManager.hibernateComponent(i, Type::MOCK_01);
         }
         entityManager.hibernateStep();
@@ -567,7 +557,6 @@ testHandle()
 
     eraseIf(idsToWorkWith, [](const auto& item) { return item != 0 && item % 9 == 0; });
 
-    PMS_DEBUG("Starting Remove procedure\n");
     for (std::size_t i = 1; i < maxComponents; ++i)
     {
         if (existsIn(idsToWorkWith, i))
@@ -583,16 +572,9 @@ testHandle()
 
     entityManager.removeComponent(0, Type::MOCK_01);
 
-    PMS_DEBUG("Removed all relevant\n");
-
     entityManager.removeStep();
 
-    PMS_DEBUG("After remove step\n");
-
     NOX_ASSERT(test.get() == nullptr, "ID is not nullptr, dangling pointer!, %zu", test->id);
-    printf("Passed %d", test.get() == nullptr);
-
-    //PMS_DEBUG("Capacity: %zu\n", collection.capacity() / metaInfo.size);
 }
 
 void
