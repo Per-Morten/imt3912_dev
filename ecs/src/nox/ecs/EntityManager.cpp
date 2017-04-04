@@ -609,3 +609,15 @@ nox::ecs::EntityManager::getCollection(const TypeIdentifier& identifier)
 
     return *collection;
 }
+
+void
+nox::ecs::EntityManager::setLogicContext(nox::logic::Logic* logicContext)
+{
+    this->logicContext = logicContext;
+}
+
+nox::logic::Logic*
+nox::ecs::EntityManager::getLogicContext() const
+{
+    return this->logicContext;
+}

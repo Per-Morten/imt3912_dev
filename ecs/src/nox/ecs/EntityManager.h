@@ -20,6 +20,7 @@
 #include <nox/thread/LockedQueue.h>
 #include <nox/thread/Pool.h>
 #include <nox/util/nox_assert.h>
+#include <nox/logic/Logic.h>
 
 #include <json/json.h>
 
@@ -459,6 +460,22 @@ namespace nox
             virtual void
             onEvent(const std::shared_ptr<nox::event::Event>& event) override final;
 
+            /**
+             * @brief      Sets the logic context.
+             *
+             * @param      logicContext  The logic context
+             */
+            void
+            setLogicContext(nox::logic::Logic* logicContext);
+
+            /**
+             * @brief      Gets the logic context.
+             *
+             * @return     The logic context.
+             */
+            nox::logic::Logic*
+            getLogicContext() const;
+
         private:
             /**
              * @brief      Enum wrapper allowing for the use of enums as indexes
@@ -518,6 +535,8 @@ namespace nox
             nox::ecs::EventSystem entityEventSystem{};
 
             std::atomic<EntityId> currentEntityId{};
+
+            nox::logic::Logic* logicContext{};
         };
     }
 }
