@@ -15,7 +15,7 @@
 
 #include <nox/ecs/component/Transform.h>
 #include <nox/ecs/createMetaInformation.h>
-#include <nox/ecs/component/Types.h>
+#include <nox/ecs/ComponentType.h>
 #include <nox/ecs/component/Sprite.h>
 #include <nox/ecs/SmartHandle.h>
 
@@ -148,15 +148,15 @@ WindowApplication::onInit()
     // We initialize the window. This will make the window appear.
     initializeWindow();
 
-    const auto transformInfo = nox::ecs::createMetaInformation<nox::ecs::Transform>(nox::ecs::component_types::TRANSFORM);
+    const auto transformInfo = nox::ecs::createMetaInformation<nox::ecs::Transform>(nox::ecs::component_type::TRANSFORM);
     this->entityManager.registerComponent(transformInfo);
 
-    const auto spriteInfo = nox::ecs::createMetaInformation<nox::ecs::Sprite>(nox::ecs::component_types::SPRITE);
+    const auto spriteInfo = nox::ecs::createMetaInformation<nox::ecs::Sprite>(nox::ecs::component_type::SPRITE);
     this->entityManager.registerComponent(spriteInfo);
 
     auto id = this->entityManager.createEntity();
-    this->entityManager.assignComponent(id, nox::ecs::component_types::TRANSFORM);
-    this->entityManager.assignComponent(id, nox::ecs::component_types::SPRITE);
+    this->entityManager.assignComponent(id, nox::ecs::component_type::TRANSFORM);
+    this->entityManager.assignComponent(id, nox::ecs::component_type::SPRITE);
     this->entityManager.awakeEntity(id);
     this->entityManager.activateEntity(id);
 

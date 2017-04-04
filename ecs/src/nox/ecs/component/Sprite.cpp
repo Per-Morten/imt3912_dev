@@ -4,7 +4,7 @@
 
 #include <nox/app/graphics/2d/SpriteRenderNode.h>
 #include <nox/app/graphics/2d/TransformationNode.h>
-#include <nox/ecs/component/Types.h>
+#include <nox/ecs/ComponentType.h>
 #include <nox/ecs/EntityManager.h>
 #include <nox/event/IBroadcaster.h>
 #include <nox/logic/graphics/event/SceneNodeEdited.h>
@@ -140,7 +140,7 @@ void
 nox::ecs::Sprite::onCreate()
 {
     auto tempHandle = this->entityManager->getComponent(this->id,
-                                                        TypeIdentifier(component_types::TRANSFORM));
+                                                        TypeIdentifier(component_type::TRANSFORM));
     this->transformHandle = static_cast<ComponentHandle<Transform>>(tempHandle);
 
     auto renderNode = this->createSceneNode();
