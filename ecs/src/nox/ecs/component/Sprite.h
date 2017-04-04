@@ -1,6 +1,8 @@
 #ifndef NOX_ECS_SPRITE_H_
 #define NOX_ECS_SPRITE_H_
 
+#include <string>
+
 #include <nox/ecs/Component.h>
 #include <nox/ecs/component/Transform.h>
 #include <nox/ecs/SmartHandle.h>
@@ -44,7 +46,7 @@ namespace nox
              *                            handled by.
              */
             Sprite(const EntityId& entityId, 
-                      EntityManager* entityManager);
+                   EntityManager* entityManager);
 
             /**
              * @brief      Initializes the sprite objects member variables from

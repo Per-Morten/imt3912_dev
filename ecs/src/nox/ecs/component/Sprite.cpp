@@ -87,12 +87,22 @@ nox::ecs::Sprite::activate()
     }
 }
 
-void 
+void
 nox::ecs::Sprite::receiveEntityEvent(const ecs::Event& event)
 {
     if (event.getType() == event_type::TRANSFORM_CHANGE)
     {
-        this->updateEntityTransform();
+        const auto position = *static_cast<const glm::vec2*>(event.getArgument(event_arg_type::TRANSFORM_CHANGE_POSITION).value());
+        const auto scale = *static_cast<const glm::vec2*>(event.getArgument(event_arg_type::TRANSFORM_CHANGE_SCALE).value());
+        const auto rotation = *static_cast<const float*>(event.getArgument(event_arg_type::TRANSFORM_CHANGE_ROTATION).value());
+    
+        glm::mat4 transformMatrix;
+        transformMatrix = glm::translate(transformMatrix, glm::vec3(this->offset, 0.0f));
+        transformMatrix = glm::translate(transformMatrix, glm::vec3(position, 0.0f));
+        transformMatrix = glm::rotate(transformMatrix, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+        transformMatrix = glm::scale(transformMatrix, glm::vec3(scale, 1.0f));
+    
+        this->entityTransformNode->setTransform(transformMatrix);
     }
 }
 

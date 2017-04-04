@@ -24,7 +24,7 @@ nox::ecs::Sprite::setColor(const glm::vec4& color)
 }
 
 void 
-nox::ecs::Sprite::setScale(const glm::vec2 &scale)
+nox::ecs::Sprite::setScale(const glm::vec2& scale)
 {
     if (this->scale != scale)
     {
