@@ -8,14 +8,12 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-bool 
+void 
 nox::ecs::Transform::initialize(const Json::Value& componentJsonObject)
 {
     this->position = util::parseJsonVec(componentJsonObject["position"], glm::vec2(0.0f, 0.0f));
     this->scale = util::parseJsonVec(componentJsonObject["scale"], glm::vec2(1.0f, 1.0f));
     this->rotation = componentJsonObject.get("rotation", 0.0f).asFloat();
-
-    return true;
 }
 
 void 

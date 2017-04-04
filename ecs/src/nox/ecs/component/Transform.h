@@ -27,7 +27,7 @@ namespace nox
              *
              * @return     True if initialization was successful
              */
-            bool initialize(const Json::Value& componentJsonObject);
+            void initialize(const Json::Value& componentJsonObject);
             
             /*
              * @brief      Serialized class into a json object
