@@ -1,7 +1,5 @@
 #include <nox/ecs/component/Sprite.h>
 
-#include <cassert>
-
 #include <nox/app/graphics/2d/SpriteRenderNode.h>
 #include <nox/app/graphics/2d/TransformationNode.h>
 #include <nox/ecs/ComponentType.h>
@@ -10,22 +8,31 @@
 #include <nox/logic/graphics/event/SceneNodeEdited.h>
 #include <nox/logic/IContext.h>
 #include <nox/util/json_utils.h>
+#include <nox/ecs/EventType.h>
 
 #include <glm/gtc/matrix_transform.hpp>
+
+nox::ecs::Sprite::Sprite(const EntityId& entityId, 
+                         EntityManager* entityManager)
+    : Component(entityId, entityManager)
+{
+    this->spriteRenderNode = std::make_shared<app::graphics::SpriteRenderNode>();
+    this->entityTransformNode = std::make_shared<app::graphics::TransformationNode>();
+    this->renderTransformNode = std::make_shared<app::graphics::TransformationNode>();
+    this->entityTransformNode->addChild(this->renderTransformNode);
+
+    this->transformHandle = this->entityManager->getComponent(this->id,
+                                                              TypeIdentifier(component_type::TRANSFORM));
+    this->renderTransformNode->addChild(this->createSceneNode());
+}
 
 void 
 nox::ecs::Sprite::initialize(const Json::Value& componentJsonObject)
 {
-    this->spriteRenderNode = std::make_shared<app::graphics::SpriteRenderNode>();
-
     this->scale = util::parseJsonVec(componentJsonObject["scale"], glm::vec2(1.0f));
     this->rotation = componentJsonObject.get("rotation", 0.0f).asFloat();
     this->flipScale = util::parseJsonVec(componentJsonObject["flipScale"], glm::vec2(1.0f));
     this->renderingEnabled = true;
-
-    this->entityTransformNode = std::make_shared<app::graphics::TransformationNode>();
-    this->renderTransformNode = std::make_shared<app::graphics::TransformationNode>();
-    this->entityTransformNode->addChild(this->renderTransformNode);
 
     this->color = util::parseJsonVec(componentJsonObject["color"], glm::vec4(1.0f));
 
@@ -45,7 +52,7 @@ nox::ecs::Sprite::initialize(const Json::Value& componentJsonObject)
     this->spriteRenderNode->setActiveSprite(this->spriteName);
     this->spriteRenderNode->setCenter(this->center);
 
-    onCreate();
+    this->updateRenderTransform();
 }
 
 void 
@@ -85,7 +92,7 @@ nox::ecs::Sprite::activate()
 void 
 nox::ecs::Sprite::receiveEntityEvent(const ecs::Event& event)
 {
-    if (event.getType() == TypeIdentifier("TransformChange"))
+    if (event.getType() == event_type::TRANSFORM_CHANGE)
     {
         this->updateEntityTransform();
     }
@@ -105,19 +112,18 @@ nox::ecs::Sprite::setActiveSprite(const std::string& spriteName)
 }
 
 void 
-nox::ecs::Sprite::setRenderingState(const bool enable)
+nox::ecs::Sprite::setRenderingState(const bool state)
 {
-    if (enable == true && this->renderingEnabled == false)
+    if (state == true && this->renderingEnabled == false)
     {
         this->broadcastSceneNodeCreation();
-        this->renderingEnabled = true;
     }
-
-    if (enable == false && this->renderingEnabled == true)
+    else if (state == false && this->renderingEnabled == true)
     {
         this->broadcastSceneNodeRemoval();
-        this->renderingEnabled = false;
     }
+        
+    this->renderingEnabled = state;
 }
 
 void 
@@ -134,19 +140,6 @@ void
 nox::ecs::Sprite::addSprite(const std::string& spriteName)
 {
     this->spriteRenderNode->addSprite(spriteName);
-}
-
-void 
-nox::ecs::Sprite::onCreate()
-{
-    auto tempHandle = this->entityManager->getComponent(this->id,
-                                                        TypeIdentifier(component_type::TRANSFORM));
-    this->transformHandle = static_cast<ComponentHandle<Transform>>(tempHandle);
-
-    auto renderNode = this->createSceneNode();
-    this->renderTransformNode->addChild(renderNode);
-
-    this->updateRenderTransform();
 }
 
 void 

@@ -16,11 +16,11 @@
 #include <nox/ecs/SmartHandle.h>
 #include <nox/ecs/TypeIdentifier.h>
 #include <nox/event/IListener.h>
+#include <nox/logic/Logic.h>
 #include <nox/thread/LockedQueue.h>
 #include <nox/thread/LockFreeStack.h>
 #include <nox/thread/Pool.h>
 #include <nox/util/nox_assert.h>
-#include <nox/logic/Logic.h>
 
 #include <json/json.h>
 

@@ -2,11 +2,11 @@
 #define NOX_ECS_SPRITE_H_
 
 #include <nox/ecs/Component.h>
-#include <nox/ecs/SmartHandle.h>
 #include <nox/ecs/component/Transform.h>
+#include <nox/ecs/SmartHandle.h>
 
-#include <glm/vec2.hpp>
 #include <glm/mat4x4.hpp>
+#include <glm/vec2.hpp>
 
 namespace nox
 {
@@ -34,6 +34,17 @@ namespace nox
         {
         public:          
             using nox::ecs::Component::Component;
+
+            /**
+             * @brief      Creates a sprite with the given entityId.
+             *
+             * @param      entityId       the id of the entity this component is
+             *                            tied to.
+             * @param      entityManager  The entity manager this component is
+             *                            handled by.
+             */
+            Sprite(const EntityId& entityId, 
+                      EntityManager* entityManager);
 
             /**
              * @brief      Initializes the sprite objects member variables from
@@ -78,7 +89,6 @@ namespace nox
              */
             void 
             receiveEntityEvent(const ecs::Event& event);
-
 
             /**
              * @brief      Sets the center.
@@ -152,14 +162,9 @@ namespace nox
             getCenter() const;
         
             /**
-             * Set the opacity of the Actor.
-             *
-             * This is equal to: ``` auto color = actorGraphics.getColor();
-             * color.a = opacity; actorGraphics.setColor(color); ```
+             * @brief      Sets the color.
              *
              * @param[in]  color  The color
-             * @param[in]  opacity  Opacity of the Actor in range [0, 1], where 0 is
-             *                      transparent and 1 is opaque.
              */
             inline void 
             setColor(const glm::vec4& color);
@@ -175,7 +180,8 @@ namespace nox
             /**
              * @brief      Sets the opacity.
              *
-             * @param[in]  opacity  The opacity
+             * @param[in]  opacity  Opacity of the Actor in range [0, 1], where
+             *                      0 is transparent and 1 is opaque.
              */
             inline void 
             setOpacity(const float opacity);
@@ -221,16 +227,6 @@ namespace nox
             setOffset(const glm::vec2& offset);    
 
         private:
-            
-            /**
-             * @brief      Creates all object necessary for the sprite object to
-             *             function properly. Is not placed in the constructor
-             *             as it needs to know about other components that is
-             *             not created until the initializers are run.
-             */
-            void 
-            onCreate();
-
             /**
              * @brief      Called when the color of the render component has
              *             changed.
