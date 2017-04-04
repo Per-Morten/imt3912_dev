@@ -7,10 +7,10 @@ function(add_google_test target)
     project(${target})
 
     add_executable(${target} ${ARGN})
-    
+
     include_directories(${INCLUDE_DIRS})
 
-    target_link_libraries(${target} 
+    target_link_libraries(${target}
                           ${NOX_ECS_LIBRARY}
                           ${NOX_GTEST_LIBRARY}
                           ${NOX_LINK_TARGET})
@@ -18,7 +18,7 @@ function(add_google_test target)
     add_test(NAME ${target}
              COMMAND $<TARGET_FILE:${target}>
              WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-endfunction() 
+endfunction()
 
 project(${NOX_ECS_LIBRARY})
 
@@ -42,6 +42,10 @@ set(NOXSAMPLE_CXX_FLAGS ${NOXSAMPLE_CXX_FLAGS} "-O3 -Wall -S")
 include_directories(${INCLUDE_DIRS})
 add_library(${NOX_ECS_LIBRARY} STATIC ${ALL_SOURCES})
 target_link_libraries(${NOX_ECS_LIBRARY} ${NOXSAMPLE_NOX_LIBRARY})
+
+add_definitions(-DNOX_ECS_LAYERED_EXECUTION_UPDATE)
+add_definitions(-DNOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS)
+add_definitions(-DNOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS)
 
 
 # CREATE ECS MAIN

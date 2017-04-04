@@ -123,7 +123,7 @@ namespace nox
                 /**
                  * @brief      Area of raw memory which is allocated into.
                  */
-                Byte memory[MAX_SIZE];
+                Byte memory[MAX_SIZE]{0};
             };
 
             /**

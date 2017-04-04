@@ -2,6 +2,7 @@
 #define NOX_ECS_COMPONENTCOLLECTION_H_
 #include <cstdint>
 #include <memory>
+#include <vector>
 
 #include <nox/common/types.h>
 #include <nox/ecs/Component.h>
@@ -24,19 +25,19 @@ namespace nox
          *        Iterators into the container will be invalidated each time the underlying
          *        structure is changed, or on memory transitions.
          *        Use the ComponentHandle to avoid the problem with iterator invalidation.
-         *        
-         * @detail The components are stored in different areas of memory based on 
+         *
+         * @detail The components are stored in different areas of memory based on
          *         what part of the lifecycle they are in.
          *         The different pointers of the class points to the different areas of memory,
          *         as shown below:
-         *         --------------------------------------------------------------------------------------------------  
+         *         --------------------------------------------------------------------------------------------------
          *         | active               | inactive             |  hibernating       | raw memory           | swap |
          *         --------------------------------------------------------------------------------------------------
          *         ^active*               ^inactive*             ^hibernating*        ^memory*               ^cap*
          *
          *         An extra area called the swap area is also allocated, this is used when swapping components,
          *         as we can't stack allocate the components when we don't know the size.
-         *         
+         *
          * @see    nox::ecs::ComponentHandle
          */
         class ComponentCollection
@@ -45,7 +46,7 @@ namespace nox
             /**
              * @brief      Default construction of ComponentCollection is
              *             illegal. MetaInformation is needed.
-             */ 
+             */
             ComponentCollection() = delete;
 
             /**
@@ -112,7 +113,7 @@ namespace nox
              *                            components.
              */
             void
-            create(const EntityId& id, 
+            create(const EntityId& id,
                    EntityManager* entityManager);
 
             /**
@@ -136,7 +137,7 @@ namespace nox
              * @param[in]  value  the value to initialize the object with.
              */
             void
-            initialize(const EntityId& id, 
+            initialize(const EntityId& id,
                        const Json::Value& value);
 
             /**
@@ -171,7 +172,7 @@ namespace nox
              */
             void
             deactivate(const EntityId& id);
-            
+
             /**
              * @brief      Hibernates the component with the given id. The
              *             component is marked as hibernating, and hibernate is
@@ -224,7 +225,7 @@ namespace nox
              */
             void
             receiveEntityEvent(const ecs::Event& event);
-           
+
             /**
              * @brief      Returns the number of components within the
              *             collection.
@@ -238,7 +239,7 @@ namespace nox
              */
             std::size_t
             count() const;
- 
+
             /**
              * @brief      Returns a ComponentHandle to the component belonging
              *             to the entity identified by id.
@@ -281,6 +282,17 @@ namespace nox
 
         private:
             /**
+             * @brief      Used within the IndexMap, allowing for faster searches.
+             */
+            struct ComponentPair
+            {
+                EntityId id;
+                Component* component;
+            };
+
+            using IndexMap = std::vector<ComponentPair>;
+
+            /**
              * @brief      Typedef to make it even more explicit that we am
              *             working with bytes. using unsigned char as bytes
              *             rather than std::uint8_t as bytes are not always
@@ -300,20 +312,47 @@ namespace nox
             cast(Byte* entity) const;
 
             /**
-             * @brief      Finds the component whose id matches the id in the
-             *             range [first, last)
+             * @brief      Finds the component whose id matches id.
              *
-             * @param[in]  first  pointer to the beginning of the range.
-             * @param[in]  last   past-the-end pointer of the range.
-             * @param[in]  id     the id of the component to look for.
+             * @param[in]  id    the id of the component to look for.
              *
-             * @return     the component where id == id, nullptr if none can be
-             *             found.
+             * @return     iterator with ptr pointing to the component whose id
+             *             == id if it can be found. std::end(componentMap)
+             *             otherwise.
+             *
+             * @complexity O(log n)
              */
-            Component*
-            find(Byte* first, 
-                 Byte* last, 
-                 const EntityId& id) const;
+            IndexMap::iterator
+            find(const EntityId& id);
+
+            /**
+             * @brief      Finds the component whose id matches id.
+             *
+             * @param[in]  id    the id of the component to look for.
+             *
+             * @return     const_iterator with ptr pointing to the component
+             *             whose id == id if it can be found.
+             *             std::cend(componentMap) otherwise.
+             *
+             * @complexity O(log n)
+             */
+            IndexMap::const_iterator
+            find(const EntityId& id) const;
+
+            /**
+             * @brief      Finds the last iterator whose id < id, Used when we
+             *             are inserting into the componentMap, allowing us to
+             *             know where to insert.
+             *
+             * @param[in]  id    The id to compare the components.id to.
+             *
+             * @return     const_iterator to last component whose id < id,
+             *             std::cend if none can be found.
+             *
+             * @complexity O(log n)
+             */
+            IndexMap::const_iterator
+            findBefore(const EntityId& id) const;
 
             /**
              * @brief      Calculates the size of the collection in bytes. Used
@@ -352,7 +391,7 @@ namespace nox
              * @param      end    past-the-end pointer of the range to destroy.
              */
             void
-            destroyRange(Byte* begin, 
+            destroyRange(Byte* begin,
                          Byte* end);
 
             /**
@@ -363,17 +402,26 @@ namespace nox
              * @param      rhs   The value to be swapped.
              */
             void
-            swap(Component* lhs, 
+            swap(Component* lhs,
                  Component* rhs);
+
+            /**
+             * @brief      Used to update the componentMap when we have reallocated.
+             */
+            void
+            updateWholeMap();
 
             /**
              * @brief      Growth factor describing how much the capacity should
              *             grow per reallocation.
              */
-            static constexpr std::size_t GROWTH_FACTOR = 2; 
+            static constexpr std::size_t GROWTH_FACTOR = 2;
 
             MetaInformation info;
             std::size_t gen{};
+
+            IndexMap componentMap{};
+
             Byte* active{};
             Byte* inactive{};
             Byte* hibernating{};

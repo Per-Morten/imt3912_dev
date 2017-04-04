@@ -1,4 +1,5 @@
 #include <nox/util/nox_assert.h>
+#include <cstring>
 
 template<std::size_t blockSize>
 nox::memory::LinearAllocator<blockSize>::LinearAllocator(std::size_t initialBlockCount) 
@@ -70,7 +71,6 @@ nox::memory::LinearAllocator<blockSize>::allocate(std::size_t size)
         auto newBlock = (this->firstFree->next != nullptr) ? this->firstFree->next : new Block();
         this->firstFree->next = newBlock;
         this->firstFree = newBlock;
-        this->firstFree->used = 0;
     }
     auto ret = &(this->firstFree->slots[this->firstFree->used]);
     this->firstFree->used += size;
@@ -81,6 +81,13 @@ template<std::size_t blockSize>
 void 
 nox::memory::LinearAllocator<blockSize>::clear()
 {
-    this->first->used = 0;
+    auto itr = this->first;
+    while (itr)
+    {
+        itr->used = 0;
+        std::memset(itr->slots, 0, MAX_SIZE);
+        itr = itr->next;
+    }
+
     this->firstFree = this->first;
 }

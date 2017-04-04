@@ -6,18 +6,18 @@
 #include <queue>
 #include <vector>
 
+#include <nox/ecs/component/Children.h>
+#include <nox/ecs/component/Parent.h>
 #include <nox/ecs/ComponentCollection.h>
 #include <nox/ecs/EntityId.h>
 #include <nox/ecs/Event.h>
-#include <nox/ecs/EventSystem.h>
 #include <nox/ecs/Factory.h>
 #include <nox/ecs/MetaInformation.h>
 #include <nox/ecs/SmartHandle.h>
 #include <nox/ecs/TypeIdentifier.h>
-#include <nox/ecs/component/Children.h>
-#include <nox/ecs/component/Parent.h>
 #include <nox/event/IListener.h>
 #include <nox/thread/LockedQueue.h>
+#include <nox/thread/LockFreeStack.h>
 #include <nox/thread/Pool.h>
 #include <nox/util/nox_assert.h>
 #include <nox/logic/Logic.h>
@@ -28,6 +28,47 @@ namespace nox
 {
     namespace ecs
     {
+        /**
+         * @brief      Class is the central hub for all interaction between the
+         *             different entities. Every entity is owned by an
+         *             EntityManager, and get their various functions called
+         *             through the EntityManager.
+         *
+         * @detailed   The Interactions with the manager is thread-safe both
+         *             from the perspective of the components,
+         *             and from the thread who is in charge of the EntityManager
+         *             (i.e. The main thread in a single threaded program).
+         *
+         *             The EntityManager by default runs in a single threaded
+         *             model, however it can be turned on to run with a layered
+         *             execution model using multiple threads by enabling some
+         *             macros. There are some reasons for leaving these macros
+         *             off, as the overhead of working with the threads might
+         *             surpass the time it takes to execute a function. An
+         *             example could be the distributeEntityEvents function, if
+         *             your entity events usually are sent directly to a target,
+         *             rather than broadcast to all entities, you should
+         *             probably not do layered execution on that function.
+         *
+         *             Update should in general be on, the exception is if there
+         *             is no way to parallelize those functions, i.e. all
+         *             components have updateAccess == DataAccess::UNKNOWN, or
+         *             the dependencies makes them impossible to parallelize.
+         *
+         *             The macros to use are:
+         *
+         *             NOX_ECS_LAYERED_EXECUTION_UPDATE
+         *             Defining this macro will turn on layered execution
+         *             for the updateStep function.
+         *
+         *             NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
+         *             Defining this macro will turn on layered execution
+         *             for the distributeEntityEvents function.
+         *
+         *             NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS
+         *             Defining this macro will turn on layered execution
+         *             for the distributeLogicEvents function.
+         */
         class EntityManager final
             : public nox::event::IListener
         {
@@ -509,34 +550,44 @@ namespace nox
                 Parent parent{0, nullptr};
             };
 
-            using TransitionQueue = nox::thread::LockedQueue<ComponentIdentifier>;
+            template<class T>
+            using ContainerType = nox::thread::LockFreeStack<T>;
 
-            ComponentCollection& 
+            ComponentCollection&
             getCollection(const TypeIdentifier& identifier);
 
             Factory factory{*this};
 
-            std::vector<ComponentCollection>::iterator threadSafeStop{};
             std::vector<ComponentCollection> components{};
 
-            std::vector<std::vector<std::size_t>> executionLayers{};
- 
-            std::array<TransitionQueue, Transition::META_COUNT> transitionQueues{}; 
+            std::array<ContainerType<ComponentIdentifier>, Transition::META_COUNT> transitionRequests{};
 
-            nox::thread::LockedQueue<CreationArguments> creationQueue{};
-            nox::thread::LockedQueue<ComponentIdentifier> removalQueue{};
+            ContainerType<CreationArguments> creationRequests{};
+            ContainerType<ComponentIdentifier> removalRequests{};
 
-            nox::thread::LockedQueue<std::shared_ptr<nox::event::Event>> logicEvents{};
+            ContainerType<std::shared_ptr<nox::event::Event>> logicEvents{};
 
-            nox::thread::Pool<nox::thread::LockedQueue> threads{};
+            nox::thread::Pool<nox::thread::LockFreeStack> threads{};
 
             nox::ecs::Event::ArgumentAllocator eventArgumentAllocator{};
 
-            nox::ecs::EventSystem entityEventSystem{};
+            ContainerType<nox::ecs::Event> entityEvents{};
 
             std::atomic<EntityId> currentEntityId{};
 
             nox::logic::Logic* logicContext{};
+
+            #ifdef NOX_ECS_LAYERED_EXECUTION_UPDATE
+            std::vector<std::vector<std::size_t>> updateExecutionLayers{};
+            #endif
+
+            #ifdef NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
+            std::vector<std::vector<std::size_t>> entityEventExecutionLayers{};
+            #endif
+
+            #ifdef NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS
+            std::vector<std::vector<std::size_t>> logicEventExecutionLayers{};
+            #endif
         };
     }
 }

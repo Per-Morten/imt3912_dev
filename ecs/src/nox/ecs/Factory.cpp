@@ -1,7 +1,7 @@
 #include <nox/ecs/Factory.h>
 
 #include <nox/ecs/EntityManager.h>
-#include <nox/ecs/component/Types.h>
+#include <nox/ecs/ComponentType.h>
 
 nox::ecs::Factory::Factory(EntityManager& entityManager)
     : entityManager(entityManager)
@@ -59,7 +59,7 @@ nox::ecs::Factory::createEntity(const EntityId& id,
     if (children != Json::nullValue)
     {
         auto childrenComponent = std::move(this->parseChildren(id, children));
-        this->entityManager.assignComponent(id, component_types::CHILDREN, std::move(childrenComponent));
+        this->entityManager.assignComponent(id, component_type::CHILDREN, std::move(childrenComponent));
     }
 
     // Start creating the types. 
@@ -170,7 +170,7 @@ nox::ecs::Factory::parseChildren(const EntityId& id,
         const auto childId = this->entityManager.createEntity(item.asString());
         Parent parent(childId, &entityManager);
         parent.parentId = id;
-        this->entityManager.assignComponent(childId, component_types::PARENT, std::move(parent));
+        this->entityManager.assignComponent(childId, component_type::PARENT, std::move(parent));
 
         childrenComp.addChild(childId);
     }

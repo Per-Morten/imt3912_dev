@@ -6,8 +6,7 @@
 #include <utility>
 
 #include <nox/util/nox_assert.h>
-#include <nox/ecs/component/Types.h>
-
+#include <nox/ecs/ComponentType.h>
 
 namespace
 {
@@ -25,6 +24,11 @@ namespace
         };
 
         using TypeIdentifierSet = std::set<TypeIdentifier, TypeIdentifierComp>;
+
+        using AccessListIterator = std::vector<TypeIdentifier>::const_iterator;
+        using GetAccessList = std::function<std::pair<AccessListIterator,
+                                                      AccessListIterator>(const MetaInformation&)>;
+        using GetDataAccess = std::function<DataAccess(const MetaInformation&)>;
 
         struct ComponentCollectionInfo
         {
@@ -63,17 +67,20 @@ namespace
         void
         initializeData(std::vector<ComponentCollectionInfo>& componentAccessLists,
                        std::vector<std::vector<TypeIdentifier>>& executionOrder,
-                       const std::vector<ComponentCollection>& collections)
+                       const std::vector<ComponentCollection>& collections,
+                       const GetAccessList& getAccessList,
+                       const GetDataAccess& getDataAccess)
         {
             for (const auto& collection : collections)
             {
                 auto metaInformation = collection.getMetaInformation();
-                
+
                 ComponentCollectionInfo newComponent;
                 newComponent.type = metaInformation.typeIdentifier;
-                newComponent.access = metaInformation.updateAccess;
-                newComponent.connectionSet.insert(metaInformation.updateDependencies.cbegin(),
-                                                  metaInformation.updateDependencies.cend());
+                newComponent.access = getDataAccess(metaInformation);
+                auto dependenciesRange = getAccessList(metaInformation);
+                newComponent.connectionSet.insert(dependenciesRange.first,
+                                                  dependenciesRange.second);
 
                 componentAccessLists.push_back(newComponent);
 
@@ -116,14 +123,16 @@ namespace
 
         std::vector<std::vector<std::size_t>> 
         createExecutionLayers(const std::vector<ComponentCollection>& collections,
-                              std::size_t threadCount)
-        {        
+                              std::size_t threadCount,
+                              const GetAccessList& getAccessList,
+                              const GetDataAccess& getDataAccess)
+        {
             std::vector<ComponentCollectionInfo> componentAccessLists;
-            std::vector<std::vector<TypeIdentifier>> executionOrder; 
-        
+            std::vector<std::vector<TypeIdentifier>> executionOrder;
+
             //Collect and set up the data properly for the algorithm to use
-            initializeData(componentAccessLists, executionOrder, collections);
-        
+            initializeData(componentAccessLists, executionOrder, collections, getAccessList, getDataAccess);
+
             while (!componentAccessLists.empty())
             {     
                 //Sort so the list with largest amount of connections to others comes first
@@ -242,8 +251,6 @@ namespace
     }
 }
 
-
-
 nox::ecs::EntityManager::~EntityManager()
 {
     const auto maxId = this->currentEntityId.load(std::memory_order_acquire);
@@ -272,12 +279,62 @@ nox::ecs::EntityManager::registerComponent(const MetaInformation& info)
 void
 nox::ecs::EntityManager::configureComponents()
 {
-    this->executionLayers = local::createExecutionLayers(this->components, this->threads.threadCount());
-    // Temporary solution to test the pool. This will be changed out with the layering algorithm.
-    //this->threadSafeStop = std::partition(this->components.begin(),
-    //                                      this->components.end(),
-    //                                      [this](const auto& item)
-    //                                      { return item.getMetaInformation().updateAccess == DataAccess::INDEPENDENT; });
+    // Artificial scope to be able to reuse lambda names.
+    #ifdef NOX_ECS_LAYERED_EXECUTION_UPDATE
+    {
+        const auto getDataAccess = [](const auto& info)
+        {
+            return info.updateAccess;
+        };
+        const auto getDependencies = [](const auto& info)
+        {
+            return std::make_pair(std::cbegin(info.updateDependencies),
+                                  std::cend(info.updateDependencies));
+        };
+
+        this->updateExecutionLayers = local::createExecutionLayers(this->components,
+                                                                   this->threads.threadCount(),
+                                                                   getDependencies,
+                                                                   getDataAccess);
+    }
+    #endif
+    #ifdef NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS
+    {
+        const auto getDataAccess = [](const auto& info)
+        {
+            return info.receiveLogicEventAccess;
+        };
+
+        const auto getDependencies = [](const auto& info)
+        {
+            return std::make_pair(std::cbegin(info.receiveLogicEventDependencies),
+                                  std::cend(info.receiveLogicEventDependencies));
+        };
+
+        this->logicEventExecutionLayers = local::createExecutionLayers(this->components,
+                                                                       this->threads.threadCount(),
+                                                                       getDependencies,
+                                                                       getDataAccess);
+    }
+    #endif
+    #ifdef NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
+    {
+        const auto getDataAccess = [](const auto& info)
+        {
+            return info.receiveEntityEventAccess;
+        };
+        const auto getDependencies = [](const auto& info)
+        {
+            return std::make_pair(std::cbegin(info.receiveEntityEventDependencies),
+                                  std::cend(info.receiveEntityEventDependencies));
+        };
+
+        this->entityEventExecutionLayers = local::createExecutionLayers(this->components,
+                                                                        this->threads.threadCount(),
+                                                                        getDependencies,
+                                                                        getDataAccess);
+    }
+    #endif
 }
 
 nox::ecs::EntityId
@@ -300,7 +357,7 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
                                          const TypeIdentifier& identifier)
 {
     CreationArguments tmp{ id, identifier };
-    this->creationQueue.push(std::move(tmp));
+    this->creationRequests.push(std::move(tmp));
 }
 
 void
@@ -310,7 +367,7 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
 {
     CreationArguments tmp{ id, identifier };
     tmp.json = value;
-    this->creationQueue.push(std::move(tmp));
+    this->creationRequests.push(std::move(tmp));
 }
 
 void
@@ -320,7 +377,7 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
 {
     CreationArguments tmp{ id, identifier };
     tmp.children = std::move(children);
-    this->creationQueue.push(std::move(tmp));
+    this->creationRequests.push(std::move(tmp));
 }
 
 void
@@ -330,7 +387,7 @@ nox::ecs::EntityManager::assignComponent(const EntityId& id,
 {
     CreationArguments tmp{ id, identifier };
     tmp.parent = std::move(parent);
-    this->creationQueue.push(std::move(tmp));
+    this->creationRequests.push(std::move(tmp));
 }
 
 nox::ecs::ComponentHandle<nox::ecs::Component>
@@ -345,35 +402,35 @@ void
 nox::ecs::EntityManager::removeComponent(const EntityId& id,
                                          const TypeIdentifier& identifier)
 {
-    this->removalQueue.push({ id, identifier });
+    this->removalRequests.push({ id, identifier });
 }
 
 void
 nox::ecs::EntityManager::awakeComponent(const EntityId& id,
                                         const TypeIdentifier& identifier)
 {
-    this->transitionQueues[Transition::AWAKE].push({ id, identifier });
+    this->transitionRequests[Transition::AWAKE].push({ id, identifier });
 }
 
 void
 nox::ecs::EntityManager::activateComponent(const EntityId& id,
                                            const TypeIdentifier& identifier)
 {
-    this->transitionQueues[Transition::ACTIVATE].push({ id, identifier });
+    this->transitionRequests[Transition::ACTIVATE].push({ id, identifier });
 }
 
 void
 nox::ecs::EntityManager::deactivateComponent(const EntityId& id,
                                              const TypeIdentifier& identifier)
 {
-    this->transitionQueues[Transition::DEACTIVATE].push({ id, identifier });
+    this->transitionRequests[Transition::DEACTIVATE].push({ id, identifier });
 }
 
 void
 nox::ecs::EntityManager::hibernateComponent(const EntityId& id, 
                                             const TypeIdentifier& identifier)
 {
-    this->transitionQueues[Transition::HIBERNATE].push({ id, identifier });
+    this->transitionRequests[Transition::HIBERNATE].push({ id, identifier });
 }
 
 void
@@ -441,51 +498,77 @@ nox::ecs::EntityManager::distributeLogicEvents()
     std::shared_ptr<nox::event::Event> event{};
     while (this->logicEvents.pop(event))
     {
-        for (auto& collection : this->components)
-        {
-            collection.receiveLogicEvent(event);
-        }
+        #ifdef NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS
+            for (const auto& layer : this->logicEventExecutionLayers)
+            {
+                for (const auto& item : layer)
+                {
+                    this->threads.addTask([this, item, &event]()
+                                          { this->components[item].receiveLogicEvent(event); });
+                }
+                this->threads.wait();
+            }
+        #else
+            for (auto& item : this->components)
+            {
+                item.receiveLogicEvent(event);
+            }
+        #endif
     }
+    this->logicEvents.clear();
 }
 
 void
 nox::ecs::EntityManager::updateStep(const nox::Duration& deltaTime)
 {
-    // for (auto itr = this->components.begin(); itr != this->threadSafeStop; ++itr)
-    // {
-    //     this->threads.addTask([this, itr, deltaTime](){ itr->update(deltaTime); });
-    // }
-    // this->threads.wait();
-
-    // for (auto itr = this->threadSafeStop; itr != this->components.end(); ++itr)
-    // {
-    //     itr->update(deltaTime);
-    // }
-
-    for (const auto& layer : this->executionLayers)
-    {
-        for (const auto& item : layer)
+    #ifdef NOX_ECS_LAYERED_EXECUTION_UPDATE
+        for (const auto& layer : this->updateExecutionLayers)
         {
-            this->threads.addTask([this, item, deltaTime]
-                                  { this->components[item].update(deltaTime); });
+            for (const auto& item : layer)
+            {
+                this->threads.addTask([this, item, deltaTime]()
+                                      { this->components[item].update(deltaTime); });
+            }
+            this->threads.wait();
         }
-        this->threads.wait();
-    }
+    #else
+        for (auto& item : this->components)
+        {
+            item.update(deltaTime);
+        }
+    #endif
 }
 
 void
 nox::ecs::EntityManager::distributeEntityEvents()
 {
-    // Temp event, only needed for the popping.
-    Event event(&eventArgumentAllocator, {0}, 0, 0);
-    while (this->entityEventSystem.pop(event))
+    // Hack, done to ensure that event is destroyed
+    // before the eventArgumentAllocator is cleared.
     {
-        for (auto& collection : this->components)
+        // Temp event, only needed for the popping.
+        Event event(&eventArgumentAllocator, {0}, 0, 0);
+        while (this->entityEvents.pop(event))
         {
-            collection.receiveEntityEvent(event);
+        #ifdef NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
+            for (const auto& layer : this->entityEventExecutionLayers)
+                {
+                for (const auto& item : layer)
+                {
+                    this->threads.addTask([this, item, &event]()
+                                          { this->components[item].receiveEntityEvent(event); });
+                }
+                this->threads.wait();
+            }
+        #else
+            for (auto& item : this->components)
+            {
+                item.receiveEntityEvent(event);
+            }
+        #endif
         }
     }
-    this->entityEventSystem.clear();
+
+    this->entityEvents.clear();
     this->eventArgumentAllocator.clear();
 }
 
@@ -493,49 +576,52 @@ void
 nox::ecs::EntityManager::deactivateStep()
 {
     ComponentIdentifier identifier;
-    while (this->transitionQueues[Transition::DEACTIVATE].pop(identifier))
+    while (this->transitionRequests[Transition::DEACTIVATE].pop(identifier))
     {
         auto& collection = this->getCollection(identifier.type);
         collection.deactivate(identifier.id);
     }
+    this->transitionRequests[Transition::DEACTIVATE].clear();
 }
 
 void
 nox::ecs::EntityManager::hibernateStep()
 {
     ComponentIdentifier identifier;
-    while (this->transitionQueues[Transition::HIBERNATE].pop(identifier))
+    while (this->transitionRequests[Transition::HIBERNATE].pop(identifier))
     {
         auto& collection = this->getCollection(identifier.type);
         collection.hibernate(identifier.id);
     }
+    this->transitionRequests[Transition::HIBERNATE].clear();
 }
 
 void
 nox::ecs::EntityManager::removeStep()
 {
     ComponentIdentifier identifier;
-    while (this->removalQueue.pop(identifier))
+    while (this->removalRequests.pop(identifier))
     {
         auto& collection = this->getCollection(identifier.type);
         collection.remove(identifier.id);
     }
+    this->removalRequests.clear();
 }
 
 void
 nox::ecs::EntityManager::createStep()
 {
     CreationArguments identifier;
-    while (this->creationQueue.pop(identifier))
+    while (this->creationRequests.pop(identifier))
     {
         auto& collection = this->getCollection(identifier.type);
 
-        if (identifier.type == ecs::component_types::CHILDREN)
+        if (identifier.type == ecs::component_type::CHILDREN)
         {
             Children& child = identifier.children;
             collection.adopt(child);
         } 
-        else if (identifier.type == ecs::component_types::PARENT)
+        else if (identifier.type == ecs::component_type::PARENT)
         {
             Parent& parent = identifier.parent;
             collection.adopt(parent);
@@ -551,28 +637,31 @@ nox::ecs::EntityManager::createStep()
             }
         }
     }
+    this->creationRequests.clear();
 }
 
 void
 nox::ecs::EntityManager::awakeStep()
 {
     ComponentIdentifier identifier;
-    while (this->transitionQueues[Transition::AWAKE].pop(identifier))
+    while (this->transitionRequests[Transition::AWAKE].pop(identifier))
     {
         auto& collection = this->getCollection(identifier.type);
         collection.awake(identifier.id);
     }
+    this->transitionRequests[Transition::AWAKE].clear();
 }
 
 void
 nox::ecs::EntityManager::activateStep()
 {
     ComponentIdentifier identifier;
-    while (this->transitionQueues[Transition::ACTIVATE].pop(identifier))
+    while (this->transitionRequests[Transition::ACTIVATE].pop(identifier))
     {
         auto& collection = this->getCollection(identifier.type);
         collection.activate(identifier.id);
     }
+    this->transitionRequests[Transition::ACTIVATE].clear();
 }
 
 nox::ecs::Event
@@ -589,13 +678,13 @@ nox::ecs::EntityManager::createEntityEvent(const TypeIdentifier& eventType,
 void
 nox::ecs::EntityManager::sendEntityEvent(ecs::Event event)
 {
-    this->entityEventSystem.push(std::move(event));
+    this->entityEvents.push(std::move(event));
 }
 
 void
 nox::ecs::EntityManager::onEvent(const std::shared_ptr<nox::event::Event>& event)
 {
-    logicEvents.push(event);
+    this->logicEvents.push(event);
 }
 
 nox::ecs::ComponentCollection&
