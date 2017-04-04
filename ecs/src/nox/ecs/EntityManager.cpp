@@ -25,6 +25,11 @@ namespace
 
         using TypeIdentifierSet = std::set<TypeIdentifier, TypeIdentifierComp>;
 
+        using AccessListIterator = std::vector<TypeIdentifier>::const_iterator;
+        using GetAccessList = std::function<std::pair<AccessListIterator,
+                                                      AccessListIterator>(const MetaInformation&)>;
+        using GetDataAccess = std::function<DataAccess(const MetaInformation&)>;
+
         struct ComponentCollectionInfo
         {
             TypeIdentifier type{0};
@@ -62,17 +67,20 @@ namespace
         void
         initializeData(std::vector<ComponentCollectionInfo>& componentAccessLists,
                        std::vector<std::vector<TypeIdentifier>>& executionOrder,
-                       const std::vector<ComponentCollection>& collections)
+                       const std::vector<ComponentCollection>& collections,
+                       const GetAccessList& getAccessList,
+                       const GetDataAccess& getDataAccess)
         {
             for (const auto& collection : collections)
             {
                 auto metaInformation = collection.getMetaInformation();
-                
+
                 ComponentCollectionInfo newComponent;
                 newComponent.type = metaInformation.typeIdentifier;
-                newComponent.access = metaInformation.updateAccess;
-                newComponent.connectionSet.insert(metaInformation.updateDependencies.cbegin(),
-                                                  metaInformation.updateDependencies.cend());
+                newComponent.access = getDataAccess(metaInformation);
+                auto dependenciesRange = getAccessList(metaInformation);
+                newComponent.connectionSet.insert(dependenciesRange.first,
+                                                  dependenciesRange.second);
 
                 componentAccessLists.push_back(newComponent);
 
@@ -115,14 +123,16 @@ namespace
 
         std::vector<std::vector<std::size_t>> 
         createExecutionLayers(const std::vector<ComponentCollection>& collections,
-                              std::size_t threadCount)
-        {        
+                              std::size_t threadCount,
+                              const GetAccessList& getAccessList,
+                              const GetDataAccess& getDataAccess)
+        {
             std::vector<ComponentCollectionInfo> componentAccessLists;
-            std::vector<std::vector<TypeIdentifier>> executionOrder; 
-        
+            std::vector<std::vector<TypeIdentifier>> executionOrder;
+
             //Collect and set up the data properly for the algorithm to use
-            initializeData(componentAccessLists, executionOrder, collections);
-        
+            initializeData(componentAccessLists, executionOrder, collections, getAccessList, getDataAccess);
+
             while (!componentAccessLists.empty())
             {     
                 //Sort so the list with largest amount of connections to others comes first
@@ -269,7 +279,62 @@ nox::ecs::EntityManager::registerComponent(const MetaInformation& info)
 void
 nox::ecs::EntityManager::configureComponents()
 {
-    this->executionLayers = local::createExecutionLayers(this->components, this->threads.threadCount());
+    // Artificial scope to be able to reuse lambda names.
+    #ifdef NOX_ECS_LAYERED_EXECUTION_UPDATE
+    {
+        const auto getDataAccess = [](const auto& info)
+        {
+            return info.updateAccess;
+        };
+        const auto getDependencies = [](const auto& info)
+        {
+            return std::make_pair(std::cbegin(info.updateDependencies),
+                                  std::cend(info.updateDependencies));
+        };
+
+        this->updateExecutionLayers = local::createExecutionLayers(this->components,
+                                                                   this->threads.threadCount(),
+                                                                   getDependencies,
+                                                                   getDataAccess);
+    }
+    #endif
+    #ifdef NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS
+    {
+        const auto getDataAccess = [](const auto& info)
+        {
+            return info.receiveLogicEventAccess;
+        };
+
+        const auto getDependencies = [](const auto& info)
+        {
+            return std::make_pair(std::cbegin(info.receiveLogicEventDependencies),
+                                  std::cend(info.receiveLogicEventDependencies));
+        };
+
+        this->logicEventExecutionLayers = local::createExecutionLayers(this->components,
+                                                                       this->threads.threadCount(),
+                                                                       getDependencies,
+                                                                       getDataAccess);
+    }
+    #endif
+    #ifdef NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
+    {
+        const auto getDataAccess = [](const auto& info)
+        {
+            return info.receiveEntityEventAccess;
+        };
+        const auto getDependencies = [](const auto& info)
+        {
+            return std::make_pair(std::cbegin(info.receiveEntityEventDependencies),
+                                  std::cend(info.receiveEntityEventDependencies));
+        };
+
+        this->entityEventExecutionLayers = local::createExecutionLayers(this->components,
+                                                                        this->threads.threadCount(),
+                                                                        getDependencies,
+                                                                        getDataAccess);
+    }
+    #endif
 }
 
 nox::ecs::EntityId
@@ -433,10 +498,22 @@ nox::ecs::EntityManager::distributeLogicEvents()
     std::shared_ptr<nox::event::Event> event{};
     while (this->logicEvents.pop(event))
     {
-        for (auto& collection : this->components)
-        {
-            collection.receiveLogicEvent(event);
-        }
+        #ifdef NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS
+            for (const auto& layer : this->logicEventExecutionLayers)
+            {
+                for (const auto& item : layer)
+                {
+                    this->threads.addTask([this, item, &event]()
+                                          { this->components[item].receiveLogicEvent(event); });
+                }
+                this->threads.wait();
+            }
+        #else
+            for (auto& item : this->components)
+            {
+                item.receiveLogicEvent(event);
+            }
+        #endif
     }
     this->logicEvents.clear();
 }
@@ -444,15 +521,22 @@ nox::ecs::EntityManager::distributeLogicEvents()
 void
 nox::ecs::EntityManager::updateStep(const nox::Duration& deltaTime)
 {
-    for (const auto& layer : this->executionLayers)
-    {
-        for (const auto& item : layer)
+    #ifdef NOX_ECS_LAYERED_EXECUTION_UPDATE
+        for (const auto& layer : this->updateExecutionLayers)
         {
-            this->threads.addTask([this, item, deltaTime]()
-                                  { this->components[item].update(deltaTime); });
+            for (const auto& item : layer)
+            {
+                this->threads.addTask([this, item, deltaTime]()
+                                      { this->components[item].update(deltaTime); });
+            }
+            this->threads.wait();
         }
-        this->threads.wait();
-    }
+    #else
+        for (auto& item : this->components)
+        {
+            item.update(deltaTime);
+        }
+    #endif
 }
 
 void
@@ -465,10 +549,22 @@ nox::ecs::EntityManager::distributeEntityEvents()
         Event event(&eventArgumentAllocator, {0}, 0, 0);
         while (this->entityEvents.pop(event))
         {
-            for (auto& collection : this->components)
-            {
-                collection.receiveEntityEvent(event);
+        #ifdef NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
+            for (const auto& layer : this->entityEventExecutionLayers)
+                {
+                for (const auto& item : layer)
+                {
+                    this->threads.addTask([this, item, &event]()
+                                          { this->components[item].receiveEntityEvent(event); });
+                }
+                this->threads.wait();
             }
+        #else
+            for (auto& item : this->components)
+            {
+                item.receiveEntityEvent(event);
+            }
+        #endif
         }
     }
 
