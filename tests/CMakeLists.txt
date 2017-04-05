@@ -1,10 +1,2 @@
-set (CMD_LIBRARY cmd_parser)
-
-add_subdirectory(cmd)
-add_subdirectory(fast_spawning)
-add_subdirectory(memory_usage/empty_actors)
-add_subdirectory(memory_usage/physics_actors)
-add_subdirectory(memory_usage/sprite_actors)
-#add_subdirectory(multi_threading_support)
-add_subdirectory(numerous_unique_components)
-add_subdirectory(thread_safe_logger)
+add_subdirectory(ecs)
+add_subdirectory(nox)

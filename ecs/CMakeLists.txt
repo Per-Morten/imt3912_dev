@@ -1,5 +1,4 @@
 set(NOX_GTEST_LIBRARY gtest_main)
-set(NOX_ECS_LIBRARY ecs_library)
 set(INCLUDE_DIRS src/)
 
 function(add_google_test target)

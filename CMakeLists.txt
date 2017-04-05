@@ -20,6 +20,11 @@ if(USE_CLANG)
     SET (CMAKE_CXX_COMPILER "clang++")
 endif(USE_CLANG)
 
+#Set cmd library variable for use in all projects using the cmd parser
+SET(CMD_LIBRARY cmd)
+
+#Variable to use when wanting to use the ecs library in your project
+set(NOX_ECS_LIBRARY ecs_library)
 
 # Get the compile commands so that we can use youcompleteme.
 set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
@@ -152,16 +157,19 @@ else ()
 endif ()
 
 if (NOT COMPILATION_TEST)
+
+    add_subdirectory(cmd)
+
     if (ENABLE_TESTS)
         enable_testing()
     endif ()
     
-    if (TESTS_BUILD)
-        add_subdirectory(tests)
-    endif ()
-
     if (ECS_BUILD)
         add_subdirectory(ecs)  
+    endif ()
+    
+    if (TESTS_BUILD)
+        add_subdirectory(tests)
     endif ()
 
     if (EXAMPLES_BUILD)
