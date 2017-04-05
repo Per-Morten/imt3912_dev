@@ -63,7 +63,7 @@ namespace nox
              */
             template<class T, class U, class OperationType, class Operation>
                      typename std::enable_if<std::is_same<T, U>::value, OperationType>::type
-            getOperation(Operation)
+            getOperation(T, U, OperationType, Operation)
             {
                 return nullptr;
             }
@@ -84,7 +84,7 @@ namespace nox
              */
             template<class T, class U, class OperationType, class Operation>
                      typename std::enable_if<!std::is_same<T, U>::value, OperationType>::type
-            getOperation(Operation operation)
+            getOperation(T, U, OperationType, Operation operation)
             {
                 return operation;
             }
@@ -104,12 +104,14 @@ nox::ecs::MetaInformation
 nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier,
                                 const std::vector<nox::event::Event::IdType>& interestingLogicEvents)
 {
-    using namespace create_meta_info_meta;
+    namespace meta = create_meta_info_meta;
     static_assert(std::is_base_of<nox::ecs::Component, T>::value, "Type T must inherit from nox::ecs::Component");
 
     MetaInformation info(typeIdentifier, sizeof(T));
 
-    info.construct = [](Component* component, const EntityId& id, EntityManager* manager)
+    info.construct = [](Component* component,
+                        const EntityId& id,
+                        EntityManager* manager)
     {
         new(component)T(id, manager);
     };
@@ -120,109 +122,109 @@ nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier,
     };
 
     info.initialize =
-        getOperation<decltype(&Component::initialize),
-                     decltype(&T::initialize),
-                     decltype(info.initialize)>(
-                     [](Component* component,
-                        const Json::Value& value)
-                     {
-                         static_cast<T*>(component)->initialize(value);
-                     });
+        meta::getOperation(&Component::initialize,
+                           &T::initialize,
+                           info.initialize,
+                           [](Component* component,
+                               const Json::Value& value)
+                           {
+                               static_cast<T*>(component)->initialize(value);
+                           });
 
     info.awake =
-        getOperation<decltype(&Component::awake),
-                     decltype(&T::awake),
-                     decltype(info.awake)>(
-                     [](Component* component)
-                     {
-                         static_cast<T*>(component)->awake();
-                     });
+        meta::getOperation(&Component::awake,
+                           &T::awake,
+                           info.awake,
+                           [](Component* component)
+                           {
+                               static_cast<T*>(component)->awake();
+                           });
 
     info.activate =
-        getOperation<decltype(&Component::activate),
-                     decltype(&T::activate),
-                     decltype(info.activate)>(
-                     [](Component* component)
-                     {
-                         static_cast<T*>(component)->activate();
-                     });
+        meta::getOperation(&Component::activate,
+                           &T::activate,
+                           info.activate,
+                           [](Component* component)
+                           {
+                               static_cast<T*>(component)->activate();
+                           });
 
     info.deactivate =
-        getOperation<decltype(&Component::deactivate),
-                     decltype(&T::deactivate),
-                     decltype(info.deactivate)>(
-                     [](Component* component)
-                     {
-                         static_cast<T*>(component)->deactivate();
-                     });
+        meta::getOperation(&Component::deactivate,
+                           &T::deactivate,
+                           info.deactivate,
+                           [](Component* component)
+                           {
+                               static_cast<T*>(component)->deactivate();
+                           });
 
     info.hibernate =
-        getOperation<decltype(&Component::hibernate),
-                     decltype(&T::hibernate),
-                     decltype(info.hibernate)>(
-                     [](Component* component)
-                     {
-                         static_cast<T*>(component)->hibernate();
-                     });
+        meta::getOperation(&Component::hibernate,
+                           &T::hibernate,
+                           info.hibernate,
+                           [](Component* component)
+                           {
+                               static_cast<T*>(component)->hibernate();
+                           });
 
     info.update =
-        getOperation<decltype(&Component::update),
-                     decltype(&T::update),
-                     decltype(info.update)>(
-                     [](Component* first,
-                        Component* last,
-                        const nox::Duration& deltaTime)
-                     {
-                         auto begin = static_cast<T*>(first);
-                         auto end = static_cast<T*>(last);
+        meta::getOperation(&Component::update,
+                           &T::update,
+                           info.update,
+                           [](Component* first,
+                              Component* last,
+                              const nox::Duration& deltaTime)
+                           {
+                               auto begin = static_cast<T*>(first);
+                               auto end = static_cast<T*>(last);
 
-                         while (begin != end)
-                         {
-                             begin->update(deltaTime);
-                             ++begin;
-                         }
-                     });
+                               while (begin != end)
+                               {
+                                   begin->update(deltaTime);
+                                   ++begin;
+                               }
+                           });
 
     info.updateAccess = (info.update) ? info.updateAccess :
                                         DataAccess::INDEPENDENT;
 
     info.receiveLogicEvent =
-        getOperation<decltype(&Component::receiveLogicEvent),
-                     decltype(&T::receiveLogicEvent),
-                     decltype(info.receiveLogicEvent)>(
-                     [](Component* first,
-                        Component* last,
-                        const std::shared_ptr<nox::event::Event>& event)
-                     {
-                         auto begin = static_cast<T*>(first);
-                         auto end = static_cast<T*>(last);
+        meta::getOperation(&Component::receiveLogicEvent,
+                           &T::receiveLogicEvent,
+                           info.receiveLogicEvent,
+                           [](Component* first,
+                              Component* last,
+                              const std::shared_ptr<nox::event::Event>& event)
+                           {
+                               auto begin = static_cast<T*>(first);
+                               auto end = static_cast<T*>(last);
 
-                         while (begin != end)
-                         {
-                             begin->receiveLogicEvent(event);
-                             ++begin;
-                         }
-                     });
+                               while (begin != end)
+                               {
+                                   begin->receiveLogicEvent(event);
+                                   ++begin;
+                               }
+                           });
 
     info.receiveLogicEventAccess = (info.receiveLogicEvent) ? info.receiveLogicEventAccess :
                                                               DataAccess::INDEPENDENT;
 
     info.receiveEntityEvent =
-        getOperation<decltype(&Component::receiveEntityEvent),
-                     decltype(&T::receiveEntityEvent),
-                     decltype(info.receiveEntityEvent)>(
-                     [](Component* first,Component* last,
-                        const nox::ecs::Event& event)
-                     {
-                         auto begin = static_cast<T*>(first);
-                         auto end = static_cast<T*>(last);
+        meta::getOperation(&Component::receiveEntityEvent,
+                           &T::receiveEntityEvent,
+                           info.receiveEntityEvent,
+                           [](Component* first,Component* last,
+                              const nox::ecs::Event& event)
+                           {
+                               auto begin = static_cast<T*>(first);
+                               auto end = static_cast<T*>(last);
 
-                         while (begin != end)
-                         {
-                             begin->receiveEntityEvent(event);
-                             ++begin;
-                         }
-                     });
+                               while (begin != end)
+                               {
+                                   begin->receiveEntityEvent(event);
+                                   ++begin;
+                               }
+                           });
 
     info.receiveEntityEventAccess = (info.receiveEntityEvent) ? info.receiveEntityEventAccess :
                                                                 DataAccess::INDEPENDENT;
