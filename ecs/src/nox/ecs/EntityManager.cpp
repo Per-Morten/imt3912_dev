@@ -123,7 +123,11 @@ namespace
                                                   std::end(componentAccessLists),
                                                   [type](const auto& collection)
                                                   { return collection.type == type; });
-                    itr->connectionSet.insert(collection.type);
+                    
+                    if (itr != std::end(componentAccessLists))
+                    {
+                        itr->connectionSet.insert(collection.type);
+                    }
                 }
             }
         }
