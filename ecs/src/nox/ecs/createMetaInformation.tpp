@@ -126,7 +126,7 @@ nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier,
                            &T::initialize,
                            info.initialize,
                            [](Component* component,
-                               const Json::Value& value)
+                              const Json::Value& value)
                            {
                                static_cast<T*>(component)->initialize(value);
                            });
@@ -213,7 +213,8 @@ nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier,
         meta::getOperation(&Component::receiveEntityEvent,
                            &T::receiveEntityEvent,
                            info.receiveEntityEvent,
-                           [](Component* first,Component* last,
+                           [](Component* first,
+                              Component* last,
                               const nox::ecs::Event& event)
                            {
                                auto begin = static_cast<T*>(first);
