@@ -56,6 +56,24 @@ include_directories(${INCLUDE_DIRS})
 add_executable(${ECS_MAIN} src/tests/main.cpp)
 target_link_libraries(${ECS_MAIN} ${NOX_ECS_LIBRARY})
 
+# CREATE TROND_TEST
+file(GLOB_RECURSE SOURCES "src/trondtest/*.cpp")
+file(GLOB_RECURSE TEMPLATES "src/trondtest/*.tpp")
+file(GLOB_RECURSE INLINES "src/trondtest/*.ipp")
+file(GLOB_RECURSE HEADERS "src/trondtest/*.h")
+
+set(ALL_SOURCES
+    ${SOURCES}
+    ${TEMPLATES}
+    ${INLINES})
+
+set(TROND_TEST trondtest)
+
+project(${TROND_TEST})
+
+include_directories(${INCLUDE_DIRS})
+add_executable(${TROND_TEST} ${ALL_SOURCES})
+target_link_libraries(${TROND_TEST} ${NOX_ECS_LIBRARY})
 
 # CREATE GOOGLE TESTS
 # add_google_test(smart_handle_test src/tests/SmartHandle.cpp)
