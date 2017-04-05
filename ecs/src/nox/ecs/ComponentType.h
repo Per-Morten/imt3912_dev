@@ -25,6 +25,12 @@ namespace nox
              *             transform type through the TypeIdentifier.
              */
             constexpr std::size_t TRANSFORM = 2;
+
+            /**
+             * @brief      Constant numerical value used for identifying the
+             *             sprite type through the TypeIdentifier.
+             */
+            constexpr std::size_t SPRITE = 3;
         }
     }
 }

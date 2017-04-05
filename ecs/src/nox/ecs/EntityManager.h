@@ -16,6 +16,7 @@
 #include <nox/ecs/SmartHandle.h>
 #include <nox/ecs/TypeIdentifier.h>
 #include <nox/event/IListener.h>
+#include <nox/logic/Logic.h>
 #include <nox/thread/LockedQueue.h>
 #include <nox/thread/LockFreeStack.h>
 #include <nox/thread/Pool.h>
@@ -500,6 +501,22 @@ namespace nox
             virtual void
             onEvent(const std::shared_ptr<nox::event::Event>& event) override final;
 
+            /**
+             * @brief      Sets the logic context.
+             *
+             * @param      logicContext  The logic context
+             */
+            void
+            setLogicContext(nox::logic::Logic* logicContext);
+
+            /**
+             * @brief      Gets the logic context.
+             *
+             * @return     The logic context.
+             */
+            nox::logic::Logic*
+            getLogicContext() const;
+
         private:
             /**
              * @brief      Enum wrapper allowing for the use of enums as indexes
@@ -557,6 +574,8 @@ namespace nox
             ContainerType<nox::ecs::Event> entityEvents{};
 
             std::atomic<EntityId> currentEntityId{};
+
+            nox::logic::Logic* logicContext{};
 
             #ifdef NOX_ECS_LAYERED_EXECUTION_UPDATE
             std::vector<std::vector<std::size_t>> updateExecutionLayers{};
