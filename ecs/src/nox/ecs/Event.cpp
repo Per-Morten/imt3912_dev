@@ -193,15 +193,8 @@ nox::ecs::Event::Argument::operator=(Event::Argument&& source)
     return *this;
 }
 
-const void* const
-nox::ecs::Event::Argument::value() const
-{
-    return this->payload;
-}
-
 const nox::ecs::TypeIdentifier&
 nox::ecs::Event::Argument::getIdentifier() const
 {
     return this->identifier;
 }
-
