@@ -16,7 +16,7 @@ set(ALL_SOURCES
     ${INLINES}
     ${HEADERS})
 
-set(INCLUDE_DIRS src/)
+set(INCLUDE_DIRS src/ ${CMAKE_SOURCE_DIR}/ecs/src)
 
 include_directories(${INCLUDE_DIRS})
 add_executable (${TEST_NAME} ${ALL_SOURCES}) 

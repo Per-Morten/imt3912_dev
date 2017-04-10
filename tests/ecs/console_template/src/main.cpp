@@ -3,7 +3,7 @@
 
 int main(int argc, char* argv[])
 {
-    auto application = ConsoleApplication();
+    ConsoleApplication application;
 
     cmd::g_cmdParser.init(argc, argv);
     cmd::g_cmdParser.setLogger(application.createLogger());
