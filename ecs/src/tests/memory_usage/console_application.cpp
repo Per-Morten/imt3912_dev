@@ -73,7 +73,9 @@ ConsoleApplication::initializeLogic()
 bool 
 ConsoleApplication::onInit()
 {
-    outputTimer.setTimerLength(std::chrono::milliseconds(500));
+    const auto runTimeMs = cmd::g_cmdParser.getIntArgument(cmd::constants::run_duration_ms_cmd,
+                                                           cmd::constants::run_duration_ms_default);
+    this->outputTimer.setTimerLength(std::chrono::milliseconds(runTimeMs));
 
     log = createLogger();
     log.setName("ConsoleApplication");
@@ -115,12 +117,9 @@ ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
 {
     this->entityManager.step(deltaTime);
 
-    outputTimer.spendTime(deltaTime);
-
-    if (outputTimer.timerReached() == true)
+    this->outputTimer.spendTime(deltaTime);
+    if (this->outputTimer.timerReached() == true)
     {
-        log.info().raw("Printing out text in update loop");
-        
-        outputTimer.subtractCycle();
+        quitApplication();
     }
 }
