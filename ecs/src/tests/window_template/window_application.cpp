@@ -1,4 +1,4 @@
-#include "window_application.h"
+#include <window_application.h>
 
 #include <cassert>
 
@@ -37,7 +37,7 @@ WindowApplication::initializeResourceCache()
     resourceCache->setLogger(createLogger());
 
     // We need to get resources from the project specific assets.
-    const auto projectAssetDirectory = "tests/" + getName() + "/assets";
+    const auto projectAssetDirectory = "ecs/src/tests/" + getName() + "/assets";
     if (resourceCache->addProvider(std::make_unique<nox::app::resource::BoostFilesystemProvider>(projectAssetDirectory)) == false)
     {
         log.error().format("Could not initialized resource cache to \"%s\".", projectAssetDirectory.c_str());
@@ -72,33 +72,15 @@ WindowApplication::initializeLogic()
 {
     auto logic = std::make_unique<nox::logic::Logic>();
     this->logicContext = logic.get();
-
     addProcess(std::move(logic));
 }
 
-nox::logic::physics::Simulation* 
+void
 WindowApplication::initializePhysics()
 {
     auto physics = std::make_unique<nox::logic::physics::Box2DSimulation>(this->logicContext);
     physics->setLogger(createLogger());
-
-    auto physicsPtr = physics.get();
-
     this->logicContext->setPhysics(std::move(physics));
-
-    return physicsPtr;
-}
-
-nox::logic::world::Manager* 
-WindowApplication::initializeWorldManager()
-{
-      return nullptr;
-}
-
-bool 
-WindowApplication::loadWorldFile(nox::logic::world::Manager* worldManager)
-{
-    return true;
 }
 
 void 
@@ -106,18 +88,7 @@ WindowApplication::initializeWindow()
 {
     // Create the window with this as the context and the applciation name as the window title.
     auto tempWindow = std::make_unique<WindowView>(this, getName());
-
-    window = tempWindow.get();
-
-    /*
-     * The window is actually not just a window, its also a logic::View. It is basically a logic::View that renders
-     * the logic to a window and handles input from mouse and keyboard. Here we add it to the logic so it can manage it.
-     *
-     * The logic::View is a concept that represents a view into the logic. A view displays the logic to a user and
-     * handles input from a user. A "user" can both be you viewing the application through a window, an AI viewing
-     * the application through events and queries, a remote client viewing the application through a network connection,
-     * or more.
-     */
+    this->window = tempWindow.get();
     this->logicContext->addView(std::move(tempWindow));
 }
 
@@ -140,26 +111,21 @@ WindowApplication::onInit()
 
     initializeLogic();
     this->entityManager.setLogicContext(this->logicContext);
-    auto eventBroadcaster = this->logicContext->getEventBroadcaster();
-
     initializePhysics();
-    auto worldManager = initializeWorldManager();
-
-    // We initialize the window. This will make the window appear.
     initializeWindow();
 
     const auto transformInfo = nox::ecs::createMetaInformation<nox::ecs::Transform>(nox::ecs::component_type::TRANSFORM);
     this->entityManager.registerComponent(transformInfo);
-
     const auto spriteInfo = nox::ecs::createMetaInformation<nox::ecs::Sprite>(nox::ecs::component_type::SPRITE);
     this->entityManager.registerComponent(spriteInfo);
+
+    this->entityManager.configureComponents();
 
     auto id = this->entityManager.createEntity();
     this->entityManager.assignComponent(id, nox::ecs::component_type::TRANSFORM);
     this->entityManager.assignComponent(id, nox::ecs::component_type::SPRITE);
     this->entityManager.awakeEntity(id);
     this->entityManager.activateEntity(id);
-
 
 
     this->logicContext->pause(false);

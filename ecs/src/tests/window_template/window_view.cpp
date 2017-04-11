@@ -1,4 +1,4 @@
-#include "window_view.h"
+#include <window_view.h>
 
 #include <nox/app/graphics/2d/BackgroundGradient.h>
 #include <nox/app/graphics/2d/IRenderer.h>
