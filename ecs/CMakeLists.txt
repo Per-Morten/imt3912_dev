@@ -79,6 +79,7 @@ target_link_libraries(${ECS_MAIN} ${NOX_ECS_LIBRARY})
 create_test_case(console_template)
 create_test_case(window_template)
 create_test_case(memory_usage)
+create_test_case(fast_spawning)
 
 # CREATE GOOGLE TESTS
 # add_google_test(smart_handle_test src/tests/SmartHandle.cpp)
