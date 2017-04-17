@@ -74,6 +74,7 @@ ConsoleApplication::initializeLogic()
     this->logicContext = logic.get();
     addProcess(std::move(logic));
     this->entityManager.setLogicContext(this->logicContext);
+    globals::manager = &this->entityManager;
 }
 
 
@@ -102,7 +103,7 @@ ConsoleApplication::onInit()
     const auto actorAmount = cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
                                                              cmd::constants::actor_amount_default);
 
-    globals::activeComponentCount = actorAmount * TRIVIAL_COMPONENT_COUNT;
+    globals::activeComponentCount = actorAmount * TRIVIAL_COMPONENT_COUNT - actorAmount * 2 - 1;
 
     for (std::size_t i = 0; i < actorAmount; ++i)
     {

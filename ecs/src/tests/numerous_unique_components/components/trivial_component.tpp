@@ -19,7 +19,6 @@ template<std::size_t duration>
 void 
 components::TrivialComponent<duration>::update(const nox::Duration& deltaTime)
 {
-    fprintf(stderr, "duration: %u\n", duration);
     if (this->running == false)
     {
         return;
@@ -29,9 +28,8 @@ components::TrivialComponent<duration>::update(const nox::Duration& deltaTime)
     std::chrono::nanoseconds currentDuration(0);
 
     sendDummyEvent<duration>(this->id,
-                             this->entityManager);
+                             globals::manager);
 
-    printf("%d\n", globals::activeComponentCount);
     while (currentDuration < this->sleepDuration)
     {
         const auto now = std::chrono::high_resolution_clock::now();
@@ -57,7 +55,7 @@ components::TrivialComponent<duration>::receiveEntityEvent(const nox::ecs::Event
         
         if (receiverId == duration)
         {
-            printf("Message sent from actor \"%i\" to actor \"%i\"", (int)senderId, (int)this->id);
+            printf("Message sent from actor \"%i\" to actor \"%i\"\n", (int)senderId, (int)this->id);
         }
     }
 }

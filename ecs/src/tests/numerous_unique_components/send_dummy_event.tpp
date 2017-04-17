@@ -50,6 +50,5 @@ sendDummyEventHelper<0>(nox::ecs::EntityId senderId,
     
     nox::ecs::createEventArgument(event, senderId, globals::dummy_event_sender_arg);
     nox::ecs::createEventArgument(event, rand() % TRIVIAL_COMPONENT_COUNT, globals::dummy_event_receiver_arg);
-    printf("WOAH\n");
     manager->sendEntityEvent(std::move(event));
 }
