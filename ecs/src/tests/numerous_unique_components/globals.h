@@ -1,9 +1,11 @@
 #pragma once
+#include <atomic>
+
 #include <nox/ecs/EntityManager.h>
 
 namespace globals
 {
-    int activeComponentCount;
+    std::atomic<int> activeComponentCount{0};
 
     constexpr std::size_t dummy_event = 10;
     constexpr std::size_t dummy_event_sender_arg = 0;

@@ -13,6 +13,8 @@ components::TrivialComponent<duration>::TrivialComponent(const nox::ecs::EntityI
     this->updateSize = cmd::g_cmdParser.getIntArgument(cmd::constants::run_count_cmd,
                                                        cmd::constants::run_count_default);
     this->running = true;
+
+    globals::activeComponentCount++;
 }
 
 template<std::size_t duration>
@@ -55,7 +57,7 @@ components::TrivialComponent<duration>::receiveEntityEvent(const nox::ecs::Event
         
         if (receiverId == duration)
         {
-            printf("Message sent from actor \"%i\" to actor \"%i\"\n", (int)senderId, (int)this->id);
+            //printf("Message sent from actor \"%i\" to actor \"%i\"\n", (int)senderId, (int)this->id);
         }
     }
 }

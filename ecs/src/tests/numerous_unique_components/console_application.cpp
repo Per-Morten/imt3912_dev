@@ -103,8 +103,6 @@ ConsoleApplication::onInit()
     const auto actorAmount = cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
                                                              cmd::constants::actor_amount_default);
 
-    globals::activeComponentCount = actorAmount * TRIVIAL_COMPONENT_COUNT - actorAmount * 2 - 1;
-
     for (std::size_t i = 0; i < actorAmount; ++i)
     {
         auto id = this->entityManager.createEntity();
@@ -127,7 +125,6 @@ void
 ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
 {
     this->entityManager.step(deltaTime);
-
     if (globals::activeComponentCount <= 0)
     {
         quitApplication();
