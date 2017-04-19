@@ -20,9 +20,9 @@ set(ALL_SOURCES
     ${INLINES}
     ${HEADERS})
 
-set(INCLUDE_DIRS src/)
+set(INCLUDE_DIRS src/ ${CMAKE_SOURCE_DIR}/ecs/src)
 
 
 include_directories(${INCLUDE_DIRS})
 add_executable (${TEST_NAME} ${ALL_SOURCES}) 
-target_link_libraries(${TEST_NAME} ${NOXSAMPLE_NOX_LIBRARY} ${CMD_LIBRARY})
+target_link_libraries(${TEST_NAME} ${NOX_ECS_LIBRARY} ${CMD_LIBRARY})

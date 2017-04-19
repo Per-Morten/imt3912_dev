@@ -1,5 +1,6 @@
 #include "console_application.h"
 #include "cmd/parser.h"
+#include <nox/util/cycle_count.h>
 
 int main(int argc, char* argv[])
 {
@@ -16,6 +17,9 @@ int main(int argc, char* argv[])
     auto result = application.execute();
 
     application.shutdown();
+
+    const auto cycleCount = nox::util::getCpuCycleCount();
+    printf("Cyclecount: %u\n", cycleCount);
 
     return result;
 }
