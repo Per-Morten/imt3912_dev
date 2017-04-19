@@ -58,7 +58,7 @@ popd > /dev/null 2>&1;
 #    
 #    printf "\n### RUNNING ACTUAL COMPILATION TEST $i ###\n";
 #    cmakeArguments="\"-DECS_BUILD=OFF -DEXAMPLES_BUILD=OFF\"";
-#    ./run_test.sh --test-name="$compiler_$nr" --results-folder="$root/compilation_test" --command="./compile.sh --cmake-arguments=$cmakeArguments" --use-massif=no --use-callgrind=no --save-program-output=no;
+#    ./run_test.sh --test-name="$compiler_$nr" --results-folder="$root/compilation_test" --command="./compile.sh --cmake-arguments=$cmakeArguments" --use-massif=no --use-callgrind=no --save-program-output=yes;
 #done
 
 
@@ -69,7 +69,7 @@ do
     readableNumber $i 6;
     nr=$result;
 
-    ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$resultsRoot/memory_usage/empty_actors" --command="./build/bin/empty_actors -actor_amount $i --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$resultsRoot/memory_usage/empty_actors" --command="./build/bin/nox_empty_actors -actor_amount $i --logrm warning" --save-program-output=yes;
     ((i=i*2));
     ((count++));
 done
@@ -81,7 +81,7 @@ do
     readableNumber $i 6;
     nr=$result;
 
-    ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$resultsRoot/memory_usage/physics_actors" --command="./build/bin/physics_actors -actor_amount $i --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$resultsRoot/memory_usage/physics_actors" --command="./build/bin/nox_physics_actors -actor_amount $i --logrm warning" --save-program-output=yes;
     ((i=i*2));
     ((count++));
 done
@@ -93,7 +93,7 @@ do
     readableNumber $i 6;
     nr=$result;
 
-    ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$resultsRoot/memory_usage/sprite_actors" --command="./build/bin/sprite_actors -actor_amount $i --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$resultsRoot/memory_usage/sprite_actors" --command="./build/bin/nox_sprite_actors -actor_amount $i --logrm warning" --save-program-output=yes;
     ((i=i*2));
     ((count++));
 done
@@ -107,14 +107,14 @@ do
     readableNumber $i 6;
     nr=$result;
 
-    ./run_test.sh --test-name="${compiler}_deletes_01_empty_actors_${nr}" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/fast_spawning -actor_name EmptyActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=no;
-    ./run_test.sh --test-name="${compiler}_deletes_10_empty_actors_${nr}" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/fast_spawning -actor_name EmptyActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="${compiler}_deletes_01_empty_actors_${nr}" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/nox_fast_spawning -actor_name EmptyActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=yes;
+    ./run_test.sh --test-name="${compiler}_deletes_10_empty_actors_${nr}" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/nox_fast_spawning -actor_name EmptyActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=yes;
     
-    ./run_test.sh --test-name="${compiler}_deletes_01_sprite_actors_${nr}" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/fast_spawning -actor_name SpriteActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=no;
-    ./run_test.sh --test-name="${compiler}_deletes_10_sprite_actors_${nr}" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/fast_spawning -actor_name SpriteActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="${compiler}_deletes_01_sprite_actors_${nr}" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/nox_fast_spawning -actor_name SpriteActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=yes;
+    ./run_test.sh --test-name="${compiler}_deletes_10_sprite_actors_${nr}" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/nox_fast_spawning -actor_name SpriteActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=yes;
     
-    ./run_test.sh --test-name="${compiler}_deletes_01_physics_actors_${nr}" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/fast_spawning -actor_name PhysicsActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=no;
-    ./run_test.sh --test-name="${compiler}_deletes_10_physics_actors_${nr}" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/fast_spawning -actor_name PhysicsActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="${compiler}_deletes_01_physics_actors_${nr}" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/nox_fast_spawning -actor_name PhysicsActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=yes;
+    ./run_test.sh --test-name="${compiler}_deletes_10_physics_actors_${nr}" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/nox_fast_spawning -actor_name PhysicsActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=yes;
 
     ((i=i*2));
     ((count++));
@@ -135,7 +135,65 @@ do
         readableNumber $i 4;
         nr=$result;
     
-        ./run_test.sh --test-name="${compiler]_components_${j]_actors_${nr}" --results-folder="$resultsRoot/numerious_unique_components" --command="./build/bin/fast_spawning -actor_amount $i --logrm warning" --save-program-output=no;
+        ./run_test.sh --test-name="${compiler]_components_${j]_actors_${nr}" --results-folder="$resultsRoot/numerious_unique_components" --command="./build/bin/nox_numerious_unique_components -actor_amount $i --logrm warning" --save-program-output=yes;
+        
+    
+        ((i=i*2));
+        ((count++));
+    done
+
+    ((j=j*2));
+    ((componentCount++));
+done
+
+
+resultsRoot="$../results/ecs";
+
+
+i="1";
+count="0";
+while [ $count -lt 16 ];
+do
+    readableNumber $i 6;
+    nr=$result;
+
+    ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$resultsRoot/memory_usage" --command="./build/bin/ecs_memory_usage -actor_amount $i --logrm warning" --save-program-output=yes;
+    ((i=i*2));
+    ((count++));
+done
+
+
+
+i="1";
+count="0";
+while [ $count -lt 16 ];
+do
+    readableNumber $i 6;
+    nr=$result;
+
+    ./run_test.sh --test-name="${compiler}_deletes_01_actors_${nr}" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/ecs_fast_spawning -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=yes;
+    ./run_test.sh --test-name="${compiler}_deletes_10_actors_${nr}" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/ecs_fast_spawning -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=yes;
+
+    ((i=i*2));
+    ((count++));
+done
+
+componentCount="0";
+j="1";
+while [ $componentCount -lt 8];
+do
+    pushd ../.. > /dev/null 2>&1;
+    ./compile --cmake-arguments="-DNUC_TRIVIAL_COMPONENT_COMPONENT_COUNT=${j}" --make-arguments="-j4";
+    popd > /dev/null 2>&1;
+
+    i=1;
+    count=0;
+    while [ $count -lt 8 ];
+    do
+        readableNumber $i 4;
+        nr=$result;
+    
+        ./run_test.sh --test-name="${compiler]_components_${j]_actors_${nr}" --results-folder="$resultsRoot/numerious_unique_components" --command="./build/bin/ecs_numerious_unique_components -actor_amount $i --logrm warning" --save-program-output=yes;
         
     
         ((i=i*2));
@@ -191,7 +249,7 @@ popd > /dev/null 2>&1;
 #    pushd ../.. > /dev/null 2>&1;
 #    rm -r build;
 #    ./compile.sh --cmake-arguments="-DUSE_CLANG=ON -DCOMPILATION_TEST=ON" --make-arguments="-j4";
-#    ./run_test.sh --test-name="$compiler_$nr" --results-folder="$root/compilation_test" --command="./compile.sh --cmake-arguments=\"-DUSE_CLANG=ON -DECS_BUILD=OFF -DEXAMPLES_BUILD=OFF\"" --use-massif=no --use-callgrind=no --save-program-output=no;
+#    ./run_test.sh --test-name="$compiler_$nr" --results-folder="$root/compilation_test" --command="./compile.sh --cmake-arguments=\"-DUSE_CLANG=ON -DECS_BUILD=OFF -DEXAMPLES_BUILD=OFF\"" --use-massif=no --use-callgrind=no --save-program-output=yes;
 #    popd > /dev/null 2>&1;
 #
 #done
@@ -204,7 +262,7 @@ do
     readableNumber $i 6;
     nr=$result;
 
-    ./run_test.sh --test-name="$compiler_$nr" --results-folder="$resultsRoot/memory_usage/empty_actors" --command="./build/bin/empty_actors -actor_amount $i --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="$compiler_$nr" --results-folder="$resultsRoot/memory_usage/empty_actors" --command="./build/bin/nox_empty_actors -actor_amount $i --logrm warning" --save-program-output=yes;
     ((i=i*2));
     ((count++));
 done
@@ -216,7 +274,7 @@ do
     readableNumber $i 6;
     nr=$result;
 
-    ./run_test.sh --test-name="$compiler_$nr" --results-folder="$resultsRoot/memory_usage/physics_actors" --command="./build/bin/physics_actors -actor_amount $i --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="$compiler_$nr" --results-folder="$resultsRoot/memory_usage/physics_actors" --command="./build/bin/nox_physics_actors -actor_amount $i --logrm warning" --save-program-output=yes;
     ((i=i*2));
     ((count++));
 done
@@ -228,7 +286,7 @@ do
     readableNumber $i 6;
     nr=$result;
 
-    ./run_test.sh --test-name="$compiler_$nr" --results-folder="$resultsRoot/memory_usage/sprite_actors" --command="./build/bin/sprite_actors -actor_amount $i --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="$compiler_$nr" --results-folder="$resultsRoot/memory_usage/sprite_actors" --command="./build/bin/nox_sprite_actors -actor_amount $i --logrm warning" --save-program-output=yes;
     ((i=i*2));
     ((count++));
 done
@@ -242,14 +300,14 @@ do
     readableNumber $i 6;
     nr=$result;
 
-    ./run_test.sh --test-name="$compiler_deletes_01_empty_actors_$nr" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/fast_spawning -actor_name EmptyActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=no;
-    ./run_test.sh --test-name="$compiler_deletes_10_empty_actors_$nr" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/fast_spawning -actor_name EmptyActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="$compiler_deletes_01_empty_actors_$nr" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/nox_fast_spawning -actor_name EmptyActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=yes;
+    ./run_test.sh --test-name="$compiler_deletes_10_empty_actors_$nr" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/nox_fast_spawning -actor_name EmptyActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=yes;
     
-    ./run_test.sh --test-name="$compiler_deletes_01_sprite_actors_$nr" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/fast_spawning -actor_name SpriteActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=no;
-    ./run_test.sh --test-name="$compiler_deletes_10_sprite_actors_$nr" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/fast_spawning -actor_name SpriteActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="$compiler_deletes_01_sprite_actors_$nr" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/nox_fast_spawning -actor_name SpriteActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=yes;
+    ./run_test.sh --test-name="$compiler_deletes_10_sprite_actors_$nr" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/nox_fast_spawning -actor_name SpriteActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=yes;
     
-    ./run_test.sh --test-name="$compiler_deletes_01_physics_actors_$nr" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/fast_spawning -actor_name PhysicsActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=no;
-    ./run_test.sh --test-name="$compiler_deletes_10_physics_actors_$nr" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/fast_spawning -actor_name PhysicsActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=no;
+    ./run_test.sh --test-name="$compiler_deletes_01_physics_actors_$nr" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/nox_fast_spawning -actor_name PhysicsActor -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=yes;
+    ./run_test.sh --test-name="$compiler_deletes_10_physics_actors_$nr" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/nox_fast_spawning -actor_name PhysicsActor -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=yes;
 
     ((i=i*2));
     ((count++));
@@ -270,7 +328,7 @@ do
         readableNumber $i 4;
         nr=$result;
     
-        ./run_test.sh --test-name="$compiler_components_$j_actors_$nr" --results-folder="$resultsRoot/numerious_unique_components" --command="./build/bin/fast_spawning -actor_amount $i --logrm warning" --save-program-output=no;
+        ./run_test.sh --test-name="$compiler_components_$j_actors_$nr" --results-folder="$resultsRoot/numerious_unique_components" --command="./build/bin/nox_numerious_unique_components -actor_amount $i --logrm warning" --save-program-output=yes;
         
     
         ((i=i*2));
@@ -280,3 +338,62 @@ do
     ((j=j*2));
     ((componentCount++));
 done
+
+
+resultsRoot="$../results/ecs";
+
+
+i="1";
+count="0";
+while [ $count -lt 16 ];
+do
+    readableNumber $i 6;
+    nr=$result;
+
+    ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$resultsRoot/memory_usage" --command="./build/bin/ecs_memory_usage -actor_amount $i --logrm warning" --save-program-output=yes;
+    ((i=i*2));
+    ((count++));
+done
+
+
+
+i="1";
+count="0";
+while [ $count -lt 16 ];
+do
+    readableNumber $i 6;
+    nr=$result;
+
+    ./run_test.sh --test-name="${compiler}_deletes_01_actors_${nr}" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/ecs_fast_spawning -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=yes;
+    ./run_test.sh --test-name="${compiler}_deletes_10_actors_${nr}" --results-folder="$resultsRoot/fast_spawning" --command="./build/bin/ecs_fast_spawning -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=yes;
+
+    ((i=i*2));
+    ((count++));
+done
+
+componentCount="0";
+j="1";
+while [ $componentCount -lt 8];
+do
+    pushd ../.. > /dev/null 2>&1;
+    ./compile --cmake-arguments="-DNUC_TRIVIAL_COMPONENT_COMPONENT_COUNT=${j}" --make-arguments="-j4";
+    popd > /dev/null 2>&1;
+
+    i=1;
+    count=0;
+    while [ $count -lt 8 ];
+    do
+        readableNumber $i 4;
+        nr=$result;
+    
+        ./run_test.sh --test-name="${compiler]_components_${j]_actors_${nr}" --results-folder="$resultsRoot/numerious_unique_components" --command="./build/bin/ecs_numerious_unique_components -actor_amount $i --logrm warning" --save-program-output=yes;
+        
+    
+        ((i=i*2));
+        ((count++));
+    done
+
+    ((j=j*2));
+    ((componentCount++));
+done
+
