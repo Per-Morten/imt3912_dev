@@ -661,7 +661,7 @@ nox::ecs::EntityManager::createStep()
             collection.create(identifier.id, this);
             const Json::Value& jsonValue = identifier.json;
 
-            if (jsonValue.isNull())
+            if (!jsonValue.isNull())
             {
                 collection.initialize(identifier.id, jsonValue);
             }
