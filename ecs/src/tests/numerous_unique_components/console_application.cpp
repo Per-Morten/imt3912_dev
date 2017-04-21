@@ -94,7 +94,6 @@ ConsoleApplication::onInit()
     
     initializeLogic();
 
-
     //Register all trivial component templates
     registerTrivialComponent<TRIVIAL_COMPONENT_COUNT>(this->entityManager);
 
@@ -109,7 +108,7 @@ ConsoleApplication::onInit()
     {
         auto id = this->entityManager.createEntity();
 
-        for (std::size_t j = 0; j < TRIVIAL_COMPONENT_COUNT; ++j)
+        for (std::size_t j = 1000; j < TRIVIAL_COMPONENT_COUNT + 1000; ++j)
         {
             this->entityManager.assignComponent(id, j);
         }
