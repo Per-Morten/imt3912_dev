@@ -1,6 +1,5 @@
 #include <nox/ecs/ComponentCollection.h>
 #include <nox/util/nox_assert.h>
-#include <nox/util/pms_debug.h>
 
 #include <cstdlib>
 
@@ -84,14 +83,8 @@ void
 nox::ecs::ComponentCollection::create(const EntityId& id,
                                       EntityManager* manager)
 {
-    if (!manager)
-    {
-        PMS_DEBUG("Manager is nullptr\n");
-    }
-
     if (this->size() >= this->capacity())
     {
-        PMS_DEBUG("Before reallocate\n");
         this->reallocate();
     }
 
@@ -431,13 +424,8 @@ void
 nox::ecs::ComponentCollection::swap(Component* lhs,
                                     Component* rhs)
 {
-        if (!lhs->entityManager || !rhs->entityManager)
-        {
-            PMS_DEBUG("Swap, lhs or rhs is nullptr\n");
-        }
     if (lhs != rhs)
     {
-        NOX_ASSERT(rhs->entityManager && lhs->entityManager, "Fail\n");
         auto swapArea = this->cast(this->cap);
         this->info.moveConstruct(swapArea, rhs);
         this->info.moveAssign(rhs, lhs);

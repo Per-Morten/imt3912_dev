@@ -69,14 +69,12 @@ namespace nox
             /**
              * @brief      Components are only movable.
              */
-            inline
-            Component(Component&&);
+            Component(Component&&) = default;
 
             /**
              * @brief      Components are only movable.
              */
-            inline
-            Component& operator=(Component&&);
+            Component& operator=(Component&&) = default;
 
             /**
              * @brief      Overridable initialize function.
