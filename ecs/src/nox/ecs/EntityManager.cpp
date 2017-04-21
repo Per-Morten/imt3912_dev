@@ -581,7 +581,7 @@ nox::ecs::EntityManager::distributeEntityEvents()
         {
         #ifdef NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
             for (const auto& layer : this->entityEventExecutionLayers)
-                {
+            {
                 for (const auto& item : layer)
                 {
                     this->threads.addTask([this, item, &event]()
