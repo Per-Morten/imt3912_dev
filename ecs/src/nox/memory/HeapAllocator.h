@@ -1,6 +1,6 @@
 #ifndef NOX_MEMORY_HEAPALLOCATOR_H_
 #define NOX_MEMORY_HEAPALLOCATOR_H_
-#include <cstdint>
+#include <cstddef>
 #include <limits>
 
 namespace nox
