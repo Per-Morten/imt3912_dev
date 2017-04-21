@@ -15,8 +15,14 @@ namespace components
         : public nox::ecs::Component
     {
     public:
-        TrivialComponent(const nox::ecs::EntityId& entityId, 
+//        using nox::ecs::Component::Component;
+
+        TrivialComponent(const nox::ecs::EntityId& entityId,
                          nox::ecs::EntityManager* entityManager);
+
+        TrivialComponent(TrivialComponent&& other);
+
+        TrivialComponent& operator=(TrivialComponent&& other);
 
         void update(const nox::Duration& deltaTime);
         void receiveEntityEvent(const nox::ecs::Event& event);

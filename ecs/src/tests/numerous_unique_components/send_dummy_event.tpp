@@ -1,4 +1,5 @@
 #include <memory>
+#include <nox/util/pms_debug.h>
 
 #include <globals.h>
 #include <nox/ecs/createEventArgument.h>
@@ -47,7 +48,7 @@ sendDummyEventHelper<0>(nox::ecs::EntityId senderId,
     auto event = std::move(manager->createEntityEvent(globals::dummy_event,
                                                       senderId,
                                                       senderId));
-    
+
     nox::ecs::createEventArgument(event, senderId, globals::dummy_event_sender_arg);
     nox::ecs::createEventArgument(event, rand() % TRIVIAL_COMPONENT_COUNT, globals::dummy_event_receiver_arg);
     manager->sendEntityEvent(std::move(event));
