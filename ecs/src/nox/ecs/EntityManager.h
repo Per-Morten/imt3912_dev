@@ -539,12 +539,24 @@ namespace nox
 
             struct ComponentIdentifier
             {
+                ComponentIdentifier() = default;
+                ComponentIdentifier(EntityId id, TypeIdentifier type)
+                    : id(id)
+                    , type(type)
+                { }
+
                 EntityId id{0};
                 TypeIdentifier type{0};
             };
 
             struct CreationArguments
             {
+                CreationArguments() = default;
+                CreationArguments(EntityId id, TypeIdentifier type)
+                    : id(id)
+                    , type(type)
+                { }
+
                 EntityId id{0};
                 TypeIdentifier type{0};
                 Json::Value json{};

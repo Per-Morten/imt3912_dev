@@ -32,7 +32,7 @@ namespace nox
          */
         class Component
         {
-        public:           
+        public:
             /**
              * @brief      Used to identify which entity this component belongs
              *             to.
@@ -44,7 +44,7 @@ namespace nox
              *             to.
              */
             EntityManager* entityManager{};
-            
+
             /**
              * @brief      Deleted as creating components without id's are
              *             illegal.
@@ -59,8 +59,8 @@ namespace nox
              * @param      entityManager  The entity manager this component is
              *                            handled by.
              */
-            inline 
-            Component(const EntityId& entityId, 
+            inline
+            Component(const EntityId& entityId,
                       EntityManager* entityManager);
 
             /**
@@ -100,19 +100,19 @@ namespace nox
 
             /**
              * @brief      Overridable activate function.
-             */    
+             */
             ECS_VIRTUAL void 
             activate() {}
 
             /**
              * @brief      Overridable deactivate function.
-             */    
+             */
             ECS_VIRTUAL void 
             deactivate() {}
 
             /**
              * @brief      Overridable hibernate function.
-             */    
+             */
             ECS_VIRTUAL void 
             hibernate() {}
 

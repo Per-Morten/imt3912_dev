@@ -1,6 +1,6 @@
 #ifndef NOX_ECS_TYPEIDENTIFIER_H_
 #define NOX_ECS_TYPEIDENTIFIER_H_
-#include <cstdint>
+#include <cstddef>
 #include <string>
 
 namespace nox

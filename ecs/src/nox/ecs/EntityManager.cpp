@@ -583,7 +583,7 @@ nox::ecs::EntityManager::distributeEntityEvents()
         {
         #ifdef NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
             for (const auto& layer : this->entityEventExecutionLayers)
-                {
+            {
                 for (const auto& item : layer)
                 {
                     this->threads.addTask([this, item, &event]()
@@ -663,7 +663,7 @@ nox::ecs::EntityManager::createStep()
             collection.create(identifier.id, this);
             const Json::Value& jsonValue = identifier.json;
 
-            if (jsonValue.isNull())
+            if (!jsonValue.isNull())
             {
                 collection.initialize(identifier.id, jsonValue);
             }

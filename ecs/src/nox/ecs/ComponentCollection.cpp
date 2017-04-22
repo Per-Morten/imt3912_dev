@@ -1,6 +1,7 @@
 #if !defined(NOX_ECS_COMPONENT_UNIQUE_PTR_VIRTUAL) && !defined(NOX_ECS_COMPONENT_VIRTUAL)
 
 #include <nox/ecs/ComponentCollection.h>
+#include <nox/util/nox_assert.h>
 
 #include <cstdlib>
 
