@@ -82,11 +82,6 @@ ConsoleApplication::initializeLogic()
     addProcess(std::move(logic));
     this->entityManager.setLogicContext(this->logicContext);
 }
-void 
-ConsoleApplication::initializeWorldManager()
-{
-
-}
 
 void
 ConsoleApplication::initializePhysics()
