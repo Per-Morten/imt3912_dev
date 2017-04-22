@@ -70,16 +70,14 @@ folderName="_$(date +%F_%H-%M-%S)";
 folderName="$TEST_NAME$folderName";
 folderPath="$RESULTS_FOLDER/$folderName";
 
-
-mkdir -p $RESULTS_FOLDER;
-mkdir $folderPath
-
+mkdir -p "$folderPath";
 
 #Do time estimate of program
 { time $COMMAND > program_output.txt 2> program_error_output.txt ; } 2> time_output.txt;
 
 #Print the program output to screen
 cat program_output.txt;
+cat program_error_output.txt;
 
 #Remove program output if specified
 if [[ "$SAVE_PROGRAM_OUTPUT" == "no" ]];
@@ -98,7 +96,6 @@ then
     valgrind --tool=callgrind --callgrind-out-file="$folderPath/callgrind_output.txt" --log-file="$folderPath/callgrind_log.txt" --cache-sim=yes --branch-sim=yes $COMMAND > /dev/null 2>&1;
 fi 
 
-
 #Move all outputs and logs to the appropriate folder
 if [[ "$SAVE_PROGRAM_OUTPUT" != "no" ]];
 then
@@ -107,7 +104,6 @@ fi
 
 mv program_error_output.txt $folderPath/
 mv time_output.txt $folderPath/
-
 
 printf "Test name: $TEST_NAME\n"  >> $folderPath/test_arguments.txt;
 printf "Results folder: $RESULTS_FOLDER\n"  >> $folderPath/test_arguments.txt;
