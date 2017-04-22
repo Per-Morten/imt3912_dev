@@ -19,7 +19,6 @@ namespace nox
         {
             #ifdef NOX_USE_STRING_TYPE_ID
             constexpr auto TRANSFORM_CHANGE = "TRANSFORM_CHANGE";
-            constexpr auto TRANSFORM_CHANGE = "TRANSFORM_CHANGE";
 
             #else
             /**
