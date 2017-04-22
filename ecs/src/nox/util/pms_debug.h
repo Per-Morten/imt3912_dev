@@ -4,6 +4,7 @@
 #include <cstdarg>
 #include <exception>
 #include <mutex>
+#include <chrono>
 
 extern std::mutex g_mutex;
 
@@ -16,9 +17,15 @@ logDebug(const char(&filename)[sizeOfFileName],
          ...)
 {
     std::lock_guard<std::mutex> lock(g_mutex);
-    const char* format = "[DEBUG] Function: %s Line: %i: Message: ";
+    //const auto now = std::chrono::high_resolution_clock::now();
+    using Ms = std::chrono::milliseconds;
+    double timeInMs =
+        std::chrono::duration<double, Ms::period>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
 
-    std::printf(format, function, line);
+    //const auto duration = std::chrono::duration<float, std::chrono::seconds::period>(now).count();
+    const char* format = "%f [DEBUG] Function: %s Line: %-5i: Message: ";
+
+    std::printf(format, timeInMs, function, line);
     std::va_list args;
     va_start(args, fmt);
     std::vprintf(fmt, args);
