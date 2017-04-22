@@ -14,18 +14,6 @@
 #include <nox/ecs/SmartHandle.h>
 #include <nox/logic/physics/box2d/Box2DSimulation.h>
 
-#include <nox/app/resource/cache/LruCache.h>
-#include <nox/app/resource/data/JsonExtraData.h>
-#include <nox/app/resource/loader/JsonLoader.h>
-#include <nox/app/resource/provider/BoostFilesystemProvider.h>
-#include <nox/logic/actor/component/Transform.h>
-#include <nox/logic/actor/event/TransformChange.h>
-#include <nox/logic/graphics/actor/ActorSprite.h>
-#include <nox/logic/physics/actor/ActorPhysics.h>
-#include <nox/logic/physics/box2d/Box2DSimulation.h>
-#include <nox/logic/world/Loader.h>
-#include <nox/logic/world/Manager.h>
-
 #include <json/value.h>
 #include <glm/gtx/string_cast.hpp>
 
@@ -116,11 +104,36 @@ ConsoleApplication::onInit()
 
     this->entityManager.configureComponents();
 
-    auto id = this->entityManager.createEntity();
-    this->entityManager.assignComponent(id, nox::ecs::component_type::TRANSFORM);
-    this->entityManager.assignComponent(id, nox::ecs::component_type::SPRITE);
-    this->entityManager.awakeEntity(id);
-    this->entityManager.activateEntity(id);
+    const auto actorAmount = cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
+                                                             cmd::constants::actor_amount_default);
+
+    const auto deletionAmount = cmd::g_cmdParser.getIntArgument(cmd::constants::deletion_amount_cmd,
+                                                                cmd::constants::deletion_amount_default);
+    
+    for (std::size_t i = 0; i < deletionAmount; ++i)
+    {
+        log.info().format("Creating world");
+        for (std::size_t j = 0; j < actorAmount; ++j)
+        {
+            const auto id = this->entityManager.createEntity();
+            this->entityManager.assignComponent(id, nox::ecs::component_type::TRANSFORM);
+            this->entityManager.assignComponent(id, nox::ecs::component_type::SPRITE);
+        }
+
+        this->entityManager.createStep();
+        this->entityManager.awakeStep();
+        this->entityManager.activateStep();
+        
+        log.info().format("Deleting world");
+        for (std::size_t j = 0; j < actorAmount; ++j)
+        {
+            this->entityManager.removeEntity(j + i * actorAmount);
+        }
+        
+        this->entityManager.deactivateStep();
+        this->entityManager.hibernateStep();
+        this->entityManager.removeStep();
+    }
 
     this->logicContext->pause(false);
 
@@ -130,14 +143,5 @@ ConsoleApplication::onInit()
 void 
 ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
 {
-    this->entityManager.step(deltaTime);
-
-    outputTimer.spendTime(deltaTime);
-
-    if (outputTimer.timerReached() == true)
-    {
-        log.info().raw("Printing out text in update loop");
-        
-        outputTimer.subtractCycle();
-    }
+    quitApplication();
 }

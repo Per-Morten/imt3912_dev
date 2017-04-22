@@ -14,17 +14,10 @@
 #include <nox/ecs/SmartHandle.h>
 #include <nox/logic/physics/box2d/Box2DSimulation.h>
 
-#include <nox/app/resource/cache/LruCache.h>
-#include <nox/app/resource/data/JsonExtraData.h>
-#include <nox/app/resource/loader/JsonLoader.h>
-#include <nox/app/resource/provider/BoostFilesystemProvider.h>
-#include <nox/logic/actor/component/Transform.h>
-#include <nox/logic/actor/event/TransformChange.h>
-#include <nox/logic/graphics/actor/ActorSprite.h>
-#include <nox/logic/physics/actor/ActorPhysics.h>
-#include <nox/logic/physics/box2d/Box2DSimulation.h>
-#include <nox/logic/world/Loader.h>
-#include <nox/logic/world/Manager.h>
+
+#include <components/trivial_component.h>
+#include <globals.h>
+#include <recursive_register_component.h>
 
 #include <json/value.h>
 #include <glm/gtx/string_cast.hpp>
@@ -81,16 +74,9 @@ ConsoleApplication::initializeLogic()
     this->logicContext = logic.get();
     addProcess(std::move(logic));
     this->entityManager.setLogicContext(this->logicContext);
+    globals::manager = &this->entityManager;
 }
 
-void
-ConsoleApplication::initializePhysics()
-{
-    auto physics = std::make_unique<nox::logic::physics::Box2DSimulation>(this->logicContext);
-    physics->setLogger(createLogger());
-    auto physicsPtr = physics.get();
-    this->logicContext->setPhysics(std::move(physics));
-}
 
 bool 
 ConsoleApplication::onInit()
@@ -107,20 +93,30 @@ ConsoleApplication::onInit()
     }
     
     initializeLogic();
-    initializePhysics();
 
-    const auto transformInfo = nox::ecs::createMetaInformation<nox::ecs::Transform>(nox::ecs::component_type::TRANSFORM);
-    this->entityManager.registerComponent(transformInfo);
-    const auto spriteInfo = nox::ecs::createMetaInformation<nox::ecs::Sprite>(nox::ecs::component_type::SPRITE);
-    this->entityManager.registerComponent(spriteInfo);
+
+    //Register all trivial component templates
+    registerTrivialComponent<TRIVIAL_COMPONENT_COUNT>(this->entityManager);
 
     this->entityManager.configureComponents();
 
-    auto id = this->entityManager.createEntity();
-    this->entityManager.assignComponent(id, nox::ecs::component_type::TRANSFORM);
-    this->entityManager.assignComponent(id, nox::ecs::component_type::SPRITE);
-    this->entityManager.awakeEntity(id);
-    this->entityManager.activateEntity(id);
+    const auto actorAmount = cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
+                                                             cmd::constants::actor_amount_default);
+
+    globals::activeComponentCount = actorAmount * TRIVIAL_COMPONENT_COUNT - actorAmount * 2 - 1;
+
+    for (std::size_t i = 0; i < actorAmount; ++i)
+    {
+        auto id = this->entityManager.createEntity();
+
+        for (std::size_t j = 0; j < TRIVIAL_COMPONENT_COUNT; ++j)
+        {
+            this->entityManager.assignComponent(id, j);
+        }
+        
+        this->entityManager.awakeEntity(id);
+        this->entityManager.activateEntity(id);
+    }
 
     this->logicContext->pause(false);
 
@@ -132,12 +128,8 @@ ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
 {
     this->entityManager.step(deltaTime);
 
-    outputTimer.spendTime(deltaTime);
-
-    if (outputTimer.timerReached() == true)
+    if (globals::activeComponentCount <= 0)
     {
-        log.info().raw("Printing out text in update loop");
-        
-        outputTimer.subtractCycle();
+        quitApplication();
     }
 }
