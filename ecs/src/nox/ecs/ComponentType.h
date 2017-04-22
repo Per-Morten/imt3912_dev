@@ -4,8 +4,17 @@
 
 namespace nox
 {
-    namespace ecs 
+    namespace ecs
     {
+        /**
+         * @brief      Namespace containing numerical values for standard
+         *             component TypeIdentifier used within the ecs.
+         *
+         * @warning    NOX ECS reserves the numerical values [0-999] for
+         *             TypeIdentifiers to standard components.
+         *             Using these numerical values outside of interaction
+         *             with the standard components can lead to undefined behavior.
+         */
         namespace component_type
         {
             #ifdef NOX_USE_STRING_TYPE_ID
@@ -17,7 +26,7 @@ namespace nox
             /**
              * @brief      Constant numerical value used for identifying the
              *             children type through the TypeIdentifier.
-             */ 
+             */
             constexpr std::size_t CHILDREN = 0;
 
             /**
@@ -31,6 +40,11 @@ namespace nox
              *             transform type through the TypeIdentifier.
              */
             constexpr std::size_t TRANSFORM = 2;
+            /**
+             * @brief      Constant numerical value used for identifying the
+             *             sprite type through the TypeIdentifier.
+             */
+            constexpr std::size_t SPRITE = 3;
             #endif
         }
     }

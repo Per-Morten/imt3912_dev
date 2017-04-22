@@ -31,6 +31,7 @@ namespace
         using GetAccessList = std::function<std::pair<AccessListIterator,
                                                       AccessListIterator>(const MetaInformation&)>;
         using GetDataAccess = std::function<DataAccess(const MetaInformation&)>;
+        using ShouldBeExecuted = std::function<bool(const MetaInformation&)>;
 
         struct ComponentCollectionInfo
         {
@@ -71,11 +72,17 @@ namespace
                        std::vector<std::vector<TypeIdentifier>>& executionOrder,
                        const std::vector<ComponentCollection>& collections,
                        const GetAccessList& getAccessList,
-                       const GetDataAccess& getDataAccess)
+                       const GetDataAccess& getDataAccess,
+                       const ShouldBeExecuted& shouldBeExecuted)
         {
             for (const auto& collection : collections)
             {
-                auto metaInformation = collection.getMetaInformation();
+                const auto& metaInformation = collection.getMetaInformation();
+
+                if (!shouldBeExecuted(metaInformation))
+                {
+                    continue;
+                }
 
                 ComponentCollectionInfo newComponent;
                 newComponent.type = metaInformation.typeIdentifier;
@@ -118,7 +125,11 @@ namespace
                                                   std::end(componentAccessLists),
                                                   [type](const auto& collection)
                                                   { return collection.type == type; });
-                    itr->connectionSet.insert(collection.type);
+                    
+                    if (itr != std::end(componentAccessLists))
+                    {
+                        itr->connectionSet.insert(collection.type);
+                    }
                 }
             }
         }
@@ -127,13 +138,15 @@ namespace
         createExecutionLayers(const std::vector<ComponentCollection>& collections,
                               std::size_t threadCount,
                               const GetAccessList& getAccessList,
-                              const GetDataAccess& getDataAccess)
+                              const GetDataAccess& getDataAccess,
+                              const ShouldBeExecuted& shouldBeExecuted)
         {
             std::vector<ComponentCollectionInfo> componentAccessLists;
             std::vector<std::vector<TypeIdentifier>> executionOrder;
 
             //Collect and set up the data properly for the algorithm to use
-            initializeData(componentAccessLists, executionOrder, collections, getAccessList, getDataAccess);
+            initializeData(componentAccessLists, executionOrder, collections, 
+                           getAccessList, getDataAccess, shouldBeExecuted);
 
             while (!componentAccessLists.empty())
             {     
@@ -293,11 +306,16 @@ nox::ecs::EntityManager::configureComponents()
             return std::make_pair(std::cbegin(info.updateDependencies),
                                   std::cend(info.updateDependencies));
         };
+        const auto shouldBeExecuted = [](const auto& info)
+        {
+            return info.update != nullptr;
+        };
 
         this->updateExecutionLayers = local::createExecutionLayers(this->components,
                                                                    this->threads.threadCount(),
                                                                    getDependencies,
-                                                                   getDataAccess);
+                                                                   getDataAccess,
+                                                                   shouldBeExecuted);
     }
     #endif
     #ifdef NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS
@@ -313,10 +331,16 @@ nox::ecs::EntityManager::configureComponents()
                                   std::cend(info.receiveLogicEventDependencies));
         };
 
+        const auto shouldBeExecuted = [](const auto& info)
+        {
+            return info.receiveLogicEvent != nullptr;
+        };
+
         this->logicEventExecutionLayers = local::createExecutionLayers(this->components,
                                                                        this->threads.threadCount(),
                                                                        getDependencies,
-                                                                       getDataAccess);
+                                                                       getDataAccess,
+                                                                       shouldBeExecuted);
     }
     #endif
     #ifdef NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
@@ -331,10 +355,16 @@ nox::ecs::EntityManager::configureComponents()
                                   std::cend(info.receiveEntityEventDependencies));
         };
 
+        const auto shouldBeExecuted = [](const auto& info)
+        {
+            return info.receiveEntityEvent != nullptr;
+        };
+
         this->entityEventExecutionLayers = local::createExecutionLayers(this->components,
                                                                         this->threads.threadCount(),
                                                                         getDependencies,
-                                                                        getDataAccess);
+                                                                        getDataAccess,
+                                                                        shouldBeExecuted);
     }
     #endif
 }
@@ -699,4 +729,16 @@ nox::ecs::EntityManager::getCollection(const TypeIdentifier& identifier)
     NOX_ASSERT(collection != std::end(this->components), "Illegal identifier, collection not found!\n");
 
     return *collection;
+}
+
+void
+nox::ecs::EntityManager::setLogicContext(nox::logic::Logic* logicContext)
+{
+    this->logicContext = logicContext;
+}
+
+nox::logic::Logic*
+nox::ecs::EntityManager::getLogicContext() const
+{
+    return this->logicContext;
 }

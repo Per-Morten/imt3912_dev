@@ -1,6 +1,7 @@
 #ifndef NOX_ECS_EVENT_H_
 #define NOX_ECS_EVENT_H_
 #include <limits>
+#include <type_traits>
 
 #include <nox/ecs/EntityId.h>
 #include <nox/ecs/TypeIdentifier.h>
@@ -92,14 +93,44 @@ namespace nox
 
                 /**
                  * @brief      Returns a pointer to the value held within the
-                 *             argument. The user must cast this over to the correct
-                 *             pointer.
+                 *             argument. The value is interpreted as whatever
+                 *             template parameter is given. This version does not
+                 *             deep copy the argument, but rather gives a pointer
+                 *             into the arguments value. interpreted as the template
+                 *             parameter. The user is responsible for ensuring that
+                 *             T is of correct type for this argument.
                  *
-                 * @note       The casting need to continue holding the const.
+                 * @tparam     Type  must be a pointer to a const object. The
+                 *                   importance is that the type is const, not the
+                 *                   pointer.
                  *
-                 * @return     Pointer to value held within argument.
+                 *             Example: argument.value<const int*>(); // ok
+                 *                      argument.value<int* const>(); // not ok
+                 *
+                 *
+                 * @return     Pointer to value held within argument interpreted as
+                 *             T type.
                  */
-                const void* const
+                template<class T = const void*>
+                typename std::enable_if<std::is_pointer<T>::value &&
+                                        std::is_const<std::remove_pointer_t<T>>::value,
+                                        T>::type
+                value() const;
+
+                /**
+                 * @brief      Returns a copy of the value held within value
+                 *             interpreted as type T. The user is responsible for
+                 *             ensuring that T is of correct type for this argument.
+                 *
+                 * @tparam     T     Must be non-pointer and non-reference for a
+                 *                   copyable type.
+                 *
+                 * @return     Copy of the value held within this argument, interpreted as type T.
+                 */
+                template<class T>
+                typename std::enable_if<!std::is_reference<T>::value &&
+                                        !std::is_pointer<T>::value,
+                                        T>::type
                 value() const;
 
                 /**
@@ -169,7 +200,7 @@ namespace nox
               * @brief      Move constructor. Moves all members out of source.
               *
               * @warning    source will not be usable after moving.
-
+              *
               * @param[in]  source  the Event to move from.
               */
             Event(Event&& source);
@@ -268,4 +299,5 @@ namespace nox
     }
 }
 
+#include <nox/ecs/Event.tpp>
 #endif

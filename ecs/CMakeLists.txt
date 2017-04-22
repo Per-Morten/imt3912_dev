@@ -1,5 +1,4 @@
 set(NOX_GTEST_LIBRARY gtest_main)
-set(NOX_ECS_LIBRARY ecs_library)
 set(INCLUDE_DIRS src/)
 
 function(add_google_test target)
@@ -18,6 +17,26 @@ function(add_google_test target)
     add_test(NAME ${target}
              COMMAND $<TARGET_FILE:${target}>
              WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+endfunction()
+
+function(create_test_case TARGET)
+    file(GLOB_RECURSE SOURCES src/tests/${TARGET}/*.cpp)
+    file(GLOB_RECURSE TEMPLATES src/tests/${TARGET}/*.tpp)
+    file(GLOB_RECURSE INLINES src/tests/${TARGET}/*.ipp)
+    file(GLOB_RECURSE HEADERS src/tests/${TARGET}/*.h)
+    
+    set(ALL_SOURCES
+        ${SOURCES}
+        ${TEMPLATES}
+        ${INLINES})
+    
+    SET(NAME ecs_${TARGET})
+
+    project(${NAME})
+    
+    include_directories(${INCLUDE_DIRS} src/tests/${TARGET})
+    add_executable(${NAME} ${ALL_SOURCES})
+    target_link_libraries(${NAME} ${NOX_ECS_LIBRARY} ${CMD_LIBRARY})
 endfunction()
 
 project(${NOX_ECS_LIBRARY})
@@ -91,6 +110,15 @@ include_directories(${INCLUDE_DIRS})
 add_executable(${ECS_MAIN} src/tests/main.cpp)
 target_link_libraries(${ECS_MAIN} ${NOX_ECS_LIBRARY})
 
+add_definitions(-DTRIVIAL_COMPONENT_COUNT=${NUC_TRIVIAL_COMPONENT_COUNT})
+add_definitions(-DSEND_LOCAL_EVENT_PER_N_COMPONMENT=13)
+add_definitions(-DSEND_GLOBAL_EVENT_PER_N_COMPONMENT=11)
+
+create_test_case(console_template)
+create_test_case(window_template)
+create_test_case(memory_usage)
+create_test_case(fast_spawning)
+create_test_case(numerous_unique_components)
 
 # CREATE GOOGLE TESTS
 # add_google_test(smart_handle_test src/tests/SmartHandle.cpp)
