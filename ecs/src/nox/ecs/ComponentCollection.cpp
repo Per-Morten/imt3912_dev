@@ -1,4 +1,5 @@
 #include <nox/ecs/ComponentCollection.h>
+#include <nox/util/nox_assert.h>
 
 #include <cstdlib>
 

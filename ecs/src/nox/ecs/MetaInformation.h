@@ -1,6 +1,6 @@
 #ifndef NOX_ECS_METAINFORMATION_H_
 #define NOX_ECS_METAINFORMATION_H_
-#include <cstdint>
+#include <cstddef>
 
 #include <nox/ecs/TypeIdentifier.h>
 #include <nox/ecs/OperationTypes.h>

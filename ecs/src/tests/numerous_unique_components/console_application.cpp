@@ -94,7 +94,6 @@ ConsoleApplication::onInit()
     
     initializeLogic();
 
-
     //Register all trivial component templates
     registerTrivialComponent<TRIVIAL_COMPONENT_COUNT>(this->entityManager);
 
@@ -103,13 +102,11 @@ ConsoleApplication::onInit()
     const auto actorAmount = cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
                                                              cmd::constants::actor_amount_default);
 
-    globals::activeComponentCount = actorAmount * TRIVIAL_COMPONENT_COUNT - actorAmount * 2 - 1;
-
     for (std::size_t i = 0; i < actorAmount; ++i)
     {
         auto id = this->entityManager.createEntity();
 
-        for (std::size_t j = 0; j < TRIVIAL_COMPONENT_COUNT; ++j)
+        for (std::size_t j = globals::first_unreserved_id; j < TRIVIAL_COMPONENT_COUNT + globals::first_unreserved_id; ++j)
         {
             this->entityManager.assignComponent(id, j);
         }
@@ -127,7 +124,6 @@ void
 ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
 {
     this->entityManager.step(deltaTime);
-
     if (globals::activeComponentCount <= 0)
     {
         quitApplication();

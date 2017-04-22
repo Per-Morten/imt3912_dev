@@ -48,6 +48,7 @@ nox::ecs::Event::operator=(Event&& source)
 
         source.first = nullptr;
     }
+    return *this;
 }
 
 nox::ecs::Event::~Event()
