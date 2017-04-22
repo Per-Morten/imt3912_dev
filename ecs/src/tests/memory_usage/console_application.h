@@ -4,6 +4,7 @@
 #include <nox/log/Logger.h>
 #include <nox/logic/Logic.h>
 #include <nox/util/Timer.h>
+#include <nox/ecs/EntityManager.h>
 
 class ConsoleApplication 
     : public nox::app::Application
@@ -17,10 +18,12 @@ public:
 private:
     bool initializeResourceCache();
     void initializeLogic();
+    void initializeWorldManager();
 
     nox::log::Logger log;
     nox::util::Timer<nox::Duration> outputTimer;
     nox::logic::Logic* logicContext;
     nox::ecs::EntityManager entityManager;
+    nox::ecs::EntityManager entityManager{};
 };
 
