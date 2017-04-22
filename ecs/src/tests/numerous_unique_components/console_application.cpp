@@ -106,7 +106,7 @@ ConsoleApplication::onInit()
     {
         auto id = this->entityManager.createEntity();
 
-        for (std::size_t j = 1000; j < TRIVIAL_COMPONENT_COUNT + 1000; ++j)
+        for (std::size_t j = globals::first_unreserved_id; j < TRIVIAL_COMPONENT_COUNT + globals::first_unreserved_id; ++j)
         {
             this->entityManager.assignComponent(id, j);
         }

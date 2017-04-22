@@ -9,7 +9,7 @@ components::TrivialComponent<duration>::TrivialComponent(const nox::ecs::EntityI
                                                          nox::ecs::EntityManager* entityManager)
     : nox::ecs::Component(entityId, entityManager)
 {
-    this->sleepDuration = std::chrono::nanoseconds(duration);
+    this->sleepDuration = std::chrono::nanoseconds(duration - globals::first_unreserved_id);
     this->updateSize = cmd::g_cmdParser.getIntArgument(cmd::constants::run_count_cmd,
                                                        cmd::constants::run_count_default);
     this->running = true;
@@ -57,7 +57,7 @@ components::TrivialComponent<duration>::receiveEntityEvent(const nox::ecs::Event
 
         if (receiverId == duration)
         {
-            //printf("Message sent from actor \"%i\" to actor \"%i\"\n", (int)senderId, (int)this->id);
+            printf("Message sent from actor \"%zu\" to actor \"%zu\"\n", senderId, this->id);
         }
     }
 }
