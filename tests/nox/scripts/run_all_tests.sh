@@ -11,7 +11,7 @@ function readableNumber
 
 
 root="../../.."
-resultsRoot="$../results/nox";
+resultsRoot="../results/nox";
 compiler="gcc";
 
 printf "Running all tests\n\n"
@@ -147,7 +147,7 @@ do
 done
 
 
-resultsRoot="$../results/ecs";
+resultsRoot="../results/ecs";
 
 
 i="1";
@@ -211,11 +211,11 @@ done
 
 
 compiler="clang";
+resultsRoot="../results/nox";
 
 pushd $root > /dev/null 2>&1;
 rm -r build;
 ./compile.sh --cmake-arguments="-DUSE_CLANG=ON" --make-arguments="-j4";
-popd > /dev/null 2>&1;
 
 
 #Getting various hardware information
@@ -340,7 +340,7 @@ do
 done
 
 
-resultsRoot="$../results/ecs";
+resultsRoot="../results/ecs";
 
 
 i="1";
