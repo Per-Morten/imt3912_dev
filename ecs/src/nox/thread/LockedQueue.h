@@ -1,5 +1,5 @@
-#ifndef NOX_THREAD_THREADSAFEQUEUE_H_
-#define NOX_THREAD_THREADSAFEQUEUE_H_
+#ifndef NOX_THREAD_LOCKEDQUEUE_H_
+#define NOX_THREAD_LOCKEDQUEUE_H_
 #include <mutex>
 #include <queue>
 
