@@ -76,10 +76,15 @@ include_directories(${INCLUDE_DIRS})
 add_executable(${ECS_MAIN} src/tests/main.cpp)
 target_link_libraries(${ECS_MAIN} ${NOX_ECS_LIBRARY})
 
+add_definitions(-DTRIVIAL_COMPONENT_COUNT=${NUC_TRIVIAL_COMPONENT_COUNT})
+add_definitions(-DSEND_LOCAL_EVENT_PER_N_COMPONMENT=13)
+add_definitions(-DSEND_GLOBAL_EVENT_PER_N_COMPONMENT=11)
+
 create_test_case(console_template)
 create_test_case(window_template)
 create_test_case(memory_usage)
 create_test_case(fast_spawning)
+create_test_case(numerous_unique_components)
 
 # CREATE GOOGLE TESTS
 # add_google_test(smart_handle_test src/tests/SmartHandle.cpp)
