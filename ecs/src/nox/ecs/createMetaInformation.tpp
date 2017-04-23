@@ -261,4 +261,5 @@ nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier,
     info.virtualMoveCreate = moveCreate;
     #endif 
 
+    return info;
 }
