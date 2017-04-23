@@ -1,6 +1,7 @@
 #ifndef NOX_ECS_EVENTTYPE_H_
 #define NOX_ECS_EVENTTYPE_H_
 #include <cstddef>
+#include <string>
 
 namespace nox
 {
@@ -18,7 +19,8 @@ namespace nox
         namespace event_type
         {
             #ifdef NOX_USE_STRING_TYPE_ID
-            constexpr auto TRANSFORM_CHANGE = "TRANSFORM_CHANGE";
+
+            const extern std::string TRANSFORM_CHANGE;
 
             #else
             /**
@@ -41,9 +43,10 @@ namespace nox
         namespace event_arg_type
         {
             #ifdef NOX_USE_STRING_TYPE_ID
-            constexpr auto TRANSFORM_CHANGE_POSITION = "TRANSFORM_CHANGE_POSITION";
-            constexpr auto TRANSFORM_CHANGE_ROTATION = "TRANSFORM_CHANGE_ROTATION";
-            constexpr auto TRANSFORM_CHANGE_SCALE = "TRANSFORM_CHANGE_SCALE";
+
+            extern const std::string TRANSFORM_CHANGE_POSITION;
+            extern const std::string TRANSFORM_CHANGE_ROTATION;
+            extern const std::string TRANSFORM_CHANGE_SCALE;
 
             #else
             /**

@@ -1,6 +1,7 @@
 #ifndef NOX_ECS_COMPONENTTYPE_H_
 #define NOX_ECS_COMPONENTTYPE_H_
 #include <cstddef>
+#include <string>
 
 namespace nox
 {
@@ -18,9 +19,11 @@ namespace nox
         namespace component_type
         {
             #ifdef NOX_USE_STRING_TYPE_ID
-            constexpr auto CHILDREN = "CHILDREN";
-            constexpr auto PARENT = "PARENT";
-            constexpr auto TRANSFORM = "TRANSFORM";
+
+            extern const std::string CHILDREN;
+            extern const std::string PARENT;
+            extern const std::string TRANSFORM;
+            extern const std::string SPRITE;
 
             #else
             /**
