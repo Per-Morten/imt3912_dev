@@ -79,6 +79,17 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STRE
 	check_cxx_compiler_flag(-Ofast HAS_OPTIMIZE_FAST)
 	check_cxx_compiler_flag(-ffinite-math-only HAS_FINITE_MATH)
 	check_cxx_compiler_flag(-s HAS_STRIP_SYMBOLS)
+    check_cxx_compiler_flag(-Wall HAS_WALL)
+    check_cxx_compiler_flag(-Wextra HAS_WEXTRA)
+
+    if (HAS_WALL)
+        message(STATUS "Enabling -Wall")
+        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+    endif()
+    if (HAS_WEXTRA)
+        message(STATUS "Enabling -Wextra")
+        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
+    endif()
 
 	if (HAS_LTO)
 		message(STATUS "Enabling link-time optimizations (-flto)")

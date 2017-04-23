@@ -89,7 +89,7 @@ namespace nox
              * @param[in]  value  used to initialize the component.
              */
             ECS_VIRTUAL void 
-            initialize(const Json::Value& value) {}
+            initialize(const Json::Value& /*value*/) {}
 
 
             /**
@@ -122,7 +122,7 @@ namespace nox
              * @param[in]  deltaTime  The delta time.
              */
             ECS_VIRTUAL void 
-            update(const nox::Duration& deltaTime) {}
+            update(const nox::Duration& /*deltaTime*/) {}
 
             /**
              * @brief      Overridable receiveLogicEvent function. For receiving
@@ -131,7 +131,7 @@ namespace nox
              * @param[in]  event  The event.
              */
             ECS_VIRTUAL void 
-            receiveLogicEvent(const std::shared_ptr<nox::event::Event>& event) {}
+            receiveLogicEvent(const std::shared_ptr<nox::event::Event>& /*event*/) {}
 
             /**
              * @brief      Overridable receiveEntityEvent function. For
@@ -141,7 +141,7 @@ namespace nox
              * @param[in]  event  The event.
              */
             ECS_VIRTUAL void
-            receiveEntityEvent(const ecs::Event& event) {}
+            receiveEntityEvent(const ecs::Event& /*event*/) {}
         };
     }
 }

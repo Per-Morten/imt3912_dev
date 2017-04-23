@@ -245,6 +245,8 @@ nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier,
         *destComp = std::move(*srcComp);
     };
 
+    info.interestingLogicEvents = interestingLogicEvents;
+
     #ifdef NOX_ECS_COMPONENT_UNIQUE_PTR_VIRTUAL
     const auto create = [](const nox::ecs::EntityId& id, nox::ecs::EntityManager* manager) -> std::unique_ptr<Component>
     {

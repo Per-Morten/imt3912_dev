@@ -88,8 +88,8 @@ namespace nox
              *
              * @param      ptr   Ignored!
              */
-            void deallocate(void* ptr) {}
-            
+            void deallocate(void* /*ptr*/) {}
+
             /**
              * @brief      Resets all the slots to 0. User must ensure that
              *             delete has been called on all stored elements first.
