@@ -40,8 +40,8 @@ sendDummyEvent(nox::logic::actor::Actor* actor,
 
 template<std::size_t N>
 void
-sendLocalDummyEvent(nox::logic::actor::Actor* actor,
-                    const std::string& senderName)
+sendLocalDummyEvent(nox::logic::actor::Actor* /*actor*/,
+                    const std::string& /*senderName*/)
 {
 }
 
@@ -58,9 +58,9 @@ sendLocalDummyEvent<0>(nox::logic::actor::Actor* actor,
 
 template<std::size_t N>
 void
-sendGlobalDummyEvent(nox::logic::actor::Actor* actor,
-                     nox::logic::IContext* logicContext,
-                     const std::string& senderName)
+sendGlobalDummyEvent(nox::logic::actor::Actor* /*actor*/,
+                     nox::logic::IContext* /*logicContext*/,
+                     const std::string& /*senderName*/)
 {
 }
 

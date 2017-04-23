@@ -6,7 +6,6 @@
 #include <nox/app/resource/loader/JsonLoader.h>
 #include <nox/app/resource/provider/BoostFilesystemProvider.h>
 #include <nox/logic/actor/Actor.h>
-#include <nox/logic/event/IBroadcaster.h>
 #include <nox/logic/IContext.h>
 #include <nox/logic/Logic.h>
 #include <nox/logic/physics/actor/ActorPhysics.h>
@@ -34,7 +33,7 @@ void components::SpawningComponent::onCreate()
 {
 }
 
-void components::SpawningComponent::onUpdate(const nox::Duration& deltaTime)
+void components::SpawningComponent::onUpdate(const nox::Duration& /*deltaTime*/)
 {
     createWorld();
     deleteWorld();
@@ -66,11 +65,11 @@ void components::SpawningComponent::createWorld()
 void components::SpawningComponent::deleteWorld()
 {
     getLog().info().format("Deleting world");
-    auto actorAmount = cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
-                                                       cmd::constants::actor_amount_default);
+    const auto actorAmount = static_cast<std::size_t>(cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
+                                                                                      cmd::constants::actor_amount_default));
 
-    auto deletionAmount = cmd::g_cmdParser.getIntArgument(cmd::constants::deletion_amount_cmd,
-                                                          cmd::constants::deletion_amount_default);
+    const auto deletionAmount = static_cast<std::size_t>(cmd::g_cmdParser.getIntArgument(cmd::constants::deletion_amount_cmd,
+                                                                                         cmd::constants::deletion_amount_default));
     
     auto worldManager = getLogicContext()->getWorldManager();
     

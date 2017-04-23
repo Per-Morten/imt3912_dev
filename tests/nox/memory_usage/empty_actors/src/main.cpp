@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
     application.shutdown();
 
     const auto cycleCount = nox::util::getCpuCycleCount();
-    printf("Cyclecount: %u\n", cycleCount);
+    printf("Cyclecount: %lu\n", cycleCount);
     
     return result;
 }

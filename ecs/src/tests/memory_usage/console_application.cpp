@@ -95,8 +95,8 @@ ConsoleApplication::onInit()
 
     this->entityManager.configureComponents();
 
-    const auto actorAmount = cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
-                                                             cmd::constants::actor_amount_default);
+    const auto actorAmount = static_cast<std::size_t>(cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
+                                                                                      cmd::constants::actor_amount_default));
 
     for (std::size_t i = 0; i < actorAmount; ++i)
     {
