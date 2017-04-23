@@ -88,7 +88,6 @@ ConsoleApplication::initializePhysics()
 {
     auto physics = std::make_unique<nox::logic::physics::Box2DSimulation>(this->logicContext);
     physics->setLogger(createLogger());
-    auto physicsPtr = physics.get();
     this->logicContext->setPhysics(std::move(physics));
 }
 

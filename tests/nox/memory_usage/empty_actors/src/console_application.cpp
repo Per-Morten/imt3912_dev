@@ -171,7 +171,7 @@ ConsoleApplication::onInit()
     }
 
     auto logic = initializeLogic();
-    auto eventBroadcaster = logic->getEventBroadcaster();
+    logic->getEventBroadcaster();
 
     initializePhysics(logic);
     auto worldManager = initializeWorldManager(logic);

@@ -66,7 +66,7 @@ components::TrivialComponent<duration>::onDeactivate()
 
 template<std::size_t duration>
 void 
-components::TrivialComponent<duration>::onUpdate(const nox::Duration& deltaTime)
+components::TrivialComponent<duration>::onUpdate(const nox::Duration& /*deltaTime*/)
 {
     if (!this->running)
     {

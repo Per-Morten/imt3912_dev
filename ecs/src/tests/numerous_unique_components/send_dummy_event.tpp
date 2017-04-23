@@ -35,8 +35,8 @@ sendDummyEvent(nox::ecs::EntityId senderId,
 
 template<std::size_t N>
 void
-sendDummyEventHelper(nox::ecs::EntityId senderId,
-                     nox::ecs::EntityManager* manager)
+sendDummyEventHelper(nox::ecs::EntityId /*senderId*/,
+                     nox::ecs::EntityManager* /*manager*/)
 {
 }
 

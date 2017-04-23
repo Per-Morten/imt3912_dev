@@ -76,7 +76,6 @@ ConsoleApplication::initializePhysics()
 {
     auto physics = std::make_unique<nox::logic::physics::Box2DSimulation>(this->logicContext);
     physics->setLogger(createLogger());
-    auto physicsPtr = physics.get();
     this->logicContext->setPhysics(std::move(physics));
 }
 
@@ -104,11 +103,11 @@ ConsoleApplication::onInit()
 
     this->entityManager.configureComponents();
 
-    const auto actorAmount = cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
-                                                             cmd::constants::actor_amount_default);
+    const auto actorAmount = static_cast<std::size_t>(cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
+                                                                                      cmd::constants::actor_amount_default));
 
-    const auto deletionAmount = cmd::g_cmdParser.getIntArgument(cmd::constants::deletion_amount_cmd,
-                                                                cmd::constants::deletion_amount_default);
+    const auto deletionAmount = static_cast<std::size_t>(cmd::g_cmdParser.getIntArgument(cmd::constants::deletion_amount_cmd,
+                                                                                         cmd::constants::deletion_amount_default));
     
     for (std::size_t i = 0; i < deletionAmount; ++i)
     {
@@ -141,7 +140,7 @@ ConsoleApplication::onInit()
 }
 
 void 
-ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
+ConsoleApplication::onUpdate(const nox::Duration& /*deltaTime*/)
 {
     quitApplication();
 }

@@ -23,7 +23,7 @@ private:
     void initializePhysics();
     void initializeWindow();
 
-    nox::app::log::Logger log;
+    nox::log::Logger log;
     WindowView* window;
     nox::logic::Logic* logicContext;
     nox::ecs::EntityManager entityManager;

@@ -2,9 +2,9 @@
 
 #include <nox/app/graphics/2d/Camera.h>
 #include <nox/app/graphics/2d/TransformationNode.h>
+#include <nox/event/Event.h>
+#include <nox/log/Logger.h>
 #include <nox/window/RenderSdlWindowView.h>
-#include <nox/logic/event/Event.h>
-#include <nox/app/log/Logger.h>
 
 /*
  * This window view inherits from the nox::window::RenderSdlWindowView.
@@ -25,14 +25,14 @@ public:
 
 private:
     void onRendererCreated(nox::app::graphics::IRenderer* renderer) override;
-    void onEvent(const std::shared_ptr<nox::logic::event::Event>& event) override;
+    void onEvent(const std::shared_ptr<nox::event::Event>& event) override;
 
     bool initialize(nox::logic::IContext* context) override;
     void onWindowSizeChanged(const glm::uvec2& size) override;
     void onKeyPress(const SDL_KeyboardEvent& event) override;
 
-    nox::app::log::Logger log;
-    nox::logic::event::ListenerManager listener;
+    nox::log::Logger log;
+    nox::event::ListenerManager listener;
 
     nox::app::graphics::IRenderer* renderer;
 

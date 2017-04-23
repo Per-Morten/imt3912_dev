@@ -19,7 +19,7 @@ components::TrivialComponent<duration>::TrivialComponent(const nox::ecs::EntityI
 
 template<std::size_t duration>
 void
-components::TrivialComponent<duration>::update(const nox::Duration& deltaTime)
+components::TrivialComponent<duration>::update(const nox::Duration& /*deltaTime*/)
 {
     if (this->running == false)
     {

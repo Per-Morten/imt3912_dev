@@ -4,8 +4,8 @@
 #include <nox/app/graphics/2d/IRenderer.h>
 #include <nox/app/IContext.h>
 #include <nox/app/resource/Descriptor.h>
+#include <nox/event/IBroadcaster.h>
 #include <nox/logic/actor/Actor.h>
-#include <nox/logic/event/IBroadcaster.h>
 #include <nox/logic/graphics/event/DebugRenderingEnabled.h>
 #include <nox/logic/graphics/event/SceneNodeEdited.h>
 #include <nox/logic/IContext.h>
@@ -16,9 +16,9 @@
 
 WindowView::WindowView(nox::app::IContext* applicationContext, const std::string& windowTitle)
     : nox::window::RenderSdlWindowView(applicationContext, windowTitle)
+    , listener("WindowView")
     , renderer(nullptr)
     , camera(std::make_shared<nox::app::graphics::Camera>(getWindowSize()))
-    , listener("WindowView")
 {
     log = applicationContext->createLogger();
     log.setName("WindowView");
@@ -44,7 +44,7 @@ WindowView::initialize(nox::logic::IContext* context)
         return false;
     }
 
-    listener.setup(this, context->getEventBroadcaster(), nox::logic::event::ListenerManager::StartListening_t());
+    listener.setup(this, context->getEventBroadcaster(), nox::event::ListenerManager::StartListening_t());
 
     return true;
 }
@@ -118,7 +118,7 @@ WindowView::onWindowSizeChanged(const glm::uvec2& size)
 }
 
 void 
-WindowView::onEvent(const std::shared_ptr<nox::logic::event::Event>& event)
+WindowView::onEvent(const std::shared_ptr<nox::event::Event>& event)
 {
     
     RenderSdlWindowView::onEvent(event);

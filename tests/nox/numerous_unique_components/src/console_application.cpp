@@ -151,8 +151,8 @@ ConsoleApplication::loadWorldFile(nox::logic::IContext* logicContext, nox::logic
                 return false;
             }
 
-            auto numberOfActors = cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
-                                                                  cmd::constants::actor_amount_default);
+            const auto numberOfActors = static_cast<std::size_t>(cmd::g_cmdParser.getIntArgument(cmd::constants::actor_amount_cmd,
+                                                                                                 cmd::constants::actor_amount_default));
             for (std::size_t i = 0; i < numberOfActors - 1; ++i)
             {
                 loader.loadWorld(jsonData->getRootValue(), worldManager);
@@ -182,7 +182,7 @@ ConsoleApplication::onInit()
     }
 
     auto logic = initializeLogic();
-    auto eventBroadcaster = logic->getEventBroadcaster();
+    logic->getEventBroadcaster();
 
     initializePhysics(logic);
     auto worldManager = initializeWorldManager(logic);
@@ -198,7 +198,7 @@ ConsoleApplication::onInit()
 }
 
 void 
-ConsoleApplication::onUpdate(const nox::Duration& deltaTime)
+ConsoleApplication::onUpdate(const nox::Duration& /*deltaTime*/)
 {
     if (globals::activeComponentCount <= 0)
     {
