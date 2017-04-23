@@ -15,10 +15,10 @@
 nox::ecs::Sprite::Sprite(const EntityId& entityId, 
                          EntityManager* entityManager)
     : Component(entityId, entityManager)
-    , spriteRenderNode(std::make_shared<app::graphics::SpriteRenderNode>())
+    , transformHandle(this->entityManager->getComponent(this->id, TypeIdentifier(component_type::TRANSFORM)))
     , entityTransformNode(std::make_shared<app::graphics::TransformationNode>())
     , renderTransformNode(std::make_shared<app::graphics::TransformationNode>())
-    , transformHandle(this->entityManager->getComponent(this->id, TypeIdentifier(component_type::TRANSFORM)))
+    , spriteRenderNode(std::make_shared<app::graphics::SpriteRenderNode>())
 {
     this->entityTransformNode->addChild(this->renderTransformNode);
     this->renderTransformNode->addChild(this->createSceneNode());
