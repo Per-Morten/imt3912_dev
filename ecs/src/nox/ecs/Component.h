@@ -25,7 +25,7 @@ namespace nox
          */
         class Component
         {
-        public:           
+        public:
             /**
              * @brief      Used to identify which entity this component belongs
              *             to.
@@ -37,7 +37,7 @@ namespace nox
              *             to.
              */
             EntityManager* entityManager{};
-            
+
             /**
              * @brief      Deleted as creating components without id's are
              *             illegal.
@@ -52,8 +52,8 @@ namespace nox
              * @param      entityManager  The entity manager this component is
              *                            handled by.
              */
-            inline 
-            Component(const EntityId& entityId, 
+            inline
+            Component(const EntityId& entityId,
                       EntityManager* entityManager);
 
             /**
@@ -81,32 +81,32 @@ namespace nox
              *
              * @param[in]  value  used to initialize the component.
              */
-            void 
+            void
             initialize(const Json::Value& value) {}
 
 
             /**
              * @brief      Overridable awake function.
              */
-            void 
+            void
             awake() {}
 
             /**
              * @brief      Overridable activate function.
-             */    
-            void 
+             */
+            void
             activate() {}
 
             /**
              * @brief      Overridable deactivate function.
-             */    
-            void 
+             */
+            void
             deactivate() {}
 
             /**
              * @brief      Overridable hibernate function.
-             */    
-            void 
+             */
+            void
             hibernate() {}
 
             /**
@@ -114,7 +114,7 @@ namespace nox
              *
              * @param[in]  deltaTime  The delta time.
              */
-            void 
+            void
             update(const nox::Duration& deltaTime) {}
 
             /**
@@ -123,7 +123,7 @@ namespace nox
              *
              * @param[in]  event  The event.
              */
-            void 
+            void
             receiveLogicEvent(const std::shared_ptr<nox::event::Event>& event) {}
 
             /**

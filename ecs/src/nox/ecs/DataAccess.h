@@ -1,5 +1,6 @@
 #ifndef NOX_ECS_DATAACCESS_H_
 #define NOX_ECS_DATAACCESS_H_
+#include <cstdint>
 
 namespace nox
 {

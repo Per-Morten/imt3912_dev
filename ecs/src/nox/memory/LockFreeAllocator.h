@@ -1,7 +1,7 @@
 #ifndef NOX_MEMORY_LOCKFREEALLOCATOR_H_
 #define NOX_MEMORY_LOCKFREEALLOCATOR_H_
 #include <atomic>
-#include <cstdint>
+#include <cstddef>
 
 #include <nox/memory/Byte.h>
 

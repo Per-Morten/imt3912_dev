@@ -1,6 +1,6 @@
 #ifndef NOX_ECS_EVENTTYPE_H_
 #define NOX_ECS_EVENTTYPE_H_
-#include <cstdint>
+#include <cstddef>
 
 namespace nox
 {

@@ -1,6 +1,6 @@
 #ifndef NOX_ECS_COMPONENTTYPE_H_
 #define NOX_ECS_COMPONENTTYPE_H_
-#include <cstdint>
+#include <cstddef>
 
 namespace nox
 {

@@ -1,6 +1,6 @@
 #ifndef NOX_ECS_SMARTHANDLE_H_
 #define NOX_ECS_SMARTHANDLE_H_
-#include <cstdint>
+#include <cstddef>
 
 #include <nox/ecs/MetaInformation.h>
 

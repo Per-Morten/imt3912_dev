@@ -1,6 +1,6 @@
 #ifndef NOX_MEMORY_LOCKEDALLOCATOR_H_
 #define NOX_MEMORY_LOCKEDALLOCATOR_H_
-#include <cstdint>
+#include <cstddef>
 #include <mutex>
 
 #include <nox/memory/Byte.h>
