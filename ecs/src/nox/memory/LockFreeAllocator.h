@@ -90,8 +90,8 @@ namespace nox
              *
              * @param      ptr   Ignored!
              */
-            void deallocate(void* ptr) {}
-            
+            void deallocate(void* /*ptr*/) {}
+
             /**
              * @brief      Prepares all elements for reuse. User must ensure
              *             that the destructor has been run on all stored

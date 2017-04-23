@@ -82,7 +82,7 @@ namespace nox
              * @param[in]  value  used to initialize the component.
              */
             void
-            initialize(const Json::Value& value) {}
+            initialize(const Json::Value& /*value*/) {}
 
 
             /**
@@ -115,7 +115,7 @@ namespace nox
              * @param[in]  deltaTime  The delta time.
              */
             void
-            update(const nox::Duration& deltaTime) {}
+            update(const nox::Duration& /*deltaTime*/) {}
 
             /**
              * @brief      Overridable receiveLogicEvent function. For receiving
@@ -124,7 +124,7 @@ namespace nox
              * @param[in]  event  The event.
              */
             void
-            receiveLogicEvent(const std::shared_ptr<nox::event::Event>& event) {}
+            receiveLogicEvent(const std::shared_ptr<nox::event::Event>& /*event*/) {}
 
             /**
              * @brief      Overridable receiveEntityEvent function. For
@@ -134,7 +134,7 @@ namespace nox
              * @param[in]  event  The event.
              */
             void
-            receiveEntityEvent(const ecs::Event& event) {}
+            receiveEntityEvent(const ecs::Event& /*event*/) {}
         };
     }
 }

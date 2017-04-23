@@ -245,5 +245,7 @@ nox::ecs::createMetaInformation(const TypeIdentifier& typeIdentifier,
         *destComp = std::move(*srcComp);
     };
 
+    info.interestingLogicEvents = interestingLogicEvents;
+
     return info;
 }
