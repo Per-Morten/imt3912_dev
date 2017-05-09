@@ -4,6 +4,8 @@
 
 int main(int argc, char* argv[])
 {
+    const auto cycleStart = nox::util::getCpuCycleCount();
+    
     auto application = ConsoleApplication();
 
     cmd::g_cmdParser.init(argc, argv);
@@ -18,8 +20,8 @@ int main(int argc, char* argv[])
 
     application.shutdown();
 
-    const auto cycleCount = nox::util::getCpuCycleCount();
-    printf("Cyclecount: %lu\n", cycleCount);
+    const auto cycleEnd = nox::util::getCpuCycleCount();
+    printf("Cyclecount: %lu\n", cycleEnd - cycleStart);
 
     return result;
 }
