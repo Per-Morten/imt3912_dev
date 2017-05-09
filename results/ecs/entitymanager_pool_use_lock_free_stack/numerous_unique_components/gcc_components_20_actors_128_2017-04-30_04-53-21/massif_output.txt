@@ -1,0 +1,1282 @@
+desc: --time-unit=B --detailed-freq=100 --massif-out-file=../results/ecs/entitymanager_pool_use_lock_free_stack/numerous_unique_components/gcc_components_20_actors_128_2017-04-30_04-53-21/massif_output.txt
+cmd: ./build/bin/ecs_numerous_unique_components -actor_amount 128 --logrm warning
+time_unit: B
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=15499104
+mem_heap_B=7082198
+mem_heap_extra_B=12538
+mem_stacks_B=0
+heap_tree=detailed
+n10: 7082198 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+ n1: 1238400 0x53FDD4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 1238400 0x53FFD3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 1238400 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+    n1: 1238400 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 1238400 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 1238400 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+       n0: 1238400 0x4EB44D: main (main.cpp:19)
+ n1: 1235200 0x548326: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 1235200 0x548394: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n1: 617600 0x546488: nox::ecs::EntityManager::awakeEntity(unsigned long const&) (EntityManager.cpp:444)
+    n1: 617600 0x4ED598: ConsoleApplication::onInit() (console_application.cpp:114)
+     n1: 617600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 617600 0x4EB43F: main (main.cpp:14)
+   n1: 617600 0x546560: nox::ecs::EntityManager::activateEntity(unsigned long const&) (EntityManager.cpp:451)
+    n1: 617600 0x4ED5A5: ConsoleApplication::onInit() (console_application.cpp:115)
+     n1: 617600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 617600 0x4EB43F: main (main.cpp:14)
+ n1: 416016 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 416016 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 416016 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 400608 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 400608 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 400608 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 400608 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 400608 0x4EB44D: main (main.cpp:19)
+    n0: 15408 in 1 place, below massif's threshold (1.00%)
+ n1: 409600 0x5401CE: void std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> >::_M_insert_aux<nox::ecs::ComponentCollection::ComponentPair>(__gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > >, nox::ecs::ComponentCollection::ComponentPair&&) (new_allocator.h:104)
+  n1: 409600 0x5402F4: __gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > > std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> >::emplace<nox::ecs::ComponentCollection::ComponentPair>(__gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair const*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > >, nox::ecs::ComponentCollection::ComponentPair&&) (vector.tcc:313)
+   n1: 409600 0x53FF83: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (stl_vector.h:1015)
+    n1: 409600 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+     n1: 409600 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+      n1: 409600 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 409600 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 409600 0x4EB44D: main (main.cpp:19)
+ n1: 194480 0x4FBD26: nox::memory::LockFreeAllocator<1024ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 194480 0x4ECA07: void sendDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (createEventArgument.tpp:9)
+   n0: 194480 in 19 places, all below massif's threshold (1.00%)
+ n1: 110880 0x548666: nox::memory::LockFreeAllocator<6144ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 110880 0x5486E6: nox::thread::LockFreeStack<nox::ecs::Event>::push(nox::ecs::Event&&) (LockFreeStack.tpp:30)
+   n1: 110880 0x4ECACD: void sendDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:54)
+    n0: 110880 in 18 places, all below massif's threshold (1.00%)
+ n1: 77824 0x5487D0: void std::vector<nox::ecs::ComponentCollection, std::allocator<nox::ecs::ComponentCollection> >::_M_emplace_back_aux<nox::ecs::ComponentCollection>(nox::ecs::ComponentCollection&&) (new_allocator.h:104)
+  n2: 77824 0x546DBA: nox::ecs::EntityManager::registerComponent(nox::ecs::MetaInformation const&) (vector.tcc:101)
+   n1: 77824 0x52B9BF: void registerTrivialComponent<72ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:10)
+    n1: 77824 0x52BC07: void registerTrivialComponent<73ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+     n1: 77824 0x52BE47: void registerTrivialComponent<74ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+      n1: 77824 0x52C087: void registerTrivialComponent<75ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+       n1: 77824 0x52C2C7: void registerTrivialComponent<76ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+        n1: 77824 0x52C507: void registerTrivialComponent<77ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+         n1: 77824 0x52C747: void registerTrivialComponent<78ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+          n1: 77824 0x52C987: void registerTrivialComponent<79ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+           n1: 77824 0x52CBC7: void registerTrivialComponent<80ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+            n1: 77824 0x52CE07: void registerTrivialComponent<81ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+             n1: 77824 0x52D047: void registerTrivialComponent<82ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+              n1: 77824 0x52D287: void registerTrivialComponent<83ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+               n1: 77824 0x52D4C7: void registerTrivialComponent<84ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+                n1: 77824 0x52D707: void registerTrivialComponent<85ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+                 n1: 77824 0x52D947: void registerTrivialComponent<86ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+                  n1: 77824 0x52DB87: void registerTrivialComponent<87ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+                   n1: 77824 0x52DDC7: void registerTrivialComponent<88ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+                    n1: 77824 0x52E007: void registerTrivialComponent<89ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+                     n1: 77824 0x52E247: void registerTrivialComponent<90ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+                      n1: 77824 0x52E487: void registerTrivialComponent<91ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+                       n1: 77824 0x52E6C7: void registerTrivialComponent<92ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+                        n1: 77824 0x52E907: void registerTrivialComponent<93ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+                         n1: 77824 0x52EB47: void registerTrivialComponent<94ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+                          n1: 77824 0x52ED87: void registerTrivialComponent<95ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+                           n1: 77824 0x52EFC7: void registerTrivialComponent<96ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+                            n1: 77824 0x52F207: void registerTrivialComponent<97ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+                             n1: 77824 0x52F447: void registerTrivialComponent<98ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+                              n0: 77824 0x52F687: void registerTrivialComponent<99ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:11)
+   n0: 0 in 8 places, all below massif's threshold (1.00%)
+ n1: 72704 0x54F3EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF00063D: ???
+       n1: 72704 0xFFF000668: ???
+        n1: 72704 0xFFF000676: ???
+         n1: 72704 0xFFF00067A: ???
+          n0: 72704 0xFFF000682: ???
+ n0: 63494 in 62 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=2
+#-----------
+time=33981280
+mem_heap_B=10650302
+mem_heap_extra_B=17154
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=3
+#-----------
+time=50815168
+mem_heap_B=13905950
+mem_heap_extra_B=21826
+mem_stacks_B=0
+heap_tree=detailed
+n7: 13905950 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 7241760 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 7241760 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 7241760 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 7226352 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 7226352 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 7226352 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 7226352 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 7226352 0x4EB44D: main (main.cpp:19)
+    n0: 15408 in 1 place, below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+ n1: 1238400 0x53FDD4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 1238400 0x53FFD3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 1238400 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+    n1: 1238400 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 1238400 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 1238400 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+       n0: 1238400 0x4EB44D: main (main.cpp:19)
+ n1: 1235200 0x548326: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 1235200 0x548394: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n1: 617600 0x546488: nox::ecs::EntityManager::awakeEntity(unsigned long const&) (EntityManager.cpp:444)
+    n1: 617600 0x4ED598: ConsoleApplication::onInit() (console_application.cpp:114)
+     n1: 617600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 617600 0x4EB43F: main (main.cpp:14)
+   n1: 617600 0x546560: nox::ecs::EntityManager::activateEntity(unsigned long const&) (EntityManager.cpp:451)
+    n1: 617600 0x4ED5A5: ConsoleApplication::onInit() (console_application.cpp:115)
+     n1: 617600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 617600 0x4EB43F: main (main.cpp:14)
+ n1: 409600 0x5401CE: void std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> >::_M_insert_aux<nox::ecs::ComponentCollection::ComponentPair>(__gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > >, nox::ecs::ComponentCollection::ComponentPair&&) (new_allocator.h:104)
+  n1: 409600 0x5402F4: __gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > > std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> >::emplace<nox::ecs::ComponentCollection::ComponentPair>(__gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair const*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > >, nox::ecs::ComponentCollection::ComponentPair&&) (vector.tcc:313)
+   n1: 409600 0x53FF83: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (stl_vector.h:1015)
+    n1: 409600 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+     n1: 409600 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+      n1: 409600 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 409600 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 409600 0x4EB44D: main (main.cpp:19)
+ n0: 322910 in 65 places, all below massif's threshold (1.00%)
+ n1: 194480 0x4FBD26: nox::memory::LockFreeAllocator<1024ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 194480 0x4ECA07: void sendDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (createEventArgument.tpp:9)
+   n0: 194480 in 19 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=4
+#-----------
+time=72014440
+mem_heap_B=17989022
+mem_heap_extra_B=28122
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=5
+#-----------
+time=92678472
+mem_heap_B=21985022
+mem_heap_extra_B=34506
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=6
+#-----------
+time=122215408
+mem_heap_B=27702878
+mem_heap_extra_B=44418
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=145573064
+mem_heap_B=32206046
+mem_heap_extra_B=50698
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=8
+#-----------
+time=159290992
+mem_heap_B=34855718
+mem_heap_extra_B=54474
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=9
+#-----------
+time=186448904
+mem_heap_B=40114358
+mem_heap_extra_B=65698
+mem_stacks_B=0
+heap_tree=detailed
+n6: 40114358 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 33445632 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 33445632 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 33445632 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 33425088 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 33425088 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 33425088 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 33425088 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 33425088 0x4EB44D: main (main.cpp:19)
+    n0: 20544 in 1 place, below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+ n1: 1238400 0x53FDD4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 1238400 0x53FFD3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 1238400 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+    n1: 1238400 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 1238400 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 1238400 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+       n0: 1238400 0x4EB44D: main (main.cpp:19)
+ n1: 1235200 0x548326: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 1235200 0x548394: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n1: 617600 0x546488: nox::ecs::EntityManager::awakeEntity(unsigned long const&) (EntityManager.cpp:444)
+    n1: 617600 0x4ED598: ConsoleApplication::onInit() (console_application.cpp:114)
+     n1: 617600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 617600 0x4EB43F: main (main.cpp:14)
+   n1: 617600 0x546560: nox::ecs::EntityManager::activateEntity(unsigned long const&) (EntityManager.cpp:451)
+    n1: 617600 0x4ED5A5: ConsoleApplication::onInit() (console_application.cpp:115)
+     n1: 617600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 617600 0x4EB43F: main (main.cpp:14)
+ n0: 521926 in 66 places, all below massif's threshold (1.00%)
+ n1: 409600 0x5401CE: void std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> >::_M_insert_aux<nox::ecs::ComponentCollection::ComponentPair>(__gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > >, nox::ecs::ComponentCollection::ComponentPair&&) (new_allocator.h:104)
+  n1: 409600 0x5402F4: __gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > > std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> >::emplace<nox::ecs::ComponentCollection::ComponentPair>(__gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair const*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > >, nox::ecs::ComponentCollection::ComponentPair&&) (vector.tcc:313)
+   n1: 409600 0x53FF83: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (stl_vector.h:1015)
+    n1: 409600 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+     n1: 409600 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+      n1: 409600 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 409600 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 409600 0x4EB44D: main (main.cpp:19)
+#-----------
+snapshot=10
+#-----------
+time=203736368
+mem_heap_B=43453382
+mem_heap_extra_B=67866
+mem_stacks_B=0
+heap_tree=detailed
+n5: 43453382 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 36789168 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 36789168 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 36789168 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 36768624 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 36768624 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 36768624 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 36768624 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 36768624 0x4EB44D: main (main.cpp:19)
+    n0: 20544 in 1 place, below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+ n1: 1238400 0x53FDD4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 1238400 0x53FFD3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 1238400 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+    n1: 1238400 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 1238400 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 1238400 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+       n0: 1238400 0x4EB44D: main (main.cpp:19)
+ n1: 1235200 0x548326: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 1235200 0x548394: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n1: 617600 0x546488: nox::ecs::EntityManager::awakeEntity(unsigned long const&) (EntityManager.cpp:444)
+    n1: 617600 0x4ED598: ConsoleApplication::onInit() (console_application.cpp:114)
+     n1: 617600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 617600 0x4EB43F: main (main.cpp:14)
+   n1: 617600 0x546560: nox::ecs::EntityManager::activateEntity(unsigned long const&) (EntityManager.cpp:451)
+    n1: 617600 0x4ED5A5: ConsoleApplication::onInit() (console_application.cpp:115)
+     n1: 617600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 617600 0x4EB43F: main (main.cpp:14)
+ n0: 927014 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=11
+#-----------
+time=222358904
+mem_heap_B=47045510
+mem_heap_extra_B=74850
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=12
+#-----------
+time=242348184
+mem_heap_B=50915942
+mem_heap_extra_B=79442
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=13
+#-----------
+time=261717312
+mem_heap_B=54650630
+mem_heap_extra_B=85834
+mem_stacks_B=0
+heap_tree=detailed
+n5: 54650630 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 47985648 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 47985648 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 47985648 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 47954832 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 47954832 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 47954832 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 47954832 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 47954832 0x4EB44D: main (main.cpp:19)
+    n0: 30816 in 1 place, below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+ n1: 1238400 0x53FDD4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 1238400 0x53FFD3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 1238400 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+    n1: 1238400 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 1238400 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 1238400 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+       n0: 1238400 0x4EB44D: main (main.cpp:19)
+ n1: 1235200 0x548326: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 1235200 0x548394: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n1: 617600 0x546488: nox::ecs::EntityManager::awakeEntity(unsigned long const&) (EntityManager.cpp:444)
+    n1: 617600 0x4ED598: ConsoleApplication::onInit() (console_application.cpp:114)
+     n1: 617600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 617600 0x4EB43F: main (main.cpp:14)
+   n1: 617600 0x546560: nox::ecs::EntityManager::activateEntity(unsigned long const&) (EntityManager.cpp:451)
+    n1: 617600 0x4ED5A5: ConsoleApplication::onInit() (console_application.cpp:115)
+     n1: 617600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 617600 0x4EB43F: main (main.cpp:14)
+ n0: 927782 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=14
+#-----------
+time=284944960
+mem_heap_B=59141702
+mem_heap_extra_B=94298
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=15
+#-----------
+time=310070040
+mem_heap_B=64007582
+mem_heap_extra_B=99802
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=16
+#-----------
+time=323371832
+mem_heap_B=66592742
+mem_heap_extra_B=105042
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=341630736
+mem_heap_B=70111814
+mem_heap_extra_B=111130
+mem_stacks_B=0
+heap_tree=detailed
+n5: 70111814 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 63445008 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 63445008 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 63445008 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 63409056 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 63409056 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 63409056 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 63409056 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 63409056 0x4EB44D: main (main.cpp:19)
+    n0: 35952 in 1 place, below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+ n1: 1238400 0x53FDD4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 1238400 0x53FFD3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 1238400 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+    n1: 1238400 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 1238400 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 1238400 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+       n0: 1238400 0x4EB44D: main (main.cpp:19)
+ n1: 1235200 0x548326: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 1235200 0x548394: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n0: 1235200 in 2 places, all below massif's threshold (1.00%)
+ n0: 929606 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=18
+#-----------
+time=371664320
+mem_heap_B=75943718
+mem_heap_extra_B=118474
+mem_stacks_B=0
+heap_tree=detailed
+n5: 75943718 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 69279504 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 69279504 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 69279504 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 69243552 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 69243552 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 69243552 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 69243552 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 69243552 0x4EB44D: main (main.cpp:19)
+    n0: 35952 in 1 place, below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+ n1: 1238400 0x53FDD4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 1238400 0x53FFD3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 1238400 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+    n1: 1238400 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 1238400 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 1238400 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+       n0: 1238400 0x4EB44D: main (main.cpp:19)
+ n1: 1235200 0x548326: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 1235200 0x548394: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n0: 1235200 in 2 places, all below massif's threshold (1.00%)
+ n0: 927014 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=19
+#-----------
+time=387627376
+mem_heap_B=79030478
+mem_heap_extra_B=123298
+mem_stacks_B=0
+heap_tree=detailed
+n5: 79030478 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 72366240 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 72366240 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 72366240 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 72330288 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 72330288 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 72330288 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 72330288 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 72330288 0x4EB44D: main (main.cpp:19)
+    n0: 35952 in 1 place, below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+ n1: 1238400 0x53FDD4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 1238400 0x53FFD3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 1238400 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+    n1: 1238400 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 1238400 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 1238400 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+       n0: 1238400 0x4EB44D: main (main.cpp:19)
+ n1: 1235200 0x548326: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 1235200 0x548394: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n0: 1235200 in 2 places, all below massif's threshold (1.00%)
+ n0: 927038 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=20
+#-----------
+time=404194656
+mem_heap_B=82238030
+mem_heap_extra_B=130098
+mem_stacks_B=0
+heap_tree=detailed
+n5: 82238030 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 75571104 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 75571104 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 75571104 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 75535152 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 75535152 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 75535152 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 75535152 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 75535152 0x4EB44D: main (main.cpp:19)
+    n0: 35952 in 1 place, below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+ n1: 1238400 0x53FDD4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 1238400 0x53FFD3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 1238400 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+    n1: 1238400 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 1238400 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 1238400 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+       n0: 1238400 0x4EB44D: main (main.cpp:19)
+ n1: 1235200 0x548326: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 1235200 0x548394: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n0: 1235200 in 2 places, all below massif's threshold (1.00%)
+ n0: 929726 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=21
+#-----------
+time=421432688
+mem_heap_B=85573646
+mem_heap_extra_B=133394
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=22
+#-----------
+time=439281312
+mem_heap_B=89019926
+mem_heap_extra_B=138794
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=23
+#-----------
+time=457819648
+mem_heap_B=92599742
+mem_heap_extra_B=144402
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=24
+#-----------
+time=487834848
+mem_heap_B=98398310
+mem_heap_extra_B=153450
+mem_stacks_B=0
+heap_tree=detailed
+n5: 98398310 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 91734096 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 91734096 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 91734096 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 91687872 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 91687872 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 91687872 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 91687872 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 91687872 0x4EB44D: main (main.cpp:19)
+    n0: 46224 in 1 place, below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+ n1: 1238400 0x53FDD4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 1238400 0x53FFD3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 1238400 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+    n1: 1238400 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 1238400 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 1238400 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+       n0: 1238400 0x4EB44D: main (main.cpp:19)
+ n1: 1235200 0x548326: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 1235200 0x548394: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n0: 1235200 in 2 places, all below massif's threshold (1.00%)
+ n0: 927014 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=25
+#-----------
+time=508462488
+mem_heap_B=102397022
+mem_heap_extra_B=161626
+mem_stacks_B=0
+heap_tree=detailed
+n5: 102397022 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 95729904 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 95729904 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 95729904 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 95683680 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 95683680 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 95683680 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 95683680 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 95683680 0x4EB44D: main (main.cpp:19)
+    n0: 46224 in 1 place, below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+ n1: 1238400 0x53FDD4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 1238400 0x53FFD3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 1238400 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+    n1: 1238400 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 1238400 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 1238400 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+       n0: 1238400 0x4EB44D: main (main.cpp:19)
+ n1: 1235200 0x548326: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 1235200 0x548394: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n0: 1235200 in 2 places, all below massif's threshold (1.00%)
+ n0: 929918 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=26
+#-----------
+time=530041840
+mem_heap_B=106559438
+mem_heap_extra_B=166178
+mem_stacks_B=0
+heap_tree=detailed
+n5: 106559438 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 99895200 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 99895200 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 99895200 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 99843840 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 99843840 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 99843840 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 99843840 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 99843840 0x4EB44D: main (main.cpp:19)
+    n0: 51360 in 1 place, below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+ n1: 1238400 0x53FDD4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 1238400 0x53FFD3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 1238400 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+    n1: 1238400 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 1238400 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 1238400 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+       n0: 1238400 0x4EB44D: main (main.cpp:19)
+ n1: 1235200 0x548326: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 1235200 0x548394: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n0: 1235200 in 2 places, all below massif's threshold (1.00%)
+ n0: 927038 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=27
+#-----------
+time=552489440
+mem_heap_B=110893382
+mem_heap_extra_B=175818
+mem_stacks_B=0
+heap_tree=detailed
+n5: 110893382 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 104224848 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 104224848 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 104224848 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 104173488 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 104173488 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 104173488 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 104173488 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 104173488 0x4EB44D: main (main.cpp:19)
+    n0: 51360 in 1 place, below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+ n1: 1238400 0x53FDD4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 1238400 0x53FFD3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 1238400 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+    n1: 1238400 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 1238400 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 1238400 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+       n0: 1238400 0x4EB44D: main (main.cpp:19)
+ n1: 1235200 0x548326: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 1235200 0x548394: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n0: 1235200 in 2 places, all below massif's threshold (1.00%)
+ n0: 931334 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=28
+#-----------
+time=575815792
+mem_heap_B=115404494
+mem_heap_extra_B=180546
+mem_stacks_B=0
+heap_tree=detailed
+n5: 115404494 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 108739392 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 108739392 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 108739392 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 108688032 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 108688032 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 108688032 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 108688032 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 108688032 0x4EB44D: main (main.cpp:19)
+    n0: 51360 in 1 place, below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+ n1: 1238400 0x53FDD4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 1238400 0x53FFD3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 1238400 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+    n1: 1238400 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 1238400 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 1238400 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+       n0: 1238400 0x4EB44D: main (main.cpp:19)
+ n1: 1235200 0x548326: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 1235200 0x548394: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n0: 1235200 in 2 places, all below massif's threshold (1.00%)
+ n0: 927902 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=29
+#-----------
+time=599964816
+mem_heap_B=120090446
+mem_heap_extra_B=189122
+mem_stacks_B=0
+heap_tree=detailed
+n5: 120090446 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 113423424 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 113423424 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 113423424 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 113372064 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 113372064 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 113372064 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 113372064 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 113372064 0x4EB44D: main (main.cpp:19)
+    n0: 51360 in 1 place, below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+ n1: 1238400 0x53FDD4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 1238400 0x53FFD3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 1238400 0x543F12: nox::ecs::EntityManager::createStep() (EntityManager.cpp:663)
+    n1: 1238400 0x547632: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 1238400 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 1238400 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+       n0: 1238400 0x4EB44D: main (main.cpp:19)
+ n1: 1235200 0x548326: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 1235200 0x548394: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n0: 1235200 in 2 places, all below massif's threshold (1.00%)
+ n0: 929822 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=30
+#-----------
+time=625328864
+mem_heap_B=124972022
+mem_heap_extra_B=194874
+mem_stacks_B=0
+heap_tree=detailed
+n3: 124972022 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 118307760 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 118307760 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 118307760 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 118246128 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 118246128 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 118246128 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 118246128 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 118246128 0x4EB44D: main (main.cpp:19)
+    n0: 61632 in 1 place, below massif's threshold (1.00%)
+ n0: 3400662 in 69 places, all below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+#-----------
+snapshot=31
+#-----------
+time=651663688
+mem_heap_B=130053734
+mem_heap_extra_B=204274
+mem_stacks_B=0
+heap_tree=detailed
+n3: 130053734 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 123387264 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 123387264 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 123387264 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 123325632 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 123325632 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 123325632 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 123325632 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 123325632 0x4EB44D: main (main.cpp:19)
+    n0: 61632 in 1 place, below massif's threshold (1.00%)
+ n0: 3402870 in 69 places, all below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+#-----------
+snapshot=32
+#-----------
+time=665253840
+mem_heap_B=132673886
+mem_heap_extra_B=208882
+mem_stacks_B=0
+heap_tree=detailed
+n3: 132673886 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 126006624 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 126006624 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 126006624 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 125944992 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 125944992 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 125944992 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 125944992 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 125944992 0x4EB44D: main (main.cpp:19)
+    n0: 61632 in 1 place, below massif's threshold (1.00%)
+ n0: 3403662 in 69 places, all below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+#-----------
+snapshot=33
+#-----------
+time=686072504
+mem_heap_B=136694798
+mem_heap_extra_B=214762
+mem_stacks_B=0
+heap_tree=detailed
+n3: 136694798 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 130028112 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 130028112 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 130028112 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 129966480 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 129966480 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 129966480 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 129966480 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 129966480 0x4EB44D: main (main.cpp:19)
+    n0: 61632 in 1 place, below massif's threshold (1.00%)
+ n0: 3403086 in 69 places, all below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+#-----------
+snapshot=34
+#-----------
+time=714387888
+mem_heap_B=142163582
+mem_heap_extra_B=222578
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=35
+#-----------
+time=737235912
+mem_heap_B=146568854
+mem_heap_extra_B=228482
+mem_stacks_B=0
+heap_tree=detailed
+n3: 146568854 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 139904640 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 139904640 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 139904640 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 139832736 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 139832736 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 139832736 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 139832736 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 139832736 0x4EB44D: main (main.cpp:19)
+    n0: 71904 in 1 place, below massif's threshold (1.00%)
+ n0: 3400614 in 69 places, all below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+#-----------
+snapshot=36
+#-----------
+time=768080464
+mem_heap_B=152527598
+mem_heap_extra_B=238434
+mem_stacks_B=0
+heap_tree=detailed
+n3: 152527598 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 145862400 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 145862400 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 145862400 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 145790496 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 145790496 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 145790496 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 145790496 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 145790496 0x4EB44D: main (main.cpp:19)
+    n0: 71904 in 1 place, below massif's threshold (1.00%)
+ n0: 3401598 in 69 places, all below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+#-----------
+snapshot=37
+#-----------
+time=783979960
+mem_heap_B=155596334
+mem_heap_extra_B=244906
+mem_stacks_B=0
+heap_tree=detailed
+n3: 155596334 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 148928592 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 148928592 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 148928592 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 148856688 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 148856688 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 148856688 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 148856688 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 148856688 0x4EB44D: main (main.cpp:19)
+    n0: 71904 in 1 place, below massif's threshold (1.00%)
+ n0: 3404142 in 69 places, all below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+#-----------
+snapshot=38
+#-----------
+time=800200800
+mem_heap_B=158724014
+mem_heap_extra_B=249682
+mem_stacks_B=0
+heap_tree=detailed
+n3: 158724014 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 152056416 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 152056416 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 152056416 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 151984512 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 151984512 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 151984512 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 151984512 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 151984512 0x4EB44D: main (main.cpp:19)
+    n0: 71904 in 1 place, below massif's threshold (1.00%)
+ n0: 3403998 in 69 places, all below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+#-----------
+snapshot=39
+#-----------
+time=816502456
+mem_heap_B=161886374
+mem_heap_extra_B=253666
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=40
+#-----------
+time=833145456
+mem_heap_B=165111806
+mem_heap_extra_B=258706
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=41
+#-----------
+time=850115704
+mem_heap_B=168398054
+mem_heap_extra_B=263298
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=42
+#-----------
+time=867479856
+mem_heap_B=171751334
+mem_heap_extra_B=268170
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=43
+#-----------
+time=885205376
+mem_heap_B=175187774
+mem_heap_extra_B=273826
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=44
+#-----------
+time=903224376
+mem_heap_B=178668806
+mem_heap_extra_B=278434
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=45
+#-----------
+time=921590432
+mem_heap_B=182237534
+mem_heap_extra_B=286930
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=46
+#-----------
+time=940421224
+mem_heap_B=185866046
+mem_heap_extra_B=290810
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=47
+#-----------
+time=959556152
+mem_heap_B=189573134
+mem_heap_extra_B=295850
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=48
+#-----------
+time=979112216
+mem_heap_B=193353230
+mem_heap_extra_B=301738
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=49
+#-----------
+time=990945248
+mem_heap_B=195634358
+mem_heap_extra_B=305786
+mem_stacks_B=0
+heap_tree=detailed
+n3: 195634358 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 188968848 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 188968848 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 188968848 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 188881536 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 188881536 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 188881536 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 188881536 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 188881536 0x4EB44D: main (main.cpp:19)
+    n0: 87312 in 1 place, below massif's threshold (1.00%)
+ n0: 3401910 in 69 places, all below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+#-----------
+snapshot=50
+#-----------
+time=1001108144
+mem_heap_B=197590910
+mem_heap_extra_B=308658
+mem_stacks_B=0
+heap_tree=detailed
+n3: 197590910 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 190925664 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 190925664 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 190925664 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 190838352 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 190838352 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 190838352 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 190838352 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 190838352 0x4EB44D: main (main.cpp:19)
+    n0: 87312 in 1 place, below massif's threshold (1.00%)
+ n0: 3401646 in 69 places, all below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+#-----------
+snapshot=51
+#-----------
+time=1011329512
+mem_heap_B=199565366
+mem_heap_extra_B=313218
+mem_stacks_B=0
+heap_tree=detailed
+n3: 199565366 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 192897888 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 192897888 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 192897888 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 192810576 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 192810576 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 192810576 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 192810576 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 192810576 0x4EB44D: main (main.cpp:19)
+    n0: 87312 in 1 place, below massif's threshold (1.00%)
+ n0: 3403878 in 69 places, all below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+#-----------
+snapshot=52
+#-----------
+time=1021659128
+mem_heap_B=201561950
+mem_heap_extra_B=315450
+mem_stacks_B=0
+heap_tree=peak
+n3: 201561950 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 194895792 0x548A76: nox::memory::LockFreeAllocator<5120ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 194895792 0x548AF6: nox::thread::LockFreeStack<std::function<void ()> >::push(std::function<void ()> const&) (LockFreeStack.tpp:13)
+   n2: 194895792 0x548BDB: nox::thread::Pool<nox::thread::LockFreeStack>::addTask(std::function<void ()> const&) (Pool.tpp:66)
+    n1: 194808480 0x547475: nox::ecs::EntityManager::distributeEntityEvents() (EntityManager.cpp:590)
+     n1: 194808480 0x547612: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:518)
+      n1: 194808480 0x4EBBAE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 194808480 0x54B5F8: nox::app::Application::execute() (Application.cpp:281)
+        n0: 194808480 0x4EB44D: main (main.cpp:19)
+    n0: 87312 in 1 place, below massif's threshold (1.00%)
+ n0: 3402558 in 69 places, all below massif's threshold (1.00%)
+ n1: 3263600 0x54805E: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 3263600 0x5480F6: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 3263600 0x545F98: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 3263600 0x4ED57E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 3263600 0x54BD9B: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 3263600 0x4EB43F: main (main.cpp:14)
+#-----------
+snapshot=53
+#-----------
+time=1033496784
+mem_heap_B=199247825
+mem_heap_extra_B=309551
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=54
+#-----------
+time=1045333128
+mem_heap_B=187429889
+mem_heap_extra_B=291143
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=55
+#-----------
+time=1057169472
+mem_heap_B=175611953
+mem_heap_extra_B=272735
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=56
+#-----------
+time=1069005816
+mem_heap_B=163794017
+mem_heap_extra_B=254327
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=57
+#-----------
+time=1080842160
+mem_heap_B=151976081
+mem_heap_extra_B=235919
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=58
+#-----------
+time=1092678504
+mem_heap_B=140158145
+mem_heap_extra_B=217511
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=59
+#-----------
+time=1104514848
+mem_heap_B=128340209
+mem_heap_extra_B=199103
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=60
+#-----------
+time=1116351192
+mem_heap_B=116522273
+mem_heap_extra_B=180695
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=61
+#-----------
+time=1128187536
+mem_heap_B=104704337
+mem_heap_extra_B=162287
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=62
+#-----------
+time=1140023880
+mem_heap_B=92886401
+mem_heap_extra_B=143879
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=63
+#-----------
+time=1151860224
+mem_heap_B=81068465
+mem_heap_extra_B=125471
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=64
+#-----------
+time=1163696568
+mem_heap_B=69250529
+mem_heap_extra_B=107063
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=65
+#-----------
+time=1175532912
+mem_heap_B=57432593
+mem_heap_extra_B=88655
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=66
+#-----------
+time=1187369256
+mem_heap_B=45614657
+mem_heap_extra_B=70247
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=67
+#-----------
+time=1199205600
+mem_heap_B=33796721
+mem_heap_extra_B=51839
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=68
+#-----------
+time=1211041944
+mem_heap_B=21978785
+mem_heap_extra_B=33431
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=69
+#-----------
+time=1222878288
+mem_heap_B=10160849
+mem_heap_extra_B=15023
+mem_stacks_B=0
+heap_tree=empty

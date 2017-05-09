@@ -1,0 +1,1996 @@
+desc: --time-unit=B --detailed-freq=100 --massif-out-file=../results/nox/fast_spawning/clang_deletes_10_sprite_actors_0512_2017-04-29_02-47-42/massif_output.txt
+cmd: ./build/bin/nox_fast_spawning -actor_name SpriteActor -actor_amount 512 -deletion_amount 10 --logrm warning
+time_unit: B
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=1399664
+mem_heap_B=273701
+mem_heap_extra_B=9275
+mem_stacks_B=0
+heap_tree=detailed
+n12: 273701 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 103296 0x4CD89E: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x49ECF7: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+   n1: 103296 0x49FBE5: ConsoleApplication::onInit() (console_application.cpp:167)
+    n1: 103296 0x4A330B: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x49B73F: main (main.cpp:14)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x7: ???
+      n1: 72704 0xFFF000629: ???
+       n1: 72704 0xFFF000647: ???
+        n1: 72704 0xFFF000653: ???
+         n1: 72704 0xFFF00065F: ???
+          n1: 72704 0xFFF00066D: ???
+           n1: 72704 0xFFF000671: ???
+            n1: 72704 0xFFF000682: ???
+             n1: 72704 0xFFF000685: ???
+              n0: 72704 0xFFF00068D: ???
+ n0: 38709 in 138 places, all below massif's threshold (1.00%)
+ n1: 16384 0x54DFD6: b2BlockAllocator::Allocate(int) (b2BlockAllocator.cpp:131)
+  n1: 16384 0x54AE8B: b2World::CreateBody(b2BodyDef const*) (b2World.cpp:115)
+   n1: 16384 0x4CD9A3: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:248)
+    n1: 16384 0x49ECF7: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+     n1: 16384 0x49FBE5: ConsoleApplication::onInit() (console_application.cpp:167)
+      n1: 16384 0x4A330B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 16384 0x49B73F: main (main.cpp:14)
+ n2: 11264 0x4B5128: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 9728 0x50A87B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n2: 9728 0x513308: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 9216 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+     n1: 9216 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+      n1: 9216 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+       n1: 9216 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 9216 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 9216 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 9216 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 9216 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 9216 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 9216 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 9216 0x49B74D: main (main.cpp:19)
+    n0: 512 in 1 place, below massif's threshold (1.00%)
+  n0: 1536 in 3 places, all below massif's threshold (1.00%)
+ n2: 8968 0x5132E1: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+  n1: 8496 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+   n1: 8496 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+    n1: 8496 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+     n1: 8496 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+      n1: 8496 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+       n1: 8496 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+        n1: 8496 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+         n1: 8496 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+          n1: 8496 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+           n1: 8496 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+            n0: 8496 0x49B74D: main (main.cpp:19)
+  n0: 472 in 1 place, below massif's threshold (1.00%)
+ n1: 4896 0x4EEE6E: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 4896 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+   n1: 4896 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+    n1: 4896 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+     n1: 4896 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+      n1: 4896 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+       n1: 4896 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 4896 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 4896 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 4896 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 4896 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 4896 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 4896 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 4896 0x49B74D: main (main.cpp:19)
+ n1: 4096 0x5FEC1D3: _IO_file_doallocate (filedoalloc.c:127)
+  n1: 4096 0x5FFA592: _IO_doallocbuf (genops.c:398)
+   n1: 4096 0x5FF98F6: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:820)
+    n1: 4096 0x5FF828B: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1331)
+     n1: 4096 0x5FED7B9: fwrite (iofwrite.c:39)
+      n1: 4096 0x57ECEC4: std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+       n1: 4096 0x4A95FA: nox::log::OutputStream::outputMessage(nox::log::Message const&) (basic_string.h:5177)
+        n1: 4096 0x4A9A09: nox::log::OutputManager::log(nox::log::Message const&) (OutputManager.cpp:38)
+         n1: 4096 0x4A3E4A: nox::log::Logger::Output::raw(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Logger.cpp:118)
+          n1: 4096 0x4A30E7: nox::app::Application::init(int, char**) (Application.cpp:207)
+           n0: 4096 0x49B73F: main (main.cpp:14)
+ n1: 3944 0x49FD61: std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> > nox::util::createDerivedObject<nox::logic::actor::Component, nox::logic::graphics::ActorSprite>() (GenericObjectFactory.h:47)
+  n1: 3944 0x5160E4: nox::util::GenericObjectFactory<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, nox::logic::actor::Component>::createObject(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const (GenericObjectFactory.h:112)
+   n1: 3944 0x510ED2: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:250)
+    n1: 3944 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 3944 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 3944 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 3944 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 3944 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 3944 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 3944 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 3944 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 3944 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 3944 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 3944 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 3944 0x49B74D: main (main.cpp:19)
+ n1: 3264 0x51B836: nox::logic::graphics::ActorGraphics::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 3264 0x4EEEE6: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (ActorSprite.cpp:55)
+   n1: 3264 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+    n1: 3264 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 3264 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 3264 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 3264 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 3264 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 3264 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 3264 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 3264 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 3264 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 3264 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 3264 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 3264 0x49B74D: main (main.cpp:19)
+ n1: 3264 0x51B89C: nox::logic::graphics::ActorGraphics::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 3264 0x4EEEE6: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (ActorSprite.cpp:55)
+   n1: 3264 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+    n1: 3264 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 3264 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 3264 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 3264 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 3264 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 3264 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 3264 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 3264 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 3264 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 3264 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 3264 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 3264 0x49B74D: main (main.cpp:19)
+ n1: 2912 0x50D3E0: nox::logic::actor::Actor::addComponent(std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> >) (new_allocator.h:104)
+  n2: 2912 0x5134C3: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:191)
+   n1: 2856 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+    n1: 2856 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+     n1: 2856 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+      n1: 2856 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+       n1: 2856 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+        n1: 2856 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+         n1: 2856 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+          n1: 2856 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+           n1: 2856 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+            n1: 2856 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+             n0: 2856 0x49B74D: main (main.cpp:19)
+   n0: 56 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=2
+#-----------
+time=3780864
+mem_heap_B=679525
+mem_heap_extra_B=62731
+mem_stacks_B=0
+heap_tree=detailed
+n17: 679525 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 103296 0x4CD89E: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x49ECF7: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+   n1: 103296 0x49FBE5: ConsoleApplication::onInit() (console_application.cpp:167)
+    n1: 103296 0x4A330B: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x49B73F: main (main.cpp:14)
+ n2: 81920 0x4B5128: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 80896 0x50A87B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n2: 80896 0x513308: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 80384 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+     n1: 80384 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+      n1: 80384 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+       n1: 80384 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 80384 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 80384 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 80384 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 80384 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 80384 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 80384 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 80384 0x49B74D: main (main.cpp:19)
+    n0: 512 in 1 place, below massif's threshold (1.00%)
+  n0: 1024 in 3 places, all below massif's threshold (1.00%)
+ n0: 81581 in 135 places, all below massif's threshold (1.00%)
+ n2: 74576 0x5132E1: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+  n1: 74104 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+   n1: 74104 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+    n1: 74104 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+     n1: 74104 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+      n1: 74104 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+       n1: 74104 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+        n1: 74104 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+         n1: 74104 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+          n1: 74104 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+           n1: 74104 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+            n0: 74104 0x49B74D: main (main.cpp:19)
+  n0: 472 in 1 place, below massif's threshold (1.00%)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x7: ???
+      n1: 72704 0xFFF000629: ???
+       n1: 72704 0xFFF000647: ???
+        n1: 72704 0xFFF000653: ???
+         n1: 72704 0xFFF00065F: ???
+          n1: 72704 0xFFF00066D: ???
+           n1: 72704 0xFFF000671: ???
+            n1: 72704 0xFFF000682: ???
+             n1: 72704 0xFFF000685: ???
+              n0: 72704 0xFFF00068D: ???
+ n1: 45216 0x4EEE6E: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 45216 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+   n1: 45216 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+    n1: 45216 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+     n1: 45216 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+      n1: 45216 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+       n1: 45216 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 45216 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 45216 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 45216 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 45216 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 45216 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 45216 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 45216 0x49B74D: main (main.cpp:19)
+ n1: 36424 0x49FD61: std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> > nox::util::createDerivedObject<nox::logic::actor::Component, nox::logic::graphics::ActorSprite>() (GenericObjectFactory.h:47)
+  n1: 36424 0x5160E4: nox::util::GenericObjectFactory<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, nox::logic::actor::Component>::createObject(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const (GenericObjectFactory.h:112)
+   n1: 36424 0x510ED2: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:250)
+    n1: 36424 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 36424 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 36424 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 36424 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 36424 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 36424 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 36424 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 36424 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 36424 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 36424 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 36424 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 36424 0x49B74D: main (main.cpp:19)
+ n1: 30144 0x51B89C: nox::logic::graphics::ActorGraphics::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 30144 0x4EEEE6: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (ActorSprite.cpp:55)
+   n1: 30144 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+    n1: 30144 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 30144 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 30144 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 30144 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 30144 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 30144 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 30144 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 30144 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 30144 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 30144 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 30144 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 30144 0x49B74D: main (main.cpp:19)
+ n1: 30144 0x51B836: nox::logic::graphics::ActorGraphics::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 30144 0x4EEEE6: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (ActorSprite.cpp:55)
+   n1: 30144 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+    n1: 30144 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 30144 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 30144 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 30144 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 30144 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 30144 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 30144 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 30144 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 30144 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 30144 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 30144 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 30144 0x49B74D: main (main.cpp:19)
+ n1: 26432 0x50D3E0: nox::logic::actor::Actor::addComponent(std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> >) (new_allocator.h:104)
+  n2: 26432 0x5134C3: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:191)
+   n1: 26376 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+    n1: 26376 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+     n1: 26376 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+      n1: 26376 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+       n1: 26376 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+        n1: 26376 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+         n1: 26376 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+          n1: 26376 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+           n1: 26376 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+            n1: 26376 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+             n0: 26376 0x49B74D: main (main.cpp:19)
+   n0: 56 in 1 place, below massif's threshold (1.00%)
+ n2: 20288 0x57FD3DD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 10376 0x4B6C28: nox::logic::actor::Component::setOwner(nox::logic::actor::Actor*) (Component.cpp:66)
+   n1: 10376 0x50D43A: nox::logic::actor::Actor::addComponent(std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> >) (Actor.cpp:92)
+    n2: 10376 0x5134C3: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:191)
+     n1: 10315 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 10315 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 10315 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 10315 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 10315 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 10315 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 10315 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 10315 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 10315 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 10315 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 10315 0x49B74D: main (main.cpp:19)
+     n0: 61 in 1 place, below massif's threshold (1.00%)
+  n0: 9912 in 10 places, all below massif's threshold (1.00%)
+ n1: 16384 0x54DFD6: b2BlockAllocator::Allocate(int) (b2BlockAllocator.cpp:131)
+  n1: 16384 0x54AE8B: b2World::CreateBody(b2BodyDef const*) (b2World.cpp:115)
+   n1: 16384 0x4CD9A3: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:248)
+    n1: 16384 0x49ECF7: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+     n1: 16384 0x49FBE5: ConsoleApplication::onInit() (console_application.cpp:167)
+      n1: 16384 0x4A330B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 16384 0x49B73F: main (main.cpp:14)
+ n1: 13816 0x49FC81: std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> > nox::util::createDerivedObject<nox::logic::actor::Component, nox::logic::actor::Transform>() (GenericObjectFactory.h:47)
+  n1: 13816 0x5160E4: nox::util::GenericObjectFactory<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, nox::logic::actor::Component>::createObject(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const (GenericObjectFactory.h:112)
+   n1: 13816 0x510ED2: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:250)
+    n1: 13816 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 13816 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 13816 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 13816 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 13816 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 13816 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 13816 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 13816 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 13816 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 13816 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 13816 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 13816 0x49B74D: main (main.cpp:19)
+ n1: 13816 0x4B7C8D: nox::logic::actor::Transform::broadcastTransformChange() (new_allocator.h:104)
+  n1: 13816 0x50921F: nox::logic::actor::Actor::create() (Actor.cpp:288)
+   n1: 13816 0x4DCD0A: nox::logic::world::Manager::onActorManaged(nox::logic::actor::Actor*) (Manager.cpp:271)
+    n1: 13816 0x4E0E69: nox::logic::world::Manager::handleActorManagement(nox::logic::actor::Actor*) (Manager.cpp:241)
+     n1: 13816 0x4E0FBC: nox::logic::world::Manager::manageActor(std::unique_ptr<nox::logic::actor::Actor, std::default_delete<nox::logic::actor::Actor> >) (Manager.cpp:312)
+      n1: 13816 0x49C97C: components::SpawningComponent::createWorld() (spawning_component.cpp:61)
+       n1: 13816 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 13816 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 13816 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 13816 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 13816 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 13816 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 13816 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 13816 0x49B74D: main (main.cpp:19)
+ n1: 12560 0x51B405: nox::logic::graphics::ActorGraphics::broadcastSceneNodeCreation() (new_allocator.h:104)
+  n1: 12560 0x507717: nox::logic::actor::Actor::activate() (Actor.cpp:446)
+   n1: 12560 0x4E0E69: nox::logic::world::Manager::handleActorManagement(nox::logic::actor::Actor*) (Manager.cpp:241)
+    n1: 12560 0x4E0FBC: nox::logic::world::Manager::manageActor(std::unique_ptr<nox::logic::actor::Actor, std::default_delete<nox::logic::actor::Actor> >) (Manager.cpp:312)
+     n1: 12560 0x49C97C: components::SpawningComponent::createWorld() (spawning_component.cpp:61)
+      n1: 12560 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+       n1: 12560 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+        n1: 12560 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+         n1: 12560 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+          n1: 12560 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+           n1: 12560 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+            n1: 12560 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+             n0: 12560 0x49B74D: main (main.cpp:19)
+ n2: 10176 0x4B50F6: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 10112 0x50A87B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n2: 10112 0x513308: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 10048 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+     n1: 10048 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+      n1: 10048 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+       n1: 10048 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 10048 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 10048 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 10048 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 10048 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 10048 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 10048 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 10048 0x49B74D: main (main.cpp:19)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 64 in 3 places, all below massif's threshold (1.00%)
+ n2: 10048 0x4E13F7: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:104)
+  n1: 10048 0x4E1AF3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:287)
+   n1: 10048 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+    n1: 10048 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+     n1: 10048 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+      n1: 10048 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+       n1: 10048 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+        n1: 10048 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+         n1: 10048 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+          n1: 10048 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+           n0: 10048 0x49B74D: main (main.cpp:19)
+  n0: 0 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=3
+#-----------
+time=5425800
+mem_heap_B=960828
+mem_heap_extra_B=99516
+mem_stacks_B=0
+heap_tree=detailed
+n19: 960828 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n2: 131584 0x4B5128: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 130560 0x50A87B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n2: 130560 0x513308: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 130048 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+     n1: 130048 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+      n1: 130048 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+       n1: 130048 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 130048 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 130048 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 130048 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 130048 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 130048 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 130048 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 130048 0x49B74D: main (main.cpp:19)
+    n0: 512 in 1 place, below massif's threshold (1.00%)
+  n0: 1024 in 3 places, all below massif's threshold (1.00%)
+ n2: 120360 0x5132E1: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+  n1: 119888 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+   n1: 119888 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+    n1: 119888 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+     n1: 119888 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+      n1: 119888 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+       n1: 119888 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+        n1: 119888 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+         n1: 119888 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+          n1: 119888 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+           n1: 119888 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+            n0: 119888 0x49B74D: main (main.cpp:19)
+  n0: 472 in 1 place, below massif's threshold (1.00%)
+ n1: 103296 0x4CD89E: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x49ECF7: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+   n1: 103296 0x49FBE5: ConsoleApplication::onInit() (console_application.cpp:167)
+    n1: 103296 0x4A330B: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x49B73F: main (main.cpp:14)
+ n0: 91015 in 133 places, all below massif's threshold (1.00%)
+ n1: 73152 0x4EEE6E: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 73152 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+   n1: 73152 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+    n1: 73152 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+     n1: 73152 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+      n1: 73152 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+       n1: 73152 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 73152 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 73152 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 73152 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 73152 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 73152 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 73152 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 73152 0x49B74D: main (main.cpp:19)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x7: ???
+      n1: 72704 0xFFF000629: ???
+       n1: 72704 0xFFF000647: ???
+        n1: 72704 0xFFF000653: ???
+         n1: 72704 0xFFF00065F: ???
+          n1: 72704 0xFFF00066D: ???
+           n1: 72704 0xFFF000671: ???
+            n1: 72704 0xFFF000682: ???
+             n1: 72704 0xFFF000685: ???
+              n0: 72704 0xFFF00068D: ???
+ n1: 58928 0x49FD61: std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> > nox::util::createDerivedObject<nox::logic::actor::Component, nox::logic::graphics::ActorSprite>() (GenericObjectFactory.h:47)
+  n1: 58928 0x5160E4: nox::util::GenericObjectFactory<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, nox::logic::actor::Component>::createObject(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const (GenericObjectFactory.h:112)
+   n1: 58928 0x510ED2: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:250)
+    n1: 58928 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 58928 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 58928 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 58928 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 58928 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 58928 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 58928 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 58928 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 58928 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 58928 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 58928 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 58928 0x49B74D: main (main.cpp:19)
+ n1: 48768 0x51B89C: nox::logic::graphics::ActorGraphics::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 48768 0x4EEEE6: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (ActorSprite.cpp:55)
+   n1: 48768 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+    n1: 48768 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 48768 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 48768 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 48768 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 48768 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 48768 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 48768 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 48768 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 48768 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 48768 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 48768 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 48768 0x49B74D: main (main.cpp:19)
+ n1: 48768 0x51B836: nox::logic::graphics::ActorGraphics::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 48768 0x4EEEE6: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (ActorSprite.cpp:55)
+   n1: 48768 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+    n1: 48768 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 48768 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 48768 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 48768 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 48768 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 48768 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 48768 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 48768 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 48768 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 48768 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 48768 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 48768 0x49B74D: main (main.cpp:19)
+ n1: 42728 0x50D3E0: nox::logic::actor::Actor::addComponent(std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> >) (new_allocator.h:104)
+  n2: 42728 0x5134C3: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:191)
+   n1: 42672 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+    n1: 42672 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+     n1: 42672 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+      n1: 42672 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+       n1: 42672 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+        n1: 42672 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+         n1: 42672 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+          n1: 42672 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+           n1: 42672 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+            n1: 42672 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+             n0: 42672 0x49B74D: main (main.cpp:19)
+   n0: 56 in 1 place, below massif's threshold (1.00%)
+ n2: 32801 0x57FD3DD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 16875 0x4B6C28: nox::logic::actor::Component::setOwner(nox::logic::actor::Actor*) (Component.cpp:66)
+   n1: 16875 0x50D43A: nox::logic::actor::Actor::addComponent(std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> >) (Actor.cpp:92)
+    n2: 16875 0x5134C3: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:191)
+     n1: 16814 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 16814 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 16814 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 16814 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 16814 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 16814 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 16814 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 16814 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 16814 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 16814 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 16814 0x49B74D: main (main.cpp:19)
+     n0: 61 in 1 place, below massif's threshold (1.00%)
+  n0: 15926 in 10 places, all below massif's threshold (1.00%)
+ n1: 22352 0x49FC81: std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> > nox::util::createDerivedObject<nox::logic::actor::Component, nox::logic::actor::Transform>() (GenericObjectFactory.h:47)
+  n1: 22352 0x5160E4: nox::util::GenericObjectFactory<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, nox::logic::actor::Component>::createObject(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const (GenericObjectFactory.h:112)
+   n1: 22352 0x510ED2: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:250)
+    n1: 22352 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 22352 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 22352 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 22352 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 22352 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 22352 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 22352 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 22352 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 22352 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 22352 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 22352 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 22352 0x49B74D: main (main.cpp:19)
+ n1: 22264 0x4B7C8D: nox::logic::actor::Transform::broadcastTransformChange() (new_allocator.h:104)
+  n1: 22264 0x50921F: nox::logic::actor::Actor::create() (Actor.cpp:288)
+   n1: 22264 0x4DCD0A: nox::logic::world::Manager::onActorManaged(nox::logic::actor::Actor*) (Manager.cpp:271)
+    n1: 22264 0x4E0E69: nox::logic::world::Manager::handleActorManagement(nox::logic::actor::Actor*) (Manager.cpp:241)
+     n1: 22264 0x4E0FBC: nox::logic::world::Manager::manageActor(std::unique_ptr<nox::logic::actor::Actor, std::default_delete<nox::logic::actor::Actor> >) (Manager.cpp:312)
+      n1: 22264 0x49C97C: components::SpawningComponent::createWorld() (spawning_component.cpp:61)
+       n1: 22264 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 22264 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 22264 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 22264 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 22264 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 22264 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 22264 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 22264 0x49B74D: main (main.cpp:19)
+ n1: 20240 0x51B405: nox::logic::graphics::ActorGraphics::broadcastSceneNodeCreation() (new_allocator.h:104)
+  n1: 20240 0x507717: nox::logic::actor::Actor::activate() (Actor.cpp:446)
+   n1: 20240 0x4E0E69: nox::logic::world::Manager::handleActorManagement(nox::logic::actor::Actor*) (Manager.cpp:241)
+    n1: 20240 0x4E0FBC: nox::logic::world::Manager::manageActor(std::unique_ptr<nox::logic::actor::Actor, std::default_delete<nox::logic::actor::Actor> >) (Manager.cpp:312)
+     n1: 20240 0x49C97C: components::SpawningComponent::createWorld() (spawning_component.cpp:61)
+      n1: 20240 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+       n1: 20240 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+        n1: 20240 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+         n1: 20240 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+          n1: 20240 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+           n1: 20240 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+            n1: 20240 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+             n0: 20240 0x49B74D: main (main.cpp:19)
+ n2: 16384 0x4B50F6: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 16320 0x50A87B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n2: 16320 0x513308: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 16256 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+     n1: 16256 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+      n1: 16256 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+       n1: 16256 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 16256 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 16256 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 16256 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 16256 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 16256 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 16256 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 16256 0x49B74D: main (main.cpp:19)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 64 in 3 places, all below massif's threshold (1.00%)
+ n1: 16384 0x54DFD6: b2BlockAllocator::Allocate(int) (b2BlockAllocator.cpp:131)
+  n1: 16384 0x54AE8B: b2World::CreateBody(b2BodyDef const*) (b2World.cpp:115)
+   n1: 16384 0x4CD9A3: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:248)
+    n1: 16384 0x49ECF7: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+     n1: 16384 0x49FBE5: ConsoleApplication::onInit() (console_application.cpp:167)
+      n1: 16384 0x4A330B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 16384 0x49B73F: main (main.cpp:14)
+ n2: 16192 0x4E13F7: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:104)
+  n1: 16192 0x4E1AF3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:287)
+   n1: 16192 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+    n1: 16192 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+     n1: 16192 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+      n1: 16192 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+       n1: 16192 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+        n1: 16192 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+         n1: 16192 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+          n1: 16192 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+           n0: 16192 0x49B74D: main (main.cpp:19)
+  n0: 0 in 1 place, below massif's threshold (1.00%)
+ n1: 11776 0x4B566D: void std::deque<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_push_back_aux<std::shared_ptr<nox::event::Event> >(std::shared_ptr<nox::event::Event>&&) (new_allocator.h:104)
+  n1: 11776 0x4B2CCB: nox::event::Manager::queueEvent(std::shared_ptr<nox::event::Event>) (deque.tcc:161)
+   n0: 11776 in 3 places, all below massif's threshold (1.00%)
+ n1: 11132 0x518017: nox::logic::actor::Event::Event(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, nox::logic::actor::Actor*) (basic_string.tcc:223)
+  n0: 11132 in 2 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=4
+#-----------
+time=6788216
+mem_heap_B=1194638
+mem_heap_extra_B=130026
+mem_stacks_B=0
+heap_tree=detailed
+n20: 1194638 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n2: 172544 0x4B5128: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 171520 0x50A87B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n2: 171520 0x513308: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 171008 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+     n1: 171008 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+      n1: 171008 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+       n1: 171008 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 171008 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 171008 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 171008 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 171008 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 171008 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 171008 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 171008 0x49B74D: main (main.cpp:19)
+    n0: 512 in 1 place, below massif's threshold (1.00%)
+  n0: 1024 in 3 places, all below massif's threshold (1.00%)
+ n2: 158120 0x5132E1: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+  n1: 157648 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+   n1: 157648 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+    n1: 157648 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+     n1: 157648 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+      n1: 157648 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+       n1: 157648 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+        n1: 157648 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+         n1: 157648 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+          n1: 157648 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+           n1: 157648 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+            n0: 157648 0x49B74D: main (main.cpp:19)
+  n0: 472 in 1 place, below massif's threshold (1.00%)
+ n1: 103296 0x4CD89E: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x49ECF7: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+   n1: 103296 0x49FBE5: ConsoleApplication::onInit() (console_application.cpp:167)
+    n1: 103296 0x4A330B: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x49B73F: main (main.cpp:14)
+ n0: 98492 in 133 places, all below massif's threshold (1.00%)
+ n1: 96192 0x4EEE6E: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 96192 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+   n1: 96192 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+    n1: 96192 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+     n1: 96192 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+      n1: 96192 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+       n1: 96192 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 96192 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 96192 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 96192 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 96192 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 96192 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 96192 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 96192 0x49B74D: main (main.cpp:19)
+ n1: 77488 0x49FD61: std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> > nox::util::createDerivedObject<nox::logic::actor::Component, nox::logic::graphics::ActorSprite>() (GenericObjectFactory.h:47)
+  n1: 77488 0x5160E4: nox::util::GenericObjectFactory<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, nox::logic::actor::Component>::createObject(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const (GenericObjectFactory.h:112)
+   n1: 77488 0x510ED2: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:250)
+    n1: 77488 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 77488 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 77488 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 77488 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 77488 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 77488 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 77488 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 77488 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 77488 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 77488 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 77488 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 77488 0x49B74D: main (main.cpp:19)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x7: ???
+      n1: 72704 0xFFF000629: ???
+       n1: 72704 0xFFF000647: ???
+        n1: 72704 0xFFF000653: ???
+         n1: 72704 0xFFF00065F: ???
+          n1: 72704 0xFFF00066D: ???
+           n1: 72704 0xFFF000671: ???
+            n1: 72704 0xFFF000682: ???
+             n1: 72704 0xFFF000685: ???
+              n0: 72704 0xFFF00068D: ???
+ n1: 64128 0x51B836: nox::logic::graphics::ActorGraphics::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 64128 0x4EEEE6: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (ActorSprite.cpp:55)
+   n1: 64128 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+    n1: 64128 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 64128 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 64128 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 64128 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 64128 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 64128 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 64128 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 64128 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 64128 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 64128 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 64128 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 64128 0x49B74D: main (main.cpp:19)
+ n1: 64128 0x51B89C: nox::logic::graphics::ActorGraphics::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 64128 0x4EEEE6: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (ActorSprite.cpp:55)
+   n1: 64128 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+    n1: 64128 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 64128 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 64128 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 64128 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 64128 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 64128 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 64128 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 64128 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 64128 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 64128 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 64128 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 64128 0x49B74D: main (main.cpp:19)
+ n1: 56112 0x50D3E0: nox::logic::actor::Actor::addComponent(std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> >) (new_allocator.h:104)
+  n2: 56112 0x5134C3: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:191)
+   n1: 56056 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+    n1: 56056 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+     n1: 56056 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+      n1: 56056 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+       n1: 56056 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+        n1: 56056 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+         n1: 56056 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+          n1: 56056 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+           n1: 56056 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+            n1: 56056 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+             n0: 56056 0x49B74D: main (main.cpp:19)
+   n0: 56 in 1 place, below massif's threshold (1.00%)
+ n2: 43086 0x57FD3DD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 22200 0x4B6C28: nox::logic::actor::Component::setOwner(nox::logic::actor::Actor*) (Component.cpp:66)
+   n1: 22200 0x50D43A: nox::logic::actor::Actor::addComponent(std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> >) (Actor.cpp:92)
+    n2: 22200 0x5134C3: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:191)
+     n1: 22139 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 22139 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 22139 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 22139 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 22139 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 22139 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 22139 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 22139 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 22139 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 22139 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 22139 0x49B74D: main (main.cpp:19)
+     n0: 61 in 1 place, below massif's threshold (1.00%)
+  n0: 20886 in 10 places, all below massif's threshold (1.00%)
+ n1: 29304 0x49FC81: std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> > nox::util::createDerivedObject<nox::logic::actor::Component, nox::logic::actor::Transform>() (GenericObjectFactory.h:47)
+  n1: 29304 0x5160E4: nox::util::GenericObjectFactory<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, nox::logic::actor::Component>::createObject(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const (GenericObjectFactory.h:112)
+   n1: 29304 0x510ED2: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:250)
+    n1: 29304 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 29304 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 29304 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 29304 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 29304 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 29304 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 29304 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 29304 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 29304 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 29304 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 29304 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 29304 0x49B74D: main (main.cpp:19)
+ n1: 29304 0x4B7C8D: nox::logic::actor::Transform::broadcastTransformChange() (new_allocator.h:104)
+  n1: 29304 0x50921F: nox::logic::actor::Actor::create() (Actor.cpp:288)
+   n1: 29304 0x4DCD0A: nox::logic::world::Manager::onActorManaged(nox::logic::actor::Actor*) (Manager.cpp:271)
+    n1: 29304 0x4E0E69: nox::logic::world::Manager::handleActorManagement(nox::logic::actor::Actor*) (Manager.cpp:241)
+     n1: 29304 0x4E0FBC: nox::logic::world::Manager::manageActor(std::unique_ptr<nox::logic::actor::Actor, std::default_delete<nox::logic::actor::Actor> >) (Manager.cpp:312)
+      n1: 29304 0x49C97C: components::SpawningComponent::createWorld() (spawning_component.cpp:61)
+       n1: 29304 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 29304 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 29304 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 29304 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 29304 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 29304 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 29304 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 29304 0x49B74D: main (main.cpp:19)
+ n1: 26640 0x51B405: nox::logic::graphics::ActorGraphics::broadcastSceneNodeCreation() (new_allocator.h:104)
+  n1: 26640 0x507717: nox::logic::actor::Actor::activate() (Actor.cpp:446)
+   n1: 26640 0x4E0E69: nox::logic::world::Manager::handleActorManagement(nox::logic::actor::Actor*) (Manager.cpp:241)
+    n1: 26640 0x4E0FBC: nox::logic::world::Manager::manageActor(std::unique_ptr<nox::logic::actor::Actor, std::default_delete<nox::logic::actor::Actor> >) (Manager.cpp:312)
+     n1: 26640 0x49C97C: components::SpawningComponent::createWorld() (spawning_component.cpp:61)
+      n1: 26640 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+       n1: 26640 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+        n1: 26640 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+         n1: 26640 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+          n1: 26640 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+           n1: 26640 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+            n1: 26640 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+             n0: 26640 0x49B74D: main (main.cpp:19)
+ n2: 21504 0x4B50F6: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 21440 0x50A87B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n2: 21440 0x513308: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 21376 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+     n1: 21376 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+      n1: 21376 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+       n1: 21376 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 21376 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 21376 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 21376 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 21376 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 21376 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 21376 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 21376 0x49B74D: main (main.cpp:19)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 64 in 3 places, all below massif's threshold (1.00%)
+ n2: 21312 0x4E13F7: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:104)
+  n1: 21312 0x4E1AF3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:287)
+   n1: 21312 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+    n1: 21312 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+     n1: 21312 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+      n1: 21312 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+       n1: 21312 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+        n1: 21312 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+         n1: 21312 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+          n1: 21312 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+           n0: 21312 0x49B74D: main (main.cpp:19)
+  n0: 0 in 1 place, below massif's threshold (1.00%)
+ n1: 16384 0x54DFD6: b2BlockAllocator::Allocate(int) (b2BlockAllocator.cpp:131)
+  n1: 16384 0x54AE8B: b2World::CreateBody(b2BodyDef const*) (b2World.cpp:115)
+   n1: 16384 0x4CD9A3: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:248)
+    n1: 16384 0x49ECF7: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+     n1: 16384 0x49FBE5: ConsoleApplication::onInit() (console_application.cpp:167)
+      n1: 16384 0x4A330B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 16384 0x49B73F: main (main.cpp:14)
+ n1: 15872 0x4B566D: void std::deque<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_push_back_aux<std::shared_ptr<nox::event::Event> >(std::shared_ptr<nox::event::Event>&&) (new_allocator.h:104)
+  n1: 15872 0x4B2CCB: nox::event::Manager::queueEvent(std::shared_ptr<nox::event::Event>) (deque.tcc:161)
+   n0: 15872 in 3 places, all below massif's threshold (1.00%)
+ n1: 14652 0x518017: nox::logic::actor::Event::Event(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, nox::logic::actor::Actor*) (basic_string.tcc:223)
+  n0: 14652 in 2 places, all below massif's threshold (1.00%)
+ n1: 13376 0x506D43: std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Actor*>, true> > >::_M_allocate_buckets(unsigned long) [clone .isra.207] (new_allocator.h:104)
+  n1: 13376 0x51021D: std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Component*>, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Component*> >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_rehash(unsigned long, unsigned long const&) (hashtable.h:347)
+   n1: 13376 0x510344: std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Component*>, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Component*> >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_insert_unique_node(unsigned long, unsigned long, std::__detail::_Hash_node<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Component*>, true>*) (hashtable.h:1600)
+    n1: 13376 0x50D427: nox::logic::actor::Actor::addComponent(std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> >) (hashtable_policy.h:600)
+     n2: 13376 0x5134C3: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:191)
+      n1: 13360 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+       n1: 13360 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+        n1: 13360 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+         n1: 13360 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+          n1: 13360 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+           n1: 13360 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+            n1: 13360 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+             n1: 13360 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+              n1: 13360 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+               n1: 13360 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+                n0: 13360 0x49B74D: main (main.cpp:19)
+      n0: 16 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=5
+#-----------
+time=9036448
+mem_heap_B=1577981
+mem_heap_extra_B=180307
+mem_stacks_B=0
+heap_tree=detailed
+n19: 1577981 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n2: 240128 0x4B5128: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 239104 0x50A87B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n2: 239104 0x513308: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 238592 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+     n1: 238592 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+      n1: 238592 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+       n1: 238592 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 238592 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 238592 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 238592 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 238592 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 238592 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 238592 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 238592 0x49B74D: main (main.cpp:19)
+    n0: 512 in 1 place, below massif's threshold (1.00%)
+  n0: 1024 in 3 places, all below massif's threshold (1.00%)
+ n2: 220424 0x5132E1: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+  n1: 219952 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+   n1: 219952 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+    n1: 219952 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+     n1: 219952 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+      n1: 219952 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+       n1: 219952 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+        n1: 219952 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+         n1: 219952 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+          n1: 219952 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+           n1: 219952 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+            n0: 219952 0x49B74D: main (main.cpp:19)
+  n0: 472 in 1 place, below massif's threshold (1.00%)
+ n0: 142063 in 134 places, all below massif's threshold (1.00%)
+ n1: 134208 0x4EEE6E: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 134208 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+   n1: 134208 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+    n1: 134208 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+     n1: 134208 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+      n1: 134208 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+       n1: 134208 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 134208 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 134208 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 134208 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 134208 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 134208 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 134208 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 134208 0x49B74D: main (main.cpp:19)
+ n1: 108112 0x49FD61: std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> > nox::util::createDerivedObject<nox::logic::actor::Component, nox::logic::graphics::ActorSprite>() (GenericObjectFactory.h:47)
+  n1: 108112 0x5160E4: nox::util::GenericObjectFactory<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, nox::logic::actor::Component>::createObject(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const (GenericObjectFactory.h:112)
+   n1: 108112 0x510ED2: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:250)
+    n1: 108112 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 108112 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 108112 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 108112 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 108112 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 108112 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 108112 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 108112 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 108112 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 108112 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 108112 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 108112 0x49B74D: main (main.cpp:19)
+ n1: 103296 0x4CD89E: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x49ECF7: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+   n1: 103296 0x49FBE5: ConsoleApplication::onInit() (console_application.cpp:167)
+    n1: 103296 0x4A330B: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x49B73F: main (main.cpp:14)
+ n1: 89472 0x51B836: nox::logic::graphics::ActorGraphics::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 89472 0x4EEEE6: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (ActorSprite.cpp:55)
+   n1: 89472 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+    n1: 89472 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 89472 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 89472 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 89472 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 89472 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 89472 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 89472 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 89472 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 89472 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 89472 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 89472 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 89472 0x49B74D: main (main.cpp:19)
+ n1: 89472 0x51B89C: nox::logic::graphics::ActorGraphics::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 89472 0x4EEEE6: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (ActorSprite.cpp:55)
+   n1: 89472 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+    n1: 89472 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 89472 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 89472 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 89472 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 89472 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 89472 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 89472 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 89472 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 89472 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 89472 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 89472 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 89472 0x49B74D: main (main.cpp:19)
+ n1: 78176 0x50D3E0: nox::logic::actor::Actor::addComponent(std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> >) (new_allocator.h:104)
+  n2: 78176 0x5134C3: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:191)
+   n1: 78120 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+    n1: 78120 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+     n1: 78120 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+      n1: 78120 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+       n1: 78120 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+        n1: 78120 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+         n1: 78120 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+          n1: 78120 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+           n1: 78120 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+            n1: 78120 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+             n0: 78120 0x49B74D: main (main.cpp:19)
+   n0: 56 in 1 place, below massif's threshold (1.00%)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x7: ???
+      n1: 72704 0xFFF000629: ???
+       n1: 72704 0xFFF000647: ???
+        n1: 72704 0xFFF000653: ???
+         n1: 72704 0xFFF00065F: ???
+          n1: 72704 0xFFF00066D: ???
+           n1: 72704 0xFFF000671: ???
+            n1: 72704 0xFFF000682: ???
+             n1: 72704 0xFFF000685: ???
+              n0: 72704 0xFFF00068D: ???
+ n2: 60082 0x57FD3DD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 31012 0x4B6C28: nox::logic::actor::Component::setOwner(nox::logic::actor::Actor*) (Component.cpp:66)
+   n1: 31012 0x50D43A: nox::logic::actor::Actor::addComponent(std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> >) (Actor.cpp:92)
+    n2: 31012 0x5134C3: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:191)
+     n1: 30951 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 30951 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 30951 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 30951 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 30951 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 30951 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 30951 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 30951 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 30951 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 30951 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 30951 0x49B74D: main (main.cpp:19)
+     n0: 61 in 1 place, below massif's threshold (1.00%)
+  n0: 29070 in 10 places, all below massif's threshold (1.00%)
+ n1: 40920 0x49FC81: std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> > nox::util::createDerivedObject<nox::logic::actor::Component, nox::logic::actor::Transform>() (GenericObjectFactory.h:47)
+  n1: 40920 0x5160E4: nox::util::GenericObjectFactory<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, nox::logic::actor::Component>::createObject(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const (GenericObjectFactory.h:112)
+   n1: 40920 0x510ED2: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:250)
+    n1: 40920 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 40920 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 40920 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 40920 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 40920 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 40920 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 40920 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 40920 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 40920 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 40920 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 40920 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 40920 0x49B74D: main (main.cpp:19)
+ n1: 40920 0x4B7C8D: nox::logic::actor::Transform::broadcastTransformChange() (new_allocator.h:104)
+  n1: 40920 0x50921F: nox::logic::actor::Actor::create() (Actor.cpp:288)
+   n1: 40920 0x4DCD0A: nox::logic::world::Manager::onActorManaged(nox::logic::actor::Actor*) (Manager.cpp:271)
+    n1: 40920 0x4E0E69: nox::logic::world::Manager::handleActorManagement(nox::logic::actor::Actor*) (Manager.cpp:241)
+     n1: 40920 0x4E0FBC: nox::logic::world::Manager::manageActor(std::unique_ptr<nox::logic::actor::Actor, std::default_delete<nox::logic::actor::Actor> >) (Manager.cpp:312)
+      n1: 40920 0x49C97C: components::SpawningComponent::createWorld() (spawning_component.cpp:61)
+       n1: 40920 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 40920 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 40920 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 40920 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 40920 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 40920 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 40920 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 40920 0x49B74D: main (main.cpp:19)
+ n1: 37200 0x51B405: nox::logic::graphics::ActorGraphics::broadcastSceneNodeCreation() (new_allocator.h:104)
+  n1: 37200 0x507717: nox::logic::actor::Actor::activate() (Actor.cpp:446)
+   n1: 37200 0x4E0E69: nox::logic::world::Manager::handleActorManagement(nox::logic::actor::Actor*) (Manager.cpp:241)
+    n1: 37200 0x4E0FBC: nox::logic::world::Manager::manageActor(std::unique_ptr<nox::logic::actor::Actor, std::default_delete<nox::logic::actor::Actor> >) (Manager.cpp:312)
+     n1: 37200 0x49C97C: components::SpawningComponent::createWorld() (spawning_component.cpp:61)
+      n1: 37200 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+       n1: 37200 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+        n1: 37200 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+         n1: 37200 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+          n1: 37200 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+           n1: 37200 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+            n1: 37200 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+             n0: 37200 0x49B74D: main (main.cpp:19)
+ n2: 29952 0x4B50F6: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 29888 0x50A87B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n2: 29888 0x513308: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 29824 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+     n1: 29824 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+      n1: 29824 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+       n1: 29824 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 29824 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 29824 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 29824 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 29824 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 29824 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 29824 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 29824 0x49B74D: main (main.cpp:19)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 64 in 3 places, all below massif's threshold (1.00%)
+ n2: 29760 0x4E13F7: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:104)
+  n1: 29760 0x4E1AF3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:287)
+   n1: 29760 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+    n1: 29760 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+     n1: 29760 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+      n1: 29760 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+       n1: 29760 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+        n1: 29760 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+         n1: 29760 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+          n1: 29760 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+           n0: 29760 0x49B74D: main (main.cpp:19)
+  n0: 0 in 1 place, below massif's threshold (1.00%)
+ n1: 22016 0x4B566D: void std::deque<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_push_back_aux<std::shared_ptr<nox::event::Event> >(std::shared_ptr<nox::event::Event>&&) (new_allocator.h:104)
+  n1: 22016 0x4B2CCB: nox::event::Manager::queueEvent(std::shared_ptr<nox::event::Event>) (deque.tcc:161)
+   n0: 22016 in 3 places, all below massif's threshold (1.00%)
+ n1: 20460 0x518017: nox::logic::actor::Event::Event(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, nox::logic::actor::Actor*) (basic_string.tcc:223)
+  n0: 20460 in 2 places, all below massif's threshold (1.00%)
+ n1: 18616 0x506D43: std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Actor*>, true> > >::_M_allocate_buckets(unsigned long) [clone .isra.207] (new_allocator.h:104)
+  n1: 18616 0x51021D: std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Component*>, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Component*> >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_rehash(unsigned long, unsigned long const&) (hashtable.h:347)
+   n1: 18616 0x510344: std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Component*>, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Component*> >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_insert_unique_node(unsigned long, unsigned long, std::__detail::_Hash_node<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Component*>, true>*) (hashtable.h:1600)
+    n1: 18616 0x50D427: nox::logic::actor::Actor::addComponent(std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> >) (hashtable_policy.h:600)
+     n2: 18616 0x5134C3: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:191)
+      n1: 18600 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+       n1: 18600 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+        n1: 18600 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+         n1: 18600 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+          n1: 18600 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+           n1: 18600 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+            n1: 18600 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+             n1: 18600 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+              n1: 18600 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+               n1: 18600 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+                n0: 18600 0x49B74D: main (main.cpp:19)
+      n0: 16 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=6
+#-----------
+time=11111248
+mem_heap_B=1246633
+mem_heap_extra_B=127319
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=11949696
+mem_heap_B=538026
+mem_heap_extra_B=39158
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=8
+#-----------
+time=13806336
+mem_heap_B=501631
+mem_heap_extra_B=36433
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=9
+#-----------
+time=15418832
+mem_heap_B=776653
+mem_heap_extra_B=72307
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=10
+#-----------
+time=16709528
+mem_heap_B=997060
+mem_heap_extra_B=100660
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=11
+#-----------
+time=18806776
+mem_heap_B=1354034
+mem_heap_extra_B=147206
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=12
+#-----------
+time=20420200
+mem_heap_B=1629989
+mem_heap_extra_B=182387
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=13
+#-----------
+time=22238528
+mem_heap_B=1242626
+mem_heap_extra_B=126238
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=14
+#-----------
+time=23704968
+mem_heap_B=295163
+mem_heap_extra_B=9709
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=15
+#-----------
+time=25758584
+mem_heap_B=644815
+mem_heap_extra_B=59241
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=16
+#-----------
+time=26931680
+mem_heap_B=843995
+mem_heap_extra_B=86053
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=28691240
+mem_heap_B=1140353
+mem_heap_extra_B=129399
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=18
+#-----------
+time=29864352
+mem_heap_B=1340666
+mem_heap_extra_B=156950
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=19
+#-----------
+time=31330848
+mem_heap_B=1588794
+mem_heap_extra_B=192822
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=20
+#-----------
+time=32558840
+mem_heap_B=1811662
+mem_heap_extra_B=232202
+mem_stacks_B=0
+heap_tree=peak
+n22: 1811662 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n2: 262656 0x4B5128: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 262656 0x50A87B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n2: 262656 0x513308: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 262144 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+     n1: 262144 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+      n1: 262144 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+       n1: 262144 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 262144 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 262144 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 262144 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 262144 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 262144 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 262144 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 262144 0x49B74D: main (main.cpp:19)
+    n0: 512 in 1 place, below massif's threshold (1.00%)
+  n0: 0 in 3 places, all below massif's threshold (1.00%)
+ n2: 242136 0x5132E1: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+  n1: 241664 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+   n1: 241664 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+    n1: 241664 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+     n1: 241664 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+      n1: 241664 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+       n1: 241664 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+        n1: 241664 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+         n1: 241664 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+          n1: 241664 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+           n1: 241664 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+            n0: 241664 0x49B74D: main (main.cpp:19)
+  n0: 472 in 1 place, below massif's threshold (1.00%)
+ n1: 147456 0x4EEE6E: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 147456 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+   n1: 147456 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+    n1: 147456 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+     n1: 147456 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+      n1: 147456 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+       n1: 147456 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 147456 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 147456 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 147456 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 147456 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 147456 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 147456 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 147456 0x49B74D: main (main.cpp:19)
+ n0: 136988 in 134 places, all below massif's threshold (1.00%)
+ n1: 118784 0x49FD61: std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> > nox::util::createDerivedObject<nox::logic::actor::Component, nox::logic::graphics::ActorSprite>() (GenericObjectFactory.h:47)
+  n1: 118784 0x5160E4: nox::util::GenericObjectFactory<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, nox::logic::actor::Component>::createObject(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const (GenericObjectFactory.h:112)
+   n1: 118784 0x510ED2: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:250)
+    n1: 118784 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 118784 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 118784 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 118784 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 118784 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 118784 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 118784 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 118784 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 118784 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 118784 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 118784 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 118784 0x49B74D: main (main.cpp:19)
+ n1: 103296 0x4CD89E: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x49ECF7: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+   n1: 103296 0x49FBE5: ConsoleApplication::onInit() (console_application.cpp:167)
+    n1: 103296 0x4A330B: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x49B73F: main (main.cpp:14)
+ n1: 98304 0x51B836: nox::logic::graphics::ActorGraphics::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 98304 0x4EEEE6: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (ActorSprite.cpp:55)
+   n1: 98304 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+    n1: 98304 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 98304 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 98304 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 98304 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 98304 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 98304 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 98304 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 98304 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 98304 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 98304 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 98304 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 98304 0x49B74D: main (main.cpp:19)
+ n1: 98304 0x51B89C: nox::logic::graphics::ActorGraphics::initialize(Json::Value const&) (new_allocator.h:104)
+  n1: 98304 0x4EEEE6: nox::logic::graphics::ActorSprite::initialize(Json::Value const&) (ActorSprite.cpp:55)
+   n1: 98304 0x510EF5: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:259)
+    n1: 98304 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 98304 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 98304 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 98304 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 98304 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 98304 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 98304 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 98304 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 98304 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 98304 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 98304 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 98304 0x49B74D: main (main.cpp:19)
+ n1: 86072 0x50D3E0: nox::logic::actor::Actor::addComponent(std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> >) (new_allocator.h:104)
+  n2: 86072 0x5134C3: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:191)
+   n1: 86016 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+    n1: 86016 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+     n1: 86016 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+      n1: 86016 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+       n1: 86016 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+        n1: 86016 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+         n1: 86016 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+          n1: 86016 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+           n1: 86016 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+            n1: 86016 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+             n0: 86016 0x49B74D: main (main.cpp:19)
+   n0: 56 in 1 place, below massif's threshold (1.00%)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x7: ???
+      n1: 72704 0xFFF000629: ???
+       n1: 72704 0xFFF000647: ???
+        n1: 72704 0xFFF000653: ???
+         n1: 72704 0xFFF00065F: ???
+          n1: 72704 0xFFF00066D: ???
+           n1: 72704 0xFFF000671: ???
+            n1: 72704 0xFFF000682: ???
+             n1: 72704 0xFFF000685: ???
+              n0: 72704 0xFFF00068D: ???
+ n2: 67311 0x57FD3DD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 35389 0x4B6C28: nox::logic::actor::Component::setOwner(nox::logic::actor::Actor*) (Component.cpp:66)
+   n1: 35389 0x50D43A: nox::logic::actor::Actor::addComponent(std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> >) (Actor.cpp:92)
+    n2: 35389 0x5134C3: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:191)
+     n1: 35328 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 35328 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 35328 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 35328 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 35328 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 35328 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 35328 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 35328 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 35328 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 35328 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 35328 0x49B74D: main (main.cpp:19)
+     n0: 61 in 1 place, below massif's threshold (1.00%)
+  n0: 31922 in 10 places, all below massif's threshold (1.00%)
+ n1: 45056 0x49FC81: std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> > nox::util::createDerivedObject<nox::logic::actor::Component, nox::logic::actor::Transform>() (GenericObjectFactory.h:47)
+  n1: 45056 0x5160E4: nox::util::GenericObjectFactory<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, nox::logic::actor::Component>::createObject(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const (GenericObjectFactory.h:112)
+   n1: 45056 0x510ED2: nox::logic::actor::Factory::createComponent(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, Json::Value const&) (Factory.cpp:250)
+    n1: 45056 0x51348D: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:188)
+     n1: 45056 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+      n1: 45056 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+       n1: 45056 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+        n1: 45056 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+         n1: 45056 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+          n1: 45056 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+           n1: 45056 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+            n1: 45056 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+             n1: 45056 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+              n1: 45056 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+               n0: 45056 0x49B74D: main (main.cpp:19)
+ n1: 45056 0x4B7C8D: nox::logic::actor::Transform::broadcastTransformChange() (new_allocator.h:104)
+  n1: 45056 0x50921F: nox::logic::actor::Actor::create() (Actor.cpp:288)
+   n1: 45056 0x4DCD0A: nox::logic::world::Manager::onActorManaged(nox::logic::actor::Actor*) (Manager.cpp:271)
+    n1: 45056 0x4E0E69: nox::logic::world::Manager::handleActorManagement(nox::logic::actor::Actor*) (Manager.cpp:241)
+     n1: 45056 0x4E0FBC: nox::logic::world::Manager::manageActor(std::unique_ptr<nox::logic::actor::Actor, std::default_delete<nox::logic::actor::Actor> >) (Manager.cpp:312)
+      n1: 45056 0x49C97C: components::SpawningComponent::createWorld() (spawning_component.cpp:61)
+       n1: 45056 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 45056 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 45056 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 45056 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 45056 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 45056 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 45056 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 45056 0x49B74D: main (main.cpp:19)
+ n1: 40960 0x51B405: nox::logic::graphics::ActorGraphics::broadcastSceneNodeCreation() (new_allocator.h:104)
+  n1: 40960 0x507717: nox::logic::actor::Actor::activate() (Actor.cpp:446)
+   n1: 40960 0x4E0E69: nox::logic::world::Manager::handleActorManagement(nox::logic::actor::Actor*) (Manager.cpp:241)
+    n1: 40960 0x4E0FBC: nox::logic::world::Manager::manageActor(std::unique_ptr<nox::logic::actor::Actor, std::default_delete<nox::logic::actor::Actor> >) (Manager.cpp:312)
+     n1: 40960 0x49C97C: components::SpawningComponent::createWorld() (spawning_component.cpp:61)
+      n1: 40960 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+       n1: 40960 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+        n1: 40960 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+         n1: 40960 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+          n1: 40960 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+           n1: 40960 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+            n1: 40960 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+             n0: 40960 0x49B74D: main (main.cpp:19)
+ n1: 40448 0x4B566D: void std::deque<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_push_back_aux<std::shared_ptr<nox::event::Event> >(std::shared_ptr<nox::event::Event>&&) (new_allocator.h:104)
+  n1: 40448 0x4B2CCB: nox::event::Manager::queueEvent(std::shared_ptr<nox::event::Event>) (deque.tcc:161)
+   n0: 40448 in 5 places, all below massif's threshold (1.00%)
+ n1: 38240 0x51B125: nox::logic::graphics::ActorGraphics::broadcastSceneNodeRemoval() (new_allocator.h:104)
+  n1: 38240 0x507E77: nox::logic::actor::Actor::deactivate() (Actor.cpp:466)
+   n1: 38240 0x4E1E0C: nox::logic::world::Manager::removeActor(std::unique_ptr<nox::logic::actor::Actor, std::default_delete<nox::logic::actor::Actor> >) (Manager.cpp:335)
+    n1: 38240 0x4E45DF: nox::logic::world::Manager::handleQueuedTasks() (Manager.cpp:427)
+     n1: 38240 0x4E5608: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:86)
+      n1: 38240 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+       n1: 38240 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+        n1: 38240 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+         n1: 38240 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+          n0: 38240 0x49B74D: main (main.cpp:19)
+ n2: 32832 0x4B50F6: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 32832 0x50A87B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n2: 32832 0x513308: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 32768 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+     n1: 32768 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+      n1: 32768 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+       n1: 32768 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+        n1: 32768 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+         n1: 32768 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+          n1: 32768 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+           n1: 32768 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+            n1: 32768 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+             n1: 32768 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+              n0: 32768 0x49B74D: main (main.cpp:19)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 0 in 3 places, all below massif's threshold (1.00%)
+ n2: 32768 0x4E13F7: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:104)
+  n1: 32768 0x4E1AF3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:287)
+   n1: 32768 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+    n1: 32768 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+     n1: 32768 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+      n1: 32768 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+       n1: 32768 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+        n1: 32768 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+         n1: 32768 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+          n1: 32768 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+           n0: 32768 0x49B74D: main (main.cpp:19)
+  n0: 0 in 1 place, below massif's threshold (1.00%)
+ n1: 30528 0x4E1EB9: nox::logic::world::Manager::removeActor(std::unique_ptr<nox::logic::actor::Actor, std::default_delete<nox::logic::actor::Actor> >) (new_allocator.h:104)
+  n1: 30528 0x4E45DF: nox::logic::world::Manager::handleQueuedTasks() (Manager.cpp:427)
+   n1: 30528 0x4E5608: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:86)
+    n1: 30528 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+     n1: 30528 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+      n1: 30528 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+       n1: 30528 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+        n0: 30528 0x49B74D: main (main.cpp:19)
+ n2: 28739 0x51C51B: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) [clone .isra.22] (basic_string.tcc:223)
+  n1: 28710 0x51C671: nox::logic::graphics::SceneNodeEdited::SceneNodeEdited(std::shared_ptr<nox::app::graphics::SceneGraphNode> const&, nox::logic::graphics::SceneNodeEdited::Action) (basic_string.h:195)
+   n0: 28710 in 2 places, all below massif's threshold (1.00%)
+  n0: 29 in 1 place, below massif's threshold (1.00%)
+ n1: 22528 0x518017: nox::logic::actor::Event::Event(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, nox::logic::actor::Actor*) (basic_string.tcc:223)
+  n0: 22528 in 2 places, all below massif's threshold (1.00%)
+ n1: 20496 0x506D43: std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Actor*>, true> > >::_M_allocate_buckets(unsigned long) [clone .isra.207] (new_allocator.h:104)
+  n1: 20496 0x51021D: std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Component*>, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Component*> >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_rehash(unsigned long, unsigned long const&) (hashtable.h:347)
+   n1: 20496 0x510344: std::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Component*>, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Component*> >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_insert_unique_node(unsigned long, unsigned long, std::__detail::_Hash_node<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, nox::logic::actor::Component*>, true>*) (hashtable.h:1600)
+    n1: 20496 0x50D427: nox::logic::actor::Actor::addComponent(std::unique_ptr<nox::logic::actor::Component, std::default_delete<nox::logic::actor::Component> >) (hashtable_policy.h:600)
+     n2: 20496 0x5134C3: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:191)
+      n1: 20480 0x5150F1: nox::logic::actor::Factory::createActor(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (Factory.cpp:233)
+       n1: 20480 0x4E1AE3: nox::logic::world::Manager::createActorFromDefinitionName(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:283)
+        n1: 20480 0x49C95E: components::SpawningComponent::createWorld() (spawning_component.cpp:60)
+         n1: 20480 0x49D087: components::SpawningComponent::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (spawning_component.cpp:38)
+          n1: 20480 0x506EEA: nox::logic::actor::Actor::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Actor.cpp:321)
+           n1: 20480 0x4E55C2: nox::logic::world::Manager::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:78)
+            n1: 20480 0x4B0FA0: nox::logic::Logic::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Logic.cpp:189)
+             n1: 20480 0x4F01E2: nox::process::Manager::runUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:159)
+              n1: 20480 0x4F0D39: nox::process::Manager::updateProcesses(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (Manager.cpp:90)
+               n1: 20480 0x4A2B48: nox::app::Application::execute() (Application.cpp:280)
+                n0: 20480 0x49B74D: main (main.cpp:19)
+      n0: 16 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=21
+#-----------
+time=34318048
+mem_heap_B=472978
+mem_heap_extra_B=34158
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=22
+#-----------
+time=35490840
+mem_heap_B=398209
+mem_heap_extra_B=24039
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=23
+#-----------
+time=36883864
+mem_heap_B=635859
+mem_heap_extra_B=57957
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=24
+#-----------
+time=37928664
+mem_heap_B=814220
+mem_heap_extra_B=83036
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=25
+#-----------
+time=39321816
+mem_heap_B=1050803
+mem_heap_extra_B=114821
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=26
+#-----------
+time=41063312
+mem_heap_B=1345075
+mem_heap_extra_B=157981
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=27
+#-----------
+time=42456576
+mem_heap_B=1582380
+mem_heap_extra_B=191684
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=28
+#-----------
+time=44197648
+mem_heap_B=1553821
+mem_heap_extra_B=178995
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=29
+#-----------
+time=45590688
+mem_heap_B=386869
+mem_heap_extra_B=21707
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=30
+#-----------
+time=46635376
+mem_heap_B=394364
+mem_heap_extra_B=23732
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=31
+#-----------
+time=48028856
+mem_heap_B=632220
+mem_heap_extra_B=57324
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=32
+#-----------
+time=49422184
+mem_heap_B=868803
+mem_heap_extra_B=89221
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=33
+#-----------
+time=51511360
+mem_heap_B=1224501
+mem_heap_extra_B=138443
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=34
+#-----------
+time=52904864
+mem_heap_B=1460627
+mem_heap_extra_B=171901
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=35
+#-----------
+time=54664648
+mem_heap_B=1745885
+mem_heap_extra_B=215163
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=36
+#-----------
+time=57011152
+mem_heap_B=262044
+mem_heap_extra_B=4820
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=37
+#-----------
+time=59357688
+mem_heap_B=660507
+mem_heap_extra_B=61133
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=38
+#-----------
+time=61704792
+mem_heap_B=1059812
+mem_heap_extra_B=116772
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=39
+#-----------
+time=64051904
+mem_heap_B=1458083
+mem_heap_extra_B=172637
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=40
+#-----------
+time=65812144
+mem_heap_B=1741745
+mem_heap_extra_B=214975
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=41
+#-----------
+time=66985984
+mem_heap_B=1164390
+mem_heap_extra_B=125562
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=42
+#-----------
+time=69332744
+mem_heap_B=459182
+mem_heap_extra_B=32762
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=43
+#-----------
+time=71092776
+mem_heap_B=757500
+mem_heap_extra_B=76268
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=44
+#-----------
+time=72852592
+mem_heap_B=1055785
+mem_heap_extra_B=118423
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=45
+#-----------
+time=74612952
+mem_heap_B=1354753
+mem_heap_extra_B=160119
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=46
+#-----------
+time=75786152
+mem_heap_B=1553401
+mem_heap_extra_B=187615
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=47
+#-----------
+time=78132568
+mem_heap_B=1180909
+mem_heap_extra_B=127659
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=48
+#-----------
+time=79892288
+mem_heap_B=356048
+mem_heap_extra_B=18144
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=49
+#-----------
+time=82238624
+mem_heap_B=753444
+mem_heap_extra_B=72956
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=50
+#-----------
+time=83077168
+mem_heap_B=897635
+mem_heap_extra_B=91901
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=51
+#-----------
+time=83916024
+mem_heap_B=1040544
+mem_heap_extra_B=112520
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=52
+#-----------
+time=84754496
+mem_heap_B=1181258
+mem_heap_extra_B=132838
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=53
+#-----------
+time=85593416
+mem_heap_B=1323194
+mem_heap_extra_B=153774
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=54
+#-----------
+time=86432032
+mem_heap_B=1466291
+mem_heap_extra_B=173229
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=55
+#-----------
+time=87270488
+mem_heap_B=1609089
+mem_heap_extra_B=193335
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=56
+#-----------
+time=88108944
+mem_heap_B=1731782
+mem_heap_extra_B=212314
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=57
+#-----------
+time=88947440
+mem_heap_B=1474005
+mem_heap_extra_B=166715
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=58
+#-----------
+time=89786240
+mem_heap_B=769691
+mem_heap_extra_B=73669
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=59
+#-----------
+time=90624928
+mem_heap_B=282643
+mem_heap_extra_B=7773
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=60
+#-----------
+time=91463856
+mem_heap_B=424651
+mem_heap_extra_B=28229
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=61
+#-----------
+time=92302304
+mem_heap_B=566892
+mem_heap_extra_B=48580
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=62
+#-----------
+time=93140760
+mem_heap_B=710990
+mem_heap_extra_B=67546
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=63
+#-----------
+time=93979480
+mem_heap_B=852298
+mem_heap_extra_B=87294
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=64
+#-----------
+time=94817960
+mem_heap_B=994195
+mem_heap_extra_B=108789
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=65
+#-----------
+time=95656432
+mem_heap_B=1135200
+mem_heap_extra_B=129344
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=66
+#-----------
+time=96494944
+mem_heap_B=1278364
+mem_heap_extra_B=149700
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=67
+#-----------
+time=97333408
+mem_heap_B=1421567
+mem_heap_extra_B=169441
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=68
+#-----------
+time=98171904
+mem_heap_B=1563934
+mem_heap_extra_B=189330
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=69
+#-----------
+time=99010512
+mem_heap_B=1705955
+mem_heap_extra_B=209261
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=70
+#-----------
+time=99849016
+mem_heap_B=1673223
+mem_heap_extra_B=198593
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=71
+#-----------
+time=100687632
+mem_heap_B=991940
+mem_heap_extra_B=103500
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=72
+#-----------
+time=101526464
+mem_heap_B=289340
+mem_heap_extra_B=8548
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=73
+#-----------
+time=102364968
+mem_heap_B=379551
+mem_heap_extra_B=21785
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=74
+#-----------
+time=103203512
+mem_heap_B=522595
+mem_heap_extra_B=41717
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=75
+#-----------
+time=104042352
+mem_heap_B=663801
+mem_heap_extra_B=61911
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=76
+#-----------
+time=104880992
+mem_heap_B=808493
+mem_heap_extra_B=80931
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=77
+#-----------
+time=105719536
+mem_heap_B=950315
+mem_heap_extra_B=100901
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=78
+#-----------
+time=106558424
+mem_heap_B=1092544
+mem_heap_extra_B=122216
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=79
+#-----------
+time=107396880
+mem_heap_B=1233960
+mem_heap_extra_B=141880
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=80
+#-----------
+time=108235720
+mem_heap_B=1377476
+mem_heap_extra_B=161876
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=81
+#-----------
+time=109074216
+mem_heap_B=1518393
+mem_heap_extra_B=181407
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=82
+#-----------
+time=109912792
+mem_heap_B=1662060
+mem_heap_extra_B=201628
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=83
+#-----------
+time=110751264
+mem_heap_B=1809916
+mem_heap_extra_B=230244
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=84
+#-----------
+time=111589728
+mem_heap_B=1212033
+mem_heap_extra_B=131903
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=85
+#-----------
+time=112428208
+mem_heap_B=508473
+mem_heap_extra_B=38423
+mem_stacks_B=0
+heap_tree=empty

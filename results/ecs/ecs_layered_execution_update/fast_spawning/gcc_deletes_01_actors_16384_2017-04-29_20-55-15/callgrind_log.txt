@@ -1,0 +1,42 @@
+==20499== Callgrind, a call-graph generating cache profiler
+==20499== Copyright (C) 2002-2015, and GNU GPL'd, by Josef Weidendorfer et al.
+==20499== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==20499== Command: ./build/bin/ecs_fast_spawning -actor_amount 16384 -deletion_amount 1 --logrm warning
+==20499== Parent PID: 20461
+==20499== 
+--20499-- warning: L3 cache found, using its data for the LL simulation.
+==20499== For interactive control, run 'callgrind_control -h'.
+==20499== brk segment overflow in thread #1: can't grow to 0x4a4e000
+==20499== brk segment overflow in thread #1: can't grow to 0x4a40000
+==20499== brk segment overflow in thread #1: can't grow to 0x4a40000
+==20499== brk segment overflow in thread #1: can't grow to 0x4a80000
+==20499== brk segment overflow in thread #1: can't grow to 0x4a40000
+==20499== brk segment overflow in thread #1: can't grow to 0x4a40000
+==20499== brk segment overflow in thread #1: can't grow to 0x4a40000
+==20499== brk segment overflow in thread #1: can't grow to 0x4a40000
+==20499== brk segment overflow in thread #1: can't grow to 0x4a40000
+==20499== brk segment overflow in thread #1: can't grow to 0x4a40000
+==20499== brk segment overflow in thread #1: can't grow to 0x4a40000
+==20499== 
+==20499== Events    : Ir Dr Dw I1mr D1mr D1mw ILmr DLmr DLmw Bc Bcm Bi Bim
+==20499== Collected : 537914334 162079704 175654191 5888 68583591 810110 4594 296345 545454 66373649 597994 802333 135157
+==20499== 
+==20499== I   refs:      537,914,334
+==20499== I1  misses:          5,888
+==20499== LLi misses:          4,594
+==20499== I1  miss rate:        0.00%
+==20499== LLi miss rate:        0.00%
+==20499== 
+==20499== D   refs:      337,733,895  (162,079,704 rd + 175,654,191 wr)
+==20499== D1  misses:     69,393,701  ( 68,583,591 rd +     810,110 wr)
+==20499== LLd misses:        841,799  (    296,345 rd +     545,454 wr)
+==20499== D1  miss rate:        20.5% (       42.3%   +         0.5%  )
+==20499== LLd miss rate:         0.2% (        0.2%   +         0.3%  )
+==20499== 
+==20499== LL refs:        69,399,589  ( 68,589,479 rd +     810,110 wr)
+==20499== LL misses:         846,393  (    300,939 rd +     545,454 wr)
+==20499== LL miss rate:          0.1% (        0.0%   +         0.3%  )
+==20499== 
+==20499== Branches:       67,175,982  ( 66,373,649 cond +     802,333 ind)
+==20499== Mispredicts:       733,151  (    597,994 cond +     135,157 ind)
+==20499== Mispred rate:          1.1% (        0.9%     +        16.8%   )

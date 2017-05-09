@@ -1,0 +1,36 @@
+==16129== Callgrind, a call-graph generating cache profiler
+==16129== Copyright (C) 2002-2015, and GNU GPL'd, by Josef Weidendorfer et al.
+==16129== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==16129== Command: ./build/bin/ecs_numerous_unique_components -actor_amount 8 --logrm warning
+==16129== Parent PID: 16106
+==16129== 
+--16129-- warning: L3 cache found, using its data for the LL simulation.
+==16129== For interactive control, run 'callgrind_control -h'.
+==16129== brk segment overflow in thread #1: can't grow to 0x4a29000
+==16129== brk segment overflow in thread #1: can't grow to 0x4a29000
+==16129== brk segment overflow in thread #1: can't grow to 0x4a29000
+==16129== brk segment overflow in thread #1: can't grow to 0x4a29000
+==16129== brk segment overflow in thread #1: can't grow to 0x4a29000
+==16129== 
+==16129== Events    : Ir Dr Dw I1mr D1mr D1mw ILmr DLmr DLmw Bc Bcm Bi Bim
+==16129== Collected : 432375694 111445930 78667346 1317050 1968025 941521 8760 12281 598464 74144798 1241817 7988475 2309225
+==16129== 
+==16129== I   refs:      432,375,694
+==16129== I1  misses:      1,317,050
+==16129== LLi misses:          8,760
+==16129== I1  miss rate:        0.30%
+==16129== LLi miss rate:        0.00%
+==16129== 
+==16129== D   refs:      190,113,276  (111,445,930 rd + 78,667,346 wr)
+==16129== D1  misses:      2,909,546  (  1,968,025 rd +    941,521 wr)
+==16129== LLd misses:        610,745  (     12,281 rd +    598,464 wr)
+==16129== D1  miss rate:         1.5% (        1.8%   +        1.2%  )
+==16129== LLd miss rate:         0.3% (        0.0%   +        0.8%  )
+==16129== 
+==16129== LL refs:         4,226,596  (  3,285,075 rd +    941,521 wr)
+==16129== LL misses:         619,505  (     21,041 rd +    598,464 wr)
+==16129== LL miss rate:          0.1% (        0.0%   +        0.8%  )
+==16129== 
+==16129== Branches:       82,133,273  ( 74,144,798 cond +  7,988,475 ind)
+==16129== Mispredicts:     3,551,042  (  1,241,817 cond +  2,309,225 ind)
+==16129== Mispred rate:          4.3% (        1.7%     +       28.9%   )

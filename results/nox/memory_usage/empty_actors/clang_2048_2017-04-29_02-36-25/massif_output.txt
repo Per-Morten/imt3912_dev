@@ -1,0 +1,1349 @@
+desc: --time-unit=B --detailed-freq=100 --massif-out-file=../results/nox/memory_usage/empty_actors/clang_2048_2017-04-29_02-36-25/massif_output.txt
+cmd: ./build/bin/nox_empty_actors -actor_amount 2048 --logrm warning
+time_unit: B
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=1719264
+mem_heap_B=412901
+mem_heap_extra_B=14667
+mem_stacks_B=0
+heap_tree=detailed
+n11: 412901 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 103296 0x4CB7EE: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x49CA07: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+   n1: 103296 0x49D85D: ConsoleApplication::onInit() (console_application.cpp:176)
+    n1: 103296 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x49B19F: main (main.cpp:14)
+ n2: 81920 0x4B3078: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 80896 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 80896 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 80896 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 80896 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 80384 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 80384 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 80384 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 80384 0x49B19F: main (main.cpp:14)
+      n0: 512 in 1 place, below massif's threshold (1.00%)
+  n0: 1024 in 3 places, all below massif's threshold (1.00%)
+ n1: 74576 0x511AF1: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+  n1: 74576 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+   n2: 74576 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+    n1: 74104 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+     n1: 74104 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+      n1: 74104 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 74104 0x49B19F: main (main.cpp:14)
+    n0: 472 in 1 place, below massif's threshold (1.00%)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF000655: ???
+       n1: 72704 0xFFF000672: ???
+        n1: 72704 0xFFF000680: ???
+         n1: 72704 0xFFF000685: ???
+          n0: 72704 0xFFF00068D: ???
+ n0: 28595 in 118 places, all below massif's threshold (1.00%)
+ n1: 16384 0x54C7E6: b2BlockAllocator::Allocate(int) (b2BlockAllocator.cpp:131)
+  n1: 16384 0x54969B: b2World::CreateBody(b2BodyDef const*) (b2World.cpp:115)
+   n1: 16384 0x4CB8F3: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:248)
+    n1: 16384 0x49CA07: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+     n1: 16384 0x49D85D: ConsoleApplication::onInit() (console_application.cpp:176)
+      n1: 16384 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 16384 0x49B19F: main (main.cpp:14)
+ n2: 10176 0x4B3046: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 10112 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 10112 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 10112 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 10112 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 10048 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 10048 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 10048 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 10048 0x49B19F: main (main.cpp:14)
+      n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 64 in 3 places, all below massif's threshold (1.00%)
+ n1: 10112 0x4DF347: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:104)
+  n1: 10112 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+   n2: 10112 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+    n1: 10048 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+     n1: 10048 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+      n1: 10048 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 10048 0x49B19F: main (main.cpp:14)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+ n1: 5056 0x5095A6: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (new_allocator.h:104)
+  n1: 5056 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+   n1: 5056 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+    n2: 5056 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 5024 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 5024 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 5024 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 5024 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n1: 5056 0x4E6C30: std::__detail::_Map_base<nox::logic::actor::Identifier, std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, std::allocator<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*> >, std::__detail::_Select1st, std::equal_to<nox::logic::actor::Identifier>, std::hash<nox::logic::actor::Identifier>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true>, true>::operator[](nox::logic::actor::Identifier const&) (new_allocator.h:104)
+  n1: 5056 0x4DF2CF: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (unordered_map.h:668)
+   n1: 5056 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+    n2: 5056 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 5024 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 5024 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 5024 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 5024 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n2: 5026 0x57FD3DD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 4898 0x5098B9: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (Actor.cpp:48)
+   n1: 4898 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 4898 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 4898 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 4867 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 4867 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 4867 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 4867 0x49B19F: main (main.cpp:14)
+      n0: 31 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 4 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=2
+#-----------
+time=2912480
+mem_heap_B=588676
+mem_heap_extra_B=25948
+mem_stacks_B=0
+heap_tree=detailed
+n12: 588676 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n2: 153600 0x4B3078: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 152064 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 152064 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 152064 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 152064 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 151552 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 151552 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 151552 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 151552 0x49B19F: main (main.cpp:14)
+      n0: 512 in 1 place, below massif's threshold (1.00%)
+  n0: 1536 in 3 places, all below massif's threshold (1.00%)
+ n1: 140184 0x511AF1: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+  n1: 140184 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+   n2: 140184 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+    n1: 139712 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+     n1: 139712 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+      n1: 139712 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 139712 0x49B19F: main (main.cpp:14)
+    n0: 472 in 1 place, below massif's threshold (1.00%)
+ n1: 103296 0x4CB7EE: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x49CA07: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+   n1: 103296 0x49D85D: ConsoleApplication::onInit() (console_application.cpp:176)
+    n1: 103296 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x49B19F: main (main.cpp:14)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF000655: ???
+       n1: 72704 0xFFF000672: ???
+        n1: 72704 0xFFF000680: ???
+         n1: 72704 0xFFF000685: ???
+          n0: 72704 0xFFF00068D: ???
+ n0: 29076 in 117 places, all below massif's threshold (1.00%)
+ n2: 19136 0x4B3046: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 19008 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 19008 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 19008 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 19008 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 18944 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 18944 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 18944 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 18944 0x49B19F: main (main.cpp:14)
+      n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 3 places, all below massif's threshold (1.00%)
+ n1: 18944 0x4DF347: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:104)
+  n1: 18944 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+   n2: 18944 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+    n1: 18880 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+     n1: 18880 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+      n1: 18880 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 18880 0x49B19F: main (main.cpp:14)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+ n1: 16384 0x54C7E6: b2BlockAllocator::Allocate(int) (b2BlockAllocator.cpp:131)
+  n1: 16384 0x54969B: b2World::CreateBody(b2BodyDef const*) (b2World.cpp:115)
+   n1: 16384 0x4CB8F3: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:248)
+    n1: 16384 0x49CA07: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+     n1: 16384 0x49D85D: ConsoleApplication::onInit() (console_application.cpp:176)
+      n1: 16384 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 16384 0x49B19F: main (main.cpp:14)
+ n1: 9472 0x5095A6: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (new_allocator.h:104)
+  n1: 9472 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+   n1: 9472 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+    n2: 9472 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 9440 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 9440 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 9440 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 9440 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n1: 9472 0x4E6C30: std::__detail::_Map_base<nox::logic::actor::Identifier, std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, std::allocator<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*> >, std::__detail::_Select1st, std::equal_to<nox::logic::actor::Identifier>, std::hash<nox::logic::actor::Identifier>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true>, true>::operator[](nox::logic::actor::Identifier const&) (new_allocator.h:104)
+  n1: 9472 0x4DF2CF: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (unordered_map.h:668)
+   n1: 9472 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+    n2: 9472 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 9440 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 9440 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 9440 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 9440 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n2: 9304 0x57FD3DD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 9176 0x5098B9: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (Actor.cpp:48)
+   n1: 9176 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 9176 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 9176 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 9145 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 9145 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 9145 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 9145 0x49B19F: main (main.cpp:14)
+      n0: 31 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 4 places, all below massif's threshold (1.00%)
+ n1: 7104 0x516827: nox::logic::actor::Event::Event(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, nox::logic::actor::Actor*) (basic_string.tcc:223)
+  n1: 7104 0x4EC4AF: nox::logic::world::ActorCreated::ActorCreated(nox::logic::actor::Actor*) (ActorCreated.cpp:32)
+   n1: 7104 0x4DF372: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:120)
+    n1: 7104 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+     n2: 7104 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 7080 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 7080 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 7080 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 7080 0x49B19F: main (main.cpp:14)
+      n0: 24 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=3
+#-----------
+time=3766248
+mem_heap_B=712398
+mem_heap_extra_B=34058
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=4
+#-----------
+time=5147160
+mem_heap_B=916689
+mem_heap_extra_B=47095
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=5
+#-----------
+time=5988120
+mem_heap_B=1040399
+mem_heap_extra_B=55081
+mem_stacks_B=0
+heap_tree=detailed
+n12: 1040399 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n2: 336384 0x4B3078: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 334848 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 334848 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 334848 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 334848 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 334336 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 334336 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 334336 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 334336 0x49B19F: main (main.cpp:14)
+      n0: 512 in 1 place, below massif's threshold (1.00%)
+  n0: 1536 in 3 places, all below massif's threshold (1.00%)
+ n1: 308688 0x511AF1: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+  n1: 308688 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+   n2: 308688 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+    n1: 308216 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+     n1: 308216 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+      n1: 308216 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 308216 0x49B19F: main (main.cpp:14)
+    n0: 472 in 1 place, below massif's threshold (1.00%)
+ n1: 103296 0x4CB7EE: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x49CA07: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+   n1: 103296 0x49D85D: ConsoleApplication::onInit() (console_application.cpp:176)
+    n1: 103296 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x49B19F: main (main.cpp:14)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF000655: ???
+       n1: 72704 0xFFF000672: ???
+        n1: 72704 0xFFF000680: ???
+         n1: 72704 0xFFF000685: ???
+          n0: 72704 0xFFF00068D: ???
+ n2: 41984 0x4B3046: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 41856 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 41856 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 41856 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 41856 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 41792 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 41792 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 41792 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 41792 0x49B19F: main (main.cpp:14)
+      n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 3 places, all below massif's threshold (1.00%)
+ n1: 41792 0x4DF347: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:104)
+  n1: 41792 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+   n2: 41792 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+    n1: 41728 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+     n1: 41728 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+      n1: 41728 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 41728 0x49B19F: main (main.cpp:14)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+ n0: 41332 in 118 places, all below massif's threshold (1.00%)
+ n1: 20896 0x5095A6: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (new_allocator.h:104)
+  n1: 20896 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+   n1: 20896 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+    n2: 20896 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 20864 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 20864 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 20864 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 20864 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n1: 20896 0x4E6C30: std::__detail::_Map_base<nox::logic::actor::Identifier, std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, std::allocator<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*> >, std::__detail::_Select1st, std::equal_to<nox::logic::actor::Identifier>, std::hash<nox::logic::actor::Identifier>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true>, true>::operator[](nox::logic::actor::Identifier const&) (new_allocator.h:104)
+  n1: 20896 0x4DF2CF: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (unordered_map.h:668)
+   n1: 20896 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+    n2: 20896 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 20864 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 20864 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 20864 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 20864 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n2: 20371 0x57FD3DD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 20243 0x5098B9: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (Actor.cpp:48)
+   n1: 20243 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 20243 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 20243 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 20212 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 20212 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 20212 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 20212 0x49B19F: main (main.cpp:14)
+      n0: 31 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 4 places, all below massif's threshold (1.00%)
+ n1: 16384 0x54C7E6: b2BlockAllocator::Allocate(int) (b2BlockAllocator.cpp:131)
+  n1: 16384 0x54969B: b2World::CreateBody(b2BodyDef const*) (b2World.cpp:115)
+   n1: 16384 0x4CB8F3: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:248)
+    n1: 16384 0x49CA07: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+     n1: 16384 0x49D85D: ConsoleApplication::onInit() (console_application.cpp:176)
+      n1: 16384 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 16384 0x49B19F: main (main.cpp:14)
+ n1: 15672 0x516827: nox::logic::actor::Event::Event(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, nox::logic::actor::Actor*) (basic_string.tcc:223)
+  n1: 15672 0x4EC4AF: nox::logic::world::ActorCreated::ActorCreated(nox::logic::actor::Actor*) (ActorCreated.cpp:32)
+   n1: 15672 0x4DF372: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:120)
+    n1: 15672 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+     n2: 15672 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 15648 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 15648 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 15648 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 15648 0x49B19F: main (main.cpp:14)
+      n0: 24 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=6
+#-----------
+time=7070392
+mem_heap_B=1198737
+mem_heap_extra_B=65367
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=8808688
+mem_heap_B=1457209
+mem_heap_extra_B=81671
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=8
+#-----------
+time=9864688
+mem_heap_B=1611694
+mem_heap_extra_B=91682
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=9
+#-----------
+time=11187816
+mem_heap_B=1804877
+mem_heap_extra_B=104251
+mem_stacks_B=0
+heap_tree=detailed
+n12: 1804877 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n2: 644608 0x4B3078: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 643584 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 643584 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 643584 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 643584 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 643072 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 643072 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 643072 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 643072 0x49B19F: main (main.cpp:14)
+      n0: 512 in 1 place, below massif's threshold (1.00%)
+  n0: 1024 in 3 places, all below massif's threshold (1.00%)
+ n1: 593304 0x511AF1: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+  n1: 593304 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+   n2: 593304 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+    n1: 592832 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+     n1: 592832 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+      n1: 592832 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 592832 0x49B19F: main (main.cpp:14)
+    n0: 472 in 1 place, below massif's threshold (1.00%)
+ n1: 103296 0x4CB7EE: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x49CA07: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+   n1: 103296 0x49D85D: ConsoleApplication::onInit() (console_application.cpp:176)
+    n1: 103296 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x49B19F: main (main.cpp:14)
+ n2: 80512 0x4B3046: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 80448 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 80448 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 80448 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 80448 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 80384 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 80384 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 80384 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 80384 0x49B19F: main (main.cpp:14)
+      n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 64 in 3 places, all below massif's threshold (1.00%)
+ n1: 80384 0x4DF347: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:104)
+  n1: 80384 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+   n2: 80384 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+    n1: 80320 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+     n1: 80320 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+      n1: 80320 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 80320 0x49B19F: main (main.cpp:14)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF000655: ???
+       n1: 72704 0xFFF000672: ???
+        n1: 72704 0xFFF000680: ???
+         n1: 72704 0xFFF000685: ???
+          n0: 72704 0xFFF00068D: ???
+ n0: 60446 in 118 places, all below massif's threshold (1.00%)
+ n1: 40224 0x5095A6: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (new_allocator.h:104)
+  n1: 40224 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+   n1: 40224 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+    n2: 40224 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 40192 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 40192 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 40192 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 40192 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n1: 40192 0x4E6C30: std::__detail::_Map_base<nox::logic::actor::Identifier, std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, std::allocator<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*> >, std::__detail::_Select1st, std::equal_to<nox::logic::actor::Identifier>, std::hash<nox::logic::actor::Identifier>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true>, true>::operator[](nox::logic::actor::Identifier const&) (new_allocator.h:104)
+  n1: 40192 0x4DF2CF: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (unordered_map.h:668)
+   n1: 40192 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+    n2: 40192 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 40160 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 40160 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 40160 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 40160 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n2: 39095 0x57FD3DD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 38967 0x5098B9: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (Actor.cpp:48)
+   n1: 38967 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 38967 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 38967 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 38936 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 38936 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 38936 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 38936 0x49B19F: main (main.cpp:14)
+      n0: 31 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 4 places, all below massif's threshold (1.00%)
+ n1: 30144 0x516827: nox::logic::actor::Event::Event(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, nox::logic::actor::Actor*) (basic_string.tcc:223)
+  n1: 30144 0x4EC4AF: nox::logic::world::ActorCreated::ActorCreated(nox::logic::actor::Actor*) (ActorCreated.cpp:32)
+   n1: 30144 0x4DF372: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:120)
+    n1: 30144 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+     n2: 30144 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 30120 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 30120 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 30120 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 30120 0x49B19F: main (main.cpp:14)
+      n0: 24 in 1 place, below massif's threshold (1.00%)
+ n1: 19968 0x4B35BD: void std::deque<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_push_back_aux<std::shared_ptr<nox::event::Event> >(std::shared_ptr<nox::event::Event>&&) (new_allocator.h:104)
+  n1: 19968 0x4B0C1B: nox::event::Manager::queueEvent(std::shared_ptr<nox::event::Event>) (deque.tcc:161)
+   n1: 19968 0x4DF3BE: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (Manager.cpp:456)
+    n1: 19968 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+     n1: 19968 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 19968 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 19968 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 19968 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 19968 0x49B19F: main (main.cpp:14)
+#-----------
+snapshot=10
+#-----------
+time=11804448
+mem_heap_B=1895020
+mem_heap_extra_B=110068
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=11
+#-----------
+time=13349928
+mem_heap_B=2121208
+mem_heap_extra_B=124720
+mem_stacks_B=0
+heap_tree=detailed
+n12: 2121208 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n2: 774144 0x4B3078: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 772608 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 772608 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 772608 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 772608 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 772096 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 772096 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 772096 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 772096 0x49B19F: main (main.cpp:14)
+      n0: 512 in 1 place, below massif's threshold (1.00%)
+  n0: 1536 in 3 places, all below massif's threshold (1.00%)
+ n1: 712248 0x511AF1: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+  n1: 712248 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+   n2: 712248 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+    n1: 711776 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+     n1: 711776 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+      n1: 711776 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 711776 0x49B19F: main (main.cpp:14)
+    n0: 472 in 1 place, below massif's threshold (1.00%)
+ n1: 103296 0x4CB7EE: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x49CA07: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+   n1: 103296 0x49D85D: ConsoleApplication::onInit() (console_application.cpp:176)
+    n1: 103296 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x49B19F: main (main.cpp:14)
+ n2: 96704 0x4B3046: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 96576 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 96576 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 96576 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 96576 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 96512 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 96512 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 96512 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 96512 0x49B19F: main (main.cpp:14)
+      n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 3 places, all below massif's threshold (1.00%)
+ n1: 96512 0x4DF347: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:104)
+  n1: 96512 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+   n2: 96512 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+    n1: 96448 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+     n1: 96448 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+      n1: 96448 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 96448 0x49B19F: main (main.cpp:14)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF000655: ???
+       n1: 72704 0xFFF000672: ???
+        n1: 72704 0xFFF000680: ???
+         n1: 72704 0xFFF000685: ???
+          n0: 72704 0xFFF00068D: ???
+ n0: 61956 in 118 places, all below massif's threshold (1.00%)
+ n1: 48256 0x4E6C30: std::__detail::_Map_base<nox::logic::actor::Identifier, std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, std::allocator<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*> >, std::__detail::_Select1st, std::equal_to<nox::logic::actor::Identifier>, std::hash<nox::logic::actor::Identifier>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true>, true>::operator[](nox::logic::actor::Identifier const&) (new_allocator.h:104)
+  n1: 48256 0x4DF2CF: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (unordered_map.h:668)
+   n1: 48256 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+    n2: 48256 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 48224 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 48224 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 48224 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 48224 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n1: 48256 0x5095A6: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (new_allocator.h:104)
+  n1: 48256 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+   n1: 48256 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+    n2: 48256 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 48224 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 48224 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 48224 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 48224 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n2: 46876 0x57FD3DD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 46748 0x5098B9: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (Actor.cpp:48)
+   n1: 46748 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 46748 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 46748 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 46717 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 46717 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 46717 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 46717 0x49B19F: main (main.cpp:14)
+      n0: 31 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 4 places, all below massif's threshold (1.00%)
+ n1: 36192 0x516827: nox::logic::actor::Event::Event(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, nox::logic::actor::Actor*) (basic_string.tcc:223)
+  n1: 36192 0x4EC4AF: nox::logic::world::ActorCreated::ActorCreated(nox::logic::actor::Actor*) (ActorCreated.cpp:32)
+   n1: 36192 0x4DF372: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:120)
+    n1: 36192 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+     n2: 36192 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 36168 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 36168 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 36168 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 36168 0x49B19F: main (main.cpp:14)
+      n0: 24 in 1 place, below massif's threshold (1.00%)
+ n1: 24064 0x4B35BD: void std::deque<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_push_back_aux<std::shared_ptr<nox::event::Event> >(std::shared_ptr<nox::event::Event>&&) (new_allocator.h:104)
+  n1: 24064 0x4B0C1B: nox::event::Manager::queueEvent(std::shared_ptr<nox::event::Event>) (deque.tcc:161)
+   n1: 24064 0x4DF3BE: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (Manager.cpp:456)
+    n1: 24064 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+     n1: 24064 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 24064 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 24064 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 24064 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 24064 0x49B19F: main (main.cpp:14)
+#-----------
+snapshot=12
+#-----------
+time=14733320
+mem_heap_B=2323815
+mem_heap_extra_B=137857
+mem_stacks_B=0
+heap_tree=detailed
+n12: 2323815 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n2: 856576 0x4B3078: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 855040 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 855040 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 855040 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 855040 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 854528 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 854528 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 854528 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 854528 0x49B19F: main (main.cpp:14)
+      n0: 512 in 1 place, below massif's threshold (1.00%)
+  n0: 1536 in 3 places, all below massif's threshold (1.00%)
+ n1: 788240 0x511AF1: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+  n1: 788240 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+   n2: 788240 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+    n1: 787768 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+     n1: 787768 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+      n1: 787768 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 787768 0x49B19F: main (main.cpp:14)
+    n0: 472 in 1 place, below massif's threshold (1.00%)
+ n2: 107008 0x4B3046: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 106880 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 106880 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 106880 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 106880 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 106816 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 106816 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 106816 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 106816 0x49B19F: main (main.cpp:14)
+      n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 3 places, all below massif's threshold (1.00%)
+ n1: 106816 0x4DF347: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:104)
+  n1: 106816 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+   n2: 106816 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+    n1: 106752 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+     n1: 106752 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+      n1: 106752 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 106752 0x49B19F: main (main.cpp:14)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+ n1: 103296 0x4CB7EE: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x49CA07: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+   n1: 103296 0x49D85D: ConsoleApplication::onInit() (console_application.cpp:176)
+    n1: 103296 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x49B19F: main (main.cpp:14)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF000655: ???
+       n1: 72704 0xFFF000672: ???
+        n1: 72704 0xFFF000680: ???
+         n1: 72704 0xFFF000685: ???
+          n0: 72704 0xFFF00068D: ???
+ n0: 63812 in 118 places, all below massif's threshold (1.00%)
+ n1: 53408 0x4E6C30: std::__detail::_Map_base<nox::logic::actor::Identifier, std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, std::allocator<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*> >, std::__detail::_Select1st, std::equal_to<nox::logic::actor::Identifier>, std::hash<nox::logic::actor::Identifier>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true>, true>::operator[](nox::logic::actor::Identifier const&) (new_allocator.h:104)
+  n1: 53408 0x4DF2CF: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (unordered_map.h:668)
+   n1: 53408 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+    n2: 53408 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 53376 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 53376 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 53376 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 53376 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n1: 53408 0x5095A6: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (new_allocator.h:104)
+  n1: 53408 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+   n1: 53408 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+    n2: 53408 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 53376 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 53376 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 53376 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 53376 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n2: 51867 0x57FD3DD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 51739 0x5098B9: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (Actor.cpp:48)
+   n1: 51739 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 51739 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 51739 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 51708 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 51708 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 51708 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 51708 0x49B19F: main (main.cpp:14)
+      n0: 31 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 4 places, all below massif's threshold (1.00%)
+ n1: 40056 0x516827: nox::logic::actor::Event::Event(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, nox::logic::actor::Actor*) (basic_string.tcc:223)
+  n1: 40056 0x4EC4AF: nox::logic::world::ActorCreated::ActorCreated(nox::logic::actor::Actor*) (ActorCreated.cpp:32)
+   n1: 40056 0x4DF372: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:120)
+    n1: 40056 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+     n2: 40056 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 40032 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 40032 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 40032 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 40032 0x49B19F: main (main.cpp:14)
+      n0: 24 in 1 place, below massif's threshold (1.00%)
+ n1: 26624 0x4B35BD: void std::deque<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_push_back_aux<std::shared_ptr<nox::event::Event> >(std::shared_ptr<nox::event::Event>&&) (new_allocator.h:104)
+  n1: 26624 0x4B0C1B: nox::event::Manager::queueEvent(std::shared_ptr<nox::event::Event>) (deque.tcc:161)
+   n1: 26624 0x4DF3BE: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (Manager.cpp:456)
+    n1: 26624 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+     n1: 26624 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 26624 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 26624 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 26624 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 26624 0x49B19F: main (main.cpp:14)
+#-----------
+snapshot=13
+#-----------
+time=16504560
+mem_heap_B=2592478
+mem_heap_extra_B=154242
+mem_stacks_B=0
+heap_tree=detailed
+n13: 2592478 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n2: 959488 0x4B3078: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 957952 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 957952 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 957952 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 957952 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 957440 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 957440 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 957440 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 957440 0x49B19F: main (main.cpp:14)
+      n0: 512 in 1 place, below massif's threshold (1.00%)
+  n0: 1536 in 3 places, all below massif's threshold (1.00%)
+ n1: 883112 0x511AF1: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+  n1: 883112 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+   n2: 883112 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+    n1: 882640 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+     n1: 882640 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+      n1: 882640 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 882640 0x49B19F: main (main.cpp:14)
+    n0: 472 in 1 place, below massif's threshold (1.00%)
+ n2: 119872 0x4B3046: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 119744 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 119744 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 119744 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 119744 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 119680 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 119680 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 119680 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 119680 0x49B19F: main (main.cpp:14)
+      n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 3 places, all below massif's threshold (1.00%)
+ n1: 119680 0x4DF347: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:104)
+  n1: 119680 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+   n2: 119680 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+    n1: 119616 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+     n1: 119616 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+      n1: 119616 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 119616 0x49B19F: main (main.cpp:14)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+ n1: 103296 0x4CB7EE: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x49CA07: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+   n1: 103296 0x49D85D: ConsoleApplication::onInit() (console_application.cpp:176)
+    n1: 103296 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x49B19F: main (main.cpp:14)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF000655: ???
+       n1: 72704 0xFFF000672: ???
+        n1: 72704 0xFFF000680: ???
+         n1: 72704 0xFFF000685: ???
+          n0: 72704 0xFFF00068D: ???
+ n1: 59840 0x5095A6: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (new_allocator.h:104)
+  n1: 59840 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+   n1: 59840 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+    n2: 59840 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 59808 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 59808 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 59808 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 59808 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n1: 59840 0x4E6C30: std::__detail::_Map_base<nox::logic::actor::Identifier, std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, std::allocator<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*> >, std::__detail::_Select1st, std::equal_to<nox::logic::actor::Identifier>, std::hash<nox::logic::actor::Identifier>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true>, true>::operator[](nox::logic::actor::Identifier const&) (new_allocator.h:104)
+  n1: 59840 0x4DF2CF: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (unordered_map.h:668)
+   n1: 59840 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+    n2: 59840 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 59808 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 59808 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 59808 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 59808 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n2: 58098 0x57FD3DD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 57970 0x5098B9: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (Actor.cpp:48)
+   n1: 57970 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 57970 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 57970 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 57939 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 57939 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 57939 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 57939 0x49B19F: main (main.cpp:14)
+      n0: 31 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 4 places, all below massif's threshold (1.00%)
+ n0: 52060 in 117 places, all below massif's threshold (1.00%)
+ n1: 44880 0x516827: nox::logic::actor::Event::Event(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, nox::logic::actor::Actor*) (basic_string.tcc:223)
+  n1: 44880 0x4EC4AF: nox::logic::world::ActorCreated::ActorCreated(nox::logic::actor::Actor*) (ActorCreated.cpp:32)
+   n1: 44880 0x4DF372: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:120)
+    n1: 44880 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+     n2: 44880 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 44856 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 44856 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 44856 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 44856 0x49B19F: main (main.cpp:14)
+      n0: 24 in 1 place, below massif's threshold (1.00%)
+ n1: 29912 0x4E699A: std::_Hashtable<nox::logic::actor::Identifier, std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, std::allocator<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*> >, std::__detail::_Select1st, std::equal_to<nox::logic::actor::Identifier>, std::hash<nox::logic::actor::Identifier>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_insert_unique_node(unsigned long, unsigned long, std::__detail::_Hash_node<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, true>*) (new_allocator.h:104)
+  n1: 29912 0x4E6C57: std::__detail::_Map_base<nox::logic::actor::Identifier, std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, std::allocator<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*> >, std::__detail::_Select1st, std::equal_to<nox::logic::actor::Identifier>, std::hash<nox::logic::actor::Identifier>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true>, true>::operator[](nox::logic::actor::Identifier const&) (hashtable_policy.h:600)
+   n1: 29912 0x4DF2CF: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (unordered_map.h:668)
+    n1: 29912 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+     n2: 29912 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 29912 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 29912 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 29912 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 29912 0x49B19F: main (main.cpp:14)
+      n0: 0 in 1 place, below massif's threshold (1.00%)
+ n1: 29696 0x4B35BD: void std::deque<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_push_back_aux<std::shared_ptr<nox::event::Event> >(std::shared_ptr<nox::event::Event>&&) (new_allocator.h:104)
+  n1: 29696 0x4B0C1B: nox::event::Manager::queueEvent(std::shared_ptr<nox::event::Event>) (deque.tcc:161)
+   n1: 29696 0x4DF3BE: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (Manager.cpp:456)
+    n1: 29696 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+     n1: 29696 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 29696 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 29696 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 29696 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 29696 0x49B19F: main (main.cpp:14)
+#-----------
+snapshot=14
+#-----------
+time=17989080
+mem_heap_B=2809025
+mem_heap_extra_B=168311
+mem_stacks_B=0
+heap_tree=peak
+n13: 2809025 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n2: 1048064 0x4B3078: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 1046528 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 1046528 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 1046528 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 1046528 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 1046016 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 1046016 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 1046016 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 1046016 0x49B19F: main (main.cpp:14)
+      n0: 512 in 1 place, below massif's threshold (1.00%)
+  n0: 1536 in 3 places, all below massif's threshold (1.00%)
+ n1: 964768 0x511AF1: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+  n1: 964768 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+   n2: 964768 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+    n1: 964296 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+     n1: 964296 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+      n1: 964296 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 964296 0x49B19F: main (main.cpp:14)
+    n0: 472 in 1 place, below massif's threshold (1.00%)
+ n2: 130944 0x4B3046: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 130816 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 130816 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 130816 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 130816 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 130752 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 130752 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 130752 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 130752 0x49B19F: main (main.cpp:14)
+      n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 3 places, all below massif's threshold (1.00%)
+ n1: 130752 0x4DF347: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:104)
+  n1: 130752 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+   n2: 130752 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+    n1: 130688 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+     n1: 130688 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+      n1: 130688 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 130688 0x49B19F: main (main.cpp:14)
+    n0: 64 in 1 place, below massif's threshold (1.00%)
+ n1: 103296 0x4CB7EE: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x49CA07: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+   n1: 103296 0x49D85D: ConsoleApplication::onInit() (console_application.cpp:176)
+    n1: 103296 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x49B19F: main (main.cpp:14)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF000655: ???
+       n1: 72704 0xFFF000672: ???
+        n1: 72704 0xFFF000680: ???
+         n1: 72704 0xFFF000685: ???
+          n0: 72704 0xFFF00068D: ???
+ n1: 65376 0x5095A6: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (new_allocator.h:104)
+  n1: 65376 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+   n1: 65376 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+    n2: 65376 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 65344 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 65344 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 65344 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 65344 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n1: 65376 0x4E6C30: std::__detail::_Map_base<nox::logic::actor::Identifier, std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, std::allocator<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*> >, std::__detail::_Select1st, std::equal_to<nox::logic::actor::Identifier>, std::hash<nox::logic::actor::Identifier>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true>, true>::operator[](nox::logic::actor::Identifier const&) (new_allocator.h:104)
+  n1: 65376 0x4DF2CF: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (unordered_map.h:668)
+   n1: 65376 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+    n2: 65376 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 65344 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 65344 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 65344 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 65344 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n2: 63461 0x57FD3DD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 63333 0x5098B9: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (Actor.cpp:48)
+   n1: 63333 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 63333 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 63333 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 63302 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 63302 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 63302 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 63302 0x49B19F: main (main.cpp:14)
+      n0: 31 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 4 places, all below massif's threshold (1.00%)
+ n0: 53084 in 117 places, all below massif's threshold (1.00%)
+ n1: 49032 0x516827: nox::logic::actor::Event::Event(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, nox::logic::actor::Actor*) (basic_string.tcc:223)
+  n1: 49032 0x4EC4AF: nox::logic::world::ActorCreated::ActorCreated(nox::logic::actor::Actor*) (ActorCreated.cpp:32)
+   n1: 49032 0x4DF372: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (new_allocator.h:120)
+    n1: 49032 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+     n2: 49032 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 49008 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 49008 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 49008 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 49008 0x49B19F: main (main.cpp:14)
+      n0: 24 in 1 place, below massif's threshold (1.00%)
+ n1: 32256 0x4B35BD: void std::deque<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_push_back_aux<std::shared_ptr<nox::event::Event> >(std::shared_ptr<nox::event::Event>&&) (new_allocator.h:104)
+  n1: 32256 0x4B0C1B: nox::event::Manager::queueEvent(std::shared_ptr<nox::event::Event>) (deque.tcc:161)
+   n1: 32256 0x4DF3BE: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (Manager.cpp:456)
+    n1: 32256 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+     n1: 32256 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 32256 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 32256 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 32256 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 32256 0x49B19F: main (main.cpp:14)
+ n1: 29912 0x4E699A: std::_Hashtable<nox::logic::actor::Identifier, std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, std::allocator<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*> >, std::__detail::_Select1st, std::equal_to<nox::logic::actor::Identifier>, std::hash<nox::logic::actor::Identifier>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_insert_unique_node(unsigned long, unsigned long, std::__detail::_Hash_node<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, true>*) (new_allocator.h:104)
+  n1: 29912 0x4E6C57: std::__detail::_Map_base<nox::logic::actor::Identifier, std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, std::allocator<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*> >, std::__detail::_Select1st, std::equal_to<nox::logic::actor::Identifier>, std::hash<nox::logic::actor::Identifier>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true>, true>::operator[](nox::logic::actor::Identifier const&) (hashtable_policy.h:600)
+   n1: 29912 0x4DF2CF: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (unordered_map.h:668)
+    n1: 29912 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+     n2: 29912 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 29912 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 29912 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 29912 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 29912 0x49B19F: main (main.cpp:14)
+      n0: 0 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=15
+#-----------
+time=19213304
+mem_heap_B=2607515
+mem_heap_extra_B=118477
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=16
+#-----------
+time=20615160
+mem_heap_B=2607515
+mem_heap_extra_B=118477
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=22394640
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=18
+#-----------
+time=23500496
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=19
+#-----------
+time=24606352
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=20
+#-----------
+time=25712208
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=21
+#-----------
+time=26818064
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=22
+#-----------
+time=27923920
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=23
+#-----------
+time=29029776
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=24
+#-----------
+time=30135632
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=25
+#-----------
+time=31241488
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=26
+#-----------
+time=32347344
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=27
+#-----------
+time=33453200
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=28
+#-----------
+time=34559056
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=29
+#-----------
+time=35664912
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=30
+#-----------
+time=37559312
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=31
+#-----------
+time=39453712
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=32
+#-----------
+time=41348112
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=33
+#-----------
+time=43242512
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=34
+#-----------
+time=45136912
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=35
+#-----------
+time=46084112
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=36
+#-----------
+time=47031312
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=37
+#-----------
+time=47978512
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=38
+#-----------
+time=48925712
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=detailed
+n10: 2606427 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n2: 1049088 0x4B3078: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 1048576 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 1048576 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 1048576 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 1048576 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 1048064 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 1048064 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 1048064 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 1048064 0x49B19F: main (main.cpp:14)
+      n0: 512 in 1 place, below massif's threshold (1.00%)
+  n0: 512 in 3 places, all below massif's threshold (1.00%)
+ n1: 966656 0x511AF1: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+  n1: 966656 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+   n2: 966656 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+    n1: 966184 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+     n1: 966184 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+      n1: 966184 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 966184 0x49B19F: main (main.cpp:14)
+    n0: 472 in 1 place, below massif's threshold (1.00%)
+ n2: 131136 0x4B3046: std::_Deque_base<std::shared_ptr<nox::event::Event>, std::allocator<std::shared_ptr<nox::event::Event> > >::_M_initialize_map(unsigned long) (new_allocator.h:104)
+  n1: 131072 0x50908B: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (stl_deque.h:490)
+   n1: 131072 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 131072 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 131072 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 131008 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 131008 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 131008 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 131008 0x49B19F: main (main.cpp:14)
+      n0: 64 in 1 place, below massif's threshold (1.00%)
+  n0: 64 in 3 places, all below massif's threshold (1.00%)
+ n1: 103296 0x4CB7EE: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x49CA07: ConsoleApplication::initializePhysics(nox::logic::Logic*) (unique_ptr.h:765)
+   n1: 103296 0x49D85D: ConsoleApplication::onInit() (console_application.cpp:176)
+    n1: 103296 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x49B19F: main (main.cpp:14)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF000655: ???
+       n1: 72704 0xFFF000672: ???
+        n1: 72704 0xFFF000680: ???
+         n1: 72704 0xFFF000685: ???
+          n0: 72704 0xFFF00068D: ???
+ n1: 65536 0x5095A6: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (new_allocator.h:104)
+  n1: 65536 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+   n1: 65536 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+    n2: 65536 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 65504 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 65504 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 65504 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 65504 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n1: 65536 0x4E6C30: std::__detail::_Map_base<nox::logic::actor::Identifier, std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, std::allocator<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*> >, std::__detail::_Select1st, std::equal_to<nox::logic::actor::Identifier>, std::hash<nox::logic::actor::Identifier>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true>, true>::operator[](nox::logic::actor::Identifier const&) (new_allocator.h:104)
+  n1: 65536 0x4DF2CF: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (unordered_map.h:668)
+   n1: 65536 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+    n2: 65536 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+     n1: 65504 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+      n1: 65504 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+       n1: 65504 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+        n0: 65504 0x49B19F: main (main.cpp:14)
+     n0: 32 in 1 place, below massif's threshold (1.00%)
+ n2: 63616 0x57FD3DD: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 63488 0x5098B9: nox::logic::actor::Actor::Actor(nox::logic::actor::Identifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, nox::log::Logger) (Actor.cpp:48)
+   n1: 63488 0x511B18: nox::logic::actor::Factory::createActor(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<nox::logic::actor::Actor*, std::allocator<nox::logic::actor::Actor*> >&) (unique_ptr.h:765)
+    n1: 63488 0x4DFB21: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:296)
+     n2: 63488 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 63457 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 63457 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 63457 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 63457 0x49B19F: main (main.cpp:14)
+      n0: 31 in 1 place, below massif's threshold (1.00%)
+  n0: 128 in 4 places, all below massif's threshold (1.00%)
+ n0: 58947 in 125 places, all below massif's threshold (1.00%)
+ n1: 29912 0x4E699A: std::_Hashtable<nox::logic::actor::Identifier, std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, std::allocator<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*> >, std::__detail::_Select1st, std::equal_to<nox::logic::actor::Identifier>, std::hash<nox::logic::actor::Identifier>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_insert_unique_node(unsigned long, unsigned long, std::__detail::_Hash_node<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, true>*) (new_allocator.h:104)
+  n1: 29912 0x4E6C57: std::__detail::_Map_base<nox::logic::actor::Identifier, std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*>, std::allocator<std::pair<nox::logic::actor::Identifier const, nox::logic::actor::Actor*> >, std::__detail::_Select1st, std::equal_to<nox::logic::actor::Identifier>, std::hash<nox::logic::actor::Identifier>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true>, true>::operator[](nox::logic::actor::Identifier const&) (hashtable_policy.h:600)
+   n1: 29912 0x4DF2CF: nox::logic::world::Manager::handleActorCreation(nox::logic::actor::Actor*) (unordered_map.h:668)
+    n1: 29912 0x4DFB45: nox::logic::world::Manager::createActorFromSource(Json::Value const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (Manager.cpp:300)
+     n2: 29912 0x4E8607: nox::logic::world::Loader::loadWorld(Json::Value const&, nox::logic::world::Manager*) (Loader.cpp:59)
+      n1: 29912 0x49CC0C: ConsoleApplication::loadWorldFile(nox::logic::IContext*, nox::logic::world::Manager*) (console_application.cpp:146)
+       n1: 29912 0x49D878: ConsoleApplication::onInit() (console_application.cpp:179)
+        n1: 29912 0x4A125B: nox::app::Application::init(int, char**) (Application.cpp:199)
+         n0: 29912 0x49B19F: main (main.cpp:14)
+      n0: 0 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=39
+#-----------
+time=49872912
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=40
+#-----------
+time=50820112
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=41
+#-----------
+time=51767312
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=42
+#-----------
+time=52714512
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=43
+#-----------
+time=53661712
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=44
+#-----------
+time=54608912
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=45
+#-----------
+time=55556112
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=46
+#-----------
+time=56503312
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=47
+#-----------
+time=57450512
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=48
+#-----------
+time=58397712
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=49
+#-----------
+time=59344912
+mem_heap_B=2606427
+mem_heap_extra_B=118453
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=50
+#-----------
+time=59961688
+mem_heap_B=2050360
+mem_heap_extra_B=81424
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=51
+#-----------
+time=60578352
+mem_heap_B=1459780
+mem_heap_extra_B=55340
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=52
+#-----------
+time=61195360
+mem_heap_B=868823
+mem_heap_extra_B=29289
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=53
+#-----------
+time=61812496
+mem_heap_B=277771
+mem_heap_extra_B=3205
+mem_stacks_B=0
+heap_tree=empty

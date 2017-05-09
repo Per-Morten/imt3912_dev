@@ -1,0 +1,31 @@
+==11746== Callgrind, a call-graph generating cache profiler
+==11746== Copyright (C) 2002-2015, and GNU GPL'd, by Josef Weidendorfer et al.
+==11746== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==11746== Command: ./build/bin/ecs_numerous_unique_components -actor_amount 128 --logrm warning
+==11746== Parent PID: 11713
+==11746== 
+--11746-- warning: L3 cache found, using its data for the LL simulation.
+==11746== For interactive control, run 'callgrind_control -h'.
+==11746== 
+==11746== Events    : Ir Dr Dw I1mr D1mr D1mw ILmr DLmr DLmw Bc Bcm Bi Bim
+==11746== Collected : 7060968105 1780274187 1125927911 24847985 51043989 7060686 26147 176927 659334 1194836466 27808629 154035298 36863516
+==11746== 
+==11746== I   refs:      7,060,968,105
+==11746== I1  misses:       24,847,985
+==11746== LLi misses:           26,147
+==11746== I1  miss rate:          0.35%
+==11746== LLi miss rate:          0.00%
+==11746== 
+==11746== D   refs:      2,906,202,098  (1,780,274,187 rd + 1,125,927,911 wr)
+==11746== D1  misses:       58,104,675  (   51,043,989 rd +     7,060,686 wr)
+==11746== LLd misses:          836,261  (      176,927 rd +       659,334 wr)
+==11746== D1  miss rate:           2.0% (          2.9%   +           0.6%  )
+==11746== LLd miss rate:           0.0% (          0.0%   +           0.1%  )
+==11746== 
+==11746== LL refs:          82,952,660  (   75,891,974 rd +     7,060,686 wr)
+==11746== LL misses:           862,408  (      203,074 rd +       659,334 wr)
+==11746== LL miss rate:            0.0% (          0.0%   +           0.1%  )
+==11746== 
+==11746== Branches:      1,348,871,764  (1,194,836,466 cond +   154,035,298 ind)
+==11746== Mispredicts:      64,672,145  (   27,808,629 cond +    36,863,516 ind)
+==11746== Mispred rate:            4.8% (          2.3%     +          23.9%   )
