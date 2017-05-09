@@ -20,7 +20,7 @@
 #include <cmd/parser.h>
 
 ConsoleApplication::ConsoleApplication():
-    Application("empty_actors", "PTPERF")
+    Application("sprite_actors", "PTPERF")
 {
 }
 
