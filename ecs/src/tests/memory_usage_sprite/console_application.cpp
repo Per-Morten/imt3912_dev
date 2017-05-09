@@ -18,7 +18,7 @@
 
 
 ConsoleApplication::ConsoleApplication()
-    : Application("memory_usage", "PTPERF")
+    : Application("memory_usage_sprite", "PTPERF")
 {
 }
 
