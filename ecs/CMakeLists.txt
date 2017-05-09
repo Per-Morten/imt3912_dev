@@ -116,7 +116,8 @@ add_definitions(-DSEND_GLOBAL_EVENT_PER_N_COMPONMENT=11)
 
 create_test_case(console_template)
 create_test_case(window_template)
-create_test_case(memory_usage)
+create_test_case(memory_usage_sprite)
+create_test_case(memory_usage_transform)
 create_test_case(fast_spawning)
 create_test_case(numerous_unique_components)
 
