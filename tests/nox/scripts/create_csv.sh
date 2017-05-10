@@ -15,7 +15,7 @@ do
     esac
 done
 
-pushd ../../../../results > /dev/null 2>&1;
+pushd ../../../results > /dev/null 2>&1;
 
 
 directories=$(find . -type d);
