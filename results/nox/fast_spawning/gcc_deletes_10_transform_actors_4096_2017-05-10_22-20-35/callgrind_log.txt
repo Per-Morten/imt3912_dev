@@ -1,0 +1,32 @@
+==23736== Callgrind, a call-graph generating cache profiler
+==23736== Copyright (C) 2002-2015, and GNU GPL'd, by Josef Weidendorfer et al.
+==23736== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==23736== Command: ./build/bin/nox_fast_spawning -actor_name TransformActor -actor_amount 4096 -deletion_amount 10
+==23736== Parent PID: 23710
+==23736== 
+--23736-- warning: L3 cache found, using its data for the LL simulation.
+==23736== For interactive control, run 'callgrind_control -h'.
+==23736== brk segment overflow in thread #1: can't grow to 0x4a28000
+==23736== 
+==23736== Events    : Ir Dr Dw I1mr D1mr D1mw ILmr DLmr DLmw Bc Bcm Bi Bim
+==23736== Collected : 3444814131 1575179528 1255280176 26490732 22840692 1696243 14366 284735 415433 1124094876 9448555 34257140 15737349
+==23736== 
+==23736== I   refs:      3,444,814,131
+==23736== I1  misses:       26,490,732
+==23736== LLi misses:           14,366
+==23736== I1  miss rate:          0.77%
+==23736== LLi miss rate:          0.00%
+==23736== 
+==23736== D   refs:      2,830,459,704  (1,575,179,528 rd + 1,255,280,176 wr)
+==23736== D1  misses:       24,536,935  (   22,840,692 rd +     1,696,243 wr)
+==23736== LLd misses:          700,168  (      284,735 rd +       415,433 wr)
+==23736== D1  miss rate:           0.9% (          1.5%   +           0.1%  )
+==23736== LLd miss rate:           0.0% (          0.0%   +           0.0%  )
+==23736== 
+==23736== LL refs:          51,027,667  (   49,331,424 rd +     1,696,243 wr)
+==23736== LL misses:           714,534  (      299,101 rd +       415,433 wr)
+==23736== LL miss rate:            0.0% (          0.0%   +           0.0%  )
+==23736== 
+==23736== Branches:      1,158,352,016  (1,124,094,876 cond +    34,257,140 ind)
+==23736== Mispredicts:      25,185,904  (    9,448,555 cond +    15,737,349 ind)
+==23736== Mispred rate:            2.2% (          0.8%     +          45.9%   )

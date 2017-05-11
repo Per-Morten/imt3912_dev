@@ -1,0 +1,35 @@
+==23786== Callgrind, a call-graph generating cache profiler
+==23786== Copyright (C) 2002-2015, and GNU GPL'd, by Josef Weidendorfer et al.
+==23786== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==23786== Command: ./build/bin/nox_fast_spawning -actor_name EmptyActor -actor_amount 8192 -deletion_amount 1
+==23786== Parent PID: 23761
+==23786== 
+--23786-- warning: L3 cache found, using its data for the LL simulation.
+==23786== For interactive control, run 'callgrind_control -h'.
+==23786== brk segment overflow in thread #1: can't grow to 0x4a39000
+==23786== brk segment overflow in thread #1: can't grow to 0x4a39000
+==23786== brk segment overflow in thread #1: can't grow to 0x4a39000
+==23786== brk segment overflow in thread #1: can't grow to 0x4a39000
+==23786== 
+==23786== Events    : Ir Dr Dw I1mr D1mr D1mw ILmr DLmr DLmw Bc Bcm Bi Bim
+==23786== Collected : 660889840 241568300 151862080 5033407 4210493 264390 5539 146579 138087 113152789 1836598 5039868 1958103
+==23786== 
+==23786== I   refs:      660,889,840
+==23786== I1  misses:      5,033,407
+==23786== LLi misses:          5,539
+==23786== I1  miss rate:        0.76%
+==23786== LLi miss rate:        0.00%
+==23786== 
+==23786== D   refs:      393,430,380  (241,568,300 rd + 151,862,080 wr)
+==23786== D1  misses:      4,474,883  (  4,210,493 rd +     264,390 wr)
+==23786== LLd misses:        284,666  (    146,579 rd +     138,087 wr)
+==23786== D1  miss rate:         1.1% (        1.7%   +         0.2%  )
+==23786== LLd miss rate:         0.1% (        0.1%   +         0.1%  )
+==23786== 
+==23786== LL refs:         9,508,290  (  9,243,900 rd +     264,390 wr)
+==23786== LL misses:         290,205  (    152,118 rd +     138,087 wr)
+==23786== LL miss rate:          0.0% (        0.0%   +         0.1%  )
+==23786== 
+==23786== Branches:      118,192,657  (113,152,789 cond +   5,039,868 ind)
+==23786== Mispredicts:     3,794,701  (  1,836,598 cond +   1,958,103 ind)
+==23786== Mispred rate:          3.2% (        1.6%     +        38.9%   )
