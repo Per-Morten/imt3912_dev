@@ -295,7 +295,7 @@ void
 nox::ecs::EntityManager::configureComponents()
 {
     // Artificial scope to be able to reuse lambda names.
-    #ifdef NOX_ECS_LAYERED_EXECUTION_UPDATE
+    #ifndef NOX_ECS_LAYERED_EXECUTION_UPDATE
     {
         const auto getDataAccess = [](const auto& info)
         {
@@ -318,7 +318,7 @@ nox::ecs::EntityManager::configureComponents()
                                                                    shouldBeExecuted);
     }
     #endif
-    #ifdef NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS
+    #ifndef NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS
     {
         const auto getDataAccess = [](const auto& info)
         {
@@ -343,7 +343,7 @@ nox::ecs::EntityManager::configureComponents()
                                                                        shouldBeExecuted);
     }
     #endif
-    #ifdef NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
+    #ifndef NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
     {
         const auto getDataAccess = [](const auto& info)
         {
@@ -530,7 +530,8 @@ nox::ecs::EntityManager::distributeLogicEvents()
     std::shared_ptr<nox::event::Event> event{};
     while (this->logicEvents.pop(event))
     {
-        #ifdef NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS
+        #ifndef NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS
+            #pragma message "using layered execution logic events"
             for (const auto& layer : this->logicEventExecutionLayers)
             {
                 for (const auto& item : layer)
@@ -541,6 +542,7 @@ nox::ecs::EntityManager::distributeLogicEvents()
                 this->threads.wait();
             }
         #else
+            #pragma message "not using layered execution logic events "
             for (auto& item : this->components)
             {
                 item.receiveLogicEvent(event);
@@ -553,7 +555,8 @@ nox::ecs::EntityManager::distributeLogicEvents()
 void
 nox::ecs::EntityManager::updateStep(const nox::Duration& deltaTime)
 {
-    #ifdef NOX_ECS_LAYERED_EXECUTION_UPDATE
+    #ifndef NOX_ECS_LAYERED_EXECUTION_UPDATE
+        #pragma message "using layered execution update"
         for (const auto& layer : this->updateExecutionLayers)
         {
             for (const auto& item : layer)
@@ -564,6 +567,7 @@ nox::ecs::EntityManager::updateStep(const nox::Duration& deltaTime)
             this->threads.wait();
         }
     #else
+        #pragma message "not using layered execution update"
         for (auto& item : this->components)
         {
             item.update(deltaTime);
@@ -581,7 +585,8 @@ nox::ecs::EntityManager::distributeEntityEvents()
         Event event(&eventArgumentAllocator, {0}, 0, 0);
         while (this->entityEvents.pop(event))
         {
-        #ifdef NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
+        #ifndef NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
+            #pragma message "using layered execution entity events"
             for (const auto& layer : this->entityEventExecutionLayers)
             {
                 for (const auto& item : layer)
@@ -592,6 +597,7 @@ nox::ecs::EntityManager::distributeEntityEvents()
                 this->threads.wait();
             }
         #else
+            #pragma message "not using layered execution entity events"
             for (auto& item : this->components)
             {
                 item.receiveEntityEvent(event);

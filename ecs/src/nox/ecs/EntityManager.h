@@ -605,15 +605,15 @@ namespace nox
 
             nox::logic::Logic* logicContext{};
 
-            #ifdef NOX_ECS_LAYERED_EXECUTION_UPDATE
+            #ifndef NOX_ECS_LAYERED_EXECUTION_UPDATE
             std::vector<std::vector<std::size_t>> updateExecutionLayers{};
             #endif
 
-            #ifdef NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
+            #ifndef NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
             std::vector<std::vector<std::size_t>> entityEventExecutionLayers{};
             #endif
 
-            #ifdef NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS
+            #ifndef NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS
             std::vector<std::vector<std::size_t>> logicEventExecutionLayers{};
             #endif
         };
