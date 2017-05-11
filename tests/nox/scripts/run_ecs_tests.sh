@@ -9,7 +9,7 @@ function readableNumber
     done
 }
 
-compileVariations=14;
+compileVariations=13;
 function compile
 {
     case $1 in
@@ -78,15 +78,10 @@ function compile
         PREFIX="lockfreestack_use_linear_allocator"
         shift # past argument=value
         ;;
-        13)
-        ARG="-DNOX_LOCKFREESTACK_USE_HEAP_ALLOCATOR=TRUE $2"
-        PREFIX="lockfreestack_use_heap_allocator"
-        shift # past argument=value
-        ;;
     esac
 
     pushd $root > /dev/null 2>&1;
-    ./compile.sh --make-arguments="-j4" --cmake-arguments=$ARG;
+    ./compile.sh --make-arguments="-j7" --cmake-arguments=$ARG;
     popd > /dev/null 2>&1;
 }
 
@@ -98,7 +93,7 @@ printf "Running all tests\n\n"
 
 pushd $root > /dev/null 2>&1;
 rm -r build;
-./compile.sh --make-arguments="-j4";
+./compile.sh --make-arguments="-j7";
 
 #Getting various hardware information
 hardware_info_root="$resultsRoot/hardware_info/$(date +%F_%H-%M-%S)":
@@ -121,44 +116,34 @@ cp build/CMakeCache.txt $hardware_info_root/cmakecache_copy.txt;
 
 popd > /dev/null 2>&1;
 
-j=0;
-while [ $j -lt $compileVariations ];
+k=0;
+while [ $k -lt $compileVariations ];
 do
-    compile $j;
-
-    i="256";
-    count="0";
-    while [ $count -lt 8 ];
+    componentCount="0";
+    j="2";
+    while [ $componentCount -lt 3 ];
     do
-        readableNumber $i 5;
-        nr=$result;
+        compile $k "-DNUC_TRIVIAL_COMPONENT_COUNT=${j}";
     
-        ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$resultsRoot/$PREFIX/memory_usage/sprite_actors" --command="./build/bin/ecs_memory_usage_sprite -actor_amount $i --logrm warning" --save-program-output=yes;
-        ((i=i*2));
-        ((count++));
+        i=4;
+        count=0;
+        while [ $count -lt 7 ];
+        do
+            readableNumber $i 5;
+            nr=$result;
+        
+            ./run_test.sh --test-name="${compiler}_components_${j}_actors_${nr}" --results-folder="$resultsRoot/$PREFIX/numerous_unique_components" --command="./build/bin/ecs_numerous_unique_components -actor_amount $i -world_path world/${j}_world.json" --save-program-output=yes;
+            
+        
+            ((i=i*2));
+            ((count++));
+        done
+    
+        ((j=j*10));
+        ((componentCount++));
     done
 
-    ((j++));
-done
-
-j=0;
-while [ $j -lt $compileVariations ];
-do
-    compile $j;
-
-    i="256";
-    count="0";
-    while [ $count -lt 8 ];
-    do
-        readableNumber $i 5;
-        nr=$result;
-    
-        ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$resultsRoot/$PREFIX/memory_usage/transform_actors" --command="./build/bin/ecs_memory_usage_transform -actor_amount $i --logrm warning" --save-program-output=yes;
-        ((i=i*2));
-        ((count++));
-    done
-
-    ((j++));
+    ((k++));
 done
 
 #j=0;
@@ -173,44 +158,60 @@ done
 #        readableNumber $i 5;
 #        nr=$result;
 #    
-#        ./run_test.sh --test-name="${compiler}_deletes_01_actors_${nr}" --results-folder="$resultsRoot/$PREFIX/fast_spawning" --command="./build/bin/ecs_fast_spawning -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=yes;
-#        ./run_test.sh --test-name="${compiler}_deletes_10_actors_${nr}" --results-folder="$resultsRoot/$PREFIX/fast_spawning" --command="./build/bin/ecs_fast_spawning -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=yes;
-#    
+#        ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$resultsRoot/$PREFIX/memory_usage/sprite_actors" --command="./build/bin/ecs_memory_usage_sprite -actor_amount $i" --save-program-output=yes;
 #        ((i=i*2));
 #        ((count++));
 #    done
+#
 #    ((j++));
 #done
 #
-#k=0;
-#while [ $k -lt $compileVariations ];
+#j=0;
+#while [ $j -lt $compileVariations ];
 #do
-#    componentCount="0";
-#    j="2";
-#    while [ $componentCount -lt 3 ];
+#    compile $j;
+#
+#    i="256";
+#    count="0";
+#    while [ $count -lt 8 ];
 #    do
-#        compile $k "-DNUC_TRIVIAL_COMPONENT_COUNT=${j}";
+#        readableNumber $i 5;
+#        nr=$result;
 #    
-#        i=1;
-#        count=0;
-#        while [ $count -lt 8 ];
-#        do
-#            readableNumber $i 4;
-#            nr=$result;
-#        
-#            ./run_test.sh --test-name="${compiler}_components_${j}_actors_${nr}" --results-folder="$resultsRoot/$PREFIX/numerous_unique_components" --command="./build/bin/ecs_numerous_unique_components -actor_amount $i --logrm warning" --save-program-output=yes;
-#            
-#        
-#            ((i=i*2));
-#            ((count++));
-#        done
-#    
-#        ((j=j*10));
-#        ((componentCount++));
+#        ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$resultsRoot/$PREFIX/memory_usage/transform_actors" --command="./build/bin/ecs_memory_usage_transform -actor_amount $i" --save-program-output=yes;
+#        ((i=i*2));
+#        ((count++));
 #    done
 #
-#    ((k++));
+#    ((j++));
 #done
+
+j=0;
+while [ $j -lt $compileVariations ];
+do
+    compile $j;
+
+    i="256";
+    count="0";
+    while [ $count -lt 8 ];
+    do
+        readableNumber $i 5;
+        nr=$result;
+    
+        ./run_test.sh --test-name="${compiler}_deletes_01_sprite_actors_${nr}" --results-folder="$resultsRoot/$PREFIX/fast_spawning_sprite" --command="./build/bin/ecs_fast_spawning_sprite -actor_amount $i -deletion_amount 1" --save-program-output=yes;
+        ./run_test.sh --test-name="${compiler}_deletes_10_sprite_actors_${nr}" --results-folder="$resultsRoot/$PREFIX/fast_spawning_sprite" --command="./build/bin/ecs_fast_spawning_sprite -actor_amount $i -deletion_amount 10" --save-program-output=yes;
+    
+        #./run_test.sh --test-name="${compiler}_deletes_01_transform_actors_${nr}" --results-folder="$resultsRoot/$PREFIX/fast_spawning_transform" --command="./build/bin/ecs_fast_spawning_transform -actor_amount $i -deletion_amount 1" --save-program-output=yes;
+        #./run_test.sh --test-name="${compiler}_deletes_10_transform_actors_${nr}" --results-folder="$resultsRoot/$PREFIX/fast_spawning_transform" --command="./build/bin/ecs_fast_spawning_transform -actor_amount $i -deletion_amount 10" --save-program-output=yes;
+
+        ((i=i*2));
+        ((count++));
+    done
+    ((j++));
+done
+
+
+
 #
 #
 #### ENDING TESTS WITH GCC. STARTING TESTS WITH CLANG ###
@@ -259,7 +260,7 @@ done
 #        readableNumber $i 5;
 #        nr=$result;
 #    
-#        ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$resultsRoot/$PREFIX/memory_usage/sprite_actors" --command="./build/bin/ecs_memory_usage_sprite -actor_amount $i --logrm warning" --save-program-output=yes;
+#        ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$resultsRoot/$PREFIX/memory_usage/sprite_actors" --command="./build/bin/ecs_memory_usage_sprite -actor_amount $i" --save-program-output=yes;
 #        ((i=i*2));
 #        ((count++));
 #    done
@@ -279,7 +280,7 @@ done
 #        readableNumber $i 5;
 #        nr=$result;
 #    
-#        ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$resultsRoot/$PREFIX/memory_usage/transform_actors" --command="./build/bin/ecs_memory_usage_transform -actor_amount $i --logrm warning" --save-program-output=yes;
+#        ./run_test.sh --test-name="${compiler}_${nr}" --results-folder="$resultsRoot/$PREFIX/memory_usage/transform_actors" --command="./build/bin/ecs_memory_usage_transform -actor_amount $i" --save-program-output=yes;
 #        ((i=i*2));
 #        ((count++));
 #    done
@@ -299,8 +300,8 @@ done
 #        readableNumber $i 5;
 #        nr=$result;
 #    
-#        ./run_test.sh --test-name="${compiler}_deletes_01_actors_${nr}" --results-folder="$resultsRoot/$PREFIX/fast_spawning" --command="./build/bin/ecs_fast_spawning -actor_amount $i -deletion_amount 1 --logrm warning" --save-program-output=yes;
-#        ./run_test.sh --test-name="${compiler}_deletes_10_actors_${nr}" --results-folder="$resultsRoot/$PREFIX/fast_spawning" --command="./build/bin/ecs_fast_spawning -actor_amount $i -deletion_amount 10 --logrm warning" --save-program-output=yes;
+#        ./run_test.sh --test-name="${compiler}_deletes_01_actors_${nr}" --results-folder="$resultsRoot/$PREFIX/fast_spawning" --command="./build/bin/ecs_fast_spawning -actor_amount $i -deletion_amount 1" --save-program-output=yes;
+#        ./run_test.sh --test-name="${compiler}_deletes_10_actors_${nr}" --results-folder="$resultsRoot/$PREFIX/fast_spawning" --command="./build/bin/ecs_fast_spawning -actor_amount $i -deletion_amount 10" --save-program-output=yes;
 #    
 #        ((i=i*2));
 #        ((count++));
@@ -324,7 +325,7 @@ done
 #            readableNumber $i 4;
 #            nr=$result;
 #        
-#            ./run_test.sh --test-name="${compiler}_components_${j}_actors_${nr}" --results-folder="$resultsRoot/$PREFIX/numerous_unique_components" --command="./build/bin/ecs_numerous_unique_components -actor_amount $i --logrm warning" --save-program-output=yes;
+#            ./run_test.sh --test-name="${compiler}_components_${j}_actors_${nr}" --results-folder="$resultsRoot/$PREFIX/numerous_unique_components" --command="./build/bin/ecs_numerous_unique_components -actor_amount $i" --save-program-output=yes;
 #            
 #        
 #            ((i=i*2));
