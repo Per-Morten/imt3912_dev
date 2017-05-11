@@ -99,15 +99,9 @@ ConsoleApplication::initializeWorldManager(nox::logic::Logic* logic)
 {
     auto world = std::make_unique<nox::logic::world::Manager>(logic);
 
-    // Register actors components here
-    world->registerActorComponent<nox::logic::actor::Transform>();
-    world->registerActorComponent<nox::logic::physics::ActorPhysics>();
-    world->registerActorComponent<nox::logic::graphics::ActorSprite>();
-
-
     //Register all trivial component templates
+    //
     registerTrivialComponent<TRIVIAL_COMPONENT_COUNT>(world.get());
-
 
     const auto actorDirectory = std::string{"actor"};
     world->loadActorDefinitions(getResourceAccess(), actorDirectory);
