@@ -125,7 +125,7 @@ components::TrivialComponent<duration>::handleEvent(const std::shared_ptr<nox::e
 
         if (dummyEvent->receiverId == duration)
         {
-            getLog().debug().format("Message sent from actor \"%s\" to actor \"%s\"", dummyEvent->senderName, NAME);
+            getLog().info().format("Message sent from actor \"%s\" to actor \"%s\"", dummyEvent->senderName, NAME);
         }
     }
 }
