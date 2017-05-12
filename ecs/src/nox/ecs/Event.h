@@ -152,10 +152,13 @@ namespace nox
              * @brief      Allocator used for allocating events.
              */
             #if defined(NOX_EVENT_USE_LINEAR_ALLOCATOR)
+            #pragma message "NOX_EVENT_USE_LINEAR_ALLOCATOR"
             using ArgumentAllocator = nox::memory::LockedAllocator<nox::memory::LinearAllocator<1024>>;
             #elif defined(NOX_EVENT_USE_HEAP_ALLOCATOR)
+            #pragma message "NOX_EVENT_USE_HEAP_ALLOCATOR"
             using ArgumentAllocator = nox::memory::HeapAllocator;
             #else
+            #pragma message "NOX_EVENT_USE_LOCK_FREE_ALLOCATOR"
             using ArgumentAllocator = nox::memory::LockFreeAllocator<1024>;
             #endif
 

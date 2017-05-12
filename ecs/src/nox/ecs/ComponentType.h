@@ -19,6 +19,7 @@ namespace nox
         namespace component_type
         {
             #ifdef NOX_USE_STRING_TYPE_ID
+            #pragma message "Using NOX_USE_STRING_TYPE_ID"
 
             extern const std::string CHILDREN;
             extern const std::string PARENT;
@@ -26,6 +27,7 @@ namespace nox
             extern const std::string SPRITE;
 
             #else
+            #pragma message "NOT USING NOX_USE_STRING_TYPE_ID"
             /**
              * @brief      Constant numerical value used for identifying the
              *             children type through the TypeIdentifier.
