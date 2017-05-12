@@ -1,0 +1,37 @@
+==2854== Callgrind, a call-graph generating cache profiler
+==2854== Copyright (C) 2002-2015, and GNU GPL'd, by Josef Weidendorfer et al.
+==2854== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==2854== Command: ./build/bin/ecs_numerous_unique_components -actor_amount 256 -world_path world/200_world.json
+==2854== Parent PID: 2719
+==2854== 
+--2854-- warning: L3 cache found, using its data for the LL simulation.
+==2854== For interactive control, run 'callgrind_control -h'.
+==2854== brk segment overflow in thread #1: can't grow to 0x4a3e000
+==2854== brk segment overflow in thread #1: can't grow to 0x4a3d000
+==2854== brk segment overflow in thread #1: can't grow to 0x4a3e000
+==2854== brk segment overflow in thread #1: can't grow to 0x4a40000
+==2854== brk segment overflow in thread #1: can't grow to 0x4a40000
+==2854== brk segment overflow in thread #1: can't grow to 0x4a3d000
+==2854== 
+==2854== Events    : Ir Dr Dw I1mr D1mr D1mw ILmr DLmr DLmw Bc Bcm Bi Bim
+==2854== Collected : 196020484341 65331640759 30129753228 91877305 155000604 27319904 30527 691720 2039316 30213969587 162500807 844906717 349700260
+==2854== 
+==2854== I   refs:      196,020,484,341
+==2854== I1  misses:         91,877,305
+==2854== LLi misses:             30,527
+==2854== I1  miss rate:            0.05%
+==2854== LLi miss rate:            0.00%
+==2854== 
+==2854== D   refs:       95,461,393,987  (65,331,640,759 rd + 30,129,753,228 wr)
+==2854== D1  misses:        182,320,508  (   155,000,604 rd +     27,319,904 wr)
+==2854== LLd misses:          2,731,036  (       691,720 rd +      2,039,316 wr)
+==2854== D1  miss rate:             0.2% (           0.2%   +            0.1%  )
+==2854== LLd miss rate:             0.0% (           0.0%   +            0.0%  )
+==2854== 
+==2854== LL refs:           274,197,813  (   246,877,909 rd +     27,319,904 wr)
+==2854== LL misses:           2,761,563  (       722,247 rd +      2,039,316 wr)
+==2854== LL miss rate:              0.0% (           0.0%   +            0.0%  )
+==2854== 
+==2854== Branches:       31,058,876,304  (30,213,969,587 cond +    844,906,717 ind)
+==2854== Mispredicts:       512,201,067  (   162,500,807 cond +    349,700,260 ind)
+==2854== Mispred rate:              1.6% (           0.5%     +           41.4%   )
