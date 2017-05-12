@@ -9,7 +9,7 @@ function readableNumber
     done
 }
 
-compileVariations=13;
+compileVariations=12;
 function compile
 {
     case $1 in
@@ -54,26 +54,21 @@ function compile
         shift # past argument=value
         ;;
         8)
-        ARG="-DNOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS=TRUE $2"
-        PREFIX="ecs_layered_execution_logic_events"
-        shift # past argument=value
-        ;;
-        9)
         ARG="-DNOX_EVENT_USE_LINEAR_ALLOCATOR=TRUE $2"
         PREFIX="event_use_linear_allocator"
         shift # past argument=value
         ;;
-        10)
+        9)
         ARG="-DNOX_EVENT_USE_HEAP_ALLOCATOR=TRUE $2"
         PREFIX="event_use_heap_allocator"
         shift # past argument=value
         ;;
-        11)
+        10)
         ARG="-DNOX_ATOMIC_USE_SEQ_CST=TRUE $2"
         PREFIX="atomic_use_seq_cst"
         shift # past argument=value
         ;;
-        12)
+        11)
         ARG="-DNOX_LOCKFREESTACK_USE_LINEAR_ALLOCATOR=TRUE $2"
         PREFIX="lockfreestack_use_linear_allocator"
         shift # past argument=value
@@ -127,13 +122,12 @@ do
     
         i=4;
         count=0;
-        while [ $count -lt 7 ];
+        while [ $count -lt 8 ];
         do
             readableNumber $i 5;
             nr=$result;
-        
+
             ./run_test.sh --test-name="${compiler}_components_${j}_actors_${nr}" --results-folder="$resultsRoot/$PREFIX/numerous_unique_components" --command="./build/bin/ecs_numerous_unique_components -actor_amount $i -world_path world/${j}_world.json" --save-program-output=yes;
-            
         
             ((i=i*2));
             ((count++));

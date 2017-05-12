@@ -566,17 +566,21 @@ namespace nox
 
 
             #if defined(NOX_ENTITYMANAGER_USE_LOCKED_QUEUE)
+            #pragma message "Using NOX_ENTITYMANAGER_USE_LOCKED_QUEUE"
             template<class T>
             using ContainerType = nox::thread::LockedQueue<T>;
             #else
+            #pragma message "Using NOX_ENTITYMANAGER_USE_LOCK_FREE_STACK"
             template<class T>
             using ContainerType = nox::thread::LockFreeStack<T>;
             #endif
 
             #if defined(NOX_ENTITYMANAGER_POOL_USE_LOCK_FREE_STACK)
+            #pragma message "Using NOX_ENTITYMANAGER_POOL_USE_LOCK_FREE_STACK"
             template<class T>
             using PoolQueueType = nox::thread::LockFreeStack<T>;
             #else
+            #pragma message "Using NOX_ENTITYMANAGER_POOL_USE_LOCKED_QUEUE"
             template<class T>
             using PoolQueueType = nox::thread::LockedQueue<T>;
             #endif
@@ -606,15 +610,24 @@ namespace nox
             nox::logic::Logic* logicContext{};
 
             #ifndef NOX_ECS_LAYERED_EXECUTION_UPDATE
+            #pragma message "Using NOX_ECS_LAYERED_EXECUTION_UPDATE"
             std::vector<std::vector<std::size_t>> updateExecutionLayers{};
+            #else
+            #pragma message "NOT USING NOX_ECS_LAYERED_EXECUTION_UPDATE"
             #endif
 
             #ifndef NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS
+            #pragma message "Using NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS"
             std::vector<std::vector<std::size_t>> entityEventExecutionLayers{};
+            #else
+            #pragma message "NOT USING NOX_ECS_LAYERED_EXECUTION_ENTITY_EVENTS"
             #endif
 
             #ifndef NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS
+            #pragma message "Using NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS"
             std::vector<std::vector<std::size_t>> logicEventExecutionLayers{};
+            #else
+            #pragma message "NOT USING NOX_ECS_LAYERED_EXECUTION_LOGIC_EVENTS"
             #endif
         };
     }

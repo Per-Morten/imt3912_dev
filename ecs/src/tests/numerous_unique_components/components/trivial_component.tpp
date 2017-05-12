@@ -9,7 +9,7 @@ components::TrivialComponent<duration>::TrivialComponent(const nox::ecs::EntityI
                                                          nox::ecs::EntityManager* entityManager)
     : nox::ecs::Component(entityId, entityManager)
 {
-    this->sleepDuration = std::chrono::nanoseconds(duration - globals::first_unreserved_id);
+    this->sleepDuration = std::chrono::nanoseconds(duration);
     this->updateSize = cmd::g_cmdParser.getIntArgument(cmd::constants::run_count_cmd,
                                                        cmd::constants::run_count_default);
     this->running = true;

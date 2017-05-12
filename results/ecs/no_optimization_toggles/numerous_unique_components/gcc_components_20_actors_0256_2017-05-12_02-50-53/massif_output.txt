@@ -1,0 +1,947 @@
+desc: --time-unit=B --detailed-freq=100 --massif-out-file=../results/ecs/no_optimization_toggles/numerous_unique_components/gcc_components_20_actors_0256_2017-05-12_02-50-53/massif_output.txt
+cmd: ./build/bin/ecs_numerous_unique_components -actor_amount 256 -world_path world/20_world.json
+time_unit: B
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=877928
+mem_heap_B=796111
+mem_heap_extra_B=2393
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=2
+#-----------
+time=1875440
+mem_heap_B=1193786
+mem_heap_extra_B=2758
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=3
+#-----------
+time=2823400
+mem_heap_B=1481914
+mem_heap_extra_B=3502
+mem_stacks_B=0
+heap_tree=detailed
+n10: 1481914 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 639600 0x45B0DE: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 639600 0x45B176: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 639600 0x459088: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 639600 0x446C8E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 639600 0x45EEEB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 639600 0x444A5F: main (main.cpp:14)
+ n1: 253216 0x45B3A6: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 253216 0x45B414: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n1: 126608 0x459578: nox::ecs::EntityManager::awakeEntity(unsigned long const&) (EntityManager.cpp:444)
+    n1: 126608 0x446CA8: ConsoleApplication::onInit() (console_application.cpp:114)
+     n1: 126608 0x45EEEB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 126608 0x444A5F: main (main.cpp:14)
+   n1: 126608 0x459650: nox::ecs::EntityManager::activateEntity(unsigned long const&) (EntityManager.cpp:451)
+    n1: 126608 0x446CB5: ConsoleApplication::onInit() (console_application.cpp:115)
+     n1: 126608 0x45EEEB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 126608 0x444A5F: main (main.cpp:14)
+ n1: 246720 0x452EC4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 246720 0x4530C3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 246720 0x457002: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+    n1: 246720 0x45A722: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 246720 0x4451CE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 246720 0x45E748: nox::app::Application::execute() (Application.cpp:281)
+       n0: 246720 0x444A6D: main (main.cpp:19)
+ n1: 81920 0x4532BE: void std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> >::_M_insert_aux<nox::ecs::ComponentCollection::ComponentPair>(__gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > >, nox::ecs::ComponentCollection::ComponentPair&&) (new_allocator.h:104)
+  n1: 81920 0x4533E4: __gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > > std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> >::emplace<nox::ecs::ComponentCollection::ComponentPair>(__gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair const*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > >, nox::ecs::ComponentCollection::ComponentPair&&) (vector.tcc:313)
+   n1: 81920 0x453073: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (stl_vector.h:1015)
+    n1: 81920 0x457002: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+     n1: 81920 0x45A722: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+      n1: 81920 0x4451CE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 81920 0x45E748: nox::app::Application::execute() (Application.cpp:281)
+        n0: 81920 0x444A6D: main (main.cpp:19)
+ n1: 81120 0x448BE6: nox::memory::LockFreeAllocator<1024ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 81120 0x448C63: void nox::ecs::createEventArgument<unsigned long>(nox::ecs::Event&, unsigned long const&, nox::ecs::TypeIdentifier const&) (createEventArgument.tpp:9)
+   n2: 40560 0x446021: void sendDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:56)
+    n1: 20800 0x448DE5: components::TrivialComponent<0ul>::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [clone .part.125] (send_dummy_event.tpp:32)
+     n1: 20800 0x448E71: nox::ecs::MetaInformation nox::ecs::createMetaInformation<components::TrivialComponent<0ul> >(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)#8}::_FUN(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (createMetaInformation.tpp:184)
+      n1: 20800 0x44A694: std::thread::_Impl<std::_Bind_simple<nox::thread::Pool<nox::thread::LockedQueue>::Pool(unsigned long)::{lambda()#1} ()> >::_M_run() (functional:2267)
+       n1: 20800 0x5522C7E: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+        n1: 20800 0x52546B8: start_thread (pthread_create.c:333)
+         n0: 20800 0x5E1182B: clone (clone.S:109)
+    n1: 19760 0x448D3B: components::TrivialComponent<13ul>::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [clone .part.363] (send_dummy_event.tpp:32)
+     n1: 19760 0x448DB1: nox::ecs::MetaInformation nox::ecs::createMetaInformation<components::TrivialComponent<13ul> >(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)#8}::_FUN(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (createMetaInformation.tpp:184)
+      n1: 19760 0x44A694: std::thread::_Impl<std::_Bind_simple<nox::thread::Pool<nox::thread::LockedQueue>::Pool(unsigned long)::{lambda()#1} ()> >::_M_run() (functional:2267)
+       n1: 19760 0x5522C7E: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+        n1: 19760 0x52546B8: start_thread (pthread_create.c:333)
+         n0: 19760 0x5E1182B: clone (clone.S:109)
+   n2: 40560 0x446164: void sendGlobalDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:76)
+    n1: 20800 0x448DF0: components::TrivialComponent<0ul>::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [clone .part.125] (send_dummy_event.tpp:35)
+     n1: 20800 0x448E71: nox::ecs::MetaInformation nox::ecs::createMetaInformation<components::TrivialComponent<0ul> >(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)#8}::_FUN(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (createMetaInformation.tpp:184)
+      n1: 20800 0x44A694: std::thread::_Impl<std::_Bind_simple<nox::thread::Pool<nox::thread::LockedQueue>::Pool(unsigned long)::{lambda()#1} ()> >::_M_run() (functional:2267)
+       n1: 20800 0x5522C7E: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+        n1: 20800 0x52546B8: start_thread (pthread_create.c:333)
+         n0: 20800 0x5E1182B: clone (clone.S:109)
+    n1: 19760 0x448E9B: components::TrivialComponent<11ul>::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [clone .part.397] (send_dummy_event.tpp:35)
+     n1: 19760 0x448F11: nox::ecs::MetaInformation nox::ecs::createMetaInformation<components::TrivialComponent<11ul> >(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)#8}::_FUN(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (createMetaInformation.tpp:184)
+      n1: 19760 0x44A694: std::thread::_Impl<std::_Bind_simple<nox::thread::Pool<nox::thread::LockedQueue>::Pool(unsigned long)::{lambda()#1} ()> >::_M_run() (functional:2267)
+       n1: 19760 0x5522C7E: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+        n1: 19760 0x52546B8: start_thread (pthread_create.c:333)
+         n0: 19760 0x5E1182B: clone (clone.S:109)
+ n1: 72704 0x54F3EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF00062D: ???
+       n1: 72704 0xFFF000658: ???
+        n1: 72704 0xFFF000666: ???
+         n1: 72704 0xFFF00066A: ???
+          n0: 72704 0xFFF000676: ???
+ n1: 43120 0x45B6E6: nox::memory::LockFreeAllocator<6144ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 43120 0x45B766: nox::thread::LockFreeStack<nox::ecs::Event>::push(nox::ecs::Event&&) (LockFreeStack.tpp:30)
+   n2: 30800 0x44607E: void sendDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:58)
+    n1: 24640 0x448DE5: components::TrivialComponent<0ul>::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [clone .part.125] (send_dummy_event.tpp:32)
+     n1: 24640 0x448E71: nox::ecs::MetaInformation nox::ecs::createMetaInformation<components::TrivialComponent<0ul> >(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)#8}::_FUN(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (createMetaInformation.tpp:184)
+      n1: 24640 0x44A694: std::thread::_Impl<std::_Bind_simple<nox::thread::Pool<nox::thread::LockedQueue>::Pool(unsigned long)::{lambda()#1} ()> >::_M_run() (functional:2267)
+       n1: 24640 0x5522C7E: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+        n1: 24640 0x52546B8: start_thread (pthread_create.c:333)
+         n0: 24640 0x5E1182B: clone (clone.S:109)
+    n0: 6160 in 1 place, below massif's threshold (1.00%)
+   n0: 12320 in 1 place, below massif's threshold (1.00%)
+ n0: 28586 in 68 places, all below massif's threshold (1.00%)
+ n1: 18528 0x448A6C: nox::memory::LockFreeAllocator<3072ul>::LockFreeAllocator(unsigned long) (LockFreeAllocator.tpp:10)
+  n0: 18528 in 6 places, all below massif's threshold (1.00%)
+ n1: 16400 0x4466D2: ConsoleApplication::ConsoleApplication() (LockFreeAllocator.tpp:10)
+  n0: 16400 0x444A14: main (main.cpp:9)
+#-----------
+snapshot=4
+#-----------
+time=3291640
+mem_heap_B=1481914
+mem_heap_extra_B=3502
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=5
+#-----------
+time=3926056
+mem_heap_B=1481914
+mem_heap_extra_B=3486
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=6
+#-----------
+time=4426976
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=5100432
+mem_heap_B=1482474
+mem_heap_extra_B=3558
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=8
+#-----------
+time=5639680
+mem_heap_B=1482426
+mem_heap_extra_B=3510
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=9
+#-----------
+time=6314744
+mem_heap_B=1481866
+mem_heap_extra_B=3454
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=10
+#-----------
+time=7262352
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=11
+#-----------
+time=7804328
+mem_heap_B=1481914
+mem_heap_extra_B=3502
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=12
+#-----------
+time=8481448
+mem_heap_B=1482450
+mem_heap_extra_B=3526
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=13
+#-----------
+time=9022584
+mem_heap_B=1481866
+mem_heap_extra_B=3454
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=14
+#-----------
+time=9631784
+mem_heap_B=1481866
+mem_heap_extra_B=3454
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=15
+#-----------
+time=10452456
+mem_heap_B=1482402
+mem_heap_extra_B=3478
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=16
+#-----------
+time=10965488
+mem_heap_B=1481890
+mem_heap_extra_B=3486
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=11581160
+mem_heap_B=1481914
+mem_heap_extra_B=3502
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=18
+#-----------
+time=12607560
+mem_heap_B=1481914
+mem_heap_extra_B=3486
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=19
+#-----------
+time=13531408
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=20
+#-----------
+time=14250016
+mem_heap_B=1482426
+mem_heap_extra_B=3510
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=21
+#-----------
+time=15166152
+mem_heap_B=1481914
+mem_heap_extra_B=3486
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=22
+#-----------
+time=16174016
+mem_heap_B=1482474
+mem_heap_extra_B=3558
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=23
+#-----------
+time=16779040
+mem_heap_B=1482426
+mem_heap_extra_B=3494
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=24
+#-----------
+time=17584624
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=25
+#-----------
+time=17987424
+mem_heap_B=1481986
+mem_heap_extra_B=3566
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=26
+#-----------
+time=18793208
+mem_heap_B=1481866
+mem_heap_extra_B=3454
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=27
+#-----------
+time=19196840
+mem_heap_B=1481914
+mem_heap_extra_B=3486
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=28
+#-----------
+time=20002496
+mem_heap_B=1481938
+mem_heap_extra_B=3534
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=29
+#-----------
+time=21009584
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=30
+#-----------
+time=21614248
+mem_heap_B=1482402
+mem_heap_extra_B=3478
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=31
+#-----------
+time=22621720
+mem_heap_B=1481866
+mem_heap_extra_B=3454
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=32
+#-----------
+time=23427328
+mem_heap_B=1482426
+mem_heap_extra_B=3494
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=33
+#-----------
+time=24434424
+mem_heap_B=1481866
+mem_heap_extra_B=3454
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=34
+#-----------
+time=25372784
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=35
+#-----------
+time=26175992
+mem_heap_B=1482546
+mem_heap_extra_B=3606
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=36
+#-----------
+time=26711488
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=37
+#-----------
+time=27247104
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=38
+#-----------
+time=28318088
+mem_heap_B=1481914
+mem_heap_extra_B=3502
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=39
+#-----------
+time=29389080
+mem_heap_B=1481866
+mem_heap_extra_B=3454
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=40
+#-----------
+time=30460056
+mem_heap_B=1481914
+mem_heap_extra_B=3502
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=41
+#-----------
+time=31531040
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=42
+#-----------
+time=32602016
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=43
+#-----------
+time=33137536
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=44
+#-----------
+time=33940776
+mem_heap_B=1481866
+mem_heap_extra_B=3454
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=45
+#-----------
+time=34744040
+mem_heap_B=1481914
+mem_heap_extra_B=3502
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=46
+#-----------
+time=35815008
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=47
+#-----------
+time=36350504
+mem_heap_B=1481914
+mem_heap_extra_B=3502
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=48
+#-----------
+time=37153728
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=49
+#-----------
+time=38224752
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=50
+#-----------
+time=38627576
+mem_heap_B=1481866
+mem_heap_extra_B=3454
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=51
+#-----------
+time=39030632
+mem_heap_B=1482010
+mem_heap_extra_B=3582
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=52
+#-----------
+time=39433464
+mem_heap_B=1481914
+mem_heap_extra_B=3502
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=53
+#-----------
+time=39836264
+mem_heap_B=1481866
+mem_heap_extra_B=3454
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=54
+#-----------
+time=40239224
+mem_heap_B=1481914
+mem_heap_extra_B=3486
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=55
+#-----------
+time=40642440
+mem_heap_B=1481914
+mem_heap_extra_B=3502
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=56
+#-----------
+time=41045608
+mem_heap_B=1481914
+mem_heap_extra_B=3502
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=57
+#-----------
+time=41448416
+mem_heap_B=1482426
+mem_heap_extra_B=3510
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=58
+#-----------
+time=41851232
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=59
+#-----------
+time=42254048
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=60
+#-----------
+time=42656848
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=61
+#-----------
+time=43059664
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=62
+#-----------
+time=43462744
+mem_heap_B=1482402
+mem_heap_extra_B=3478
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=63
+#-----------
+time=43866048
+mem_heap_B=1482426
+mem_heap_extra_B=3510
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=64
+#-----------
+time=44268848
+mem_heap_B=1481938
+mem_heap_extra_B=3534
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=65
+#-----------
+time=44672008
+mem_heap_B=1482402
+mem_heap_extra_B=3478
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=66
+#-----------
+time=45074808
+mem_heap_B=1481914
+mem_heap_extra_B=3502
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=67
+#-----------
+time=45477648
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=68
+#-----------
+time=45880496
+mem_heap_B=1481938
+mem_heap_extra_B=3518
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=69
+#-----------
+time=46283592
+mem_heap_B=1481962
+mem_heap_extra_B=3534
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=70
+#-----------
+time=46686440
+mem_heap_B=1481914
+mem_heap_extra_B=3502
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=71
+#-----------
+time=47089288
+mem_heap_B=1481914
+mem_heap_extra_B=3502
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=72
+#-----------
+time=47492128
+mem_heap_B=1481938
+mem_heap_extra_B=3518
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=73
+#-----------
+time=47894952
+mem_heap_B=1482402
+mem_heap_extra_B=3478
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=74
+#-----------
+time=48298184
+mem_heap_B=1482402
+mem_heap_extra_B=3478
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=75
+#-----------
+time=48701008
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=76
+#-----------
+time=49103816
+mem_heap_B=1481914
+mem_heap_extra_B=3486
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=77
+#-----------
+time=49506624
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=78
+#-----------
+time=49909440
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=79
+#-----------
+time=50312608
+mem_heap_B=1481938
+mem_heap_extra_B=3518
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=80
+#-----------
+time=50715464
+mem_heap_B=1482402
+mem_heap_extra_B=3478
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=81
+#-----------
+time=51118288
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=82
+#-----------
+time=51521112
+mem_heap_B=1481914
+mem_heap_extra_B=3502
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=83
+#-----------
+time=51923912
+mem_heap_B=1481914
+mem_heap_extra_B=3486
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=84
+#-----------
+time=52326776
+mem_heap_B=1482402
+mem_heap_extra_B=3478
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=85
+#-----------
+time=52729976
+mem_heap_B=1482402
+mem_heap_extra_B=3478
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=86
+#-----------
+time=53132776
+mem_heap_B=1481962
+mem_heap_extra_B=3550
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=87
+#-----------
+time=53535592
+mem_heap_B=1481866
+mem_heap_extra_B=3454
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=88
+#-----------
+time=53938784
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=89
+#-----------
+time=54341736
+mem_heap_B=1482402
+mem_heap_extra_B=3478
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=90
+#-----------
+time=54744544
+mem_heap_B=1481890
+mem_heap_extra_B=3470
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=91
+#-----------
+time=55147912
+mem_heap_B=1565869
+mem_heap_extra_B=3451
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=92
+#-----------
+time=55188160
+mem_heap_B=1606013
+mem_heap_extra_B=3555
+mem_stacks_B=0
+heap_tree=peak
+n10: 1606013 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 639600 0x45B0DE: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 639600 0x45B176: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 639600 0x459088: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 639600 0x446C8E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 639600 0x45EEEB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 639600 0x444A5F: main (main.cpp:14)
+ n1: 379824 0x45B3A6: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n3: 379824 0x45B414: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n1: 126608 0x459578: nox::ecs::EntityManager::awakeEntity(unsigned long const&) (EntityManager.cpp:444)
+    n1: 126608 0x446CA8: ConsoleApplication::onInit() (console_application.cpp:114)
+     n1: 126608 0x45EEEB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 126608 0x444A5F: main (main.cpp:14)
+   n1: 126608 0x459650: nox::ecs::EntityManager::activateEntity(unsigned long const&) (EntityManager.cpp:451)
+    n1: 126608 0x446CB5: ConsoleApplication::onInit() (console_application.cpp:115)
+     n1: 126608 0x45EEEB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 126608 0x444A5F: main (main.cpp:14)
+   n1: 126608 0x4594A0: nox::ecs::EntityManager::removeEntity(unsigned long const&) (EntityManager.cpp:437)
+    n1: 126608 0x459BF9: nox::ecs::EntityManager::~EntityManager() (EntityManager.cpp:274)
+     n1: 126608 0x445075: ConsoleApplication::~ConsoleApplication() (console_application.h:8)
+      n0: 126608 0x444AA9: main (main.cpp:9)
+ n1: 246720 0x452EC4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 246720 0x4530C3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 246720 0x457002: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+    n1: 246720 0x45A722: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 246720 0x4451CE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 246720 0x45E748: nox::app::Application::execute() (Application.cpp:281)
+       n0: 246720 0x444A6D: main (main.cpp:19)
+ n1: 81920 0x4532BE: void std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> >::_M_insert_aux<nox::ecs::ComponentCollection::ComponentPair>(__gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > >, nox::ecs::ComponentCollection::ComponentPair&&) (new_allocator.h:104)
+  n1: 81920 0x4533E4: __gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > > std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> >::emplace<nox::ecs::ComponentCollection::ComponentPair>(__gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair const*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > >, nox::ecs::ComponentCollection::ComponentPair&&) (vector.tcc:313)
+   n1: 81920 0x453073: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (stl_vector.h:1015)
+    n1: 81920 0x457002: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+     n1: 81920 0x45A722: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+      n1: 81920 0x4451CE: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 81920 0x45E748: nox::app::Application::execute() (Application.cpp:281)
+        n0: 81920 0x444A6D: main (main.cpp:19)
+ n1: 81120 0x448BE6: nox::memory::LockFreeAllocator<1024ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 81120 0x448C63: void nox::ecs::createEventArgument<unsigned long>(nox::ecs::Event&, unsigned long const&, nox::ecs::TypeIdentifier const&) (createEventArgument.tpp:9)
+   n2: 40560 0x446021: void sendDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:56)
+    n1: 20800 0x448DE5: components::TrivialComponent<0ul>::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [clone .part.125] (send_dummy_event.tpp:32)
+     n1: 20800 0x448E71: nox::ecs::MetaInformation nox::ecs::createMetaInformation<components::TrivialComponent<0ul> >(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)#8}::_FUN(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (createMetaInformation.tpp:184)
+      n1: 20800 0x44A694: std::thread::_Impl<std::_Bind_simple<nox::thread::Pool<nox::thread::LockedQueue>::Pool(unsigned long)::{lambda()#1} ()> >::_M_run() (functional:2267)
+       n1: 20800 0x5522C7E: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+        n1: 20800 0x52546B8: start_thread (pthread_create.c:333)
+         n0: 20800 0x5E1182B: clone (clone.S:109)
+    n1: 19760 0x448D3B: components::TrivialComponent<13ul>::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [clone .part.363] (send_dummy_event.tpp:32)
+     n1: 19760 0x448DB1: nox::ecs::MetaInformation nox::ecs::createMetaInformation<components::TrivialComponent<13ul> >(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)#8}::_FUN(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (createMetaInformation.tpp:184)
+      n1: 19760 0x44A694: std::thread::_Impl<std::_Bind_simple<nox::thread::Pool<nox::thread::LockedQueue>::Pool(unsigned long)::{lambda()#1} ()> >::_M_run() (functional:2267)
+       n1: 19760 0x5522C7E: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+        n1: 19760 0x52546B8: start_thread (pthread_create.c:333)
+         n0: 19760 0x5E1182B: clone (clone.S:109)
+   n2: 40560 0x446164: void sendGlobalDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:76)
+    n1: 20800 0x448DF0: components::TrivialComponent<0ul>::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [clone .part.125] (send_dummy_event.tpp:35)
+     n1: 20800 0x448E71: nox::ecs::MetaInformation nox::ecs::createMetaInformation<components::TrivialComponent<0ul> >(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)#8}::_FUN(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (createMetaInformation.tpp:184)
+      n1: 20800 0x44A694: std::thread::_Impl<std::_Bind_simple<nox::thread::Pool<nox::thread::LockedQueue>::Pool(unsigned long)::{lambda()#1} ()> >::_M_run() (functional:2267)
+       n1: 20800 0x5522C7E: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+        n1: 20800 0x52546B8: start_thread (pthread_create.c:333)
+         n0: 20800 0x5E1182B: clone (clone.S:109)
+    n1: 19760 0x448E9B: components::TrivialComponent<11ul>::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [clone .part.397] (send_dummy_event.tpp:35)
+     n1: 19760 0x448F11: nox::ecs::MetaInformation nox::ecs::createMetaInformation<components::TrivialComponent<11ul> >(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)#8}::_FUN(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (createMetaInformation.tpp:184)
+      n1: 19760 0x44A694: std::thread::_Impl<std::_Bind_simple<nox::thread::Pool<nox::thread::LockedQueue>::Pool(unsigned long)::{lambda()#1} ()> >::_M_run() (functional:2267)
+       n1: 19760 0x5522C7E: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+        n1: 19760 0x52546B8: start_thread (pthread_create.c:333)
+         n0: 19760 0x5E1182B: clone (clone.S:109)
+ n1: 72704 0x54F3EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF00062D: ???
+       n1: 72704 0xFFF000658: ???
+        n1: 72704 0xFFF000666: ???
+         n1: 72704 0xFFF00066A: ???
+          n0: 72704 0xFFF000676: ???
+ n1: 43120 0x45B6E6: nox::memory::LockFreeAllocator<6144ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 43120 0x45B766: nox::thread::LockFreeStack<nox::ecs::Event>::push(nox::ecs::Event&&) (LockFreeStack.tpp:30)
+   n2: 30800 0x44607E: void sendDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:58)
+    n1: 24640 0x448DE5: components::TrivialComponent<0ul>::update(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [clone .part.125] (send_dummy_event.tpp:32)
+     n1: 24640 0x448E71: nox::ecs::MetaInformation nox::ecs::createMetaInformation<components::TrivialComponent<0ul> >(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)#8}::_FUN(nox::ecs::Component*, nox::ecs::Component*, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (createMetaInformation.tpp:184)
+      n1: 24640 0x44A694: std::thread::_Impl<std::_Bind_simple<nox::thread::Pool<nox::thread::LockedQueue>::Pool(unsigned long)::{lambda()#1} ()> >::_M_run() (functional:2267)
+       n1: 24640 0x5522C7E: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+        n1: 24640 0x52546B8: start_thread (pthread_create.c:333)
+         n0: 24640 0x5E1182B: clone (clone.S:109)
+    n0: 6160 in 1 place, below massif's threshold (1.00%)
+   n0: 12320 in 1 place, below massif's threshold (1.00%)
+ n0: 26077 in 70 places, all below massif's threshold (1.00%)
+ n1: 18528 0x448A6C: nox::memory::LockFreeAllocator<3072ul>::LockFreeAllocator(unsigned long) (LockFreeAllocator.tpp:10)
+  n0: 18528 in 6 places, all below massif's threshold (1.00%)
+ n1: 16400 0x4466D2: ConsoleApplication::ConsoleApplication() (LockFreeAllocator.tpp:10)
+  n0: 16400 0x444A14: main (main.cpp:9)
+#-----------
+snapshot=93
+#-----------
+time=55604128
+mem_heap_B=1191573
+mem_heap_extra_B=2027
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=94
+#-----------
+time=56014328
+mem_heap_B=781573
+mem_heap_extra_B=1827
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=95
+#-----------
+time=56424520
+mem_heap_B=372213
+mem_heap_extra_B=995
+mem_stacks_B=0
+heap_tree=empty

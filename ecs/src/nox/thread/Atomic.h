@@ -3,6 +3,7 @@
 #include <atomic>
 
 #ifdef NOX_ATOMIC_USE_SEQ_CST
+    #pragma message "Using NOX_ATOMIC_USE_SEQ_CST"
     #define NOX_ATOMIC_RELAXED std::memory_order_seq_cst
     #define NOX_ATOMIC_CONSUME std::memory_order_seq_cst
     #define NOX_ATOMIC_ACQUIRE std::memory_order_seq_cst
@@ -10,6 +11,7 @@
     #define NOX_ATOMIC_ACQ_REL std::memory_order_seq_cst
     #define NOX_ATOMIC_SEQ_CST std::memory_order_seq_cst 
 #else
+    #pragma message "NOT USING NOX_ATOMIC_USE_SEQ_CST"
     #define NOX_ATOMIC_RELAXED std::memory_order_relaxed
     #define NOX_ATOMIC_CONSUME std::memory_order_consume
     #define NOX_ATOMIC_ACQUIRE std::memory_order_acquire

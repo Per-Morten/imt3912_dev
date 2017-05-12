@@ -16,6 +16,7 @@
 #include <json/value.h>
 
 #ifdef NOX_ECS_COMPONENT_UNIQUE_PTR_VIRTUAL
+#pragma message "NOX_ECS_COMPONENT_UNIQUE_PTR_VIRTUAL"
 namespace nox
 {
     namespace ecs
@@ -24,6 +25,7 @@ namespace nox
     }
 }
 #elif defined(NOX_ECS_COMPONENT_VIRTUAL)
+#pragma message "NOX_ECS_COMPONENT_VIRTUAL"
 namespace nox
 {
     namespace ecs
@@ -33,7 +35,7 @@ namespace nox
 }
 
 #else
-
+#pragma message "USING REGULAR COMPONENT COLLECTION"
 namespace nox
 {
     namespace ecs

@@ -1,0 +1,921 @@
+desc: --time-unit=B --detailed-freq=100 --massif-out-file=../results/ecs/no_optimization_toggles/numerous_unique_components/gcc_components_200_actors_0064_2017-05-12_03-22-20/massif_output.txt
+cmd: ./build/bin/ecs_numerous_unique_components -actor_amount 64 -world_path world/200_world.json
+time_unit: B
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=7718584
+mem_heap_B=3568211
+mem_heap_extra_B=13573
+mem_stacks_B=0
+heap_tree=detailed
+n9: 3568211 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1623600 0x54BABE: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 1623600 0x54BB56: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 1623600 0x549A68: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 1623600 0x4EDA2E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 1623600 0x54F8CB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 1623600 0x4EB7FF: main (main.cpp:14)
+ n1: 624000 0x5438A4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 624000 0x543AA3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 624000 0x5479E2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+    n1: 624000 0x54B102: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 624000 0x4EBF6E: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 624000 0x54F128: nox::app::Application::execute() (Application.cpp:281)
+       n0: 624000 0x4EB80D: main (main.cpp:19)
+ n1: 617600 0x54BD86: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 617600 0x54BDF4: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n1: 308800 0x549F58: nox::ecs::EntityManager::awakeEntity(unsigned long const&) (EntityManager.cpp:444)
+    n1: 308800 0x4EDA48: ConsoleApplication::onInit() (console_application.cpp:114)
+     n1: 308800 0x54F8CB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 308800 0x4EB7FF: main (main.cpp:14)
+   n1: 308800 0x54A030: nox::ecs::EntityManager::activateEntity(unsigned long const&) (EntityManager.cpp:451)
+    n1: 308800 0x4EDA55: ConsoleApplication::onInit() (console_application.cpp:115)
+     n1: 308800 0x54F8CB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 308800 0x4EB7FF: main (main.cpp:14)
+ n1: 204800 0x543C9E: void std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> >::_M_insert_aux<nox::ecs::ComponentCollection::ComponentPair>(__gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > >, nox::ecs::ComponentCollection::ComponentPair&&) (new_allocator.h:104)
+  n1: 204800 0x543DC4: __gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > > std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> >::emplace<nox::ecs::ComponentCollection::ComponentPair>(__gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair const*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > >, nox::ecs::ComponentCollection::ComponentPair&&) (vector.tcc:313)
+   n1: 204800 0x543A53: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (stl_vector.h:1015)
+    n1: 204800 0x5479E2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+     n1: 204800 0x54B102: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+      n1: 204800 0x4EBF6E: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 204800 0x54F128: nox::app::Application::execute() (Application.cpp:281)
+        n0: 204800 0x4EB80D: main (main.cpp:19)
+ n1: 178880 0x4FB146: nox::memory::LockFreeAllocator<1024ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 178880 0x4FB1C3: void nox::ecs::createEventArgument<unsigned long>(nox::ecs::Event&, unsigned long const&, nox::ecs::TypeIdentifier const&) (createEventArgument.tpp:9)
+   n1: 96720 0x4ECF04: void sendGlobalDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:76)
+    n0: 96720 in 19 places, all below massif's threshold (1.00%)
+   n1: 82160 0x4ECDC1: void sendDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:56)
+    n0: 82160 in 16 places, all below massif's threshold (1.00%)
+ n1: 104720 0x54C0C6: nox::memory::LockFreeAllocator<6144ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 104720 0x54C146: nox::thread::LockFreeStack<nox::ecs::Event>::push(nox::ecs::Event&&) (LockFreeStack.tpp:30)
+   n1: 61600 0x4ECF61: void sendGlobalDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:78)
+    n0: 61600 in 10 places, all below massif's threshold (1.00%)
+   n1: 43120 0x4ECE1E: void sendDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:58)
+    n0: 43120 in 6 places, all below massif's threshold (1.00%)
+ n1: 77824 0x54C230: void std::vector<nox::ecs::ComponentCollection, std::allocator<nox::ecs::ComponentCollection> >::_M_emplace_back_aux<nox::ecs::ComponentCollection>(nox::ecs::ComponentCollection&&) (new_allocator.h:104)
+  n2: 77824 0x54A56A: nox::ecs::EntityManager::registerComponent(nox::ecs::MetaInformation const&) (vector.tcc:101)
+   n1: 77824 0x52D88A: void registerTrivialComponent<72ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:60)
+    n1: 77824 0x52DB1A: void registerTrivialComponent<73ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+     n1: 77824 0x52DD91: void registerTrivialComponent<74ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+      n1: 77824 0x52DFE8: void registerTrivialComponent<75ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+       n1: 77824 0x52E272: void registerTrivialComponent<76ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+        n1: 77824 0x52E4FA: void registerTrivialComponent<77ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+         n1: 77824 0x52E771: void registerTrivialComponent<78ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+          n1: 77824 0x52E9C8: void registerTrivialComponent<79ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+           n1: 77824 0x52EC52: void registerTrivialComponent<80ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+            n1: 77824 0x52EEDA: void registerTrivialComponent<81ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+             n1: 77824 0x52F151: void registerTrivialComponent<82ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+              n1: 77824 0x52F3A8: void registerTrivialComponent<83ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+               n1: 77824 0x52F632: void registerTrivialComponent<84ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                n1: 77824 0x52F8BA: void registerTrivialComponent<85ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                 n1: 77824 0x52FB31: void registerTrivialComponent<86ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                  n1: 77824 0x52FD88: void registerTrivialComponent<87ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                   n1: 77824 0x530012: void registerTrivialComponent<88ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                    n1: 77824 0x53029A: void registerTrivialComponent<89ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                     n1: 77824 0x530511: void registerTrivialComponent<90ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                      n1: 77824 0x530768: void registerTrivialComponent<91ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                       n1: 77824 0x5309F2: void registerTrivialComponent<92ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                        n1: 77824 0x530C7A: void registerTrivialComponent<93ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                         n1: 77824 0x530EF1: void registerTrivialComponent<94ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                          n1: 77824 0x531148: void registerTrivialComponent<95ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                           n1: 77824 0x5313D2: void registerTrivialComponent<96ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                            n1: 77824 0x53165A: void registerTrivialComponent<97ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                             n1: 77824 0x5318D1: void registerTrivialComponent<98ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                              n0: 77824 0x531B28: void registerTrivialComponent<99ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+   n0: 0 in 8 places, all below massif's threshold (1.00%)
+ n1: 72704 0x54F3EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF00062D: ???
+       n1: 72704 0xFFF000658: ???
+        n1: 72704 0xFFF000666: ???
+         n1: 72704 0xFFF000669: ???
+          n0: 72704 0xFFF000675: ???
+ n0: 64083 in 71 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=2
+#-----------
+time=25805592
+mem_heap_B=3569115
+mem_heap_extra_B=13789
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=3
+#-----------
+time=40285272
+mem_heap_B=3567419
+mem_heap_extra_B=13309
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=4
+#-----------
+time=60282224
+mem_heap_B=3569819
+mem_heap_extra_B=13925
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=5
+#-----------
+time=74084376
+mem_heap_B=3568243
+mem_heap_extra_B=13541
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=6
+#-----------
+time=84438216
+mem_heap_B=3570907
+mem_heap_extra_B=14317
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=97666304
+mem_heap_B=3567443
+mem_heap_extra_B=13325
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=8
+#-----------
+time=113769248
+mem_heap_B=3567491
+mem_heap_extra_B=13373
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=9
+#-----------
+time=125270384
+mem_heap_B=3567443
+mem_heap_extra_B=13325
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=10
+#-----------
+time=139072528
+mem_heap_B=3567491
+mem_heap_extra_B=13373
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=11
+#-----------
+time=161818296
+mem_heap_B=3567467
+mem_heap_extra_B=13341
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=12
+#-----------
+time=177020832
+mem_heap_B=3567979
+mem_heap_extra_B=13349
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=13
+#-----------
+time=196567656
+mem_heap_B=3567955
+mem_heap_extra_B=13333
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=14
+#-----------
+time=209598696
+mem_heap_B=3567955
+mem_heap_extra_B=13333
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=15
+#-----------
+time=226973128
+mem_heap_B=3567515
+mem_heap_extra_B=13389
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=16
+#-----------
+time=240004368
+mem_heap_B=3568995
+mem_heap_extra_B=13709
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=255207160
+mem_heap_B=3571683
+mem_heap_extra_B=14485
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=18
+#-----------
+time=266066384
+mem_heap_B=3572819
+mem_heap_extra_B=14925
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=19
+#-----------
+time=282355096
+mem_heap_B=3569547
+mem_heap_extra_B=14077
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=20
+#-----------
+time=295386752
+mem_heap_B=3567491
+mem_heap_extra_B=13373
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=21
+#-----------
+time=308417304
+mem_heap_B=3567419
+mem_heap_extra_B=13309
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=22
+#-----------
+time=324705744
+mem_heap_B=3567491
+mem_heap_extra_B=13373
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=23
+#-----------
+time=337736856
+mem_heap_B=3568003
+mem_heap_extra_B=13381
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=24
+#-----------
+time=350768016
+mem_heap_B=3567979
+mem_heap_extra_B=13349
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=25
+#-----------
+time=363798736
+mem_heap_B=3569915
+mem_heap_extra_B=13989
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=26
+#-----------
+time=380086952
+mem_heap_B=3570667
+mem_heap_extra_B=14157
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=27
+#-----------
+time=396375352
+mem_heap_B=3570035
+mem_heap_extra_B=14069
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=28
+#-----------
+time=412663960
+mem_heap_B=3571243
+mem_heap_extra_B=14541
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=29
+#-----------
+time=428952128
+mem_heap_B=3567491
+mem_heap_extra_B=13373
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=30
+#-----------
+time=440452760
+mem_heap_B=3568003
+mem_heap_extra_B=13381
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=31
+#-----------
+time=451953336
+mem_heap_B=3567419
+mem_heap_extra_B=13309
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=32
+#-----------
+time=463453960
+mem_heap_B=3567467
+mem_heap_extra_B=13341
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=33
+#-----------
+time=480705088
+mem_heap_B=3567979
+mem_heap_extra_B=13349
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=34
+#-----------
+time=497956000
+mem_heap_B=3567443
+mem_heap_extra_B=13325
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=35
+#-----------
+time=515207176
+mem_heap_B=3567955
+mem_heap_extra_B=13333
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=36
+#-----------
+time=526707952
+mem_heap_B=3567491
+mem_heap_extra_B=13373
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=37
+#-----------
+time=543958992
+mem_heap_B=3572235
+mem_heap_extra_B=14869
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=38
+#-----------
+time=555459592
+mem_heap_B=3572259
+mem_heap_extra_B=14869
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=39
+#-----------
+time=566960208
+mem_heap_B=3572531
+mem_heap_extra_B=14733
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=40
+#-----------
+time=578460832
+mem_heap_B=3573355
+mem_heap_extra_B=14949
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=41
+#-----------
+time=595711736
+mem_heap_B=3567467
+mem_heap_extra_B=13357
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=42
+#-----------
+time=607212360
+mem_heap_B=3569019
+mem_heap_extra_B=13725
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=43
+#-----------
+time=618712984
+mem_heap_B=3568291
+mem_heap_extra_B=13573
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=44
+#-----------
+time=630214008
+mem_heap_B=3567955
+mem_heap_extra_B=13333
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=45
+#-----------
+time=647465072
+mem_heap_B=3567443
+mem_heap_extra_B=13325
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=46
+#-----------
+time=658966120
+mem_heap_B=3567955
+mem_heap_extra_B=13333
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=47
+#-----------
+time=676217360
+mem_heap_B=3567491
+mem_heap_extra_B=13373
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=48
+#-----------
+time=693468288
+mem_heap_B=3567443
+mem_heap_extra_B=13325
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=49
+#-----------
+time=716469480
+mem_heap_B=3570035
+mem_heap_extra_B=14069
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=50
+#-----------
+time=726823600
+mem_heap_B=3572435
+mem_heap_extra_B=14669
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=51
+#-----------
+time=737177904
+mem_heap_B=3567979
+mem_heap_extra_B=13365
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=52
+#-----------
+time=747531752
+mem_heap_B=3567467
+mem_heap_extra_B=13341
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=53
+#-----------
+time=757885608
+mem_heap_B=3567467
+mem_heap_extra_B=13341
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=54
+#-----------
+time=768239456
+mem_heap_B=3567443
+mem_heap_extra_B=13325
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=55
+#-----------
+time=778593296
+mem_heap_B=3567443
+mem_heap_extra_B=13325
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=56
+#-----------
+time=788947504
+mem_heap_B=3567443
+mem_heap_extra_B=13325
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=57
+#-----------
+time=799301416
+mem_heap_B=3567955
+mem_heap_extra_B=13333
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=58
+#-----------
+time=809655432
+mem_heap_B=3567515
+mem_heap_extra_B=13389
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=59
+#-----------
+time=820009416
+mem_heap_B=3567955
+mem_heap_extra_B=13333
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=60
+#-----------
+time=830363288
+mem_heap_B=3568243
+mem_heap_extra_B=13541
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=61
+#-----------
+time=840717144
+mem_heap_B=3569987
+mem_heap_extra_B=14037
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=62
+#-----------
+time=851071320
+mem_heap_B=3567515
+mem_heap_extra_B=13389
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=63
+#-----------
+time=861425352
+mem_heap_B=3567467
+mem_heap_extra_B=13341
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=64
+#-----------
+time=871779216
+mem_heap_B=3567443
+mem_heap_extra_B=13325
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=65
+#-----------
+time=882133056
+mem_heap_B=3568363
+mem_heap_extra_B=13605
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=66
+#-----------
+time=892486896
+mem_heap_B=3567443
+mem_heap_extra_B=13325
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=67
+#-----------
+time=902840736
+mem_heap_B=3570883
+mem_heap_extra_B=14301
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=68
+#-----------
+time=913194760
+mem_heap_B=3567955
+mem_heap_extra_B=13333
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=69
+#-----------
+time=923548600
+mem_heap_B=3567467
+mem_heap_extra_B=13341
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=70
+#-----------
+time=933902664
+mem_heap_B=3570083
+mem_heap_extra_B=14101
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=71
+#-----------
+time=944256528
+mem_heap_B=3569283
+mem_heap_extra_B=13901
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=72
+#-----------
+time=954610384
+mem_heap_B=3568459
+mem_heap_extra_B=13685
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=73
+#-----------
+time=964964232
+mem_heap_B=3568051
+mem_heap_extra_B=13413
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=74
+#-----------
+time=975318080
+mem_heap_B=3568027
+mem_heap_extra_B=13397
+mem_stacks_B=0
+heap_tree=detailed
+n9: 3568027 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1623600 0x54BABE: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 1623600 0x54BB56: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 1623600 0x549A68: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 1623600 0x4EDA2E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 1623600 0x54F8CB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 1623600 0x4EB7FF: main (main.cpp:14)
+ n1: 624000 0x5438A4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 624000 0x543AA3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 624000 0x5479E2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+    n1: 624000 0x54B102: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 624000 0x4EBF6E: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 624000 0x54F128: nox::app::Application::execute() (Application.cpp:281)
+       n0: 624000 0x4EB80D: main (main.cpp:19)
+ n1: 617600 0x54BD86: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 617600 0x54BDF4: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n1: 308800 0x549F58: nox::ecs::EntityManager::awakeEntity(unsigned long const&) (EntityManager.cpp:444)
+    n1: 308800 0x4EDA48: ConsoleApplication::onInit() (console_application.cpp:114)
+     n1: 308800 0x54F8CB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 308800 0x4EB7FF: main (main.cpp:14)
+   n1: 308800 0x54A030: nox::ecs::EntityManager::activateEntity(unsigned long const&) (EntityManager.cpp:451)
+    n1: 308800 0x4EDA55: ConsoleApplication::onInit() (console_application.cpp:115)
+     n1: 308800 0x54F8CB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 308800 0x4EB7FF: main (main.cpp:14)
+ n1: 204800 0x543C9E: void std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> >::_M_insert_aux<nox::ecs::ComponentCollection::ComponentPair>(__gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > >, nox::ecs::ComponentCollection::ComponentPair&&) (new_allocator.h:104)
+  n1: 204800 0x543DC4: __gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > > std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> >::emplace<nox::ecs::ComponentCollection::ComponentPair>(__gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair const*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > >, nox::ecs::ComponentCollection::ComponentPair&&) (vector.tcc:313)
+   n1: 204800 0x543A53: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (stl_vector.h:1015)
+    n1: 204800 0x5479E2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+     n1: 204800 0x54B102: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+      n1: 204800 0x4EBF6E: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 204800 0x54F128: nox::app::Application::execute() (Application.cpp:281)
+        n0: 204800 0x4EB80D: main (main.cpp:19)
+ n1: 178880 0x4FB146: nox::memory::LockFreeAllocator<1024ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 178880 0x4FB1C3: void nox::ecs::createEventArgument<unsigned long>(nox::ecs::Event&, unsigned long const&, nox::ecs::TypeIdentifier const&) (createEventArgument.tpp:9)
+   n1: 96720 0x4ECF04: void sendGlobalDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:76)
+    n0: 96720 in 19 places, all below massif's threshold (1.00%)
+   n1: 82160 0x4ECDC1: void sendDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:56)
+    n0: 82160 in 16 places, all below massif's threshold (1.00%)
+ n1: 104720 0x54C0C6: nox::memory::LockFreeAllocator<6144ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 104720 0x54C146: nox::thread::LockFreeStack<nox::ecs::Event>::push(nox::ecs::Event&&) (LockFreeStack.tpp:30)
+   n1: 61600 0x4ECF61: void sendGlobalDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:78)
+    n0: 61600 in 10 places, all below massif's threshold (1.00%)
+   n1: 43120 0x4ECE1E: void sendDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:58)
+    n0: 43120 in 6 places, all below massif's threshold (1.00%)
+ n1: 77824 0x54C230: void std::vector<nox::ecs::ComponentCollection, std::allocator<nox::ecs::ComponentCollection> >::_M_emplace_back_aux<nox::ecs::ComponentCollection>(nox::ecs::ComponentCollection&&) (new_allocator.h:104)
+  n2: 77824 0x54A56A: nox::ecs::EntityManager::registerComponent(nox::ecs::MetaInformation const&) (vector.tcc:101)
+   n1: 77824 0x52D88A: void registerTrivialComponent<72ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:60)
+    n1: 77824 0x52DB1A: void registerTrivialComponent<73ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+     n1: 77824 0x52DD91: void registerTrivialComponent<74ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+      n1: 77824 0x52DFE8: void registerTrivialComponent<75ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+       n1: 77824 0x52E272: void registerTrivialComponent<76ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+        n1: 77824 0x52E4FA: void registerTrivialComponent<77ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+         n1: 77824 0x52E771: void registerTrivialComponent<78ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+          n1: 77824 0x52E9C8: void registerTrivialComponent<79ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+           n1: 77824 0x52EC52: void registerTrivialComponent<80ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+            n1: 77824 0x52EEDA: void registerTrivialComponent<81ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+             n1: 77824 0x52F151: void registerTrivialComponent<82ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+              n1: 77824 0x52F3A8: void registerTrivialComponent<83ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+               n1: 77824 0x52F632: void registerTrivialComponent<84ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                n1: 77824 0x52F8BA: void registerTrivialComponent<85ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                 n1: 77824 0x52FB31: void registerTrivialComponent<86ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                  n1: 77824 0x52FD88: void registerTrivialComponent<87ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                   n1: 77824 0x530012: void registerTrivialComponent<88ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                    n1: 77824 0x53029A: void registerTrivialComponent<89ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                     n1: 77824 0x530511: void registerTrivialComponent<90ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                      n1: 77824 0x530768: void registerTrivialComponent<91ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                       n1: 77824 0x5309F2: void registerTrivialComponent<92ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                        n1: 77824 0x530C7A: void registerTrivialComponent<93ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                         n1: 77824 0x530EF1: void registerTrivialComponent<94ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                          n1: 77824 0x531148: void registerTrivialComponent<95ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                           n1: 77824 0x5313D2: void registerTrivialComponent<96ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                            n1: 77824 0x53165A: void registerTrivialComponent<97ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                             n1: 77824 0x5318D1: void registerTrivialComponent<98ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                              n0: 77824 0x531B28: void registerTrivialComponent<99ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+   n0: 0 in 8 places, all below massif's threshold (1.00%)
+ n1: 72704 0x54F3EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF00062D: ???
+       n1: 72704 0xFFF000658: ???
+        n1: 72704 0xFFF000666: ???
+         n1: 72704 0xFFF000669: ???
+          n0: 72704 0xFFF000675: ???
+ n0: 63899 in 72 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=75
+#-----------
+time=985672240
+mem_heap_B=3571027
+mem_heap_extra_B=14381
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=76
+#-----------
+time=996026088
+mem_heap_B=3571003
+mem_heap_extra_B=14381
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=77
+#-----------
+time=1006379928
+mem_heap_B=3572747
+mem_heap_extra_B=14877
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=78
+#-----------
+time=1016733768
+mem_heap_B=3567419
+mem_heap_extra_B=13309
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=79
+#-----------
+time=1027087680
+mem_heap_B=3567491
+mem_heap_extra_B=13357
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=80
+#-----------
+time=1037441552
+mem_heap_B=3568123
+mem_heap_extra_B=13461
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=81
+#-----------
+time=1039305176
+mem_heap_B=3873758
+mem_heap_extra_B=13882
+mem_stacks_B=0
+heap_tree=peak
+n9: 3873758 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1623600 0x54BABE: nox::memory::LockFreeAllocator<16384ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 1623600 0x54BB56: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 1623600 0x549A68: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 1623600 0x4EDA2E: ConsoleApplication::onInit() (console_application.cpp:111)
+     n1: 1623600 0x54F8CB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 1623600 0x4EB7FF: main (main.cpp:14)
+ n1: 926400 0x54BD86: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n3: 926400 0x54BDF4: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n1: 308800 0x549F58: nox::ecs::EntityManager::awakeEntity(unsigned long const&) (EntityManager.cpp:444)
+    n1: 308800 0x4EDA48: ConsoleApplication::onInit() (console_application.cpp:114)
+     n1: 308800 0x54F8CB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 308800 0x4EB7FF: main (main.cpp:14)
+   n1: 308800 0x54A030: nox::ecs::EntityManager::activateEntity(unsigned long const&) (EntityManager.cpp:451)
+    n1: 308800 0x4EDA55: ConsoleApplication::onInit() (console_application.cpp:115)
+     n1: 308800 0x54F8CB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 308800 0x4EB7FF: main (main.cpp:14)
+   n1: 308800 0x549E80: nox::ecs::EntityManager::removeEntity(unsigned long const&) (EntityManager.cpp:437)
+    n1: 308800 0x54A5D9: nox::ecs::EntityManager::~EntityManager() (EntityManager.cpp:274)
+     n1: 308800 0x4EBE15: ConsoleApplication::~ConsoleApplication() (console_application.h:8)
+      n0: 308800 0x4EB849: main (main.cpp:9)
+ n1: 624000 0x5438A4: nox::ecs::ComponentCollection::reallocate() (ComponentCollection.cpp:381)
+  n1: 624000 0x543AA3: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (ComponentCollection.cpp:90)
+   n1: 624000 0x5479E2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+    n1: 624000 0x54B102: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+     n1: 624000 0x4EBF6E: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+      n1: 624000 0x54F128: nox::app::Application::execute() (Application.cpp:281)
+       n0: 624000 0x4EB80D: main (main.cpp:19)
+ n1: 204800 0x543C9E: void std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> >::_M_insert_aux<nox::ecs::ComponentCollection::ComponentPair>(__gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > >, nox::ecs::ComponentCollection::ComponentPair&&) (new_allocator.h:104)
+  n1: 204800 0x543DC4: __gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > > std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> >::emplace<nox::ecs::ComponentCollection::ComponentPair>(__gnu_cxx::__normal_iterator<nox::ecs::ComponentCollection::ComponentPair const*, std::vector<nox::ecs::ComponentCollection::ComponentPair, std::allocator<nox::ecs::ComponentCollection::ComponentPair> > >, nox::ecs::ComponentCollection::ComponentPair&&) (vector.tcc:313)
+   n1: 204800 0x543A53: nox::ecs::ComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (stl_vector.h:1015)
+    n1: 204800 0x5479E2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+     n1: 204800 0x54B102: nox::ecs::EntityManager::step(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (EntityManager.cpp:522)
+      n1: 204800 0x4EBF6E: ConsoleApplication::onUpdate(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) (console_application.cpp:126)
+       n1: 204800 0x54F128: nox::app::Application::execute() (Application.cpp:281)
+        n0: 204800 0x4EB80D: main (main.cpp:19)
+ n1: 178880 0x4FB146: nox::memory::LockFreeAllocator<1024ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 178880 0x4FB1C3: void nox::ecs::createEventArgument<unsigned long>(nox::ecs::Event&, unsigned long const&, nox::ecs::TypeIdentifier const&) (createEventArgument.tpp:9)
+   n1: 96720 0x4ECF04: void sendGlobalDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:76)
+    n0: 96720 in 19 places, all below massif's threshold (1.00%)
+   n1: 82160 0x4ECDC1: void sendDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:56)
+    n0: 82160 in 16 places, all below massif's threshold (1.00%)
+ n1: 104720 0x54C0C6: nox::memory::LockFreeAllocator<6144ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 104720 0x54C146: nox::thread::LockFreeStack<nox::ecs::Event>::push(nox::ecs::Event&&) (LockFreeStack.tpp:30)
+   n1: 61600 0x4ECF61: void sendGlobalDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:78)
+    n0: 61600 in 10 places, all below massif's threshold (1.00%)
+   n1: 43120 0x4ECE1E: void sendDummyEventHelper<0ul>(unsigned long, nox::ecs::EntityManager*) (send_dummy_event.tpp:58)
+    n0: 43120 in 6 places, all below massif's threshold (1.00%)
+ n1: 77824 0x54C230: void std::vector<nox::ecs::ComponentCollection, std::allocator<nox::ecs::ComponentCollection> >::_M_emplace_back_aux<nox::ecs::ComponentCollection>(nox::ecs::ComponentCollection&&) (new_allocator.h:104)
+  n2: 77824 0x54A56A: nox::ecs::EntityManager::registerComponent(nox::ecs::MetaInformation const&) (vector.tcc:101)
+   n1: 77824 0x52D88A: void registerTrivialComponent<72ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:60)
+    n1: 77824 0x52DB1A: void registerTrivialComponent<73ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+     n1: 77824 0x52DD91: void registerTrivialComponent<74ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+      n1: 77824 0x52DFE8: void registerTrivialComponent<75ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+       n1: 77824 0x52E272: void registerTrivialComponent<76ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+        n1: 77824 0x52E4FA: void registerTrivialComponent<77ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+         n1: 77824 0x52E771: void registerTrivialComponent<78ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+          n1: 77824 0x52E9C8: void registerTrivialComponent<79ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+           n1: 77824 0x52EC52: void registerTrivialComponent<80ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+            n1: 77824 0x52EEDA: void registerTrivialComponent<81ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+             n1: 77824 0x52F151: void registerTrivialComponent<82ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+              n1: 77824 0x52F3A8: void registerTrivialComponent<83ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+               n1: 77824 0x52F632: void registerTrivialComponent<84ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                n1: 77824 0x52F8BA: void registerTrivialComponent<85ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                 n1: 77824 0x52FB31: void registerTrivialComponent<86ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                  n1: 77824 0x52FD88: void registerTrivialComponent<87ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                   n1: 77824 0x530012: void registerTrivialComponent<88ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                    n1: 77824 0x53029A: void registerTrivialComponent<89ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                     n1: 77824 0x530511: void registerTrivialComponent<90ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                      n1: 77824 0x530768: void registerTrivialComponent<91ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                       n1: 77824 0x5309F2: void registerTrivialComponent<92ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                        n1: 77824 0x530C7A: void registerTrivialComponent<93ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                         n1: 77824 0x530EF1: void registerTrivialComponent<94ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                          n1: 77824 0x531148: void registerTrivialComponent<95ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                           n1: 77824 0x5313D2: void registerTrivialComponent<96ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                            n1: 77824 0x53165A: void registerTrivialComponent<97ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                             n1: 77824 0x5318D1: void registerTrivialComponent<98ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+                              n0: 77824 0x531B28: void registerTrivialComponent<99ul>(nox::ecs::EntityManager&) (recursive_register_component.tpp:61)
+   n0: 0 in 8 places, all below massif's threshold (1.00%)
+ n1: 72704 0x54F3EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF00062D: ???
+       n1: 72704 0xFFF000658: ???
+        n1: 72704 0xFFF000666: ???
+         n1: 72704 0xFFF000669: ???
+          n0: 72704 0xFFF000675: ???
+ n0: 60830 in 72 places, all below massif's threshold (1.00%)
