@@ -25,5 +25,14 @@ void
 sendDummyEventHelper<0>(nox::ecs::EntityId senderId,
                         nox::ecs::EntityManager* manager);
 
+template<std::size_t N>
+void
+sendGlobalDummyEventHelper(nox::ecs::EntityId senderId,
+                           nox::ecs::EntityManager* manager);
+
+template<>
+void
+sendGlobalDummyEventHelper<0>(nox::ecs::EntityId senderId,
+                           nox::ecs::EntityManager* manager);
 
 #include "send_dummy_event.tpp"
