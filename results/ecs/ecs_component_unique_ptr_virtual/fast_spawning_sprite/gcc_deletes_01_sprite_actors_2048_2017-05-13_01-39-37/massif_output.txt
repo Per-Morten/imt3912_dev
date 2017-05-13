@@ -1,0 +1,629 @@
+desc: --time-unit=B --detailed-freq=100 --massif-out-file=../results/ecs/ecs_component_unique_ptr_virtual/fast_spawning_sprite/gcc_deletes_01_sprite_actors_2048_2017-05-13_01-39-37/massif_output.txt
+cmd: ./build/bin/ecs_fast_spawning_sprite -actor_amount 2048 -deletion_amount 1
+time_unit: B
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=150272
+mem_heap_B=132818
+mem_heap_extra_B=1230
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=2
+#-----------
+time=253832
+mem_heap_B=236330
+mem_heap_extra_B=1278
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=3
+#-----------
+time=347824
+mem_heap_B=328730
+mem_heap_extra_B=1462
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=4
+#-----------
+time=446416
+mem_heap_B=427226
+mem_heap_extra_B=1558
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=5
+#-----------
+time=545008
+mem_heap_B=525722
+mem_heap_extra_B=1654
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=6
+#-----------
+time=643600
+mem_heap_B=624218
+mem_heap_extra_B=1750
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=742192
+mem_heap_B=722714
+mem_heap_extra_B=1846
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=8
+#-----------
+time=840784
+mem_heap_B=821210
+mem_heap_extra_B=1942
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=9
+#-----------
+time=939376
+mem_heap_B=919706
+mem_heap_extra_B=2038
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=10
+#-----------
+time=1058768
+mem_heap_B=1037434
+mem_heap_extra_B=3062
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=11
+#-----------
+time=1185752
+mem_heap_B=1153298
+mem_heap_extra_B=10502
+mem_stacks_B=0
+heap_tree=detailed
+n12: 1153298 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 571888 0x4AECAE: nox::memory::LockFreeAllocator<18432ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 571888 0x4AED4C: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 571888 0x4AC663: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 571888 0x4A29F6: ConsoleApplication::onInit() (console_application.cpp:118)
+     n1: 571888 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 571888 0x4A0B4F: main (main.cpp:14)
+ n1: 191456 0x4AEF96: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 191456 0x4AF004: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n1: 95728 0x4ACBB8: nox::ecs::EntityManager::awakeEntity(unsigned long const&) (EntityManager.cpp:444)
+    n1: 95728 0x4A2A1E: ConsoleApplication::onInit() (console_application.cpp:120)
+     n1: 95728 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 95728 0x4A0B4F: main (main.cpp:14)
+   n1: 95728 0x4ACC90: nox::ecs::EntityManager::activateEntity(unsigned long const&) (EntityManager.cpp:451)
+    n1: 95728 0x4A2A2B: ConsoleApplication::onInit() (console_application.cpp:121)
+     n1: 95728 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 95728 0x4A0B4F: main (main.cpp:14)
+ n1: 103296 0x4E893E: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x4A2229: ConsoleApplication::initializePhysics() (unique_ptr.h:765)
+   n1: 103296 0x4A24B7: ConsoleApplication::onInit() (console_application.cpp:97)
+    n1: 103296 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x4A0B4F: main (main.cpp:14)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF000645: ???
+       n1: 72704 0xFFF00066A: ???
+        n1: 72704 0xFFF000678: ???
+         n1: 72704 0xFFF00067D: ???
+          n0: 72704 0xFFF00068E: ???
+ n0: 46042 in 84 places, all below massif's threshold (1.00%)
+ n1: 37152 0x4B10B0: nox::ecs::Sprite::Sprite(unsigned long const&, nox::ecs::EntityManager*) (new_allocator.h:104)
+  n1: 37152 0x4A3B4C: nox::ecs::MetaInformation nox::ecs::createMetaInformation<nox::ecs::Sprite>(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(unsigned long const&, nox::ecs::EntityManager*)#13}::_FUN(unsigned long const&, nox::ecs::EntityManager*) (unique_ptr.h:765)
+   n1: 37152 0x4B51BF: nox::ecs::UniquePtrComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (UniquePtrComponentCollection.cpp:18)
+    n1: 37152 0x4AA5C2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+     n1: 37152 0x4A2A3C: ConsoleApplication::onInit() (console_application.cpp:124)
+      n1: 37152 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 37152 0x4A0B4F: main (main.cpp:14)
+ n1: 27864 0x4A3B3B: nox::ecs::MetaInformation nox::ecs::createMetaInformation<nox::ecs::Sprite>(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(unsigned long const&, nox::ecs::EntityManager*)#13}::_FUN(unsigned long const&, nox::ecs::EntityManager*) (unique_ptr.h:765)
+  n1: 27864 0x4B51BF: nox::ecs::UniquePtrComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (UniquePtrComponentCollection.cpp:18)
+   n1: 27864 0x4AA5C2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+    n1: 27864 0x4A2A3C: ConsoleApplication::onInit() (console_application.cpp:124)
+     n1: 27864 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 27864 0x4A0B4F: main (main.cpp:14)
+ n1: 24768 0x4B0FFA: nox::ecs::Sprite::Sprite(unsigned long const&, nox::ecs::EntityManager*) (new_allocator.h:104)
+  n1: 24768 0x4A3B4C: nox::ecs::MetaInformation nox::ecs::createMetaInformation<nox::ecs::Sprite>(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(unsigned long const&, nox::ecs::EntityManager*)#13}::_FUN(unsigned long const&, nox::ecs::EntityManager*) (unique_ptr.h:765)
+   n1: 24768 0x4B51BF: nox::ecs::UniquePtrComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (UniquePtrComponentCollection.cpp:18)
+    n1: 24768 0x4AA5C2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+     n1: 24768 0x4A2A3C: ConsoleApplication::onInit() (console_application.cpp:124)
+      n1: 24768 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 24768 0x4A0B4F: main (main.cpp:14)
+ n1: 24768 0x4B1052: nox::ecs::Sprite::Sprite(unsigned long const&, nox::ecs::EntityManager*) (new_allocator.h:104)
+  n1: 24768 0x4A3B4C: nox::ecs::MetaInformation nox::ecs::createMetaInformation<nox::ecs::Sprite>(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(unsigned long const&, nox::ecs::EntityManager*)#13}::_FUN(unsigned long const&, nox::ecs::EntityManager*) (unique_ptr.h:765)
+   n1: 24768 0x4B51BF: nox::ecs::UniquePtrComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (UniquePtrComponentCollection.cpp:18)
+    n1: 24768 0x4AA5C2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+     n1: 24768 0x4A2A3C: ConsoleApplication::onInit() (console_application.cpp:124)
+      n1: 24768 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 24768 0x4A0B4F: main (main.cpp:14)
+ n1: 18528 0x4A484C: nox::memory::LockFreeAllocator<3072ul>::LockFreeAllocator(unsigned long) (LockFreeAllocator.tpp:10)
+  n0: 18528 in 6 places, all below massif's threshold (1.00%)
+ n1: 18448 0x4A3162: ConsoleApplication::ConsoleApplication() (LockFreeAllocator.tpp:10)
+  n0: 18448 0x4A0B04: main (main.cpp:9)
+ n1: 16384 0x55BCE6: b2BlockAllocator::Allocate(int) (b2BlockAllocator.cpp:131)
+  n1: 16384 0x558B9B: b2World::CreateBody(b2BodyDef const*) (b2World.cpp:115)
+   n1: 16384 0x4E8A43: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:248)
+    n1: 16384 0x4A2229: ConsoleApplication::initializePhysics() (unique_ptr.h:765)
+     n1: 16384 0x4A24B7: ConsoleApplication::onInit() (console_application.cpp:97)
+      n1: 16384 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 16384 0x4A0B4F: main (main.cpp:14)
+#-----------
+snapshot=12
+#-----------
+time=1278680
+mem_heap_B=1236594
+mem_heap_extra_B=16006
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=13
+#-----------
+time=1378320
+mem_heap_B=1322602
+mem_heap_extra_B=21414
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=14
+#-----------
+time=1456752
+mem_heap_B=1396170
+mem_heap_extra_B=26278
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=15
+#-----------
+time=1561280
+mem_heap_B=1494226
+mem_heap_extra_B=32750
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=16
+#-----------
+time=1649176
+mem_heap_B=1561762
+mem_heap_extra_B=36694
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=1793024
+mem_heap_B=1696698
+mem_heap_extra_B=45606
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=18
+#-----------
+time=1949888
+mem_heap_B=1843834
+mem_heap_extra_B=55334
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=19
+#-----------
+time=2048960
+mem_heap_B=1936762
+mem_heap_extra_B=61478
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=20
+#-----------
+time=2167864
+mem_heap_B=2049298
+mem_heap_extra_B=67846
+mem_stacks_B=0
+heap_tree=detailed
+n12: 2049298 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 571888 0x4AECAE: nox::memory::LockFreeAllocator<18432ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 571888 0x4AED4C: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 571888 0x4AC663: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 571888 0x4A29F6: ConsoleApplication::onInit() (console_application.cpp:118)
+     n1: 571888 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 571888 0x4A0B4F: main (main.cpp:14)
+ n1: 295200 0x4B10B0: nox::ecs::Sprite::Sprite(unsigned long const&, nox::ecs::EntityManager*) (new_allocator.h:104)
+  n1: 295200 0x4A3B4C: nox::ecs::MetaInformation nox::ecs::createMetaInformation<nox::ecs::Sprite>(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(unsigned long const&, nox::ecs::EntityManager*)#13}::_FUN(unsigned long const&, nox::ecs::EntityManager*) (unique_ptr.h:765)
+   n1: 295200 0x4B51BF: nox::ecs::UniquePtrComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (UniquePtrComponentCollection.cpp:18)
+    n1: 295200 0x4AA5C2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+     n1: 295200 0x4A2A3C: ConsoleApplication::onInit() (console_application.cpp:124)
+      n1: 295200 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 295200 0x4A0B4F: main (main.cpp:14)
+ n1: 221400 0x4A3B3B: nox::ecs::MetaInformation nox::ecs::createMetaInformation<nox::ecs::Sprite>(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(unsigned long const&, nox::ecs::EntityManager*)#13}::_FUN(unsigned long const&, nox::ecs::EntityManager*) (unique_ptr.h:765)
+  n1: 221400 0x4B51BF: nox::ecs::UniquePtrComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (UniquePtrComponentCollection.cpp:18)
+   n1: 221400 0x4AA5C2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+    n1: 221400 0x4A2A3C: ConsoleApplication::onInit() (console_application.cpp:124)
+     n1: 221400 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 221400 0x4A0B4F: main (main.cpp:14)
+ n1: 196800 0x4B0FFA: nox::ecs::Sprite::Sprite(unsigned long const&, nox::ecs::EntityManager*) (new_allocator.h:104)
+  n1: 196800 0x4A3B4C: nox::ecs::MetaInformation nox::ecs::createMetaInformation<nox::ecs::Sprite>(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(unsigned long const&, nox::ecs::EntityManager*)#13}::_FUN(unsigned long const&, nox::ecs::EntityManager*) (unique_ptr.h:765)
+   n1: 196800 0x4B51BF: nox::ecs::UniquePtrComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (UniquePtrComponentCollection.cpp:18)
+    n1: 196800 0x4AA5C2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+     n1: 196800 0x4A2A3C: ConsoleApplication::onInit() (console_application.cpp:124)
+      n1: 196800 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 196800 0x4A0B4F: main (main.cpp:14)
+ n1: 196800 0x4B1052: nox::ecs::Sprite::Sprite(unsigned long const&, nox::ecs::EntityManager*) (new_allocator.h:104)
+  n1: 196800 0x4A3B4C: nox::ecs::MetaInformation nox::ecs::createMetaInformation<nox::ecs::Sprite>(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(unsigned long const&, nox::ecs::EntityManager*)#13}::_FUN(unsigned long const&, nox::ecs::EntityManager*) (unique_ptr.h:765)
+   n1: 196800 0x4B51BF: nox::ecs::UniquePtrComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (UniquePtrComponentCollection.cpp:18)
+    n1: 196800 0x4AA5C2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+     n1: 196800 0x4A2A3C: ConsoleApplication::onInit() (console_application.cpp:124)
+      n1: 196800 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 196800 0x4A0B4F: main (main.cpp:14)
+ n1: 191456 0x4AEF96: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n2: 191456 0x4AF004: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n1: 95728 0x4ACBB8: nox::ecs::EntityManager::awakeEntity(unsigned long const&) (EntityManager.cpp:444)
+    n1: 95728 0x4A2A1E: ConsoleApplication::onInit() (console_application.cpp:120)
+     n1: 95728 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 95728 0x4A0B4F: main (main.cpp:14)
+   n1: 95728 0x4ACC90: nox::ecs::EntityManager::activateEntity(unsigned long const&) (EntityManager.cpp:451)
+    n1: 95728 0x4A2A2B: ConsoleApplication::onInit() (console_application.cpp:121)
+     n1: 95728 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 95728 0x4A0B4F: main (main.cpp:14)
+ n1: 103296 0x4E893E: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x4A2229: ConsoleApplication::initializePhysics() (unique_ptr.h:765)
+   n1: 103296 0x4A24B7: ConsoleApplication::onInit() (console_application.cpp:97)
+    n1: 103296 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x4A0B4F: main (main.cpp:14)
+ n0: 85034 in 84 places, all below massif's threshold (1.00%)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF000645: ???
+       n1: 72704 0xFFF00066A: ???
+        n1: 72704 0xFFF000678: ???
+         n1: 72704 0xFFF00067D: ???
+          n0: 72704 0xFFF00068E: ???
+ n1: 49152 0x4A3905: nox::ecs::MetaInformation nox::ecs::createMetaInformation<nox::ecs::Transform>(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(unsigned long const&, nox::ecs::EntityManager*)#13}::_FUN(unsigned long const&, nox::ecs::EntityManager*) (unique_ptr.h:765)
+  n1: 49152 0x4B51BF: nox::ecs::UniquePtrComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (UniquePtrComponentCollection.cpp:18)
+   n1: 49152 0x4AA5C2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+    n1: 49152 0x4A2A3C: ConsoleApplication::onInit() (console_application.cpp:124)
+     n1: 49152 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 49152 0x4A0B4F: main (main.cpp:14)
+ n1: 32800 0x4C65CB: void std::vector<std::shared_ptr<nox::app::graphics::SceneGraphNode>, std::allocator<std::shared_ptr<nox::app::graphics::SceneGraphNode> > >::_M_emplace_back_aux<std::shared_ptr<nox::app::graphics::SceneGraphNode> const&>(std::shared_ptr<nox::app::graphics::SceneGraphNode> const&) (new_allocator.h:104)
+  n0: 32800 in 2 places, all below massif's threshold (1.00%)
+ n1: 32768 0x4B5422: void std::vector<std::unique_ptr<nox::ecs::Component, std::default_delete<nox::ecs::Component> >, std::allocator<std::unique_ptr<nox::ecs::Component, std::default_delete<nox::ecs::Component> > > >::_M_insert_aux<std::unique_ptr<nox::ecs::Component, std::default_delete<nox::ecs::Component> > >(__gnu_cxx::__normal_iterator<std::unique_ptr<nox::ecs::Component, std::default_delete<nox::ecs::Component> >*, std::vector<std::unique_ptr<nox::ecs::Component, std::default_delete<nox::ecs::Component> >, std::allocator<std::unique_ptr<nox::ecs::Component, std::default_delete<nox::ecs::Component> > > > >, std::unique_ptr<nox::ecs::Component, std::default_delete<nox::ecs::Component> >&&) (new_allocator.h:104)
+  n1: 32768 0x4B55B4: __gnu_cxx::__normal_iterator<std::unique_ptr<nox::ecs::Component, std::default_delete<nox::ecs::Component> >*, std::vector<std::unique_ptr<nox::ecs::Component, std::default_delete<nox::ecs::Component> >, std::allocator<std::unique_ptr<nox::ecs::Component, std::default_delete<nox::ecs::Component> > > > > std::vector<std::unique_ptr<nox::ecs::Component, std::default_delete<nox::ecs::Component> >, std::allocator<std::unique_ptr<nox::ecs::Component, std::default_delete<nox::ecs::Component> > > >::emplace<std::unique_ptr<nox::ecs::Component, std::default_delete<nox::ecs::Component> > >(__gnu_cxx::__normal_iterator<std::unique_ptr<nox::ecs::Component, std::default_delete<nox::ecs::Component> > const*, std::vector<std::unique_ptr<nox::ecs::Component, std::default_delete<nox::ecs::Component> >, std::allocator<std::unique_ptr<nox::ecs::Component, std::default_delete<nox::ecs::Component> > > > >, std::unique_ptr<nox::ecs::Component, std::default_delete<nox::ecs::Component> >&&) (vector.tcc:313)
+   n1: 32768 0x4B51D1: nox::ecs::UniquePtrComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (stl_vector.h:1015)
+    n1: 32768 0x4AA5C2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+     n1: 32768 0x4A2A3C: ConsoleApplication::onInit() (console_application.cpp:124)
+      n1: 32768 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 32768 0x4A0B4F: main (main.cpp:14)
+#-----------
+snapshot=21
+#-----------
+time=2266672
+mem_heap_B=2111218
+mem_heap_extra_B=71934
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=22
+#-----------
+time=2365744
+mem_heap_B=2204146
+mem_heap_extra_B=78078
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=23
+#-----------
+time=2464816
+mem_heap_B=2297074
+mem_heap_extra_B=84222
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=24
+#-----------
+time=2563888
+mem_heap_B=2390002
+mem_heap_extra_B=90366
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=25
+#-----------
+time=2662960
+mem_heap_B=2482930
+mem_heap_extra_B=96510
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=26
+#-----------
+time=2762032
+mem_heap_B=2575858
+mem_heap_extra_B=102654
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=27
+#-----------
+time=2861104
+mem_heap_B=2668786
+mem_heap_extra_B=108798
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=28
+#-----------
+time=2960176
+mem_heap_B=2761714
+mem_heap_extra_B=114942
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=29
+#-----------
+time=3059248
+mem_heap_B=2854642
+mem_heap_extra_B=121086
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=30
+#-----------
+time=3183088
+mem_heap_B=2970802
+mem_heap_extra_B=128766
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=31
+#-----------
+time=3297176
+mem_heap_B=3079754
+mem_heap_extra_B=133438
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=32
+#-----------
+time=3458168
+mem_heap_B=3240330
+mem_heap_extra_B=133854
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=33
+#-----------
+time=3544856
+mem_heap_B=3326794
+mem_heap_extra_B=134078
+mem_stacks_B=0
+heap_tree=peak
+n11: 3326794 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 589824 0x4B10B0: nox::ecs::Sprite::Sprite(unsigned long const&, nox::ecs::EntityManager*) (new_allocator.h:104)
+  n1: 589824 0x4A3B4C: nox::ecs::MetaInformation nox::ecs::createMetaInformation<nox::ecs::Sprite>(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(unsigned long const&, nox::ecs::EntityManager*)#13}::_FUN(unsigned long const&, nox::ecs::EntityManager*) (unique_ptr.h:765)
+   n1: 589824 0x4B51BF: nox::ecs::UniquePtrComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (UniquePtrComponentCollection.cpp:18)
+    n1: 589824 0x4AA5C2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+     n1: 589824 0x4A2A3C: ConsoleApplication::onInit() (console_application.cpp:124)
+      n1: 589824 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 589824 0x4A0B4F: main (main.cpp:14)
+ n1: 571888 0x4AECAE: nox::memory::LockFreeAllocator<18432ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n1: 571888 0x4AED4C: nox::thread::LockFreeStack<nox::ecs::EntityManager::CreationArguments>::push(nox::ecs::EntityManager::CreationArguments&&) (LockFreeStack.tpp:30)
+   n1: 571888 0x4AC663: nox::ecs::EntityManager::assignComponent(unsigned long const&, nox::ecs::TypeIdentifier const&) (EntityManager.cpp:392)
+    n1: 571888 0x4A29F6: ConsoleApplication::onInit() (console_application.cpp:118)
+     n1: 571888 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 571888 0x4A0B4F: main (main.cpp:14)
+ n1: 478640 0x4AEF96: nox::memory::LockFreeAllocator<3072ul>::allocate(unsigned long) (LockFreeAllocator.tpp:64)
+  n5: 478640 0x4AF004: nox::thread::LockFreeStack<nox::ecs::EntityManager::ComponentIdentifier>::push(nox::ecs::EntityManager::ComponentIdentifier&&) (LockFreeStack.tpp:30)
+   n1: 95728 0x4ACBB8: nox::ecs::EntityManager::awakeEntity(unsigned long const&) (EntityManager.cpp:444)
+    n1: 95728 0x4A2A1E: ConsoleApplication::onInit() (console_application.cpp:120)
+     n1: 95728 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 95728 0x4A0B4F: main (main.cpp:14)
+   n1: 95728 0x4ACC90: nox::ecs::EntityManager::activateEntity(unsigned long const&) (EntityManager.cpp:451)
+    n1: 95728 0x4A2A2B: ConsoleApplication::onInit() (console_application.cpp:121)
+     n1: 95728 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 95728 0x4A0B4F: main (main.cpp:14)
+   n1: 95728 0x4ACD68: nox::ecs::EntityManager::deactivateEntity(unsigned long const&) (EntityManager.cpp:458)
+    n1: 95728 0x4A2BC8: ConsoleApplication::onInit() (console_application.cpp:131)
+     n1: 95728 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 95728 0x4A0B4F: main (main.cpp:14)
+   n1: 95728 0x4ACE38: nox::ecs::EntityManager::hibernateEntity(unsigned long const&) (EntityManager.cpp:465)
+    n1: 95728 0x4A2BDA: ConsoleApplication::onInit() (console_application.cpp:132)
+     n1: 95728 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 95728 0x4A0B4F: main (main.cpp:14)
+   n1: 95728 0x4ACAE0: nox::ecs::EntityManager::removeEntity(unsigned long const&) (EntityManager.cpp:437)
+    n1: 95728 0x4A2BEC: ConsoleApplication::onInit() (console_application.cpp:133)
+     n1: 95728 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 95728 0x4A0B4F: main (main.cpp:14)
+ n1: 442368 0x4A3B3B: nox::ecs::MetaInformation nox::ecs::createMetaInformation<nox::ecs::Sprite>(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(unsigned long const&, nox::ecs::EntityManager*)#13}::_FUN(unsigned long const&, nox::ecs::EntityManager*) (unique_ptr.h:765)
+  n1: 442368 0x4B51BF: nox::ecs::UniquePtrComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (UniquePtrComponentCollection.cpp:18)
+   n1: 442368 0x4AA5C2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+    n1: 442368 0x4A2A3C: ConsoleApplication::onInit() (console_application.cpp:124)
+     n1: 442368 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 442368 0x4A0B4F: main (main.cpp:14)
+ n1: 393216 0x4B1052: nox::ecs::Sprite::Sprite(unsigned long const&, nox::ecs::EntityManager*) (new_allocator.h:104)
+  n1: 393216 0x4A3B4C: nox::ecs::MetaInformation nox::ecs::createMetaInformation<nox::ecs::Sprite>(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(unsigned long const&, nox::ecs::EntityManager*)#13}::_FUN(unsigned long const&, nox::ecs::EntityManager*) (unique_ptr.h:765)
+   n1: 393216 0x4B51BF: nox::ecs::UniquePtrComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (UniquePtrComponentCollection.cpp:18)
+    n1: 393216 0x4AA5C2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+     n1: 393216 0x4A2A3C: ConsoleApplication::onInit() (console_application.cpp:124)
+      n1: 393216 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 393216 0x4A0B4F: main (main.cpp:14)
+ n1: 393216 0x4B0FFA: nox::ecs::Sprite::Sprite(unsigned long const&, nox::ecs::EntityManager*) (new_allocator.h:104)
+  n1: 393216 0x4A3B4C: nox::ecs::MetaInformation nox::ecs::createMetaInformation<nox::ecs::Sprite>(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(unsigned long const&, nox::ecs::EntityManager*)#13}::_FUN(unsigned long const&, nox::ecs::EntityManager*) (unique_ptr.h:765)
+   n1: 393216 0x4B51BF: nox::ecs::UniquePtrComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (UniquePtrComponentCollection.cpp:18)
+    n1: 393216 0x4AA5C2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+     n1: 393216 0x4A2A3C: ConsoleApplication::onInit() (console_application.cpp:124)
+      n1: 393216 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+       n0: 393216 0x4A0B4F: main (main.cpp:14)
+ n0: 117802 in 85 places, all below massif's threshold (1.00%)
+ n1: 103296 0x4E893E: nox::logic::physics::Box2DSimulation::Box2DSimulation(nox::logic::IContext*) (Box2DSimulation.cpp:243)
+  n1: 103296 0x4A2229: ConsoleApplication::initializePhysics() (unique_ptr.h:765)
+   n1: 103296 0x4A24B7: ConsoleApplication::onInit() (console_application.cpp:97)
+    n1: 103296 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+     n0: 103296 0x4A0B4F: main (main.cpp:14)
+ n1: 98304 0x4A3905: nox::ecs::MetaInformation nox::ecs::createMetaInformation<nox::ecs::Transform>(nox::ecs::TypeIdentifier const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&)::{lambda(unsigned long const&, nox::ecs::EntityManager*)#13}::_FUN(unsigned long const&, nox::ecs::EntityManager*) (unique_ptr.h:765)
+  n1: 98304 0x4B51BF: nox::ecs::UniquePtrComponentCollection::create(unsigned long const&, nox::ecs::EntityManager*) (UniquePtrComponentCollection.cpp:18)
+   n1: 98304 0x4AA5C2: nox::ecs::EntityManager::createStep() (EntityManager.cpp:669)
+    n1: 98304 0x4A2A3C: ConsoleApplication::onInit() (console_application.cpp:124)
+     n1: 98304 0x4B82BB: nox::app::Application::init(int, char**) (Application.cpp:199)
+      n0: 98304 0x4A0B4F: main (main.cpp:14)
+ n1: 72704 0x5767EFE: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21)
+  n1: 72704 0x40104E8: call_init.part.0 (dl-init.c:72)
+   n1: 72704 0x40105F9: _dl_init (dl-init.c:30)
+    n1: 72704 0x4000CF8: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+     n1: 72704 0x3: ???
+      n1: 72704 0xFFF000645: ???
+       n1: 72704 0xFFF00066A: ???
+        n1: 72704 0xFFF000678: ???
+         n1: 72704 0xFFF00067D: ???
+          n0: 72704 0xFFF00068E: ???
+ n1: 65536 0x4C65CB: void std::vector<std::shared_ptr<nox::app::graphics::SceneGraphNode>, std::allocator<std::shared_ptr<nox::app::graphics::SceneGraphNode> > >::_M_emplace_back_aux<std::shared_ptr<nox::app::graphics::SceneGraphNode> const&>(std::shared_ptr<nox::app::graphics::SceneGraphNode> const&) (new_allocator.h:104)
+  n0: 65536 in 2 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=34
+#-----------
+time=3662896
+mem_heap_B=3218602
+mem_heap_extra_B=124230
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=35
+#-----------
+time=3820144
+mem_heap_B=3074458
+mem_heap_extra_B=111126
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=36
+#-----------
+time=3977392
+mem_heap_B=2930314
+mem_heap_extra_B=98022
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=37
+#-----------
+time=4134640
+mem_heap_B=2786170
+mem_heap_extra_B=84918
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=38
+#-----------
+time=4269448
+mem_heap_B=2658190
+mem_heap_extra_B=84570
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=39
+#-----------
+time=4349168
+mem_heap_B=2579781
+mem_heap_extra_B=83835
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=40
+#-----------
+time=4444784
+mem_heap_B=2484293
+mem_heap_extra_B=83707
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=41
+#-----------
+time=4555520
+mem_heap_B=2373605
+mem_heap_extra_B=83659
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=42
+#-----------
+time=4666256
+mem_heap_B=2262917
+mem_heap_extra_B=83611
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=43
+#-----------
+time=4776992
+mem_heap_B=2152229
+mem_heap_extra_B=83563
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=44
+#-----------
+time=4887728
+mem_heap_B=2041541
+mem_heap_extra_B=83515
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=45
+#-----------
+time=5023352
+mem_heap_B=1906069
+mem_heap_extra_B=83363
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=46
+#-----------
+time=5103848
+mem_heap_B=1825781
+mem_heap_extra_B=83155
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=47
+#-----------
+time=5184344
+mem_heap_B=1745493
+mem_heap_extra_B=82947
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=48
+#-----------
+time=5264840
+mem_heap_B=1665205
+mem_heap_extra_B=82739
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=49
+#-----------
+time=5392688
+mem_heap_B=1537653
+mem_heap_extra_B=82443
+mem_stacks_B=0
+heap_tree=empty
