@@ -1,0 +1,34 @@
+==5726== Callgrind, a call-graph generating cache profiler
+==5726== Copyright (C) 2002-2015, and GNU GPL'd, by Josef Weidendorfer et al.
+==5726== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==5726== Command: ./build/bin/ecs_fast_spawning_sprite -actor_amount 8192 -deletion_amount 10
+==5726== Parent PID: 5686
+==5726== 
+--5726-- warning: L3 cache found, using its data for the LL simulation.
+==5726== For interactive control, run 'callgrind_control -h'.
+==5726== brk segment overflow in thread #1: can't grow to 0x4a37000
+==5726== brk segment overflow in thread #1: can't grow to 0x4a37000
+==5726== brk segment overflow in thread #1: can't grow to 0x4a37000
+==5726== 
+==5726== Events    : Ir Dr Dw I1mr D1mr D1mw ILmr DLmr DLmw Bc Bcm Bi Bim
+==5726== Collected : 1958303938 541915002 517090312 8463 174346529 3701103 7156 1395627 2172638 236063915 6777654 4237304 1150729
+==5726== 
+==5726== I   refs:      1,958,303,938
+==5726== I1  misses:            8,463
+==5726== LLi misses:            7,156
+==5726== I1  miss rate:          0.00%
+==5726== LLi miss rate:          0.00%
+==5726== 
+==5726== D   refs:      1,059,005,314  (541,915,002 rd + 517,090,312 wr)
+==5726== D1  misses:      178,047,632  (174,346,529 rd +   3,701,103 wr)
+==5726== LLd misses:        3,568,265  (  1,395,627 rd +   2,172,638 wr)
+==5726== D1  miss rate:          16.8% (       32.2%   +         0.7%  )
+==5726== LLd miss rate:           0.3% (        0.3%   +         0.4%  )
+==5726== 
+==5726== LL refs:         178,056,095  (174,354,992 rd +   3,701,103 wr)
+==5726== LL misses:         3,575,421  (  1,402,783 rd +   2,172,638 wr)
+==5726== LL miss rate:            0.1% (        0.1%   +         0.4%  )
+==5726== 
+==5726== Branches:        240,301,219  (236,063,915 cond +   4,237,304 ind)
+==5726== Mispredicts:       7,928,383  (  6,777,654 cond +   1,150,729 ind)
+==5726== Mispred rate:            3.3% (        2.9%     +        27.2%   )
