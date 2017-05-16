@@ -9,18 +9,26 @@ components::TrivialComponent<duration>::TrivialComponent(const nox::ecs::EntityI
                                                          nox::ecs::EntityManager* entityManager)
     : nox::ecs::Component(entityId, entityManager)
 {
-    this->sleepDuration = std::chrono::nanoseconds(duration);
+    this->sleepDuration = std::chrono::nanoseconds(duration * 1000);
     this->updateSize = cmd::g_cmdParser.getIntArgument(cmd::constants::run_count_cmd,
                                                        cmd::constants::run_count_default);
     this->running = true;
 
-    globals::activeComponentCount++;
+    if (duration % 5 != 0)
+    {
+        globals::activeComponentCount++;
+    }
 }
 
 template<std::size_t duration>
 void
 components::TrivialComponent<duration>::update(const nox::Duration& /*deltaTime*/)
 {
+    if (duration % 5 == 0)
+    {
+        return;
+    }
+
     if (this->running == false)
     {
         return;
@@ -50,14 +58,19 @@ template<std::size_t duration>
 void
 components::TrivialComponent<duration>::receiveEntityEvent(const nox::ecs::Event& event)
 {
+    if (duration % 3 == 0)
+    {
+        return;
+    }
+
     if (event.getType().getValue() == globals::dummy_event)
     {
         const auto receiverId = event.getArgument(globals::dummy_event_receiver_arg).value<std::size_t>();
         const auto senderId = event.getArgument(globals::dummy_event_sender_arg).value<std::size_t>();
 
-        if (receiverId == duration)
+        for (volatile int i = 0; i < 10; ++i)
         {
-            printf("Message sent from actor \"%zu\" to actor \"%zu\"\n", senderId, this->id);
+
         }
     }
 }
