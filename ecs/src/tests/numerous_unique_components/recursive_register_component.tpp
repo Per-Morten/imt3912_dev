@@ -9,6 +9,17 @@ registerTrivialComponent(nox::ecs::EntityManager& manager)
     const nox::ecs::DataAccess logicEvent = static_cast<nox::ecs::DataAccess>((N + 1) % 4);
     const nox::ecs::DataAccess update = static_cast<nox::ecs::DataAccess>((N + 2) % 4);
 
+
+    if (N % 5 == 0)
+    {
+        info.update = nullptr;
+    }
+    
+    if (N % 3 == 0)
+    {
+        info.receiveEntityEvent = nullptr;
+    }
+
     if (entityEvent == nox::ecs::DataAccess::INDEPENDENT)
     {
         info.receiveEntityEventAccess = nox::ecs::DataAccess::INDEPENDENT;
@@ -70,6 +81,9 @@ registerTrivialComponent<0>(nox::ecs::EntityManager& manager)
     const nox::ecs::DataAccess entityEvent = static_cast<nox::ecs::DataAccess>(0);
     const nox::ecs::DataAccess logicEvent = static_cast<nox::ecs::DataAccess>(1);
     const nox::ecs::DataAccess update = static_cast<nox::ecs::DataAccess>(2);
+
+    info.update = nullptr;
+    info.receiveEntityEvent = nullptr;
 
     if (entityEvent == nox::ecs::DataAccess::INDEPENDENT)
     {

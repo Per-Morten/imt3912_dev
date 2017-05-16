@@ -33,6 +33,8 @@ namespace nox
         class Component
         {
         public:
+            ECS_VIRTUAL ~Component() = default;
+
             /**
              * @brief      Used to identify which entity this component belongs
              *             to.
