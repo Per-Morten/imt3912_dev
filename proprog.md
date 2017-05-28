@@ -1,20 +1,20 @@
-#Students
+# Students
 Trond Lohne
 Per-Morten Straume
 
-#Repositories
+# Repositories
 Thesis repo: https://github.com/Per-Morten/imt3912_thesis  
 NOX Engine fork: https://gitlab.com/per-morten.straume/nox-engine  
 NOX Engine original: https://gitlab.com/suttungdigital/nox-engine  
 Issue 108 branch (Benchmarks): https://github.com/Per-Morten/imt3912_dev/tree/issue_%23108  
 Bitbucket old repo: https://bitbucket.org/Per-Morten/imt3912_dev  
 
-#Languages
+# Languages
 Throughout the project we used 4 different programming languages, these were
 C++, Bash, CMake and Python. Python was only used for the git hooks,
 and was not used enough to warrant a discussion.
 
-##C++
+## C++
 C++ was used the most in the project, and was chosen because the existing NOX Engine was written in C++.
 The main advantage of the language is the control it gives in general, both over efficiency and
 memory. Additionally C++ supports writing generic code quite easily, through templates or other
@@ -55,7 +55,7 @@ is also quite error prone, and produces obscure error messages that are hard to 
 Additionally syntax is quite complex, and does not always act like the programmer
 might think.
 
-##Bash
+## Bash
 During development bash was mainly used for developing utility functionality to ease
 the development process.
 The language is a scripting language, and is evaluated at runtime, rather than having
@@ -78,7 +78,7 @@ Additionally the language does not have proper scope mechanisms, meaning that a 
 or global variables are introduced to make up for the lack of return values from functions.
 However, for smaller scripts and tools, these tradeoffs are usually worth it.
 
-##CMake
+## CMake
 CMake is a build tool, and was used extensively within the project. 
 It was used to set up different compilation configurations, including benchmark configurations.
 CMake was chosen because it was already used in the NOX Engine.
@@ -108,10 +108,6 @@ It took us a long time to debug these issues, and often turned into witchcraft p
 done through a trial and error approach.
 CMake is definitely not beginner friendly in our view, however this can also be because this is our
 first interaction with CMake and the project was of a non trivial size.
-
-
-
-
 
 
 
