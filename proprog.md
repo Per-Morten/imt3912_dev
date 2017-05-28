@@ -219,5 +219,37 @@ up the git history.
 In general we think that our git usage worked out quite well for us, especially when looking back at the history of development.
 However, towards the end of the project we did stray from our normal procedures as we did not have enough time to do everything according to protocol.
 
+# Style guide
+The style guide followed is available in the pyroeis thesis in appendix G (http://hdl.handle.net/11250/216763).
+In general we followed the style guide, but deviated from it on some minor points.
+The most important ones being namespaces and implementation files,
+the other ones being placement of comma in initializer list, and explicit boolean checking.
 
+## Namespaces
+Normally in NOX namespaces are declared at the top of the file, and there seems to be inconsistencies
+regarding indentation or braces placement on the namespaces, and how different classes are predeclared.
+This is the case both for the header files and the implementation files.
+One of the reasons for us deviating from existing practice was born out of frustration of not being able to quickly
+identify which file or namespace we were in.
+We chose to include indentation in the header files when declaring namespaces,
+and also to write the full namespace within the implementation file.
+Making it obvious which namespace we were operating in.
 
+## Implementation Files
+The NOX engine normally places inline and template functions at the bottom of the header files.
+We believe that this gives unnecessary implementation details in a file that should really only be an interface description.
+Because of this we decided to put inline functions within .ipp files and template functions within .tpp files, which
+were included in the header files.
+Allowing for a more clean separation of interface and implementation.
+
+## Documentation
+We decided early on that the ECS should be clearly documented, and followed the javadoc style flavor used by Suttung.
+However, we decided to document more heavily than what Suttung normally does, and mandated that almost every function
+should be documented.
+
+## Comments
+Suttung does not seem to have a style related to commenting implementations.
+We mainly commented code that was not obvious, or where we taking advantage of known factors.
+For example updating the component map from the "inside out" in the component collection.
+Additionally we commented more within the thread related code, as one might need to know a bit more about the context when reading that code.
+This also included more "hacky" code.
