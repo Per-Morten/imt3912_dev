@@ -22,7 +22,7 @@ mechanisms. With this support for generic code also comes a standard library wit
 implementation and good documentation.
 C++ is also cross platform in its standard form, and is supported on several platforms.
 Additionally the C++ language has relatively good documentation, with a helpful and professional community.
-Examples include reference pages like cppreference.com, a lot of questions on stack overflow, and 
+Examples include reference pages like cppreference.com, a lot of questions on stack overflow, and
 videos from conferences like cppcon.
 
 C++ is a quite verbose language, which is positive in the way that it is explicit on what is happening,
@@ -33,9 +33,9 @@ procedural programming etc.
 The main advantage of this is that several approaches can be taken when solving a problem.
 Certain problems might lend themselves better to different programming styles, like functional
 or object oriented. Having the possibility to choose the most natural approach to solving a problem
-is desirable. 
+is desirable.
 However, this also means that the code base can quickly become inconsistent in terms of programming
-paradigm, not only based on the problem domains, 
+paradigm, not only based on the problem domains,
 but also the favored paradigm of the programmer implementing the functionality.
 C++ is a compiled statically typed language, which has certain pros and cons.
 The main pro is that a lot of errors can be caught at compile time, examples like misspelling
@@ -47,7 +47,7 @@ when the compile times grows.
 C++ also has several negative aspects. The language is in general pretty hard to debug,
 and does not help the programmer avoid mistakes. For example in Java indexing out of bounds
 in an array is checked at runtime and throws an exception, in C++ this is labeled undefined
-behavior, and basically anything can happen, the best case being an immediate crash. 
+behavior, and basically anything can happen, the best case being an immediate crash.
 The language can also be quite error prone, especially when working with the more low level
 C parts of the language.
 Dealing with the more esoteric parts of the language like template meta programming
@@ -67,7 +67,7 @@ While these are all nice features, bash seems to quickly fall apart when larger 
 Bash has a relatively simple syntax when doing smaller operations, however, when trying to create more complicated
 scripts the syntax quickly becomes complex and arcane.
 For example, there are several different ways to get the value of a variable, all with subtle differences.
-Do you use quotes when reading a variable (a="$b") or do you use braces (a=${b}). 
+Do you use quotes when reading a variable (a="$b") or do you use braces (a=${b}).
 Different sources will also claim that each version of reading a variable is the correct one,
 making it quite confusing to read tutorials.
 Additionally there is no type safety in the language, which again makes it harder to spot errors.
@@ -79,7 +79,7 @@ or global variables are introduced to make up for the lack of return values from
 However, for smaller scripts and tools, these tradeoffs are usually worth it.
 
 ## CMake
-CMake is a build tool, and was used extensively within the project. 
+CMake is a build tool, and was used extensively within the project.
 It was used to set up different compilation configurations, including benchmark configurations.
 CMake was chosen because it was already used in the NOX Engine.
 
@@ -96,8 +96,8 @@ it felt like a lot of this magic was hidden from the programmer,
 but it was still affecting the build logic.
 Sometimes a particular statement worked with one directory, but not with another,
 without any clear indication as to why.
-We also felt that the language was questioning our intent. 
-For example, when assigning a variable (which has a previously cached value), 
+We also felt that the language was questioning our intent.
+For example, when assigning a variable (which has a previously cached value),
 we actually expect it to be assigned to the new given value, not the cached one.
 This is not the default behavior, you have to explicitly state that you want to override the cached value
 through a force keyword.
@@ -202,14 +202,14 @@ However, it was a bit annoying when the different branches had dependencies on e
 Alternatively it might have been better to have one branch per developer, or larger features, as the current branching graph is pretty complicated.
 
 ## Pull requests
-After a task had been solved in a branch it would be merged into master. 
+After a task had been solved in a branch it would be merged into master.
 To ensure consistency and quality in the codebase each pull request needed to pass a review before it could be pulled in.
 When accepted the pull request would be merged in, with a standard message: "Accept pull request #<task_number>".
 However, since there are different pull request numbers on bitbucket and github, all the bitbucket pull requests that were copied
 over lost their id.
 
 ## Merging
-We wanted a clear git history, showing all the development in the codebase. 
+We wanted a clear git history, showing all the development in the codebase.
 Because of this we decided that all merging should be explicit, therefore git merge commands would be run with --no-ff,
 to turn off fast forwarding.
 Another idea could perhaps be to do rebasing or allow for fast forward merges, as all the merge commits did clutter
