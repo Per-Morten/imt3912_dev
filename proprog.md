@@ -151,5 +151,73 @@ After moving the repository over to github we got access their project board, wh
 as a simple kanban board.
 We created a new board per sprint, and followed a simple todo, in progress, review ready and done scheme.
 
+# Git Strategy
+## Commit Style
+For the project we wanted a clear git history, with informative commits that reflected the work that was done.
+The commit style was inspired by an online post, and the pt commit standard can be seen in the wiki (https://github.com/Per-Morten/imt3912_thesis/wiki/commit_standard).
+We tried to follow this style as much as possible, and also added a simple git commit hook to enforce the format of the commit header.
+All commits were split into 3 parts, a header, body and footer.
+The header was supposed to reflect the issue the commit was tied to, and a one line description of what was done, written in imperative form.
+If needed the commit would include a body, explaining more about the commit, this could be written in free form.
+A footer with reference to other relevant issues would also be added if needed.
+
+## Issue tracking
+In general we tried to always tie commits to issues, to give clear indication to what we were working on,
+and what problems we were solving.
+
+### Tools
+We went through different tools for tracking issues throughout the project.
+Originally we tried using JIRA, but moved over to bitbuckets issue tracker after being unable to comment commits in JIRA.
+We used bitbuckets issue tracker for a while, but we were annoyed by the lack of useful features, like grouping issues towards milestones etc.
+Githubs issue tracking offered more functionality that we were interested in, like timed milestones.
+Moving the issues from one repo to another was relatively straight forward, as we found a simple script online that did it for us.
+
+### Standard
+Originally when working with bitbucket we had a standard describing how issues should look, however, this was not followed as much
+late in development. This standard can be seen in the wiki: https://github.com/Per-Morten/imt3912_thesis/wiki/issue_standard
+
+### Splitting up Tasks
+A challenge when working with issue trackers was to decide how fine-grained the issues should be.
+For example, was it an issue to implement the whole event class, or was implementing each function
+its own issue. This was also important when estimating and logging time, so we could see which issues we spent the most time on,
+and how wrong our estimations were.
+Originally we tried to fix this by adding what we called sub tasks, as bitbuckets issue tracker did not natively support this.
+A subtask was simply a new task with a reference to the parent task, written as "$sub #<task_number>".
+A script would then go through each issue, find its parents and combine the total time spent on each issue.
+The concept of subtasks was dropped early-mid development, as it was not working as desired.
+
+We did not find any real solution to the granularity level of specifying issues, but stopped caring after a certain point.
+
+### Priority
+When originally working with bitbuckets tasks we would assign priority to the different issues.
+However, this was dropped when moving over to githubs issue tracker. Mainly because the feature was not really used
+that much. Seeing as we were only two developers it was quicker to just ask the other person to help out
+if a certain task had a higher priority.
+
+## Branching
+Originally we chose a strict issue branching style, where a new branch was created for each issue, and merged once it was reviewed and fixed.
+Throughout development we became more lenient on this strategy, allowing for relevant issues to be grouped together.
+Having the branching strategy allowed us to work more isolated from each other, and was generally beneficial.
+However, it was a bit annoying when the different branches had dependencies on each other, and merges were needed in several directions.
+Alternatively it might have been better to have one branch per developer, or larger features, as the current branching graph is pretty complicated.
+
+## Pull requests
+After a task had been solved in a branch it would be merged into master. 
+To ensure consistency and quality in the codebase each pull request needed to pass a review before it could be pulled in.
+When accepted the pull request would be merged in, with a standard message: "Accept pull request #<task_number>".
+However, since there are different pull request numbers on bitbucket and github, all the bitbucket pull requests that were copied
+over lost their id.
+
+## Merging
+We wanted a clear git history, showing all the development in the codebase. 
+Because of this we decided that all merging should be explicit, therefore git merge commands would be run with --no-ff,
+to turn off fast forwarding.
+Another idea could perhaps be to do rebasing or allow for fast forward merges, as all the merge commits did clutter
+up the git history.
+
+## Summary
+In general we think that our git usage worked out quite well for us, especially when looking back at the history of development.
+However, towards the end of the project we did stray from our normal procedures as we did not have enough time to do everything according to protocol.
+
 
 
