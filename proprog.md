@@ -122,7 +122,7 @@ The development of the project was organized into several sprints, with each spr
 Planning a sprint was mainly done in a regular txt document, before being turned into issues in our issue tracker.
 Each sprint were planned after the conclusion of the previous one, with a smaller undocumented retrospective.
 A larger and documented retrospective was done biweekly, and here we evaluated if we needed to re-plan our project.
-Stakeholder and supervisor meetings was done mainly when there were questions we needed answers to, 
+Stakeholder and supervisor meetings was done mainly when there were questions we needed answers to,
 or if we had reached a particular milestone.
 
 Communication was mainly done orally, or through discord. In the discord chat we had several channels for each different
