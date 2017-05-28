@@ -253,3 +253,12 @@ We mainly commented code that was not obvious, or where we taking advantage of k
 For example updating the component map from the "inside out" in the component collection.
 Additionally we commented more within the thread related code, as one might need to know a bit more about the context when reading that code.
 This also included more "hacky" code.
+
+# Use of Libraries
+We did not make any use of any other libraries than the ones already existing within the NOX Engine,
+and even the usage of these were only done to a minor degree.
+The reason for this was mainly because we did not want to introduce more dependencies into the NOX Engine.
+Additionally the project was supposed to experiment with more language features, and introducing libraries
+that did not follow our patterns would not be beneficial for the project.
+Potentially we could have reused more of the existing NOX Systems, but they did not follow our development
+strategies either.
