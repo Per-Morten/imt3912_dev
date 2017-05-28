@@ -109,5 +109,47 @@ done through a trial and error approach.
 CMake is definitely not beginner friendly in our view, however this can also be because this is our
 first interaction with CMake and the project was of a non trivial size.
 
+# Process and Communication
+For the project we chose a scrum like approach, which was supposed to be relatively low overhead,
+as we were two team members.
+We had daily scrum meetings to inform each other of the progress that had been made the previous work day,
+and the plan for the current day.
+These meetings were kept short, and were documented in the standard daily scrum latex format,
+in bulletpoint like fashion.
+The format can be seen at: https://github.com/Per-Morten/imt3912_thesis/blob/master/formats/daily_scrum_format.tex
+
+The development of the project was organized into several sprints, with each sprint lasting a week.
+Planning a sprint was mainly done in a regular txt document, before being turned into issues in our issue tracker.
+Each sprint were planned after the conclusion of the previous one, with a smaller undocumented retrospective.
+A larger and documented retrospective was done biweekly, and here we evaluated if we needed to re-plan our project.
+Stakeholder and supervisor meetings was done mainly when there were questions we needed answers to, 
+or if we had reached a particular milestone.
+
+Communication was mainly done orally, or through discord. In the discord chat we had several channels for each different
+category, allowing us to have a log of previous discussions on certain issues.
+
+In general we tried to keep the process and communication low overhead. We were only two people, who worked relatively
+independent of each other. Having a larger more formal process would potentially look better, and might have saved us
+some issues, but we are uncertain if the larger overhead would be worth it.
+
+## Timing and Estimation
+We wanted to track as much information as possible related to the development of the project.
+To do this we used toggl, and added undocument guidelines on the naming of the task.
+Each time entry would be named according to the issue we were working with at the time.
+When creating issues each issue would be given an estimate on how long we thought it would take to complete it.
+The original idea was to create a script that would download and parse the different toggl entries,
+and match them with the time estimations in the git issues.
+The script would then output the time difference between the estimation and actual time spent.
+Having this information would tell us to find out how accurate our estimations were,
+and allow us to make better estimations for the future.
+Unfortunately we did not have enough time to implement this script properly.
+We had one version early in development which would look at the bitbucket issues, but it never supported
+github, or sub tasks, and was therefore not used.
+
+## Kanban Board
+After moving the repository over to github we got access their project board, which we used
+as a simple kanban board.
+We created a new board per sprint, and followed a simple todo, in progress, review ready and done scheme.
+
 
 
