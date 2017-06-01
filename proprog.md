@@ -309,3 +309,12 @@ this was meant to save time and also to ensure correctness.
 Several scripts like the compile script, and script for creating csv files
 allowed us to ensure quality and additionally saving time.
 
+# Summary
+In general we believe that we had a professional approach to the bachelor project,
+perhaps with the exception being when we were approaching the end.
+At that time it was more important to finish than being professional,
+however, we believe that it is more professional to finish, than to fail but have a good process.
+
+# Individual Documents
+[Trond Lohne]
+[Per-Morten Straume]
