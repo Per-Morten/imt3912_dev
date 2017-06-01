@@ -268,6 +268,91 @@ main()
 }
 ```
 
+# Installation Instructions
+
+Click the [link](https://gitlab.com/suttungdigital/nox-engine) for setting up the project.
+
+For Linux, you need a few packages you might not have, which is not mentioned in the original nox instructions.
+Run the following bash command to install all the packages needed.
+```
+sudo apt-get install libXmu-dev libXi-dev libgl-dev dos2unix git wget build-essential libxmu-dev libxi-dev libgl-dev libosmesa-dev libboost-all-dev libsdl1.2-dev libsdl1.2debian libglew-dev
+```
+
+## Building
+Next you want to build the project, which is specied in detail in Suttings instructions mentioned above.
+However, we have created a script for building the project on linux which is compile.sh that is found in the root folder of the repisitory.
+The script has a possible parameters one can send in.
+
+Make arguments is used to allow arguments to be sent to the make command.
+```
+--make-arguments="<args>"
+```
+
+Cmake arguments is used to allow arguments to be sent to the cmake command.
+```
+--cmake-arguments="<args>"
+```
+
+None of these need to be set for the build to run sucecessfully, but it is convenient to tell the cmake command to run using multiple threads with the command --cmake-arguments="-j4", which will make it run with four threads.
+
+## Running Individual Tests
+For running each individual test, you need to have your terminal in the root directory of the repository and run each test from there. This is because the tests assumes needs certain files from various folders in the project, which assumes that you are running it from the root directory.
+There are various parameters one can send the tests, and the important ones are used in the run_ecs_tests.sh and run_nox_tests.sh scripts, so look there for reference. In addition, here is a few examples on a couple of tests:
+
+Run the ecs memory usage test with transform componenets using 256 actors/entities.
+```
+./build/bin/ecs_memory_usage_transform -actor_amount 256
+```
+
+Run the ecs memory usage test with transform componenets using 32 actors/entities, and using the world in the path "world/20_world.json".
+```
+./build/bin/ecs_numerous_unique_components -actor_amount 32 -world_path world/20_world.json"
+```
+
+## Running the Test Scripts
+To run and gather data from the tests you need to run the either the run_ecs_tests.sh or run_nox_tests.sh.
+These scripts either runs all the ecs tests, or all the nox tests depending on which one you run.
+They are located in the path "tests/nox/scripts".
+Like running each indivual test, you need to have your terminal in the correct directory for the internal paths in the scripts to work properly.
+The terminal should be placed in the "tests/nox/scripts" directory when running the scripts.
+All the results of the tests are then located in the results folder, which is located in the root directory of the repository.
+Each test case gets its own folder, where all the different test results from each iteration of the amount of actors are located.
+For example the ecs memory usage test using sprite components with no optimization toggles will be located in:
+
+```
+ecs/no_optimization_toggles/memory_usage_sprite/
+```
+
+## Collecting the Data
+In order to actually use the data from the test in a consistent and quick manner, we created another script create_csv.sh that goes through all the tests automatically and sets up a csv file with the results.
+This script also has the restriction of where you can run it from, and it is placed in the same folder as run all tests scripts.
+You also need to place the terminal in the "tests/nox/scripts" directory to run the scripts.
+There are two parameters you need to send in order for the script to work.
+
+The grep arguments are used to figure out which test case you want the data from.
+The scripts starts in the results folder, and lists up every single file recursivly in the folders.
+Then the script greps with all the arguments sent through the paramenter, which if entered correctly will result in a proper csv file being made.
+```
+--grep-arguments="<args>"
+```
+
+For example for the ecs no optimization memory usage test with sprite components, you could write:
+```
+--grep-arguments="ecs no_opt memory_usage_sprite"
+```
+
+Data type is used to specify which type of data you want to collect, which can either be time(real time), cpu(cpu cycles), or memory(heap allocation).
+```
+--data-type="<type>"
+```
+
+The csv file will be located in the results folder, named according to what grep arguments and data type specified. For example using the grep arguments above with time as data type, it would be:
+```
+ecs_no_opt_memory_usage_sprite_time.csv
+```
+
+You can now either look at the results, or plot them using gnuplot or similar tools.
+
 # Additional Information
 This information should give the reader a quick understanding of how NOX ECS works, and allow him/her to start
 testing out NOX ECS. 
