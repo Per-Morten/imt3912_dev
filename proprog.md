@@ -295,3 +295,11 @@ However, these were not kept up to date with interface changes, again because of
 This is something we want to improve on in the future, as it helps ensuring proper quality and
 backwards compatibility.
 
+## Benchmarks
+Seeing as we were doing optimization work, proper benchmarks were needed.
+Doing optimizations without profiling is not particularly professional,
+and is something we should improve on in the future.
+The lack of profiling before optimization was mainly based on the time we had available.
+Additionally there were some issues with the benchmarks we did not notice until it was to late,
+like doing prints etc. This is not particularly good as it could have affected the data.
+
