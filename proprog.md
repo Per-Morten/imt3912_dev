@@ -74,8 +74,10 @@ Additionally there is no type safety in the language, which again makes it harde
 Seeing that there is no compilation phase, errors happen at runtime, and are not necessarily reported,
 but rather lead to weird results. Misspelling a variable can lead to unexpected behavior,
 rather than being reported properly as an error.
-Additionally the language does not have proper scope mechanisms, meaning that a lot of variables are reused,
-or global variables are introduced to make up for the lack of return values from functions.
+Additionally the language does not have proper scope mechanisms by default, meaning that a lot of variables are reused.
+The keyword local can be used to get scoping mechanisms, but not having it enabled by default is a huge pain.
+Bash does not allow for proper return values either, meaning that you either have to echo the return value,
+or introduce global variables.
 However, for smaller scripts and tools, these tradeoffs are usually worth it.
 
 ## CMake
