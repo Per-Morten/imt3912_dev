@@ -264,3 +264,20 @@ Additionally the project was supposed to experiment with more language features,
 that did not follow our patterns would not be beneficial for the project.
 Potentially we could have reused more of the existing NOX Systems, but they did not follow our development
 strategies either.
+
+# Code Review
+We did code reviews whenever a pull request needed approval.
+The review was done by the other team member, and the main purpose was to enforce consistency in formatting
+and quality.
+Reviews were done through githubs pull request review features, allowing for comments placed on the various
+lines with issues.
+Comments on reviews would either have to be fixed, or justified.
+Once all issues were fixed and a reviewer was satisfied the code would be merged into its parent,
+with a standard commit message linking to the pull request.
+In addition to consistency and quality, the motivation behind the reviews was to inform the other member
+about what you were doing, a promote understanding of the code you had written.
+Our main issue with the pull request reviews was that they quickly became quite large, and with that
+the tools of handling pull requests became unwieldy.
+Additionally when the pull requests started becoming larger, reviews quickly turned into bikeshedding,
+rather than actual productive reviews.
+
