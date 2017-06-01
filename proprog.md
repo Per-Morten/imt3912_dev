@@ -303,3 +303,9 @@ The lack of profiling before optimization was mainly based on the time we had av
 Additionally there were some issues with the benchmarks we did not notice until it was to late,
 like doing prints etc. This is not particularly good as it could have affected the data.
 
+## Automation
+We tried to automate a lot of our processes throughout the bachelor project,
+this was meant to save time and also to ensure correctness.
+Several scripts like the compile script, and script for creating csv files
+allowed us to ensure quality and additionally saving time.
+
