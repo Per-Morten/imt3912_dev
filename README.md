@@ -359,4 +359,4 @@ testing out NOX ECS.
 Additional information can be found in the documentation of the library, and further questions can be directed
 to the authors, either through githubs issue system, or through messages.
 
-[^1] Components can be read more about in Nystroms [Game Programming Patterns](http://gameprogrammingpatterns.com/component.html)
+[^1]: Components can be read more about in Nystroms [Game Programming Patterns](http://gameprogrammingpatterns.com/component.html)
