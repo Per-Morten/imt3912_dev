@@ -281,3 +281,17 @@ the tools of handling pull requests became unwieldy.
 Additionally when the pull requests started becoming larger, reviews quickly turned into bikeshedding,
 rather than actual productive reviews.
 
+# Professionalism
+Following are several points covering other professionalism aspects that we either did,
+or wanted to do through the bachelor project.
+
+## Testing
+Originally we wanted to do proper unit testing of the different software modules we created,
+and follow a more test driven development approach.
+We downloaded google test, and was prepared to use it. Unfortunately we did not have enough
+time to actually use it, as setting it up required more effort than we could afford to invest.
+We did write some ad-hoc tests, mainly within the scratch-pad file main.cpp.
+However, these were not kept up to date with interface changes, again because of lack of time.
+This is something we want to improve on in the future, as it helps ensuring proper quality and
+backwards compatibility.
+
