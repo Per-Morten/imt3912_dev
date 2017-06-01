@@ -9,7 +9,8 @@ Additionally NOX ECS follows an "opt-in with consequences" philosophy. By defaul
 however, the user can opt-in to features like multi-threading support, at the cost of less safety and potentially more boilerplate.
 
 # Overview
-NOX ECS is relatively simple component[^1] system, with each main "module" being described in the following sections.
+NOX ECS is relatively simple component system, with each main "module" being described in the following sections.
+Components can be read more about in Nystroms [Game Programming Patterns](http://gameprogrammingpatterns.com/component.html)
 
 ## Entities & Components
 Entities are defined through components that share an entity id, which is a simple handle.
@@ -358,5 +359,3 @@ This information should give the reader a quick understanding of how NOX ECS wor
 testing out NOX ECS. 
 Additional information can be found in the documentation of the library, and further questions can be directed
 to the authors, either through githubs issue system, or through messages.
-
-[^1]: Components can be read more about in Nystroms [Game Programming Patterns](http://gameprogrammingpatterns.com/component.html)
