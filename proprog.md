@@ -316,5 +316,5 @@ At that time it was more important to finish than being professional,
 however, we believe that it is more professional to finish, than to fail but have a good process.
 
 # Individual Documents
-[Trond Lohne]
+[Trond Lohne](https://github.com/lohne150/proprog-individual)
 [Per-Morten Straume](https://bitbucket.org/Per-Morten/professional_programming_code/overview)
